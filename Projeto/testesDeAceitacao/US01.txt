@@ -23,12 +23,12 @@ expect "Medina, Washington" getAtributoUsuario login="bill" atributo="endereco"
 
 # entradas inválidas
 
-#expectError "Login inválido" criarUsuario login= senha="xptz" nome="xpto" endereco="xpto" email="logininvalido@gmail.com"
-#expectError "Login inválido" criarUsuario login="" senha="xptz" nome="xpto" endereco="xpto" email="deuerro@gmail.com"
-#expectError "Nome inválido" criarUsuario login="xpto" senha="xptz" nome= endereco="xpto" email="nomeinvalido@hotmail.com"
-#expectError "Nome inválido" criarUsuario login="xpto" senha="xptz" nome="" endereco="xpto" email="nomevazio@email.com"
-#expectError "Email inválido" criarUsuario login="xpto" senha="xptz" nome="patriciano" endereco="xpto" email=
-#expectError "Email inválido" criarUsuario login="xpto" senha="xptz" nome="pantcho" endereco="xpto" email=""
+expectError "Login inválido" criarUsuario login= senha="xptz" nome="xpto" endereco="xpto" email="logininvalido@gmail.com"
+expectError "Login inválido" criarUsuario login="" senha="xptz" nome="xpto" endereco="xpto" email="deuerro@gmail.com"
+expectError "Nome inválido" criarUsuario login="xpto" senha="xptz" nome= endereco="xpto" email="nomeinvalido@hotmail.com"
+expectError "Nome inválido" criarUsuario login="xpto" senha="xptz" nome="" endereco="xpto" email="nomevazio@email.com"
+expectError "Email inválido" criarUsuario login="xpto" senha="xptz" nome="patriciano" endereco="xpto" email=
+expectError "Email inválido" criarUsuario login="xpto" senha="xptz" nome="pantcho" endereco="xpto" email=""
 #expectError "Já existe um usuário com este email" criarUsuario login="xpto" senha="tttppp" nome="markito" endereco="xpto" email="mark@facebook.com"
 #expectError "Já existe um usuário com este login" criarUsuario login="mark" senha="tttppp" nome="xpto" endereco="xpto" email="markinho@facebook.com"
 #expectError "Login inválido" abrirSessao login= senha="teste"

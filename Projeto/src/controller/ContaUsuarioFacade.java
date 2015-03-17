@@ -4,9 +4,7 @@ public class ContaUsuarioFacade {
 	
 	private ContaUsuarioController controller = new ContaUsuarioController();
 	
-	
-	//criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
-	public void criarUsuario(String login, String senha, String nome, String endereco, String email){
+	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception{	
 		controller.criarUsuario(login, senha, nome, endereco, email);
 	}
 	

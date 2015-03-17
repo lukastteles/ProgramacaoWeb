@@ -8,12 +8,22 @@ public class ContaUsuarioController {
 
 	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 	
-	public void criarUsuario(String login, String senha, String nome, String endereco, String email){
-		 Usuario novoUsuario = new Usuario(login, senha, nome, endereco, email);		 
-		 usuarios.add(novoUsuario);
+	public void criarUsuario(String login, String senha, String nome, String endereco, String email) {
+		try {
+			//Tratamento dos campos do Usuário
+			tratamentoCampoLogin(login);
+			tratamentoCampoNome(nome);
+			tratamentoCampoEmail(email);
+			
+			Usuario novoUsuario = new Usuario(login, senha, nome, endereco, email);		 
+			usuarios.add(novoUsuario);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
-	public int abrirSessao(String login, String senha){
+
+	public int abrirSessao(String login, String senha){		
 		int idSessao = 001;
 		return idSessao;
 	}
@@ -41,4 +51,21 @@ public class ContaUsuarioController {
 		}
 	}
 	
+	private void tratamentoCampoLogin(String valor) throws Exception{
+		if ( (valor == null) || (valor.equals("")) ) { 
+			throw new Error(MensagemErro.LOGIN_INVALIDO);
+		}		
+	}
+	
+	private void tratamentoCampoNome(String valor) throws Exception{
+		if ( (valor == null) || (valor.equals("")) ) { 
+			throw new Error(MensagemErro.NOME_INVALIDO);
+		}		
+	}
+	
+	private void tratamentoCampoEmail(String valor) throws Exception{
+		if ( (valor == null) || (valor.equals("")) ) { 
+			throw new Error(MensagemErro.EMAIL_INVALIDO);
+		}		
+	}
 }
