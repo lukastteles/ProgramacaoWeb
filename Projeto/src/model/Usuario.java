@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Usuario {
 
 	private String login;
@@ -7,6 +9,7 @@ public class Usuario {
 	private String senha;
 	private String email;
 	private String endereco;
+	private ArrayList<Carona> caronas;
 	
 	public Usuario() {
 		// TODO Auto-generated constructor stub
@@ -49,6 +52,14 @@ public class Usuario {
 	}
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+
+	public ArrayList<Carona> getCaronas() {
+		return caronas;
+	}
+
+	public void setCaronas(ArrayList<Carona> caronas) {
+		this.caronas = caronas;
 	}
 	
 }

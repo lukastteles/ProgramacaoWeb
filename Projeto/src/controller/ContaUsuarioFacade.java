@@ -16,4 +16,11 @@ public class ContaUsuarioFacade {
 		return controller.getAtributoUsuario(login, atributo);
 	}
 	
+	public void zerarSistema(){
+		controller.zerarSistema();
+	}
+	
+	public void encerrarSistema(){
+		controller.encerrarSistema();
+	}
 }
