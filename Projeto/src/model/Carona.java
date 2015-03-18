@@ -1,7 +1,7 @@
 package model;
 
 public class Carona {
-	
+	private String id;
 	private String origem;
 	private String destino;
 	private String hora;
@@ -9,12 +9,22 @@ public class Carona {
 	private int vagas;
 	
 	
-	public Carona(String origem, String destino, String hora, String data, int vagas) {
+	public Carona(String id, String origem, String destino, String hora, String data, int vagas) {
+		this.id = id;
 		this.origem = origem;
 		this.destino = destino;
 		this.hora = hora;
 		this.data = data;
 		this.vagas = vagas;
+	}
+	
+	public Carona(){ }
+	
+	public String getID() {
+		return id;
+	}
+	public void setID(String id) {
+		this.id = id;
 	}
 	
 	public String getOrigem() {

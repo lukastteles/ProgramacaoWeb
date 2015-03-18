@@ -18,6 +18,7 @@ public class ContaUsuarioController {
 	}
 	
 	public int abrirSessao(String login, String senha){		
+		//TODO : Ajustar o retorno da função
 		int idSessao = 001;
 		try {
 			//Tratamento dos campos do Usuário
@@ -134,5 +135,6 @@ public class ContaUsuarioController {
 			throw new Error(MensagemErro.EMAIL_INVALIDO);
 		}		
 	}
+
 
 }
