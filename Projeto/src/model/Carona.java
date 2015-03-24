@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Carona {
 	private String id;
 	private String origem;
@@ -7,7 +9,8 @@ public class Carona {
 	private String hora;
 	private String data;
 	private int vagas;
-	
+	private ArrayList<PontoDeEncontro> pontoDeEncontro = new ArrayList<PontoDeEncontro>();
+	private ArrayList<SolicitacaoVaga> solicitacaoVaga = new ArrayList<SolicitacaoVaga>();
 	
 	public Carona(String id, String origem, String destino, String hora, String data, int vagas) {
 		this.id = id;

@@ -5,10 +5,13 @@ import java.util.ArrayList;
 public class Usuario {
 
 	private String login;
-	private String nome;
-	private String senha;
-	private String email;
-	private String endereco;
+	private String senha; 
+	
+	private String nome; //apagar depois
+	private String email; //aagar depois
+	private String endereco; //apagar depois
+	
+	private Perfil perfil;
 	private ArrayList<Carona> caronas;
 	
 	public Usuario() {

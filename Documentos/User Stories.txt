@@ -1,0 +1,55 @@
+*********************************************************
+* Metodos da Fachada									*
+*********************************************************
+
+
+SessaoController {}
+	abrirSessao(String login, String senha);
+	encerrarSistema(); //Sair da sessao - logout
+}
+
+UsuarioController {
+	criarUsuario(String login, String senha, String endereco, String email);
+	getAtributoUsuario(String login, String atributo);
+}
+
+CaronaController{
+	localizaCarona();
+	cadastrarCarona();
+	getAtributoCarona();
+	getTrajeto();
+	getCarona();	
+	getCaronaUsuario();
+	getTodasCaronasUsuario();
+}
+
+PontoDeEncontroController {
+	sugerirPontoEncontro();
+	responderSugestaoPontoEncontro();
+	getPontosSugeridos();
+	getPontosEncontro();
+}
+
+SolicitacaoVagaController{
+	getAtributoSolicitacao();
+	getSolicitacoesConfirmadas();
+	getSolicitacoesPendentes();
+	solicitarVaga();
+	solicitarVagaPontoEncontro();	
+	aceitarSolicitacao();
+	aceitarSolicitacaoPontoEncontro();
+	desistirRequisicao();
+	rejeitarSolicitacao();
+}
+
+PerfilController{
+	getAtributoPerfil();
+	visualizaPerfil();
+	
+}
+
+SistemaController{
+	zerarSistema(); 	//apagar todas as informacoes
+	reiniciarSistema();
+	quit();            //sair do sistema
+}
