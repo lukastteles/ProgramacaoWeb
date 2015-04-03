@@ -1,0 +1,2 @@
+Dicas sobre Documentação - http://www.devmedia.com.br/javadoc-implementando-documentacao-atraves-do-netbeans/2495
+Dicas sobre Testes - http://www.devmedia.com.br/testes-de-unidade-com-junit/4637
