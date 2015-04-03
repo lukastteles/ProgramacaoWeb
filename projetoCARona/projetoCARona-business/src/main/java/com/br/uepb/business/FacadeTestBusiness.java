@@ -11,6 +11,8 @@ public class FacadeTestBusiness {
 	
 	//TODO: Gerar documentação
 	
+	UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
+	
 	//Metodos de controle da classe Sessao/
 	public int abrirSessao(String login, String senha){		
 		return 0;
@@ -21,13 +23,12 @@ public class FacadeTestBusiness {
 	}
 
 	//Metodos de controle da classe Usuario/
-	public void criarUsusario(String login, String senha, String email){
-			
+	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception{	
+		usuarioBusiness.criarUsuario(login, senha, nome, endereco, email);
 	}
 		
-	public String getAtributoUsuario(String login, String atributo){		
-		
-		return "";
+	public String getAtributoUsuario(String login, String atributo) throws Exception{		
+		return usuarioBusiness.getAtributoUsuario(login, atributo);
 	}
 		
 	//Metodos de controle da classe Carona
