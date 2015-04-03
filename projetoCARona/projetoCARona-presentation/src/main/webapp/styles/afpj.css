@@ -1,0 +1,80 @@
+@CHARSET "UTF-8";
+ 
+html {
+	background: silver;
+}
+
+<!-- JSR 303 -->
+.error {
+	color: #ff0000;
+}
+.errorblock {
+	color: #000;
+	background-color: #ffEEEE;
+	border: 1px solid #ff0000;
+	border-radius: 15px;
+	padding: 8px; 
+	margin: 16px;
+	text-shadow: 2px 2px 2px #000;
+}
+<!-- JSR 303 -->
+#header {
+	width: 100%;
+	height: 85px;
+	background-position: top;
+	background: transparent url(../images/header.png) repeat-x center top;
+}
+
+#branding {
+	background: url(../images/accenture_logo_white.png) no-repeat left top;
+	float: left;
+	height: 73px;
+	position: absolute;
+	width: 240px;
+}
+
+#content {
+	width: 1024px;
+	padding: 15px 10px 15px 10px;
+	margin-left: auto;
+	margin-right: auto;
+	background: white;
+}
+
+#menu {
+	background: #336699;
+	position: relative;
+	float: left;
+	width: 20%;
+	height: 650px;
+	left: 0px;
+	border: 1px;
+	margin: 1px;
+	overflow: auto;
+}
+
+#body {
+	background: #336699;
+	position: absolute;
+	left: 205px;
+	width: 80%;
+	min-width: 400px;
+	height: 650px;
+	border: 1px;
+	margin: 1px;
+}
+
+#footer {
+	width: 100%;
+	background: #336699;
+	color: #ffffff;
+	text-align: center;
+	height: 20px;
+	position: relative;
+}
+
+#footerText {
+	text-align: center;
+	font-family: arial, sans-serif;
+	font-stretch: condensed;
+}
