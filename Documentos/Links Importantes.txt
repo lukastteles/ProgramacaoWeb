@@ -1,2 +1,5 @@
-Dicas sobre Documentação - http://www.devmedia.com.br/javadoc-implementando-documentacao-atraves-do-netbeans/2495
-Dicas sobre Testes - http://www.devmedia.com.br/testes-de-unidade-com-junit/4637
+#Dicas sobre Documentação - http://www.devmedia.com.br/javadoc-implementando-documentacao-atraves-do-netbeans/2495
+
+#Dicas sobre Testes - http://www.devmedia.com.br/testes-de-unidade-com-junit/4637
+ http://www.caelum.com.br/apostila-java-testes-xml-design-patterns/testes-automatizados/#3-5-junit
+
