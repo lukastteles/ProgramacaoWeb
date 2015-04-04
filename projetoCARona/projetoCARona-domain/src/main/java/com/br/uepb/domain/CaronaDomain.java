@@ -12,6 +12,11 @@ public class CaronaDomain {
 	 * @since 1ª Iteração
 	 */
 	
+
+	/** Id da Sessao*/ //Deve ser gerado automaticamente
+	@NotNull(message = "O ID da Sessao não pode ser nulo")
+	private String idSessao;
+	
 	/** Id da Carona*/ //Deve ser gerado automaticamente
 	@NotNull(message = "O ID da Carona não pode ser nulo")	
 	private String id;
@@ -42,9 +47,24 @@ public class CaronaDomain {
 	//private ArrayList<SolicitacaoVaga> solicitacaoVaga = new ArrayList<SolicitacaoVaga>();
 	
 	
-	public CaronaDomain() { }
+	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String data, String hora, int vagas) { 
+		setID(idCarona);
+		setIdSessao(idSessao);
+		setOrigem(origem);
+		setDestino(destino);
+		setData(data);
+		setHora(hora);
+		setVagas(vagas);
+	}
 	
 	
+	public String getIdSessao(){
+		return idSessao;
+	}
+	
+	private void setIdSessao(String idSessao){
+		this.idSessao = idSessao;
+	}
 	public String getID() {
 		return id;
 	}

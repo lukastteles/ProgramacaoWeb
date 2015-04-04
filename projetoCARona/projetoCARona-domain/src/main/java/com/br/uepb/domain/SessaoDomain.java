@@ -17,11 +17,7 @@ public class SessaoDomain {
 	 */
 
 	//final static Logger logger = Logger.getLogger(SessaoDomain.class);
-	
-	/** Id da Sessão */
-	@NotNull(message = "O ID da sessao não pode ser nulo")
-	private int id;
-	
+
 	/** Login da Sessão	 */
 	@NotNull(message = "O Login não pode ser nulo")
 	@Size(min=5, max=15, message="Tamanho de login inválido./n informe um login entre 5 e 15 caracteres")
@@ -33,30 +29,12 @@ public class SessaoDomain {
 	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{6,}$")
 	private String senha;
 	
-	public SessaoDomain(){	}
 	
-	public SessaoDomain(int id, String login, String senha) {
-		setId(id);
+	public SessaoDomain(String login, String senha) {
 		setLogin(login);
 		setSenha(senha);
 	}
-	
-	/**
-	 * Método para retorno do Id da Sessão
-	 */
-	public int getId(){
-		return id;
-	}
-	
-	/**
-	 * Método para informar o Id da Sessão
-	 * @return int Id da Sessão
-	 */
-	private void setId(int id){
-		this.id = id; 
-	}
-
-	
+		
 	/**
 	 * Método para retorno do Login da Sessao
 	 * @return String Login da Sessão

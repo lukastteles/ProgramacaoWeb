@@ -15,27 +15,30 @@ public class SessaoUnitTest {
 	 * @since 2ª Iteração
 	 */
 	
+
+	SessaoBusiness sessaoBusiness = new SessaoBusiness();
+	
 	//TODO: melhorar documentacao e adicionair mais testes
 	
 	/**
 	 * Teste para verificar a funcionalidade "abrirSessao" da classe SessaoBusiness
-	 */
-	private int idSessao;
+	 */	
 	@Test
-	public void testeAbrirSessao(){
-		SessaoBusiness sessaoBusiness = new SessaoBusiness();
+	public void testeAbrirEncerrarSessao(){
+		
 		String login = "Luana";
-		String senha = "123";		
+		String senha = "123";
+		String idSessao = sessaoBusiness.abrirSessao(login, senha);
+		Assert.assertEquals(login, idSessao);				
+		sessaoBusiness.encerrarSistema();
+		
+		login = "Lukas";
+		senha = "123";
 		idSessao = sessaoBusiness.abrirSessao(login, senha);
-		Assert.assertNotNull(idSessao);		
+		Assert.assertEquals(login, idSessao);				
+		sessaoBusiness.encerrarSistema();
+		
 	}
-	
-	/**
-	 * Teste para verificar a funcionalidade "EncerrarSistema" da classe SessaoBusiness
-	 */
-	@Test
-	public void encerrarSistema(){
-		//TODO: verificar o que colocar neste teste
-	}
+
 	
 }

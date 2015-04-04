@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import com.br.uepb.domain.CaronaDomain;
+
 public class FacadeTestBusiness {
 
 	/**
@@ -12,14 +14,16 @@ public class FacadeTestBusiness {
 	//TODO: Gerar documentação
 	
 	UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
+	SessaoBusiness sessaoBusiness = new SessaoBusiness();
+	CaronaBusiness caronaBusiness = new CaronaBusiness();
 	
 	//Metodos de controle da classe Sessao/
-	public int abrirSessao(String login, String senha){		
-		return 0;
+	public String abrirSessao(String login, String senha){		
+		return sessaoBusiness.abrirSessao(login, senha);
 	}
 		
 	public void encerrarSistema(){
-		
+		sessaoBusiness.encerrarSistema();
 	}
 
 	//Metodos de controle da classe Usuario/
@@ -33,6 +37,17 @@ public class FacadeTestBusiness {
 		
 	//Metodos de controle da classe Carona
 	public String localizarCarona(int idSessao, String origem, String destino){
+		try {
+			CaronaDomain caronaDomain = caronaBusiness.localizarCarona(idSessao, origem, destino);
+			
+			
+		} catch (Exception e) {
+			if (e.getMessage().equals("Carona não Localizada")) {
+				return "{}";
+			}
+			e.printStackTrace();
+		}
+		
 		
 		return "";
 	}
