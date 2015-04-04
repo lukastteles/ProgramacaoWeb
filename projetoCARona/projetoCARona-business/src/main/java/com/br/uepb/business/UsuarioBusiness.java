@@ -43,13 +43,22 @@ public class UsuarioBusiness {
 	public String getAtributoUsuario(String login, String atributo) throws Exception{
 		UsuarioDomain usuario = usuarioDao.getUsuario(login);
 		
-		switch (atributo){
-			case "login": return usuario.getLogin();
-			case "senha": return usuario.getSenha();
-			case "nome": return usuario.getPerfil().getNome();
-			case "endereco": return usuario.getPerfil().getEndereco();
-			case "email": return usuario.getPerfil().getEmail();
-			default : throw new Exception("Atributo Inválido"); 
+		//Não usamos switch-case por causa do compilador que ficou muendo pra colocar String no parâmetro do switch
+		if(atributo.equals("login")){
+			return usuario.getLogin();
+		}else if(atributo.equals("senha")){
+			return usuario.getSenha();
+		}else if(atributo.equals("nome")){
+			return usuario.getPerfil().getNome();
+		}else if(atributo.equals("endereco")){
+			return usuario.getPerfil().getEndereco();
+		}else if(atributo.equals("email")){
+			return usuario.getPerfil().getEmail();
+		}else if(atributo.equals("") || atributo == null){
+			throw new Exception("Atributo Inválido"); 
+		}else{
+			throw new Exception("Atributo inexistente");
 		}
+		
 	}
 }

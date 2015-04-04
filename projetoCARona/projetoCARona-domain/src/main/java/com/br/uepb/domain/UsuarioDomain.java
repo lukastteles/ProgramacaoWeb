@@ -13,8 +13,8 @@ public class UsuarioDomain {
 	 */
 	
 	/** Login do Usuário*/
-	@NotNull(message = "O login não pode ser nulo")
-	@Size(min=2, max=30, message="Tamanho inválido de login")
+	@NotNull(message = "Login inválido")
+	@Size(min=2, max=30, message="Login inválido")
 	private String login;
 	
 	/** Senha do Usuário para autenticação no sistema*/
