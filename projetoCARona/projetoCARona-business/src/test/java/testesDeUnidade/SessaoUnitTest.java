@@ -20,13 +20,14 @@ public class SessaoUnitTest {
 	/**
 	 * Teste para verificar a funcionalidade "abrirSessao" da classe SessaoBusiness
 	 */
-	
+	private int idSessao;
 	@Test
 	public void testeAbrirSessao(){
 		SessaoBusiness sessaoBusiness = new SessaoBusiness();
 		String login = "Luana";
 		String senha = "123";		
-		Assert.assertNotNull(sessaoBusiness.abrirSessao(login, senha));
+		idSessao = sessaoBusiness.abrirSessao(login, senha);
+		Assert.assertNotNull(idSessao);		
 	}
 	
 	/**

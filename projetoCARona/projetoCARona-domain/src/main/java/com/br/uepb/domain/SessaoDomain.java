@@ -13,23 +13,50 @@ public class SessaoDomain {
 	 * Classe para registrar as sessões iniciadas
 	 * @author luana Janaina / Lukas Teles
 	 * @version 0.1
-	 * @since 1ª Iteração
+	 * @since 2ª Iteração
 	 */
 
-	final static Logger logger = Logger.getLogger(SessaoDomain.class);
-
-
+	//final static Logger logger = Logger.getLogger(SessaoDomain.class);
+	
+	/** Id da Sessão */
+	@NotNull(message = "O ID da sessao não pode ser nulo")
+	private int id;
+	
+	/** Login da Sessão	 */
 	@NotNull(message = "O Login não pode ser nulo")
 	@Size(min=5, max=15, message="Tamanho de login inválido./n informe um login entre 5 e 15 caracteres")
 	private String login;
 	
-	@NotNull(message="Cpf não pode ser nulo")
+	/** Senha da Sessão	 */
+	@NotNull(message="O Login não pode ser nulo")
 	@Size(min=6, message="A senha deve ter no mínimo 6 caracteres")
 	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{6,}$")
 	private String senha;
 	
 	public SessaoDomain(){	}
+	
+	public SessaoDomain(int id, String login, String senha) {
+		setId(id);
+		setLogin(login);
+		setSenha(senha);
+	}
+	
+	/**
+	 * Método para retorno do Id da Sessão
+	 */
+	public int getId(){
+		return id;
+	}
+	
+	/**
+	 * Método para informar o Id da Sessão
+	 * @return int Id da Sessão
+	 */
+	private void setId(int id){
+		this.id = id; 
+	}
 
+	
 	/**
 	 * Método para retorno do Login da Sessao
 	 * @return String Login da Sessão
@@ -44,11 +71,7 @@ public class SessaoDomain {
 	 * @param login String - Login do Usuário
 	 * @throws Exception Login inválido
 	 */
-	private void setLogin(String login) throws Exception{
-		if ( (login == null) || (login.equals("")) ) {
-			logger.debug("Login inválido");
-			throw new Exception("Login inválido");
-		}
+	private void setLogin(String login){
 		this.login = login;
 	}
 	
@@ -66,11 +89,12 @@ public class SessaoDomain {
 	 * @param senha String - Senha do Usuário
 	 * @throws Exception Login inválido
 	 */
-	public void setSenha(String senha) throws Exception {
-		if ( (senha == null) || (senha.equals("")) ) {
+	public void setSenha(String senha) {
+		/*if ( (senha == null) || (senha.equals("")) ) {
 			logger.debug("Login inválido");
 			throw new Exception("Login inválido");
-		}
+		}*/
+		
 		this.senha = senha;
 	}	
 }

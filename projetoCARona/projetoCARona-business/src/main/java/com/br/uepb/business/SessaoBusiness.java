@@ -1,5 +1,10 @@
 package com.br.uepb.business;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.br.uepb.dao.SessaoDAO;
+import com.br.uepb.domain.SessaoDomain;
+
 public class SessaoBusiness {
 
 	/**
@@ -9,14 +14,23 @@ public class SessaoBusiness {
 	 * @since 1ª Iteração
 	 */
 
+	@Autowired
+	private SessaoDAO sessaoDao;
+	private int idSessao = 1;
+	
 	/**
 	 * Método para iniciar uma sessão com o usuário
 	 * @param login String - Login do Usuário da Sessão
 	 * @param senha String - Senha do Usuário da Sessão
 	 * @return int Id da Sessão
+	 * @throws Exception 
 	 */
-	public int abrirSessao(String login, String senha){
-		return 0;
+	public int abrirSessao(String login, String senha) {		
+		SessaoDomain sessaoDomain = new SessaoDomain(idSessao, login, senha);		
+		sessaoDao.addSessao(sessaoDomain);
+		idSessao++;
+		
+		return idSessao;
 	}
 		
 	/**
@@ -24,7 +38,8 @@ public class SessaoBusiness {
 	 * Após encerrar a sessão todas as informacoes referentes ao usuário serão perdidas 
 	 */
 	public void encerrarSistema(){
-		//TODO: entender qual a funcionalidade deste metodo
+		//TODO: procurar um metodo para deixar o ID da sessão
+		//sessaoDao.deleteSessao(sessao);
 	}
 	
 }
