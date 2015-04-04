@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.br.uepb.business.HomeBusiness;
-import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.domain.UserDomain;
 
 @Controller
 public class HomeController {
@@ -34,10 +34,10 @@ public class HomeController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
-		modelAndView.addObject("usuarioDomain", new UsuarioDomain());
+		modelAndView.addObject("UserDomain", new UserDomain());
 		modelAndView.addObject("userName", "Noca Connected");
 		
-		request.getSession().setAttribute("lstUsers", new ArrayList<UsuarioDomain>());
+		request.getSession().setAttribute("lstUsers", new ArrayList<UserDomain>());
 		
 		LOG.debug("Finalizada a execucao do metodo: showWelcomeHtml");
 		
@@ -45,7 +45,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/home/home.html", method = RequestMethod.POST)
-	public ModelAndView addNewUser(@ModelAttribute("usuarioDomain") @Valid UsuarioDomain usuarioDomain, BindingResult bindingResult, HttpServletRequest request) {
+	public ModelAndView addNewUser(@ModelAttribute("UserDomain") @Valid UserDomain UserDomain, BindingResult bindingResult, HttpServletRequest request) {
 		
 		LOG.debug("Iniciada a execucao do metodo: addNewUser");
 
@@ -53,22 +53,22 @@ public class HomeController {
 		modelAndView.setViewName("home");
 		
 		if(bindingResult.hasErrors()){
-			usuarioDomain.setLstUsers((List<UsuarioDomain>) request.getSession().getAttribute("lstUsers"));
-			modelAndView.addObject("usuarioDomain", usuarioDomain);
+			UserDomain.setLstUsers((List<UserDomain>) request.getSession().getAttribute("lstUsers"));
+			modelAndView.addObject("UserDomain", UserDomain);
 			modelAndView.addObject("userName", "Noca Connected");
 			return modelAndView;
 		}
 		
-		UsuarioDomain ud = new UsuarioDomain();
+		UserDomain ud = new UserDomain();
 		
-		ud.setCpf(usuarioDomain.getCpf());
-		ud.setNome(usuarioDomain.getNome());
-		ud.setLstUsers((List<UsuarioDomain>) request.getSession().getAttribute("lstUsers"));
+		ud.setCpf(UserDomain.getCpf());
+		ud.setNome(UserDomain.getNome());
+		ud.setLstUsers((List<UserDomain>) request.getSession().getAttribute("lstUsers"));
 		ud.getLstUsers().add(ud);
 		
 		request.getSession().setAttribute("lstUsers", ud.getLstUsers());
 		
-		modelAndView.addObject("usuarioDomain", ud);
+		modelAndView.addObject("UserDomain", ud);
 		modelAndView.addObject("userName", "Noca Connected");
 		
 		LOG.debug("Finalizada a execucao do metodo: addNewUser");
@@ -79,7 +79,7 @@ public class HomeController {
 	@RequestMapping(value = "/home/homeDeleteUserAjax.html", method = RequestMethod.GET)
 	public ModelAndView removeUser(String userName, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		List<UsuarioDomain> lstUsers = (List<UsuarioDomain>) request.getSession().getAttribute("lstUsers");
+		List<UserDomain> lstUsers = (List<UserDomain>) request.getSession().getAttribute("lstUsers");
 		int indexToRemove = -1;
 		for (int i = 0; i < lstUsers.size(); i++) {
 			if(lstUsers.get(i).getNome().equals(userName)){
@@ -106,7 +106,7 @@ public class HomeController {
 	@RequestMapping(value = "/home/homeDeleteUser.html", method = RequestMethod.GET)
 	public ModelAndView removeUserWithAjaxWithoutWait(String userName, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		List<UsuarioDomain> lstUsers = (List<UsuarioDomain>) request.getSession().getAttribute("lstUsers");
+		List<UserDomain> lstUsers = (List<UserDomain>) request.getSession().getAttribute("lstUsers");
 		int indexToRemove = -1;
 		for (int i = 0; i < lstUsers.size(); i++) {
 			if(lstUsers.get(i).getNome().equals(userName)){
@@ -118,12 +118,12 @@ public class HomeController {
 			lstUsers.remove(indexToRemove);
 		}
 		
-		UsuarioDomain ud = new UsuarioDomain();
+		UserDomain ud = new UserDomain();
 		ud.setLstUsers(lstUsers);
 		
 		request.getSession().setAttribute("lstUsers", lstUsers);
 		modelAndView.setViewName("home");
-		modelAndView.addObject("usuarioDomain", ud);
+		modelAndView.addObject("UserDomain", ud);
 		return modelAndView;
 	}
 }
