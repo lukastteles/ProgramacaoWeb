@@ -1,5 +1,7 @@
 package com.br.uepb.domain;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,6 +26,9 @@ public class UsuarioDomain {
 	
 	/** Perfil do Usuario, contém nome, email e endereço*/
 	private PerfilDomain perfil;
+	
+	/** Caronas do usuário*/
+	private ArrayList<CaronaDomain> caronas;
 	
 	/**
 	 * Método Construtor de UsuarioDomain
@@ -69,6 +74,14 @@ public class UsuarioDomain {
 	 */
 	public PerfilDomain getPerfil() {
 		return perfil;
+	}
+
+	/**
+	 * Método para pegar a lista de Caronas do Usuário
+	 * @return ArrayList - Lista de Caronas do Usuário
+	 */
+	public ArrayList<CaronaDomain> getCaronas() {
+		return caronas;
 	}
 
 }

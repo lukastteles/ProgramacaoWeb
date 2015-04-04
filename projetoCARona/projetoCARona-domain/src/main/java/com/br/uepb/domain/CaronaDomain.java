@@ -1,5 +1,7 @@
 package com.br.uepb.domain;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -43,8 +45,8 @@ public class CaronaDomain {
 	@NotNull(message = "A quantidade de vagas na Carona não pode ser nula")	
 	private int vagas;
 	
-	//private ArrayList<PontoDeEncontro> pontoDeEncontro = new ArrayList<PontoDeEncontro>();
-	//private ArrayList<SolicitacaoVaga> solicitacaoVaga = new ArrayList<SolicitacaoVaga>();
+	private ArrayList<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
+	private ArrayList<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();
 	
 	
 	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String data, String hora, int vagas) { 
