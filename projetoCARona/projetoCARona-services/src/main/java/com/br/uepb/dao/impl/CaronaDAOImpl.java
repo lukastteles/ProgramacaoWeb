@@ -26,7 +26,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 	}
 
 	@Override
-	public ArrayList<CaronaDomain> getCarona(String origem, String destino) throws Exception {
+	public ArrayList<CaronaDomain> listCaronas(String origem, String destino) {
 		ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
 		for (CaronaDomain carona : listaCaronas) {
 			if ( (carona.getOrigem().equals(origem)) &&
@@ -34,14 +34,19 @@ public class CaronaDAOImpl implements CaronaDAO{
 				caronas.add(carona);
 			}
 		}
+				
+		return caronas;					
+	}
+
+	@Override
+	public CaronaDomain getCarona(String idCarona) throws Exception  {				
+		for (CaronaDomain carona : listaCaronas) {
+			if (carona.getID().equals(idCarona)) {
+				return carona;
+			}
+		}
 		
-		if (caronas.size() > 0) {
-			return caronas;			
-		}
-		else {
-			//TODO: Verificar o tratamento
-			throw new Exception("Carona não Localizada");
-		}
+		throw new Exception("Carona não Localizada");
 	}
 
 }

@@ -15,22 +15,19 @@ public class CaronaBusiness {
 	private int idCarona = 1;
 	
 	
-	public CaronaDomain localizarCarona(int idSessao, String origem, String destino) throws Exception {		
-		ArrayList<CaronaDomain> caronas = caronaDAOImpl.getCarona(origem, destino);
-		
-		//TODO: verificar os outros tratamentos
-		
-		return null;
+	public ArrayList<CaronaDomain> localizarCarona(String idSessao, String origem, String destino){	
+		ArrayList<CaronaDomain> caronas = caronaDAOImpl.listCaronas(origem, destino);
+		return caronas;
 	}
 	
 	
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas){
-		String carona = "car"+idCarona;
+		String carona = ""+idCarona;
 		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, data, hora, vagas);		
 		
 		caronaDAOImpl.addCarona(caronaDomain);
 		idCarona++; //TODO: retirar este contador depois que inserir a persistencia com o BD
-		return "Luana";
+		return caronaDomain.getID();
 	}
 	
 }

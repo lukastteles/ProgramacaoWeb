@@ -9,6 +9,7 @@ public interface CaronaDAO {
 
 //public UsuarioDomain getUsuario(String login) throws Exception;
 	public void addCarona(CaronaDomain carona);
-	public ArrayList<CaronaDomain> getCarona(String origem, String destino) throws Exception;	
+	public ArrayList<CaronaDomain> listCaronas(String origem, String destino) throws Exception;
+	public CaronaDomain getCarona(String idCarona) throws Exception;
 	
 }

@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import java.util.ArrayList;
+
 import com.br.uepb.domain.CaronaDomain;
 
 public class FacadeTestBusiness {
@@ -11,7 +13,6 @@ public class FacadeTestBusiness {
 	 * @since 1ª Iteração
 	 */
 	
-	//TODO: Gerar documentação
 	
 	UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
 	SessaoBusiness sessaoBusiness = new SessaoBusiness();
@@ -36,20 +37,20 @@ public class FacadeTestBusiness {
 	}
 		
 	//Metodos de controle da classe Carona
-	public String localizarCarona(int idSessao, String origem, String destino){
-		try {
-			CaronaDomain caronaDomain = caronaBusiness.localizarCarona(idSessao, origem, destino);
-			
-			
-		} catch (Exception e) {
-			if (e.getMessage().equals("Carona não Localizada")) {
-				return "{}";
-			}
-			e.printStackTrace();
+	public String localizarCarona(String idSessao, String origem, String destino){		
+		ArrayList<CaronaDomain>caronas = caronaBusiness.localizarCarona(idSessao, origem, destino);
+		
+		String caronasList = "{";
+		for (CaronaDomain caronaDomain : caronas) {
+			caronasList += caronaDomain+ ", ";				
 		}
 		
-		
-		return "";
+		//tratamento para retirar a última ", "
+		if (caronasList.length() > 1)
+			caronasList = caronasList.substring (0, caronasList.length() - 2);
+		caronasList += "}";
+				
+		return "{}";
 	}
 		
 	public int cadastrarCarona(int idSessao, String origem, String destino, String data, String hora, int vagas){

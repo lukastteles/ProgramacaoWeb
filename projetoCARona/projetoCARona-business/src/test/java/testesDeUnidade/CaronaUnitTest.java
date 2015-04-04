@@ -1,10 +1,14 @@
 package testesDeUnidade;
 
+import java.util.ArrayList;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.br.uepb.business.CaronaBusiness;
+import com.br.uepb.domain.CaronaDomain;
+import com.sun.javafx.binding.SelectBinding.AsString;
 
 public class CaronaUnitTest {
 	
@@ -26,4 +30,16 @@ public class CaronaUnitTest {
 		Assert.assertNotNull(idCarona);		
 	}
 	
+	@Test
+	public void testeLocalizarCarona(){
+		//procurar carona que não existe
+		String idSessao = "Luana";
+		String origem = "Campina Grande";
+		String destino = "João Pessoa";
+			
+		ArrayList<CaronaDomain> caronaList = caronaBusiness.localizarCarona(idSessao, origem, destino);
+		Assert.assertNotNull(caronaList);
+		
+		
+	}
 }
