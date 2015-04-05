@@ -11,7 +11,7 @@ public class CaronaDomain {
 	 * Classe de domínio que define o modelo para o Carona
 	 * @author Luana Janaina / Lukas Teles
 	 * @version 0.1
-	 * @since 1ª Iteração
+	 * @since 1ª IteraçãoO
 	 */
 	
 

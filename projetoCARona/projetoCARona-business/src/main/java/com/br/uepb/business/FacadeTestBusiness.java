@@ -37,40 +37,48 @@ public class FacadeTestBusiness {
 	}
 		
 	//Metodos de controle da classe Carona
-	public String localizarCarona(String idSessao, String origem, String destino){		
-		ArrayList<CaronaDomain>caronas = caronaBusiness.localizarCarona(idSessao, origem, destino);
+	public String localizarCarona(String idSessao, String origem, String destino) throws Exception {		
+		ArrayList<CaronaDomain> caronas;
+			
+		caronas = caronaBusiness.localizarCarona(idSessao, origem, destino);
 		
 		String caronasList = "{";
+		
 		for (CaronaDomain caronaDomain : caronas) {
-			caronasList += caronaDomain+ ", ";				
+			caronasList += caronaDomain.getID()+ ",";				
 		}
-		
 		//tratamento para retirar a última ", "
-		if (caronasList.length() > 1)
-			caronasList = caronasList.substring (0, caronasList.length() - 2);
+		if (caronasList.length() > 1) {
+			caronasList = caronasList.substring (0, caronasList.length() - 1);
+		}
 		caronasList += "}";
-				
-		return "{}";
+		
+		return caronasList;
+		
 	}
 		
-	public int cadastrarCarona(int idSessao, String origem, String destino, String data, String hora, int vagas){
-		
-		return 0;
+	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas){
+		return caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
 	}
 		
-	public String getAtributoCarona(int idCarona, String atributo){
-			
+	public String getAtributoCarona(String idCarona, String atributo) throws Exception{
+		return caronaBusiness.getAtributoCarona(idCarona, atributo);
+	}
+		
+	public String getTrajeto(String idCarona){
+		
 		return "";
 	}
 		
-	public String getTrajeto(int idCarona){
-			
-		return "";
-	}
+	public String getCarona(String idCarona) throws Exception{
+		CaronaDomain carona = caronaBusiness.getCarona(idCarona);
+		//#expect "João Pessoa para Campina Grande, no dia 25/11/2026, as 06:59" getCarona idCarona=${carona3ID}
+		String percurso = carona.getOrigem()+" para "+carona.getDestino()+
+						  ", no dia "+carona.getData()+
+						  ", as "+carona.getHora();
+						  
 		
-	public String getCarona(int idCarona){
-			
-		return "";
+		return percurso;
 	}
 		
 	public int getCaronaUsuario(int idSessao, int indexCarona){

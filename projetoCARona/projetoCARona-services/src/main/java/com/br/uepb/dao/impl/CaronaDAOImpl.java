@@ -24,6 +24,16 @@ public class CaronaDAOImpl implements CaronaDAO{
 	public void addCarona(CaronaDomain carona) {
 		listaCaronas.add(carona);
 	}
+	
+	@Override
+	public ArrayList<CaronaDomain> listCaronas() {
+		ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
+		for (CaronaDomain carona : listaCaronas) {			
+				caronas.add(carona);
+		}
+				
+		return caronas;					
+	}
 
 	@Override
 	public ArrayList<CaronaDomain> listCaronas(String origem, String destino) {
@@ -37,16 +47,49 @@ public class CaronaDAOImpl implements CaronaDAO{
 				
 		return caronas;					
 	}
+	
+	@Override
+	public ArrayList<CaronaDomain> listCaronasByOrigem(String origem) {
+		ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
+		for (CaronaDomain carona : listaCaronas) {
+			if (carona.getOrigem().equals(origem)) {
+				caronas.add(carona);
+			}
+		}
+				
+		return caronas;	
+	}
 
 	@Override
-	public CaronaDomain getCarona(String idCarona) throws Exception  {				
+	public ArrayList<CaronaDomain> listCaronasByDestino(String destino) {
+		ArrayList<CaronaDomain> caronas = new ArrayList<CaronaDomain>();
+		for (CaronaDomain carona : listaCaronas) {
+			if (carona.getDestino().equals(destino)) {
+				caronas.add(carona);
+			}
+		}
+				
+		return caronas;	
+	}
+
+	@Override
+	public CaronaDomain getCarona(String idCarona) throws Exception  {		
+		//tratamento para verificar de o IdCarona está null ou vazio
+		if (idCarona == null) {
+			throw new Exception("Carona Inválida");
+		}
+		if (idCarona.trim().equals("")) {
+			throw new Exception("Carona Inexistente");
+		}
+		
 		for (CaronaDomain carona : listaCaronas) {
 			if (carona.getID().equals(idCarona)) {
 				return carona;
 			}
 		}
 		
-		throw new Exception("Carona não Localizada");
+		//se não entrou no for é sinal que não existe nenhuma carona com esse parametro cadastrada
+		throw new Exception("Carona Inexistente");
 	}
 
 }
