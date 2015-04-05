@@ -105,5 +105,16 @@ public class CaronaDomain {
 		this.vagas = vagas;
 	}
 	
-
+	public void addPontoEncontro(PontoDeEncontroDomain ponto){
+		pontoDeEncontro.add(ponto);
+	}
+	
+	public PontoDeEncontroDomain getPontoEncontro(String idPonto) throws Exception{
+		for(PontoDeEncontroDomain ponto : pontoDeEncontro) {
+			if(ponto.getId().equals(idPonto)){
+				return ponto;
+			}
+		}
+		throw new Exception("ponto não encontrado");
+	}
 }

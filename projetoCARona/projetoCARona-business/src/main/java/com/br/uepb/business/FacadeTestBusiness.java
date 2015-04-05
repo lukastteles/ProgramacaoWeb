@@ -17,6 +17,7 @@ public class FacadeTestBusiness {
 	UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
 	SessaoBusiness sessaoBusiness = new SessaoBusiness();
 	CaronaBusiness caronaBusiness = new CaronaBusiness();
+	PontoDeEncontroBusiness pontoDeEncontroBusiness = new PontoDeEncontroBusiness();
 	
 	//Metodos de controle da classe Sessao/
 	public String abrirSessao(String login, String senha){		
@@ -92,14 +93,12 @@ public class FacadeTestBusiness {
 	}	
 		
 	////Metodos de controle da classe PontoDeEncontro
-	public int sugerirPontoEncontro(int idSessao, int idCarona, String pontos){
-			
-		return 0;
+	public String sugerirPontoEncontro(String idSessao, String idCarona, String pontos) throws Exception{
+		return pontoDeEncontroBusiness.sugerirPontoEncontro(idSessao, idCarona, pontos);
 	}
 		
-	public int reponderSugestaoPontoEncontro(int idSessao, int idCarona, int idSugestao, String pontos){
-		
-		return 0;
+	public void reponderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String pontos) throws Exception{
+		pontoDeEncontroBusiness.responderSugestaoPontoEncontro(idSessao, idCarona, idSugestao);
 	}
 		
 	public String getPontosSugeridos(int idSessao, int idCarona){

@@ -7,8 +7,8 @@ public class PontoDeEncontroDomain {
 	private String pontoDeEncontro;
 	private boolean foiAceita = false;
 	
-	public PontoDeEncontroDomain(String idCarona, String pontoDeEncontro) {
-		//id
+	public PontoDeEncontroDomain(String id, String idCarona, String pontoDeEncontro) {
+		this.id = id;
 		this.idCarona = idCarona;
 		this.pontoDeEncontro = pontoDeEncontro;
 		//foiAceita = false;
