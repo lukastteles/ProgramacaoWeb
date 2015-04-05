@@ -58,7 +58,7 @@ public class FacadeTestBusiness {
 		
 	}
 		
-	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas){
+	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas) throws Exception{
 		return caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
 	}
 		
@@ -66,11 +66,10 @@ public class FacadeTestBusiness {
 		return caronaBusiness.getAtributoCarona(idCarona, atributo);
 	}
 		
-	public String getTrajeto(String idCarona){
-		
-		return "";
+	public String getTrajeto(String idCarona) throws Exception{
+		return caronaBusiness.getTrajeto(idCarona);
 	}
-		
+	
 	public String getCarona(String idCarona) throws Exception{
 		CaronaDomain carona = caronaBusiness.getCarona(idCarona);
 		//#expect "João Pessoa para Campina Grande, no dia 25/11/2026, as 06:59" getCarona idCarona=${carona3ID}
