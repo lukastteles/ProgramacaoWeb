@@ -37,11 +37,12 @@ public class UsuarioDomain {
 	 * @param nome String - Nome do Usuário
 	 * @param email String - Email do Usuário
 	 * @param endereco String - Endereço do Usuário
+	 * @throws Exception 
 	 */
-	public UsuarioDomain(String login, String senha, String nome, String endereco, String email) {
-		this.login = login;
-		this.senha = senha;
-		this.perfil = new PerfilDomain(nome, endereco, email);
+	public UsuarioDomain(String login, String senha, String nome, String endereco, String email) throws Exception {
+		setLogin(login);
+		setSenha(senha);
+		setPerfil(nome, endereco, email);
 	}
 	
 	/**
@@ -50,6 +51,17 @@ public class UsuarioDomain {
 	 */
 	public String getLogin() {
 		return login;
+	}
+	
+	/**
+	 * Método para inserir o Login do Usuário
+	 * @return String - Senha do Usuário
+	 */
+	private void setLogin(String login) throws Exception{
+		if ( (login == null) || (login.trim().equals("")) ){
+			throw new Exception("Login inválido");
+		}
+		this.login = login;	
 	}
 
 	/**
@@ -63,8 +75,13 @@ public class UsuarioDomain {
 	/**
 	 * Método mudar a senha do Usuário
 	 * @param senha String - Nova senha
+	 * @throws Exception 
 	 */
-	public void setSenha(String senha) {
+	public void setSenha(String senha) throws Exception {
+		if ( (senha == null) || (senha.trim().equals("")) ){
+			throw new Exception("Login inválido");
+		}
+		
 		this.senha = senha;
 	}
 	
@@ -76,6 +93,20 @@ public class UsuarioDomain {
 		return perfil;
 	}
 
+	private void setPerfil(String nome, String endereco, String email) throws Exception{
+		if ( (nome == null) || (nome.trim().equals("")) ){
+			throw new Exception("Nome inválido");
+		}
+		if ( (endereco == null) || (endereco.trim().equals("")) ){
+			throw new Exception("Endereco inválido");
+		}
+		if ( (email == null) || (email.trim().equals("")) ){
+			throw new Exception("Email inválido");
+		}
+		
+		this.perfil = new PerfilDomain(nome, endereco, email);
+		
+	}
 	/**
 	 * Método para pegar a lista de Caronas do Usuário
 	 * @return ArrayList - Lista de Caronas do Usuário

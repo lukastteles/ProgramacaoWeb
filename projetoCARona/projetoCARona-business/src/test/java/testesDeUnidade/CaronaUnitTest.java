@@ -16,7 +16,7 @@ public class CaronaUnitTest {
 	
 	//Cadastra Carona
 	@Test
-	public void testesCadastraCarona1(){
+	public void testesCadastraCarona1() throws Exception{
 		String idSessao = "Luana";
 		String origem = "Campina Grande";
 		String destino = "João Pessoa";
@@ -30,7 +30,7 @@ public class CaronaUnitTest {
 	
 	//Cadastra Carona e verifica retorno dos atributos 
 	@Test
-	public void testeCadastraCarona2(){		
+	public void testeCadastraCarona2() throws Exception{		
 		String idSessao = "Mark";
 		String origem = "Campina Grande";
 		String destino = "João Pessoa";
@@ -56,11 +56,11 @@ public class CaronaUnitTest {
 	}
 	
 	@Test
-	public void testeCadastraCarona3(){		
+	public void testeCadastraCarona3() throws Exception{		
 		String idCarona3 = caronaBusiness.cadastrarCarona("Luana", "Campina Grande", "João Pessoa", "12/03/2015", "12:30", 3);
 		String idCarona4 = caronaBusiness.cadastrarCarona("Luana", "Rio de Janeiro", "São Paulo", "15/03/2015", "10:00", 4);
-		String idCarona5 = caronaBusiness.cadastrarCarona("Luana", "Campina Grande", "João Pessoa", "25/13/2026", "15:30", 2);
-		String idCarona6 = caronaBusiness.cadastrarCarona("Luana", "João Pessoa", "Logoa Seca", "25/13/2016", "12:30", 2);
+		String idCarona5 = caronaBusiness.cadastrarCarona("Luana", "Campina Grande", "João Pessoa", "25/12/2026", "15:30", 2);
+		String idCarona6 = caronaBusiness.cadastrarCarona("Luana", "João Pessoa", "Logoa Seca", "25/12/2016", "12:30", 2);
 		
 		Assert.assertNotNull(idCarona3);
 		Assert.assertNotNull(idCarona4);

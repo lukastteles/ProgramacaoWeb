@@ -3,6 +3,8 @@ package com.br.uepb.validator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import javax.validation.constraints.Pattern;
+
 
 public class ValidateFields {
 
@@ -38,5 +40,16 @@ public class ValidateFields {
 		}		
 	}
 	
+	public void ValidarEmail(String email) throws Exception
+	{
+		if ((email == null) || (email.trim().length() == 0)) {
+			throw new Exception("Email inválido");
+		}
+		
+		//TODO: Acrescentar aqui metodo para validar email
+		
+	}
+	
+
 	
 }
