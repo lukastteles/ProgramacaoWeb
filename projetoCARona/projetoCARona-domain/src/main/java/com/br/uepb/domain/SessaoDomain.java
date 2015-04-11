@@ -4,8 +4,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.apache.log4j.Logger;
-
 public class SessaoDomain {
 	//TODO: Criar uma classe para tratar as excecoes
 	
@@ -15,7 +13,7 @@ public class SessaoDomain {
 	 * @version 0.1
 	 * @since 2ª Iteração
 	 */
-
+	
 	//final static Logger logger = Logger.getLogger(SessaoDomain.class);
 
 	/** Login da Sessão	 */
@@ -29,8 +27,7 @@ public class SessaoDomain {
 	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{6,}$")
 	private String senha;
 	
-	
-	public SessaoDomain(String login, String senha) {
+	public SessaoDomain(String login, String senha) throws Exception {
 		setLogin(login);
 		setSenha(senha);
 	}
@@ -49,7 +46,11 @@ public class SessaoDomain {
 	 * @param login String - Login do Usuário
 	 * @throws Exception Login inválido
 	 */
-	private void setLogin(String login){
+	private void setLogin(String login) throws Exception{
+		if ( (login == null) || (login.trim().equals("")) ) {
+			//logger.debug("Login inválido");
+			throw new Exception("Login inválido");
+		}
 		this.login = login;
 	}
 	
@@ -67,11 +68,11 @@ public class SessaoDomain {
 	 * @param senha String - Senha do Usuário
 	 * @throws Exception Login inválido
 	 */
-	public void setSenha(String senha) {
-		/*if ( (senha == null) || (senha.equals("")) ) {
-			logger.debug("Login inválido");
+	public void setSenha(String senha) throws Exception {
+		if ( (senha == null) || (senha.trim().equals("")) ) {
+			//logger.debug("Login inválido");
 			throw new Exception("Login inválido");
-		}*/
+		}
 		
 		this.senha = senha;
 	}	

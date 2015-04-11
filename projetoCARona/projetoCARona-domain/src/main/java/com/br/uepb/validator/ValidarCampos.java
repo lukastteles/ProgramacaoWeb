@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import javax.validation.constraints.Pattern;
 
 
-public class ValidateFields {
+public class ValidarCampos {
 
 	public void validarData(String data) throws Exception {
 		if ( (data == null) || (data.trim().equals("")) ){

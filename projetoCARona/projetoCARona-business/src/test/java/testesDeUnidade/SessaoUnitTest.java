@@ -22,9 +22,10 @@ public class SessaoUnitTest {
 	
 	/**
 	 * Teste para verificar a funcionalidade "abrirSessao" da classe SessaoBusiness
+	 * @throws Exception 
 	 */	
 	@Test
-	public void testeAbrirEncerrarSessao(){
+	public void testeAbrirEncerrarSessao() throws Exception{
 		
 		String login = "Luana";
 		String senha = "123";

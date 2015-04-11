@@ -1,6 +1,8 @@
 package com.br.uepb.business;
 
+import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.SessaoDomain;
+import com.br.uepb.domain.UsuarioDomain;
 
 public class SessaoBusiness {
 
@@ -19,10 +21,17 @@ public class SessaoBusiness {
 	 * @return int Id da Sessão
 	 * @throws Exception 
 	 */
-	public String abrirSessao(String login, String senha) {		
-		//TODO: verificar se login e senha existem
-		SessaoDomain sessaoDomain = new SessaoDomain(login, senha);							
-		return sessaoDomain.getLogin();
+	public String abrirSessao(String login, String senha) throws Exception {
+		//verificar se existe usuario com esse login-senha		
+		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(login);
+		
+		//Se a senha informada for diferente da senha do usuario
+		if (!usuario.getSenha().equals(senha)) {
+			throw new Exception("Login inválido");
+		}
+		
+		sessaoDomain = new SessaoDomain(login, senha);							
+		return sessaoDomain.getLogin();		
 	}
 		
 	/**

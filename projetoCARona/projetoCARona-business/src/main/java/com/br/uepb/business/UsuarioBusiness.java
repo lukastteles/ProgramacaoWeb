@@ -1,9 +1,7 @@
 package com.br.uepb.business;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.br.uepb.dao.UsuarioDAO;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.UsuarioDomain;
 
@@ -16,10 +14,8 @@ public class UsuarioBusiness {
 	 * @version 0.1
 	 * @since 1ª Iteração
 	 */
-	
-	/** Objeto DAO para manipular os objetos da classe UsuarioDomain*/
-	@Autowired
-	private UsuarioDAOImpl usuarioDao = new UsuarioDAOImpl();
+		
+	//private UsuarioDAOImpl usuarioDao = new UsuarioDAOImpl();
 	
 	/**
 	 * Método para criar um novo usuário
@@ -31,7 +27,7 @@ public class UsuarioBusiness {
 	 */
 	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception{
 		UsuarioDomain usuario = new UsuarioDomain(login, senha, nome, endereco, email);
-		usuarioDao.addUsuario(usuario);
+		UsuarioDAOImpl.getInstance().addUsuario(usuario);
 	}
 	
 	/**
@@ -40,8 +36,12 @@ public class UsuarioBusiness {
 	 * @param atributo String - Atributo a ser requisitado
 	 * @return String - Valor do atributo solicitado
 	 */
-	public String getAtributoUsuario(String login, String atributo) throws Exception{
-		UsuarioDomain usuario = usuarioDao.getUsuario(login);
+	public String getAtributoUsuario(String login, String atributo) throws Exception{		
+		if((atributo == null) || (atributo.trim().equals(""))){
+			throw new Exception("Atributo inválido"); 
+		}
+		
+		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(login);
 		
 		//Não usamos switch-case por causa do compilador que ficou muendo pra colocar String no parâmetro do switch
 		if(atributo.equals("login")){
@@ -54,9 +54,7 @@ public class UsuarioBusiness {
 			return usuario.getPerfil().getEndereco();
 		}else if(atributo.equals("email")){
 			return usuario.getPerfil().getEmail();
-		}else if(atributo.equals("") || atributo == null){
-			throw new Exception("Atributo Inválido"); 
-		}else{
+		}else {
 			throw new Exception("Atributo inexistente");
 		}
 		

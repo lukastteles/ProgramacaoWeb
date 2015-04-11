@@ -2,11 +2,9 @@ package com.br.uepb.dao.impl;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.br.uepb.dao.UsuarioDAO;
-import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
 @Service
@@ -18,15 +16,22 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	 * @version 0.1
 	 * @since 1ª Iteração
 	 */
+	private static UsuarioDAOImpl usuarioDAOImpl;
 	
-	final static Logger logger = Logger.getLogger(UsuarioDAOImpl.class);
+	//final static Logger logger = Logger.getLogger(UsuarioDAOImpl.class);
 	//Lista de usuários
 	ArrayList<UsuarioDomain> listaUsuarios = new ArrayList<UsuarioDomain>();
 	
+	//Singleton para UsuarioDAOImpl
+	public static UsuarioDAOImpl getInstance(){
+		if(usuarioDAOImpl == null){
+			usuarioDAOImpl = new UsuarioDAOImpl();
+		}
+		return usuarioDAOImpl;		
+	}
 	
 	///////////////////////
-	public UsuarioDAOImpl() {
-		// TODO Auto-generated constructor stub
+	private UsuarioDAOImpl() {
 	}
 	//////////////////////
 	
@@ -38,22 +43,54 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	 */
 	@Override
 	public UsuarioDomain getUsuario(String login) throws Exception {
+		if ( (login == null) || (login.trim().equals("")) ){
+			throw new Exception("Login inválido");
+		}
+		
 		for (UsuarioDomain usuario : listaUsuarios) {
 			if(usuario.getLogin().equals(login)){
 				return usuario;
 			}
 		}
-		logger.debug("Usuário não encontrado");
-		throw new Exception("Usuário não encontrado");
+		//logger.debug("Usuário inexistente");
+		throw new Exception("Usuário inexistente");
 	}
 
 	/**
 	 * Método para adicionar um novo Usuário
 	 * @param usuario UsuarioDomain - Usuário a ser cadastrado 
+	 * @throws Exception 
 	 */
 	@Override
-	public void addUsuario(UsuarioDomain usuario){
+	public void addUsuario(UsuarioDomain usuario) throws Exception{
+		if (loginExiste(usuario.getLogin())) {
+			throw new Exception("Já existe um usuário com este login");	
+		}
+		
+		if (emailExiste(usuario.getPerfil().getEmail())) {
+			throw new Exception("Já existe um usuário com este email");	
+		}	
+		
 		listaUsuarios.add(usuario);
+		
 		//logger
+	}
+	
+	public boolean loginExiste(String login) {
+		for (UsuarioDomain usuario : listaUsuarios) {
+			if(usuario.getLogin().equals(login)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean emailExiste(String email) {
+		for (UsuarioDomain usuario : listaUsuarios) {
+			if(usuario.getPerfil().getEmail().equals(email)){
+				return true;
+			}
+		}
+		return false;
 	}
 }
