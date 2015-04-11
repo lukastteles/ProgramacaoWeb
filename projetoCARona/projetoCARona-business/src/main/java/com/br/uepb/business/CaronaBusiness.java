@@ -14,7 +14,7 @@ import com.br.uepb.domain.SessaoDomain;
 public class CaronaBusiness {
 	
 	/** Objeto DAO para manipular os objetos da classe UsuarioDomain*/
-	private CaronaDAOImpl caronaDAOImpl =  new CaronaDAOImpl();
+	//private CaronaDAOImpl caronaDAOImpl =  new CaronaDAOImpl();
 	private int idCarona = 1;
 	
 	
@@ -32,18 +32,18 @@ public class CaronaBusiness {
 		}
 				
 		if ( (origem.trim().equals("")) && (destino.trim().equals("")) ) {
-			caronas = caronaDAOImpl.listCaronas();
+			caronas = CaronaDAOImpl.getInstance().listCaronas();
 		}
 		else if (origem.trim().equals(""))  {
-			caronas = caronaDAOImpl.listCaronasByDestino(destino);
+			caronas = CaronaDAOImpl.getInstance().listCaronasByDestino(destino);
 			
 		}
 		else if (destino.trim().equals("")){
-			caronas = caronaDAOImpl.listCaronasByOrigem(origem);
+			caronas = CaronaDAOImpl.getInstance().listCaronasByOrigem(origem);
 			
 		}
 		else {
-			caronas = caronaDAOImpl.listCaronas(origem, destino);
+			caronas = CaronaDAOImpl.getInstance().listCaronas(origem, destino);
 		}
 		
 		return caronas;
@@ -62,7 +62,7 @@ public class CaronaBusiness {
 		String carona = ""+idCarona;
 		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, data, hora, vagas);		
 		
-		caronaDAOImpl.addCarona(caronaDomain);
+		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
 		idCarona++; //TODO: retirar este contador depois que inserir a persistencia com o BD
 		return caronaDomain.getID();
 	}
@@ -76,7 +76,7 @@ public class CaronaBusiness {
 		CaronaDomain carona = null; 
 		
 		try {
-			carona = caronaDAOImpl.getCarona(idCarona);			
+			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);			
 		} catch (Exception e) {
 			if (e.getMessage().equals("Carona Inválida")) {				
 				throw new Exception("Identificador do carona é inválido");
@@ -108,7 +108,7 @@ public class CaronaBusiness {
 		CaronaDomain carona = null;
 		
 		try {
-			carona = caronaDAOImpl.getCarona(idCarona);
+			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		} catch (Exception e) {
 			if (e.getMessage().equals("Carona Inválida")) {				
 					throw new Exception("Trajeto Inválida");
@@ -128,7 +128,7 @@ public class CaronaBusiness {
 	}
 	
 	public CaronaDomain getCarona(String idCarona) throws Exception{		
-		return  caronaDAOImpl.getCarona(idCarona);
+		return  CaronaDAOImpl.getInstance().getCarona(idCarona);
 	}
 	
 	

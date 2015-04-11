@@ -28,7 +28,7 @@ public class UsuarioDomain {
 	private PerfilDomain perfil;
 	
 	/** Caronas do usuário*/
-	private ArrayList<CaronaDomain> caronas;
+	private ArrayList<String> idCaronas;
 	
 	/**
 	 * Método Construtor de UsuarioDomain
@@ -111,8 +111,8 @@ public class UsuarioDomain {
 	 * Método para pegar a lista de Caronas do Usuário
 	 * @return ArrayList - Lista de Caronas do Usuário
 	 */
-	public ArrayList<CaronaDomain> getCaronas() {
-		return caronas;
+	public ArrayList<String> getCaronas() {
+		return idCaronas;
 	}
 
 }

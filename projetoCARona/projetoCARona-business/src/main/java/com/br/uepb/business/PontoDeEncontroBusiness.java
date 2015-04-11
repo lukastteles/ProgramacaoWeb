@@ -9,14 +9,13 @@ public class PontoDeEncontroBusiness {
 	int idPonto = 1;
 	
 	/** Objeto DAO para manipular os objetos da classe UsuarioDomain*/
-	private CaronaDAOImpl caronaDAOImpl =  new CaronaDAOImpl();
+	//private CaronaDAOImpl caronaDAOImpl =  new CaronaDAOImpl();
 	
 	public String sugerirPontoEncontro(String idSessao, String idCarona, String pontoDeEncontro) throws Exception{
-		String id = "ponto"+idPonto;
+		String id = ""+idPonto;
 		idPonto++;
 		PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(id, idCarona, pontoDeEncontro);
-		CaronaDomain carona = caronaDAOImpl.getCarona(idCarona);
-		carona.addPontoEncontro(ponto);
+		CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoEncontro(ponto);
 		return id;
 	}
 	
@@ -24,13 +23,11 @@ public class PontoDeEncontroBusiness {
 		String[] ids = new String[pontos.length];
 		int cont = 0;
 		PontoDeEncontroDomain ponto;
-		CaronaDomain carona;
 		for (String string : pontos) {
 			String id = "ponto"+idPonto;
 			idPonto++;
 			ponto = new PontoDeEncontroDomain(id, idCarona, string);
-			carona = caronaDAOImpl.getCarona(idCarona);
-			carona.addPontoEncontro(ponto);
+			CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoEncontro(ponto);
 			ids[cont] = id;
 			cont++;
 		}
@@ -39,8 +36,7 @@ public class PontoDeEncontroBusiness {
 	}
 	
 	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao) throws Exception{
-		CaronaDomain carona = caronaDAOImpl.getCarona(idCarona);
-		PontoDeEncontroDomain ponto = carona.getPontoEncontro(idSugestao);
+		PontoDeEncontroDomain ponto = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontro(idSugestao);
 		ponto.setFoiAceita(true);
 		
 	}
@@ -50,12 +46,13 @@ public class PontoDeEncontroBusiness {
 		PontoDeEncontroDomain ponto;
 		
 		for (String idSugestao : sugestoes) {
-			carona = caronaDAOImpl.getCarona(idCarona);
+			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 			ponto = carona.getPontoEncontro(idSugestao);
 			ponto.setFoiAceita(true);
 		}
 		
 	}
+	
 	
 	//Proximas US...
 	/*public void getPontosSugeridos(){

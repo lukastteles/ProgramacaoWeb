@@ -8,7 +8,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.br.uepb.validator.ValidateFields;
+import com.br.uepb.validator.ValidarCampos;
 
 public class CaronaDomain {
 	/**
@@ -18,7 +18,7 @@ public class CaronaDomain {
 	 * @since 1ª IteraçãoO
 	 */
 	
-	ValidateFields validar = new ValidateFields();
+	ValidarCampos validar = new ValidarCampos();
 
 	/** Id da Sessao*/ //Deve ser gerado automaticamente
 	@NotNull(message = "O ID da Sessao não pode ser nulo")
@@ -141,6 +141,10 @@ public class CaronaDomain {
 				return ponto;
 			}
 		}
-		throw new Exception("ponto não encontrado");
+		throw new Exception("Ponto Inválido");
+	}
+	
+	public void addSolicitacaoVaga(SolicitacaoVagaDomain solicitacao){
+		solicitacaoVaga.add(solicitacao);
 	}
 }

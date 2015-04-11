@@ -19,6 +19,21 @@ public class CaronaDAOImpl implements CaronaDAO{
 	final static Logger logger = Logger.getLogger(CaronaDAOImpl.class);
 	//Lista de caronas
 	ArrayList<CaronaDomain> listaCaronas = new ArrayList<CaronaDomain>();
+	
+	private static CaronaDAOImpl caronaDAOImpl;
+	
+	public static CaronaDAOImpl getInstance(){
+		if(caronaDAOImpl == null){
+			caronaDAOImpl = new CaronaDAOImpl();
+			return caronaDAOImpl;
+		}else{
+			return caronaDAOImpl;
+		}
+	}
+	
+	private CaronaDAOImpl(){
+		
+	}
 
 	@Override
 	public void addCarona(CaronaDomain carona) {

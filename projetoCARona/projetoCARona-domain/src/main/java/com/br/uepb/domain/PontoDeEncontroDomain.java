@@ -7,19 +7,45 @@ public class PontoDeEncontroDomain {
 	private String pontoDeEncontro;
 	private boolean foiAceita = false;
 	
-	public PontoDeEncontroDomain(String id, String idCarona, String pontoDeEncontro) {
-		this.id = id;
-		this.idCarona = idCarona;
-		this.pontoDeEncontro = pontoDeEncontro;
+	public PontoDeEncontroDomain(String id, String idCarona, String pontoDeEncontro) throws Exception {
+		setId(id);
+		setIdCarona(idCarona);
+		setPontoDeEncontro(pontoDeEncontro);
 		//foiAceita = false;
-	} 
-	
-	public String getPontoCarona() {
-		return pontoDeEncontro;
 	}
 	
-	public void setPontoCarona(String pontoDeEncontro) {
+	public String getId() {
+		return id;
+	}
+	
+	private void setId(String id) throws Exception {
+		if ( (id == null) || (id.trim().equals("")) ){
+			throw new Exception("id inválido");
+		}
+		this.id = id;
+	}
+	
+	public String getIdCarona() {
+		return idCarona;
+	}
+	
+	private void setIdCarona(String idCarona) throws Exception {
+		if ( (idCarona == null) || (idCarona.trim().equals("")) ){
+			throw new Exception("idCarona inválido");
+		}
+		this.idCarona = idCarona;
+	}
+	
+	public String getPontoDeEncontro() {
+		return pontoDeEncontro;
+	}
+
+	public void setPontoDeEncontro(String pontoDeEncontro) throws Exception {
+		if ( (pontoDeEncontro == null) || (pontoDeEncontro.trim().equals("")) ){
+			throw new Exception("Ponto Inválido");
+		}
 		this.pontoDeEncontro = pontoDeEncontro;
+		
 	}
 	
 	public boolean isFoiAceita() {
@@ -30,11 +56,4 @@ public class PontoDeEncontroDomain {
 		this.foiAceita = foiAceita;
 	}
 	
-	public String getId() {
-		return id;
-	}
-	
-	public String getIdCarona() {
-		return idCarona;
-	}
 }

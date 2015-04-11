@@ -20,7 +20,7 @@ public class FacadeTestBusiness {
 	PontoDeEncontroBusiness pontoDeEncontroBusiness = new PontoDeEncontroBusiness();
 	
 	//Metodos de controle da classe Sessao/
-	public String abrirSessao(String login, String senha){		
+	public String abrirSessao(String login, String senha) throws Exception{		
 		return sessaoBusiness.abrirSessao(login, senha);
 	}
 		
@@ -96,59 +96,59 @@ public class FacadeTestBusiness {
 		return pontoDeEncontroBusiness.sugerirPontoEncontro(idSessao, idCarona, pontos);
 	}
 		
-	public void reponderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String pontos) throws Exception{
+	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String pontos) throws Exception{
 		pontoDeEncontroBusiness.responderSugestaoPontoEncontro(idSessao, idCarona, idSugestao);
 	}
 		
-	public String getPontosSugeridos(int idSessao, int idCarona){
+	public String getPontosSugeridos(String idSessao, String idCarona){
 			
 		return "";
 	}
 		
-	public String getPontosEncontro(int idSessao, int idCarona){
+	public String getPontosEncontro(String idSessao, String idCarona){
 			
 		return "";
 	}
 		
 	//Metodos de controle da classe SolicitacaoVaga
-	public String getAtributoSolicitacao(int idSolicitacao, String atributo){
+	public String getAtributoSolicitacao(String idSolicitacao, String atributo){
 			
 		return "";
 	}
 		
-	public String getSolicitacoesConfirmadas(int idSessao, int idCarona){
+	public String getSolicitacoesConfirmadas(String idSessao, String idCarona){
 			
 		return "";
 	}
 		
-	public String getSolicitacoesPendentes(int idSessao, int idCarona){
+	public String getSolicitacoesPendentes(String idSessao, String idCarona){
 			
 		return "";
 	}
 		
-	public int solicitarVagas(int idSessao, int idCarona){
+	public int solicitarVagas(String idSessao, String idCarona){
 			
 		return 0;
 	}
 		
-	public int solicitarVagaPontoEncontro(int idSessao, int idCarona, String ponto){
+	public int solicitarVagaPontoEncontro(String idSessao, String idCarona, String ponto){
 			
 		return 0;
 	}
 		
-	public void aceitarSolicitacao(int idSessao, int idSolicitacao){
+	public void aceitarSolicitacao(String idSessao, String idSolicitacao){
 			
 	}
 	
-	public void aceitarSolicitacaoPontoEncontro(int idSessao, int idSolicitacao){
+	public void aceitarSolicitacaoPontoEncontro(String idSessao, String idSolicitacao){
 			
 	}
 		
-	public void desistirRequisicao(int idSessao, int idCarona, int idSolicitacao){
+	public void desistirRequisicao(String idSessao, String idCarona, String idSolicitacao){
 			
 	}
 		
-	public void rejeitarSolicitacao(int idSessao, int idSolicitacao){
+	public void rejeitarSolicitacao(String idSessao, String idSolicitacao){
 			
 	}
 		
