@@ -1,14 +1,12 @@
 package com.br.uepb.business;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
-import com.br.uepb.domain.SessaoDomain;
 
 @Component
 public class CaronaBusiness {
@@ -17,8 +15,6 @@ public class CaronaBusiness {
 	//private CaronaDAOImpl caronaDAOImpl =  new CaronaDAOImpl();
 	private int idCarona = 1;
 	
-	
-	private SessaoDomain sessao;
 	
 	public ArrayList<CaronaDomain> localizarCarona(String idSessao, String origem, String destino) throws Exception{
 		ArrayList<CaronaDomain> caronas;
@@ -50,14 +46,9 @@ public class CaronaBusiness {
 	}
 	
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas) throws Exception{		
-		/*
-		 * if ( (idSessao == null) || (idSessao.trim().equals("")) ){
-			throw new Exception("Sess�o inv�lida");
-		}
-		
-		 * if (!sessao.getLogin().equals(idSessao)) {
-			throw new Exception("Sess�o inexistente");
-		}*/
+				
+		//funcao apenas para verificar se a sessao existe
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		String carona = ""+idCarona;
 		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, data, hora, vagas);		
@@ -70,7 +61,11 @@ public class CaronaBusiness {
 	public String getAtributoCarona(String idCarona, String atributo) throws Exception{
 
 		if( (atributo == null) || (atributo.trim().equals(""))){
-			throw new Exception("Atributo Inválido");
+			throw new Exception("Atributo inválido");
+		}
+		
+		if ((idCarona == null) || (idCarona.trim().equals(""))) {
+			throw new Exception("Identificador do carona é inválido");
 		}
 		
 		CaronaDomain carona = null; 
@@ -78,10 +73,7 @@ public class CaronaBusiness {
 		try {
 			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);			
 		} catch (Exception e) {
-			if (e.getMessage().equals("Carona Inválida")) {				
-				throw new Exception("Identificador do carona é inválido");
-			} 
-			else if (e.getMessage().equals("Carona Inexistente")) {
+			if (e.getMessage().equals("Carona Inexistente")) {
 				throw new Exception("Item inexistente");
 			}		
 			else {

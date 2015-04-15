@@ -3,8 +3,6 @@ package com.br.uepb.validator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import javax.validation.constraints.Pattern;
-
 
 public class ValidarCampos {
 
@@ -18,9 +16,9 @@ public class ValidarCampos {
 			DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");			
 			formato.setLenient(false); 
 			
-			java.sql.Date date = new java.sql.Date( ((java.util.Date)formato.parse(data)).getTime() );
+			new java.sql.Date( ((java.util.Date)formato.parse(data)).getTime() );
 		} catch (Exception e) {
-			throw new Exception("Data Inválida");
+			throw new Exception("Data inválida");
 		}		
 	}
 	
@@ -34,13 +32,13 @@ public class ValidarCampos {
 			DateFormat formato = new SimpleDateFormat("HH:mm");			
 			formato.setLenient(false); 			
 			
-			java.sql.Date hour = new java.sql.Date( ((java.util.Date)formato.parse(hora)).getTime() );
+			new java.sql.Date( ((java.util.Date)formato.parse(hora)).getTime() );
 		} catch (Exception e) {
-			throw new Exception("Hora Inválida");
+			throw new Exception("Hora inválida");
 		}		
 	}
 	
-	public void ValidarEmail(String email) throws Exception
+	public void validarEmail(String email) throws Exception
 	{
 		if ((email == null) || (email.trim().length() == 0)) {
 			throw new Exception("Email inválido");
@@ -50,6 +48,17 @@ public class ValidarCampos {
 		
 	}
 	
-
+	public void validarVagas(String vagas) throws Exception {
+		if ((vagas == null) || (vagas.trim().length() == 0)) {
+			throw new Exception("Vaga inválida");
+		}
+		
+		try { 
+			Integer.parseInt(vagas);
+		} catch (Exception e) {
+			throw new Exception("Vaga inválida");
+		}	
+	}
+	
 	
 }

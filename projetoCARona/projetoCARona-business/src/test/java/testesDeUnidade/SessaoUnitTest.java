@@ -31,13 +31,13 @@ public class SessaoUnitTest {
 		String senha = "123";
 		String idSessao = sessaoBusiness.abrirSessao(login, senha);
 		Assert.assertEquals(login, idSessao);				
-		sessaoBusiness.encerrarSistema();
+		sessaoBusiness.encerrarSessao(login);
 		
 		login = "Lukas";
 		senha = "123";
 		idSessao = sessaoBusiness.abrirSessao(login, senha);
 		Assert.assertEquals(login, idSessao);				
-		sessaoBusiness.encerrarSistema();
+		sessaoBusiness.encerrarSessao(login);
 		
 	}
 

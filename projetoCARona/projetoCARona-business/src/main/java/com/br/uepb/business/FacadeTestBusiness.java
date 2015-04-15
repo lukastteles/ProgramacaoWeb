@@ -3,6 +3,7 @@ package com.br.uepb.business;
 import java.util.ArrayList;
 
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.validator.ValidarCampos;
 
 public class FacadeTestBusiness {
 
@@ -23,12 +24,12 @@ public class FacadeTestBusiness {
 	public String abrirSessao(String login, String senha) throws Exception{		
 		return sessaoBusiness.abrirSessao(login, senha);
 	}
-		
-	public void encerrarSistema(){
-		sessaoBusiness.encerrarSistema();
-	}
 
-	//Metodos de controle da classe Usuario/
+	public void encerrarSessao(String login) throws Exception {
+		sessaoBusiness.encerrarSessao(login);
+	}	
+
+	//Metodos de controle da classe Usuario
 	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception{	
 		usuarioBusiness.criarUsuario(login, senha, nome, endereco, email);
 	}
@@ -58,8 +59,11 @@ public class FacadeTestBusiness {
 		
 	}
 		
-	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas) throws Exception{
-		return caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
+	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws Exception{
+		ValidarCampos validarCampos =  new ValidarCampos();
+		validarCampos.validarVagas(vagas);
+		
+		return caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, Integer.parseInt(vagas));
 	}
 		
 	public String getAtributoCarona(String idCarona, String atributo) throws Exception{
@@ -161,5 +165,18 @@ public class FacadeTestBusiness {
 	public int visualizarPerfil(){
 			
 		return 0;
+	}
+	
+	//Metodos de controle da classe Sistema
+	public void encerrarSistema(){
+		
+	}
+		
+	public void quit(){
+			
+	}
+		
+	public void zerarSistema(){
+	
 	}
 }
