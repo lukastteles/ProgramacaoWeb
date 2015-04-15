@@ -44,23 +44,23 @@ encerrarSessao login="mark"
 #Requisitar vaga na carona.
 sessaoBill=abrirSessao login="bill" senha="billz@o"
 solicitacao1ID=solicitarVagaPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} ponto="Acude Velho"
-#expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="origem"
-#expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
-#expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
-#expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
-#expect "Acude Velho" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Ponto de Encontro"
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
+expect "Acude Velho" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Ponto de Encontro"
 encerrarSessao login="bill"
 
 #Aceitar requisição
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 3 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
-#expect "Acude Velho" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Ponto de Encontro"
+expect "Acude Velho" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Ponto de Encontro"
 
 #Tentar aceitar novamente a requisição
 sessaoBill=abrirSessao login="bill" senha="billz@o"
-#expectError "Solicitação inexistente" aceitarSolicitacaoPontoEncontro idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
-#expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
+expectError "Solicitação inexistente" aceitarSolicitacaoPontoEncontro idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
+expect 3 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Sugerir ponto de encontro para uma carona
 sugestaoID=sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona5ID} pontos="Acude Velho; Hiper Bompreco"
@@ -70,8 +70,7 @@ sessaoMark=abrirSessao login="mark" senha="m@rk"
 respostaID=responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona5ID} idSugestao=${sugestaoID} pontos="Acude Velho;Parque da Crianca"
 
 #Requisitar vaga na carona.
-#desistirRequisicao idSessao=${sessaoBill} idCarona=${carona4ID} idSolicitacao=${solicitacao1ID}
-
+desistirRequisicao idSessao=${sessaoBill} idCarona=${carona4ID} idSolicitacao=${solicitacao1ID}
 
 expectError "Ponto Inválido" sugestaoID=sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos=""
 expectError "Ponto Inválido" responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos=""

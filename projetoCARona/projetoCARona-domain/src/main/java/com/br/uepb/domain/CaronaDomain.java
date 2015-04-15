@@ -141,6 +141,16 @@ public class CaronaDomain {
 		throw new Exception("Ponto Inválido");
 	}
 	
+	public PontoDeEncontroDomain getPontoEncontroByNome(String ponto) throws Exception{
+		for(PontoDeEncontroDomain pontoEncontro : pontoDeEncontro) {
+			if(pontoEncontro.getPontoDeEncontro().contains(ponto)){
+				//TODO: ajustar esse metodo e trocar o contains por equals 
+				return pontoEncontro;
+			}
+		}
+		throw new Exception("Ponto Inválido");
+	}
+	
 	public void addSolicitacaoVaga(SolicitacaoVagaDomain solicitacao){
 		solicitacaoVaga.add(solicitacao);
 	}

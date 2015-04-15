@@ -6,13 +6,13 @@ public class SolicitacaoVagaDomain {
 	private String idUsuario;
 	private String idCarona;
 	private boolean foiAceita = false;
-	private String[] idsPonto;
+	private PontoDeEncontroDomain ponto;
 	
-	public SolicitacaoVagaDomain(String id, String idUsuario, String idCarona, String[] idsPonto) {
+	public SolicitacaoVagaDomain(String id, String idUsuario, String idCarona, PontoDeEncontroDomain ponto) {
 		this.id = id;
 		this.idUsuario = idUsuario;
 		this.idCarona = idCarona;
-		this.idsPonto = idsPonto;
+		this.ponto = ponto;
 	}
 	
 	public boolean isFoiAceita() {
@@ -35,7 +35,7 @@ public class SolicitacaoVagaDomain {
 		return idCarona;
 	}
 	
-	public String[] getIdsPonto() {
-		return idsPonto;
+	public PontoDeEncontroDomain getPonto() {
+		return ponto;
 	}
 }

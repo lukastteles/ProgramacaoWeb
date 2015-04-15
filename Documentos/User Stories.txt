@@ -5,7 +5,7 @@
 
 SessaoController {}
 	abrirSessao(String login, String senha);
-	encerrarSistema(); //Sair da sessao - logout
+	encerrarSessao(); //Sair da sessao - logout
 }
 
 UsuarioController {
@@ -49,6 +49,7 @@ PerfilController{
 }
 
 SistemaController{
+	encerrarSistema();
 	zerarSistema(); 	//apagar todas as informacoes
 	reiniciarSistema();
 	quit();            //sair do sistema
