@@ -22,7 +22,7 @@ public class FacadeTestBusiness {
 	UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
 	SessaoBusiness sessaoBusiness = new SessaoBusiness();
 	CaronaBusiness caronaBusiness = new CaronaBusiness();
-	SugestaoPontoEncontroBusiness sugestaoPontoEncontroBusiness = new SugestaoPontoEncontroBusiness();
+	PontoDeEncontroBusiness pontoDeEncontroBusiness = new PontoDeEncontroBusiness();
 	SolicitacaoVagaBusiness solicitacaoVagaBusiness = new SolicitacaoVagaBusiness();
 	PerfilBusiness perfilBusiness = new PerfilBusiness();
 	
@@ -107,9 +107,9 @@ public class FacadeTestBusiness {
 			String[] pontos = new String[2];
 			pontos[0] = ponto.substring(0, ponto.indexOf(";"));
 			pontos[1] = ponto.substring(ponto.indexOf(";")+1, ponto.length());
-			return sugestaoPontoEncontroBusiness.sugerirPontoEncontro(idSessao, idCarona, pontos);
+			return pontoDeEncontroBusiness.sugerirPontoEncontro(idSessao, idCarona, pontos);
 		}else{
-			return sugestaoPontoEncontroBusiness.sugerirPontoEncontro(idSessao, idCarona, ponto);
+			return pontoDeEncontroBusiness.sugerirPontoEncontro(idSessao, idCarona, ponto);
 		}
 		
 	}
@@ -119,20 +119,19 @@ public class FacadeTestBusiness {
 			String[] pontos = new String[2];
 			pontos[0] = ponto.substring(0, ponto.indexOf(";"));
 			pontos[1] = ponto.substring(ponto.indexOf(";")+1, ponto.length());
-			sugestaoPontoEncontroBusiness.responderSugestaoPontoEncontro(idSessao, idCarona, idSugestao, pontos);
+			pontoDeEncontroBusiness.responderSugestaoPontoEncontro(idSessao, idCarona, idSugestao, pontos);
 		}else{
-			sugestaoPontoEncontroBusiness.responderSugestaoPontoEncontro(idSessao, idCarona, idSugestao, ponto);
-		}
-		
+			pontoDeEncontroBusiness.responderSugestaoPontoEncontro(idSessao, idCarona, idSugestao, ponto);
+		}	
 	}
 		
-	public String getPontosSugeridos(String idSessao, String idCarona){
-			
+	public String getPontosSugeridos(String idSessao, String idCarona) throws Exception{
+		String[] pontos = pontoDeEncontroBusiness.getPontosSugeridos(idSessao, idCarona);	
 		return "";
 	}
 		
-	public String getPontosEncontro(String idSessao, String idCarona){
-			
+	public String getPontosEncontro(String idSessao, String idCarona) throws Exception{
+		String[] pontos = pontoDeEncontroBusiness.getPontosEncontro(idSessao, idCarona);
 		return "";
 	}
 		

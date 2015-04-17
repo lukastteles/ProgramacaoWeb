@@ -1,5 +1,6 @@
 package com.br.uepb.domain;
 
+import java.sql.Array;
 import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
@@ -47,7 +48,7 @@ public class CaronaDomain {
 	@NotNull(message = "A quantidade de vagas na Carona não pode ser nula")	
 	private int vagas;
 	
-	private ArrayList<SugestaoPontoEncontroDomain> sugestaoPontoEncontro = new ArrayList<SugestaoPontoEncontroDomain>();
+	private ArrayList<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
 	private ArrayList<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();
 	
 	
@@ -128,17 +129,21 @@ public class CaronaDomain {
 		this.vagas = vagas;
 	}
 	
-	public void addSugestaoPontoEncontro(SugestaoPontoEncontroDomain sugestao){
-		sugestaoPontoEncontro.add(sugestao);
+	public void addPontoDeEncontro(PontoDeEncontroDomain ponto){
+		pontoDeEncontro.add(ponto);
 	}
 	
-	public SugestaoPontoEncontroDomain getSugestaoPontoEncontro(String idSugestao) throws Exception{
-		for(SugestaoPontoEncontroDomain sugestao : sugestaoPontoEncontro) {
-			if(sugestao.getId().equals(idSugestao)){
-				return sugestao;
-			}
+	public ArrayList<PontoDeEncontroDomain> getPontoEncontro(String idSugestao) throws Exception{
+		ArrayList<PontoDeEncontroDomain> pontos = new ArrayList<PontoDeEncontroDomain>();
+		for (PontoDeEncontroDomain ponto : pontoDeEncontro) {
+			if(ponto.getIdSugestao().equals(idSugestao))
+				pontos.add(ponto);
 		}
-		throw new Exception("Ponto Inválido");
+		return pontos;
+	}
+	
+	public ArrayList<PontoDeEncontroDomain> getTodosOsPontos(){
+		return pontoDeEncontro;
 	}
 	
 	/*public PontoDeEncontroDomain getPontoEncontroByNome(String ponto) throws Exception{
@@ -153,5 +158,15 @@ public class CaronaDomain {
 	
 	public void addSolicitacaoVaga(SolicitacaoVagaDomain solicitacao){
 		solicitacaoVaga.add(solicitacao);
+	}
+
+
+	public ArrayList<PontoDeEncontroDomain> getPontoEncontroAceitos() {
+		ArrayList<PontoDeEncontroDomain> pontosAceitos = new ArrayList<PontoDeEncontroDomain>();
+		for (PontoDeEncontroDomain ponto : pontoDeEncontro) {
+			if(ponto.isFoiAceita() == true)
+				pontosAceitos.add(ponto);
+		}
+		return pontosAceitos;
 	}
 }

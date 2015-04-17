@@ -34,12 +34,12 @@ sessaoBill=abrirSessao login="bill" senha="billz@o"
 
 #Sugerir ponto de encontro para uma carona
 sugestaoID=sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos="Acude Velho; Hiper Bompreco"
-#encerrarSessao login="bill"
+encerrarSessao login="bill"
 
 #Resposta a requisicao
-#sessaoMark=abrirSessao login="mark" senha="m@rk"
-#responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos="Acude Velho;Parque da Crianca"
-#encerrarSessao login="mark"
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos="Acude Velho;Parque da Crianca"
+encerrarSessao login="mark"
 
 #Requisitar vaga na carona.
 #sessaoBill=abrirSessao login="bill" senha="billz@o"
