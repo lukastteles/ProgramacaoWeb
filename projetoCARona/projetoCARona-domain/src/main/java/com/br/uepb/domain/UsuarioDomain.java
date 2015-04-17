@@ -28,7 +28,7 @@ public class UsuarioDomain {
 	private PerfilDomain perfil;
 	
 	/** Caronas do usuário*/
-	private ArrayList<String> idCaronas;
+	private ArrayList<String> idCaronas = new ArrayList<String>();
 	
 	/**
 	 * Método Construtor de UsuarioDomain
@@ -113,6 +113,10 @@ public class UsuarioDomain {
 	 */
 	public ArrayList<String> getCaronas() {
 		return idCaronas;
+	}
+	
+	public void addCarona(String IdCarona){		
+		idCaronas.add(IdCarona);
 	}
 
 }

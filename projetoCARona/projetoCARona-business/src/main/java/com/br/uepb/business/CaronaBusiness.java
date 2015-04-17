@@ -6,7 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
+import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.UsuarioDomain;
 
 @Component
 public class CaronaBusiness {
@@ -46,14 +48,18 @@ public class CaronaBusiness {
 	}
 	
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas) throws Exception{		
-				
-		//funcao apenas para verificar se a sessao existe
+		//funcao para verificar se a sessao existe
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
+		//adiciona a caronas na lista de caronas
 		String carona = ""+idCarona;
-		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, data, hora, vagas);		
-		
+		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, data, hora, vagas);				
 		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
+		
+		//Adiciona a carona ao usuario correspondente
+		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);		
+		usuario.addCarona(caronaDomain.getID());
+		
 		idCarona++; //TODO: retirar este contador depois que inserir a persistencia com o BD
 		return caronaDomain.getID();
 	}
