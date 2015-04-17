@@ -22,8 +22,9 @@ public class FacadeTestBusiness {
 	UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
 	SessaoBusiness sessaoBusiness = new SessaoBusiness();
 	CaronaBusiness caronaBusiness = new CaronaBusiness();
-	PontoDeEncontroBusiness pontoDeEncontroBusiness = new PontoDeEncontroBusiness();
+	SugestaoPontoEncontroBusiness sugestaoPontoEncontroBusiness = new SugestaoPontoEncontroBusiness();
 	SolicitacaoVagaBusiness solicitacaoVagaBusiness = new SolicitacaoVagaBusiness();
+	PerfilBusiness perfilBusiness = new PerfilBusiness();
 	
 	//Metodos de controle da classe Sessao/
 	public String abrirSessao(String login, String senha) throws Exception{		
@@ -101,12 +102,28 @@ public class FacadeTestBusiness {
 	}	
 		
 	////Metodos de controle da classe PontoDeEncontro
-	public String sugerirPontoEncontro(String idSessao, String idCarona, String pontos) throws Exception{
-		return pontoDeEncontroBusiness.sugerirPontoEncontro(idSessao, idCarona, pontos);
+	public String sugerirPontoEncontro(String idSessao, String idCarona, String ponto) throws Exception{
+		if(ponto.contains(";")){
+			String[] pontos = new String[2];
+			pontos[0] = ponto.substring(0, ponto.indexOf(";"));
+			pontos[1] = ponto.substring(ponto.indexOf(";")+1, ponto.length());
+			return sugestaoPontoEncontroBusiness.sugerirPontoEncontro(idSessao, idCarona, pontos);
+		}else{
+			return sugestaoPontoEncontroBusiness.sugerirPontoEncontro(idSessao, idCarona, ponto);
+		}
+		
 	}
 		
-	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String pontos) throws Exception{
-		pontoDeEncontroBusiness.responderSugestaoPontoEncontro(idSessao, idCarona, idSugestao);
+	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String ponto) throws Exception{
+		if(ponto.contains(";")){
+			String[] pontos = new String[2];
+			pontos[0] = ponto.substring(0, ponto.indexOf(";"));
+			pontos[1] = ponto.substring(ponto.indexOf(";")+1, ponto.length());
+			sugestaoPontoEncontroBusiness.responderSugestaoPontoEncontro(idSessao, idCarona, idSugestao, pontos);
+		}else{
+			sugestaoPontoEncontroBusiness.responderSugestaoPontoEncontro(idSessao, idCarona, idSugestao, ponto);
+		}
+		
 	}
 		
 	public String getPontosSugeridos(String idSessao, String idCarona){
@@ -178,14 +195,12 @@ public class FacadeTestBusiness {
 	}
 		
 	//Metodos de controle da classe Perfil
-	public String getAtributoPerfil(String login, String atributo){
-			
-		return "";
+	public String getAtributoPerfil(String login, String atributo) throws Exception{
+		return perfilBusiness.getAtributoPerfil(login, atributo);		
 	}
 		
-	public int visualizarPerfil(){
-			
-		return 0;
+	public String visualizarPerfil(String idSessao, String login) throws Exception{
+		return perfilBusiness.visualizaPerfil(idSessao, login);
 	}
 	
 	//Metodos de controle da classe Sistema

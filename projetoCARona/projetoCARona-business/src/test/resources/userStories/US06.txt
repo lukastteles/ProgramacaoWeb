@@ -11,11 +11,11 @@ criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alt
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #Visualizar perfil.
-#perfilMark=visualizarPerfil idSessao=${sessaoMark} login=mark
+perfilMark=visualizarPerfil idSessao=${sessaoMark} login=mark
 
-#expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
-#expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
-#expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
+expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
+expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
+expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
 #expect [] getAtributoPerfil login="mark" atributo="historico de caronas"
 #expect [] getAtributoPerfil login="mark" atributo="historico de vagas em caronas"
 #expect "0" getAtributoPerfil login="mark" atributo="caronas seguras e tranquilas"
@@ -25,10 +25,10 @@ sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto" data="12/09/2013" hora="21:00" vagas=2
 
-#perfilMark=visualizarPerfil idSessao=${sessaoMark} login=mark
-#expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
-#expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
-#expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
+perfilMark=visualizarPerfil idSessao=${sessaoMark} login=mark
+expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
+expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
+expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
 #expect [${carona1ID}] getAtributoPerfil login="mark" atributo="historico de caronas"
 #expect [] getAtributoPerfil login="mark" atributo="historico de vagas em caronas"
 #expect "0" getAtributoPerfil login="mark" atributo="caronas seguras e tranquilas"
@@ -38,8 +38,8 @@ carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="São Francisco" destino
 
 
 #possivel erro
-#expectError "Login inválido" visualizarPerfil idSessao=${sessaoMark} login=pedro
+expectError "Login inválido" visualizarPerfil idSessao=${sessaoMark} login=pedro
 
 #Sair do sistema.
 #encerrarSistema
-quit
+#quit

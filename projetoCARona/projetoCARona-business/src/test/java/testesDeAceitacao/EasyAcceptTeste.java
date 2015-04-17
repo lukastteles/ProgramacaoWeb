@@ -8,5 +8,4 @@ public class EasyAcceptTeste {
 		args = new String[] {"com.br.uepb.business.FacadeTestBusiness", "src/test/resources/userStories/US04.txt"};
 		EasyAccept.main(args);
 	}
-
 }

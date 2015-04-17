@@ -1,5 +1,7 @@
 package com.br.uepb.domain;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -25,6 +27,14 @@ public class PerfilDomain {
 	@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
 	private String email;
+	
+	
+	private ArrayList<String> historicoDeCaronas = new ArrayList<String>();
+	private ArrayList<String> historicoDeVagasEmCaronas = new ArrayList<String>();
+	private ArrayList<String> caronasSegurasETranquilas = new ArrayList<String>();
+	private ArrayList<String> caronasQueNaoFuncionaram = new ArrayList<String>();
+	private ArrayList<String> faltasEmVagasDeCaronas = new ArrayList<String>();
+	private ArrayList<String> presencasEmVagasDeCaronas = new ArrayList<String>();
 
 	/**
 	 * Método Construtor de PerfilDomain
@@ -84,6 +94,36 @@ public class PerfilDomain {
 	 */
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+
+	public String getHistoricoDeCaronas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getHistoricoDeVagasEmCaronas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getCaronasSegurasETranquilas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getCaronasQueNaoFuncionaram() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getFaltasEmVagasDeCaronas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getPresencasEmVagasDeCaronas() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

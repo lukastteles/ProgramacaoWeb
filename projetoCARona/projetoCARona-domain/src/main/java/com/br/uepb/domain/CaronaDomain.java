@@ -47,7 +47,7 @@ public class CaronaDomain {
 	@NotNull(message = "A quantidade de vagas na Carona não pode ser nula")	
 	private int vagas;
 	
-	private ArrayList<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
+	private ArrayList<SugestaoPontoEncontroDomain> sugestaoPontoEncontro = new ArrayList<SugestaoPontoEncontroDomain>();
 	private ArrayList<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();
 	
 	
@@ -128,20 +128,20 @@ public class CaronaDomain {
 		this.vagas = vagas;
 	}
 	
-	public void addPontoEncontro(PontoDeEncontroDomain ponto){
-		pontoDeEncontro.add(ponto);
+	public void addSugestaoPontoEncontro(SugestaoPontoEncontroDomain sugestao){
+		sugestaoPontoEncontro.add(sugestao);
 	}
 	
-	public PontoDeEncontroDomain getPontoEncontro(String idPonto) throws Exception{
-		for(PontoDeEncontroDomain ponto : pontoDeEncontro) {
-			if(ponto.getId().equals(idPonto)){
-				return ponto;
+	public SugestaoPontoEncontroDomain getSugestaoPontoEncontro(String idSugestao) throws Exception{
+		for(SugestaoPontoEncontroDomain sugestao : sugestaoPontoEncontro) {
+			if(sugestao.getId().equals(idSugestao)){
+				return sugestao;
 			}
 		}
 		throw new Exception("Ponto Inválido");
 	}
 	
-	public PontoDeEncontroDomain getPontoEncontroByNome(String ponto) throws Exception{
+	/*public PontoDeEncontroDomain getPontoEncontroByNome(String ponto) throws Exception{
 		for(PontoDeEncontroDomain pontoEncontro : pontoDeEncontro) {
 			if(pontoEncontro.getPontoDeEncontro().contains(ponto)){
 				//TODO: ajustar esse metodo e trocar o contains por equals 
@@ -149,7 +149,7 @@ public class CaronaDomain {
 			}
 		}
 		throw new Exception("Ponto Inválido");
-	}
+	}*/
 	
 	public void addSolicitacaoVaga(SolicitacaoVagaDomain solicitacao){
 		solicitacaoVaga.add(solicitacao);
