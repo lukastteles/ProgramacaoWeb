@@ -15,6 +15,12 @@ public class SolicitacaoVagaDomain {
 		this.ponto = ponto;
 	}
 	
+	public SolicitacaoVagaDomain(String id, String idUsuario, String idCarona) {
+		this.id = id;
+		this.idUsuario = idUsuario;
+		this.idCarona = idCarona;
+	}
+	
 	public boolean isFoiAceita() {
 		return foiAceita;
 	}
@@ -37,5 +43,9 @@ public class SolicitacaoVagaDomain {
 	
 	public PontoDeEncontroDomain getPonto() {
 		return ponto;
+	}
+	
+	public void setPonto(PontoDeEncontroDomain ponto) {
+		this.ponto = ponto;
 	}
 }

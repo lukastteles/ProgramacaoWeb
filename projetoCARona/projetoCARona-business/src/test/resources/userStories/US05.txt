@@ -2,12 +2,16 @@
 
 #US05 - Solicitação de vagas. Permitir a solicitação de uma vaga em uma carona disponível.  Este processo envolve os seguintes passos:
 #          1. Requisitar vaga. Um usuário pode solicitar uma vaga em qualquer carona disponível no sistema.
+#   #User Story 05 - Solicitação de vagas
+
+#US05 - Solicitação de vagas. Permitir a solicitação de uma vaga em uma carona disponível.  Este processo envolve os seguintes passos:
+#          1. Requisitar vaga. Um usuário pode solicitar uma vaga em qualquer carona disponível no sistema.
 #          2. Aprovar vaga. O usuário que cadastrou a carona recebe a solicitação e pode aprová-la ou não. 
 #             Ao aprová-la a quantidade de vagas disponíveis na carona é atualizada.
 
 
 #Limpar os dados do sistema.
-zerarSistema
+#zerarSistema
 
 #Criar usuário.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
@@ -63,5 +67,5 @@ expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 expectError "Solicitação inexistente" rejeitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
 expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
-encerrarSistema
-quit
+#encerrarSistema
+#quit

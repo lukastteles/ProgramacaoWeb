@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.br.uepb.dao.CaronaDAO;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SolicitacaoVagaDomain;
 
 public class CaronaDAOImpl implements CaronaDAO{
 
@@ -106,5 +107,4 @@ public class CaronaDAOImpl implements CaronaDAO{
 		//se não entrou no for é sinal que não existe nenhuma carona com esse parametro cadastrada
 		throw new Exception("Carona Inexistente");
 	}
-
 }

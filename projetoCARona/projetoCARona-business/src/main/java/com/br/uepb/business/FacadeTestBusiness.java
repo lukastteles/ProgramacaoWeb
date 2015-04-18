@@ -2,11 +2,7 @@ package com.br.uepb.business;
 
 import java.util.ArrayList;
 
-import com.br.uepb.dao.impl.CaronaDAOImpl;
-import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
-import com.br.uepb.domain.SolicitacaoVagaDomain;
-import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.validator.ValidarCampos;
 
 public class FacadeTestBusiness {
@@ -136,26 +132,8 @@ public class FacadeTestBusiness {
 	}
 		
 	//Metodos de controle da classe SolicitacaoVaga
-	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws Exception{
-		
-		SolicitacaoVagaDomain solicitacaoVaga = solicitacaoVagaBusiness.getAtributoSolicitacao(idSolicitacao, atributo);		
-		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacaoVaga.getIdCarona());
-		
-		
-		if(atributo.equals("origem")){
-			return carona.getOrigem();
-		}else if(atributo.equals("destino")){
-			return carona.getDestino();
-		}else if(atributo.equals("Dono da carona")){	
-			UsuarioDomain motorista = UsuarioDAOImpl.getInstance().getUsuario(carona.getIdSessao());	
-			return motorista.getPerfil().getNome();
-		}else if(atributo.equals("Dono da solicitacao")){
-			UsuarioDomain caroneiro = UsuarioDAOImpl.getInstance().getUsuario(solicitacaoVaga.getIdUsuario());
-			return ""+caroneiro.getPerfil().getNome();
-		}else {
-			throw new Exception("Atributo inexistente");
-		}
-
+	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws Exception{		
+		return solicitacaoVagaBusiness.getAtributoSolicitacao(idSolicitacao, atributo);				
 	}
 		
 	public String getSolicitacoesConfirmadas(String idSessao, String idCarona){
@@ -168,17 +146,16 @@ public class FacadeTestBusiness {
 		return "";
 	}
 		
-	public int solicitarVagas(String idSessao, String idCarona){
-			
-		return 0;
+	public int solicitarVaga(String idSessao, String idCarona) throws Exception{			
+		return solicitacaoVagaBusiness.solicitarVaga(idSessao, idCarona);
 	}
 		
 	public int solicitarVagaPontoEncontro(String idSessao, String idCarona, String ponto) throws Exception{
 		return solicitacaoVagaBusiness.solicitarVagaPontoEncontro(idSessao, idCarona, ponto);
 	}
 		
-	public void aceitarSolicitacao(String idSessao, String idSolicitacao){
-			
+	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws Exception{
+		solicitacaoVagaBusiness.aceitarSolicitacao(idSessao, idSolicitacao);
 	}
 	
 	public void aceitarSolicitacaoPontoEncontro(String idSessao, String idSolicitacao) throws Exception{
@@ -189,8 +166,8 @@ public class FacadeTestBusiness {
 		solicitacaoVagaBusiness.desistirRequisicao(idSessao, idCarona, idSolicitacao);
 	}
 		
-	public void rejeitarSolicitacao(String idSessao, String idSolicitacao){
-			
+	public void rejeitarSolicitacao(String idSessao, String idSolicitacao) throws Exception{
+		solicitacaoVagaBusiness.rejeitarSolicitacao(idSessao, idSolicitacao);
 	}
 		
 	//Metodos de controle da classe Perfil

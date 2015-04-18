@@ -35,19 +35,13 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		throw new Exception("Solicitação inexistente");
 	}
 	
-	public void aceitarSolicitacaoVaga(String idSolicitacao) throws Exception{		
-		SolicitacaoVagaDomain solicatacaoVaga = getSolicitacaoVaga(idSolicitacao);
-		if (!solicatacaoVaga.isFoiAceita() ){ //TODO: trocar metodo de isFoiAceita para getFoiAceita
-			solicatacaoVaga.setFoiAceita(true);
-		}
-		else {			
-			throw new Exception("Solicitação inexistente");			
-		}
+	//TODO: retirar esse metodo
+	public void aceitarSolicitacaoVaga(String idSolicitacao) throws Exception{				
 	}
 	
-	public void deleteSolicitacaoVaga(String idSolicitacao) throws Exception{
-		SolicitacaoVagaDomain solicitacaoVagaDomain = getSolicitacaoVaga(idSolicitacao);
-		//TODO: falta continuar esta etapa
+	public void deleteSolicitacaoVaga(String idSolicitacao) throws Exception{		
+		SolicitacaoVagaDomain solicitacaoVaga = getSolicitacaoVaga(idSolicitacao);
+		listaSolicitacaoVagas.remove(solicitacaoVaga);
 	}
 	
 }

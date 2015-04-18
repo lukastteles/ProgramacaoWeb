@@ -1,6 +1,5 @@
 package com.br.uepb.domain;
 
-import java.sql.Array;
 import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
@@ -49,8 +48,6 @@ public class CaronaDomain {
 	private int vagas;
 	
 	private ArrayList<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
-	private ArrayList<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();
-	
 	
 	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String data, String hora, int vagas) throws Exception { 
 		setID(idCarona);
@@ -129,6 +126,14 @@ public class CaronaDomain {
 		this.vagas = vagas;
 	}
 	
+	public void aumentaVagas(){
+		this.vagas++;
+	}
+	
+	public void diminuiVagas(){
+		this.vagas--;
+	}
+	
 	public void addPontoDeEncontro(PontoDeEncontroDomain ponto){
 		pontoDeEncontro.add(ponto);
 	}
@@ -146,21 +151,16 @@ public class CaronaDomain {
 		return pontoDeEncontro;
 	}
 	
-	/*public PontoDeEncontroDomain getPontoEncontroByNome(String ponto) throws Exception{
+	public PontoDeEncontroDomain getPontoEncontroByNome(String ponto) throws Exception{
 		for(PontoDeEncontroDomain pontoEncontro : pontoDeEncontro) {
-			if(pontoEncontro.getPontoDeEncontro().contains(ponto)){
-				//TODO: ajustar esse metodo e trocar o contains por equals 
+			if(pontoEncontro.getPontoDeEncontro().equals(ponto)){ 
 				return pontoEncontro;
 			}
 		}
 		throw new Exception("Ponto Inválido");
-	}*/
-	
-	public void addSolicitacaoVaga(SolicitacaoVagaDomain solicitacao){
-		solicitacaoVaga.add(solicitacao);
 	}
-
-
+	
+	//Metodos para pontos de Encontro
 	public ArrayList<PontoDeEncontroDomain> getPontoEncontroAceitos() {
 		ArrayList<PontoDeEncontroDomain> pontosAceitos = new ArrayList<PontoDeEncontroDomain>();
 		for (PontoDeEncontroDomain ponto : pontoDeEncontro) {

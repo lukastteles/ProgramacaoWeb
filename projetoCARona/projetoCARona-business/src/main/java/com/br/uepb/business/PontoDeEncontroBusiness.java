@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
-import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.PontoDeEncontroDomain;
 
 public class PontoDeEncontroBusiness {
@@ -48,7 +47,7 @@ public class PontoDeEncontroBusiness {
 			}
 		}
 		if(!ponto.equals("aceito")){
-			throw new Exception("Esse ponto não pertence a essa sugestão");
+			throw new Exception("Ponto Inválido");
 		}
 	}
 	
