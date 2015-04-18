@@ -96,34 +96,28 @@ public class PerfilDomain {
 		this.endereco = endereco;
 	}
 
-	public String getHistoricoDeCaronas() {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] getHistoricoDeCaronas() {
+		return (String[]) historicoDeCaronas.toArray();
 	}
 
-	public String getHistoricoDeVagasEmCaronas() {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] getHistoricoDeVagasEmCaronas() {
+		return (String[]) historicoDeVagasEmCaronas.toArray();
 	}
 
-	public String getCaronasSegurasETranquilas() {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] getCaronasSegurasETranquilas() {
+		return (String[]) caronasSegurasETranquilas.toArray();
 	}
 
-	public String getCaronasQueNaoFuncionaram() {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] getCaronasQueNaoFuncionaram() {
+		return (String[]) caronasQueNaoFuncionaram.toArray();
 	}
 
-	public String getFaltasEmVagasDeCaronas() {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] getFaltasEmVagasDeCaronas() {
+		return (String[]) faltasEmVagasDeCaronas.toArray();
 	}
 
-	public String getPresencasEmVagasDeCaronas() {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] getPresencasEmVagasDeCaronas() {
+		return (String[]) presencasEmVagasDeCaronas.toArray();
 	}
 
 }

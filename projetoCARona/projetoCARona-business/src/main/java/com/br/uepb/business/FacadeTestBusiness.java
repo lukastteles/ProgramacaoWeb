@@ -227,7 +227,27 @@ public class FacadeTestBusiness {
 		
 	//Metodos de controle da classe Perfil
 	public String getAtributoPerfil(String login, String atributo) throws Exception{
-		return perfilBusiness.getAtributoPerfil(login, atributo);		
+		if(atributo.equals("nome")){
+			return perfilBusiness.getNome(login);
+		}else if(atributo.equals("endereco")){
+			return perfilBusiness.getEndereco(login);
+		}else if(atributo.equals("email")){
+			return perfilBusiness.getEmail(login);
+		}else if(atributo.equals("historico de caronas")){
+			return perfilBusiness.getHistoricoDeCaronas(login).toString();
+		}else if(atributo.equals("historico de vagas em caronas")){
+			return perfilBusiness.getHistoricoDeVagasEmCaronas(login).toString();
+		}else if(atributo.equals("caronas seguras e tranquilas")){
+			return perfilBusiness.getCaronasSegurasETranquilas(login).toString();
+		}else if(atributo.equals("caronas que não funcionaram")){
+			return perfilBusiness.getCaronasQueNaoFuncionaram(login).toString();
+		}else if(atributo.equals("faltas em vagas de caronas")){
+			return perfilBusiness.getFaltasEmVagasDeCaronas(login).toString();
+		}else if(atributo.equals("presenças em vagas de caronas")){
+			return perfilBusiness.getPresencasEmVagasDeCaronas(login).toString();
+		}else {
+			throw new Exception("Atributo inexistente");
+		}		
 	}
 		
 	public String visualizarPerfil(String idSessao, String login) throws Exception{
