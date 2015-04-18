@@ -12,7 +12,7 @@
 #User Story 07 - Persistencia de Informacoes - FIM
 
 #Limpar os dados do sistema.
-zerarSistema
+#zerarSistema
 
 #Criar usuário.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
@@ -61,10 +61,10 @@ encerrarSessao login="mark"
 encerrarSessao login="steve"
 
 #Finaliza o sistema
-encerrarSistema
+#encerrarSistema
 
 #Abre o sistema novamente
-reiniciarSistema
+#reiniciarSistema
 
 #Comeca a recuperar as informacoes que foram persistidas anteriormente
 sessaoMark=abrirSessao login="mark" senha="m@rk"
@@ -114,5 +114,5 @@ expect "[Acude Velho;Hiper Bompreco]" getPontosSugeridos idSessao=${sessaoMark} 
 expect "[Acude Velho;Hiper Bompreco]" getPontosEncontro idSessao=${sessaoMark} idCarona=${carona2ID}
 
 #Finaliza o sistema
-encerrarSistema
-quit
+#encerrarSistema
+#quit

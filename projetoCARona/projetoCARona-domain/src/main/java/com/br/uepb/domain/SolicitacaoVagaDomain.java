@@ -21,7 +21,7 @@ public class SolicitacaoVagaDomain {
 		this.idCarona = idCarona;
 	}
 	
-	public boolean isFoiAceita() {
+	public boolean getFoiAceita() {
 		return foiAceita;
 	}
 	

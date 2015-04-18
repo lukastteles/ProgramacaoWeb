@@ -1,11 +1,14 @@
 package com.br.uepb.business;
 
+import java.util.ArrayList;
+
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.PontoDeEncontroDomain;
+import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
@@ -43,9 +46,31 @@ public class SolicitacaoVagaBusiness {
 		}		 		
 	}
 		
-	//public String getSolicitacoesConfirmadas(String idSessao, String idCarona){ return ""; }
+	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idSessao, String idCarona) throws Exception{
+		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+		
+		if (!carona.getIdSessao().equals(sessao.getLogin())) {
+			throw new Exception("Carona não identificada para o usuário informado");
+		}
+		
+		ArrayList<SolicitacaoVagaDomain> solicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(idCarona);
+		
+		return solicitacoes; 
+	}
 	
-	//public String getSolicitacoesPendentes(String idSessao, String idCarona){ return ""; }
+	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idSessao, String idCarona) throws Exception{ 
+		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+		
+		if (!carona.getIdSessao().equals(sessao.getLogin())) {
+			throw new Exception("Carona não identificada para o usuário informado");
+		}
+		
+		ArrayList<SolicitacaoVagaDomain> solicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesPendentes(idCarona);
+		
+		return solicitacoes; 
+	}
 	
 	public int solicitarVaga(String idSessao, String idCarona) throws Exception{
 		//solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona4ID}
@@ -93,7 +118,7 @@ public class SolicitacaoVagaBusiness {
 		
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
 		
-		if (!solicitacaoVaga.isFoiAceita() ){ //TODO: trocar metodo de isFoiAceita para getFoiAceita
+		if (!solicitacaoVaga.getFoiAceita() ){ //TODO: trocar metodo de isFoiAceita para getFoiAceita
 			solicitacaoVaga.setFoiAceita(true);
 			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacaoVaga.getIdCarona());
 			carona.diminuiVagas();			
@@ -108,7 +133,7 @@ public class SolicitacaoVagaBusiness {
 				
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
 		
-		if (!solicitacaoVaga.isFoiAceita() ){ //TODO: trocar metodo de isFoiAceita para getFoiAceita
+		if (!solicitacaoVaga.getFoiAceita() ){ //TODO: trocar metodo de isFoiAceita para getFoiAceita
 			solicitacaoVaga.setFoiAceita(true);
 			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacaoVaga.getIdCarona());
 			carona.diminuiVagas();			

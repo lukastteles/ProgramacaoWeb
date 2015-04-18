@@ -24,6 +24,11 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	public void addSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga) {
 		listaSolicitacaoVagas.add(solicitacaoVaga);
 	}
+		
+	public void deleteSolicitacaoVaga(String idSolicitacao) throws Exception{		
+		SolicitacaoVagaDomain solicitacaoVaga = getSolicitacaoVaga(idSolicitacao);
+		listaSolicitacaoVagas.remove(solicitacaoVaga);
+	}
 	
 	public SolicitacaoVagaDomain getSolicitacaoVaga(String idSolicitacao) throws Exception {
 		for (SolicitacaoVagaDomain solicitacaoVagaDomain : listaSolicitacaoVagas) {
@@ -35,13 +40,24 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		throw new Exception("Solicitação inexistente");
 	}
 	
-	//TODO: retirar esse metodo
-	public void aceitarSolicitacaoVaga(String idSolicitacao) throws Exception{				
+	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idCarona){
+		ArrayList<SolicitacaoVagaDomain> solicitacoesCarona = new ArrayList<SolicitacaoVagaDomain>();
+		for (SolicitacaoVagaDomain solicitacao : listaSolicitacaoVagas) {
+			if ((solicitacao.getIdCarona().equals(idCarona)) && (solicitacao.getFoiAceita())) {
+				solicitacoesCarona.add(solicitacao);
+			}
+		}
+		return solicitacoesCarona;
 	}
 	
-	public void deleteSolicitacaoVaga(String idSolicitacao) throws Exception{		
-		SolicitacaoVagaDomain solicitacaoVaga = getSolicitacaoVaga(idSolicitacao);
-		listaSolicitacaoVagas.remove(solicitacaoVaga);
+	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idCarona){
+		ArrayList<SolicitacaoVagaDomain> solicitacoesCarona = new ArrayList<SolicitacaoVagaDomain>();
+		for (SolicitacaoVagaDomain solicitacao : listaSolicitacaoVagas) {
+			if ((solicitacao.getIdCarona().equals(idCarona)) && (!solicitacao.getFoiAceita())) {
+				solicitacoesCarona.add(solicitacao);
+			}
+		}
+		return solicitacoesCarona;
 	}
 	
 }

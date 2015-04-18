@@ -3,6 +3,7 @@ package com.br.uepb.business;
 import java.util.ArrayList;
 
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.validator.ValidarCampos;
 
 public class FacadeTestBusiness {
@@ -63,8 +64,7 @@ public class FacadeTestBusiness {
 		
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws Exception{
 		ValidarCampos validarCampos =  new ValidarCampos();
-		validarCampos.validarVagas(vagas);
-		
+		validarCampos.validarVagas(vagas);		
 		return caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, Integer.parseInt(vagas));
 	}
 		
@@ -78,7 +78,6 @@ public class FacadeTestBusiness {
 	
 	public String getCarona(String idCarona) throws Exception{
 		CaronaDomain carona = caronaBusiness.getCarona(idCarona);
-		//#expect "João Pessoa para Campina Grande, no dia 25/11/2026, as 06:59" getCarona idCarona=${carona3ID}
 		String percurso = carona.getOrigem()+" para "+carona.getDestino()+
 						  ", no dia "+carona.getData()+
 						  ", as "+carona.getHora();
@@ -87,14 +86,28 @@ public class FacadeTestBusiness {
 		return percurso;
 	}
 		
-	public int getCaronaUsuario(int idSessao, int indexCarona){
-			
-		return 0;
+	public String getCaronaUsuario(String idSessao, int indexCarona) throws Exception{
+		CaronaDomain carona = caronaBusiness.getCaronaUsuario(idSessao, indexCarona);		
+		return carona.getID();
 	}
 		
-	public String getTodasCaronasUsuario(int idSessao){
-			
-		return "";
+	public String getTodasCaronasUsuario(String idSessao) throws Exception{
+		ArrayList<CaronaDomain> caronas = caronaBusiness.getTodasCaronasUsuario(idSessao);
+
+		String caronasList = "{";
+		
+		for (CaronaDomain caronaDomain : caronas) {
+			caronasList += caronaDomain.getID()+ ",";				
+		}
+		
+		//tratamento para retirar a última ", "
+		if (caronasList.length() > 1) {
+			caronasList = caronasList.substring (0, caronasList.length() - 1);
+		}
+		caronasList += "}";
+		
+		
+		return caronasList;
 	}	
 		
 	////Metodos de controle da classe PontoDeEncontro
@@ -121,14 +134,31 @@ public class FacadeTestBusiness {
 		}	
 	}
 		
+	//TODO: Ver com o prof. Thiago a diferença entre as funcoes getPontosSugeridos e getPontosEncontro
 	public String getPontosSugeridos(String idSessao, String idCarona) throws Exception{
-		String[] pontos = pontoDeEncontroBusiness.getPontosSugeridos(idSessao, idCarona);	
-		return "";
+		String[] pontos = pontoDeEncontroBusiness.getPontosSugeridos(idSessao, idCarona);
+		String ponto = "[";
+		if(pontos.length > 1){
+			for(int i = 0; i < pontos.length-1; i++){
+				ponto+=pontos[i]+";";
+			}
+		}
+		ponto+=pontos[pontos.length-1]+"]";
+		return ponto;
 	}
 		
-	public String getPontosEncontro(String idSessao, String idCarona) throws Exception{
-		String[] pontos = pontoDeEncontroBusiness.getPontosEncontro(idSessao, idCarona);
-		return "";
+	public String getPontosEncontro(String idSessao, String idCarona) throws Exception{		
+		//String[] pontos = pontoDeEncontroBusiness.getPontosEncontro(idSessao, idCarona);
+		String[] pontos = pontoDeEncontroBusiness.getPontosSugeridos(idSessao, idCarona);		
+		String ponto = "[";
+		if(pontos.length > 1){
+			for(int i = 0; i < pontos.length-1; i++){
+				ponto+=pontos[i]+";";
+			}
+			ponto+=pontos[pontos.length-1];
+		}
+		ponto+="]";
+	  return ponto;
 	}
 		
 	//Metodos de controle da classe SolicitacaoVaga
@@ -136,14 +166,38 @@ public class FacadeTestBusiness {
 		return solicitacaoVagaBusiness.getAtributoSolicitacao(idSolicitacao, atributo);				
 	}
 		
-	public String getSolicitacoesConfirmadas(String idSessao, String idCarona){
-			
-		return "";
+	public String getSolicitacoesConfirmadas(String idSessao, String idCarona) throws Exception{
+		ArrayList<SolicitacaoVagaDomain> solicitacoes = solicitacaoVagaBusiness.getSolicitacoesConfirmadas(idSessao, idCarona);
+
+		String solicitacoesList = "{";
+		
+		for (SolicitacaoVagaDomain solicitacaoVaga : solicitacoes) {
+			solicitacoesList += solicitacaoVaga.getId()+ ",";				
+		}
+		
+		//tratamento para retirar a última ", "
+		if (solicitacoesList.length() > 1) {
+			solicitacoesList = solicitacoesList.substring (0, solicitacoesList.length() - 1);
+		}
+		solicitacoesList += "}";
+		return solicitacoesList;
 	}
 		
-	public String getSolicitacoesPendentes(String idSessao, String idCarona){
-			
-		return "";
+	public String getSolicitacoesPendentes(String idSessao, String idCarona) throws Exception{
+		ArrayList<SolicitacaoVagaDomain> solicitacoes = solicitacaoVagaBusiness.getSolicitacoesPendentes(idSessao, idCarona);
+
+		String solicitacoesList = "{";
+		
+		for (SolicitacaoVagaDomain solicitacaoVaga : solicitacoes) {
+			solicitacoesList += solicitacaoVaga.getId()+ ",";				
+		}
+		
+		//tratamento para retirar a última ", "
+		if (solicitacoesList.length() > 1) {
+			solicitacoesList = solicitacoesList.substring (0, solicitacoesList.length() - 1);
+		}
+		solicitacoesList += "}";
+		return solicitacoesList;
 	}
 		
 	public int solicitarVaga(String idSessao, String idCarona) throws Exception{			
@@ -154,6 +208,7 @@ public class FacadeTestBusiness {
 		return solicitacaoVagaBusiness.solicitarVagaPontoEncontro(idSessao, idCarona, ponto);
 	}
 		
+	//TODO: Ver com o prof. Thiago a diferença entre as funcoes aceitarSolicitacao e aceitarSolicitacaoPontoEncontro
 	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws Exception{
 		solicitacaoVagaBusiness.aceitarSolicitacao(idSessao, idSolicitacao);
 	}

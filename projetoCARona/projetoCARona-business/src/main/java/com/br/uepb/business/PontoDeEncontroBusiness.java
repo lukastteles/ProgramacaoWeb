@@ -89,9 +89,9 @@ public class PontoDeEncontroBusiness {
 	
 	public String[] getPontosEncontro(String idSessao, String idCarona) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		
-		
+				
 		ArrayList<PontoDeEncontroDomain> pontosAceitos = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontroAceitos();
+		
 		String[] aceitos = new String[pontosAceitos.size()];
 		int count = 0;
 		for (PontoDeEncontroDomain ponto : pontosAceitos) {

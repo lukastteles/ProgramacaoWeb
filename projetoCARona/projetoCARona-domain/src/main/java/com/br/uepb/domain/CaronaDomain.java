@@ -162,7 +162,7 @@ public class CaronaDomain {
 	
 	//Metodos para pontos de Encontro
 	public ArrayList<PontoDeEncontroDomain> getPontoEncontroAceitos() {
-		ArrayList<PontoDeEncontroDomain> pontosAceitos = new ArrayList<PontoDeEncontroDomain>();
+		ArrayList<PontoDeEncontroDomain> pontosAceitos = new ArrayList<PontoDeEncontroDomain>();		
 		for (PontoDeEncontroDomain ponto : pontoDeEncontro) {
 			if(ponto.isFoiAceita() == true)
 				pontosAceitos.add(ponto);

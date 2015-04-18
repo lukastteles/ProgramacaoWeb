@@ -115,9 +115,17 @@ public class UsuarioDomain {
 		return idCaronas;
 	}
 	
-	public void addCarona(String IdCarona){		
-		idCaronas.add(IdCarona);
+	public void addCarona(String id){		
+		idCaronas.add(id);
 	}
 
+	 
+	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
+		if ((indexCarona == 0) || (indexCarona > idCaronas.size())) {
+			throw new Exception("Indice não encontrado");
+		}
+		
+		return idCaronas.get(indexCarona-1);
+	}
 }
 

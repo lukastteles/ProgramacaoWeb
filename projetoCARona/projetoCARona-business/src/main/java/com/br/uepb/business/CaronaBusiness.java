@@ -57,7 +57,7 @@ public class CaronaBusiness {
 		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
 		
 		//Adiciona a carona ao usuario correspondente
-		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);		
+		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);	
 		usuario.addCarona(caronaDomain.getID());
 		
 		idCarona++; //TODO: retirar este contador depois que inserir a persistencia com o BD
@@ -129,7 +129,22 @@ public class CaronaBusiness {
 		return  CaronaDAOImpl.getInstance().getCarona(idCarona);
 	}
 	
+	public CaronaDomain getCaronaUsuario(String idSessao, int indexCarona) throws Exception{
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		String idCarona = UsuarioDAOImpl.getInstance().getUsuario(idSessao).getIdCaronaByIndex(indexCarona);		
+		return CaronaDAOImpl.getInstance().getCarona(idCarona);		
+	}
 	
+	public ArrayList<CaronaDomain> getTodasCaronasUsuario(String idSessao) throws Exception{
+		UsuarioDomain usuario =  UsuarioDAOImpl.getInstance().getUsuario(idSessao);
+		ArrayList<CaronaDomain> caronasUsuario = new ArrayList<CaronaDomain>();
+		for (String idCarona : usuario.getCaronas()) {
+			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+			caronasUsuario.add(carona);
+		}
+				
+		return caronasUsuario;
+	}
 	
 	//TODO: colocar este metodo em outra classe
 	private boolean verificaCaracteres(String valor){
