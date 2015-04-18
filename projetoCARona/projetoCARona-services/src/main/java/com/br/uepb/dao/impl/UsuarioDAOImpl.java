@@ -70,7 +70,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		}
 		
 		if (emailExiste(usuario.getPerfil().getEmail())) {
-			throw new ProjetoCaronaException(MensagensErro.USUARIO_JA_EXISTE);	
+			throw new ProjetoCaronaException(MensagensErro.EMAIL_JA_EXISTE);	
 		}	
 		
 		listaUsuarios.add(usuario);

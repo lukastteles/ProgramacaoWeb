@@ -62,7 +62,7 @@ public class UsuarioDomain {
 	 */
 	private void setLogin(String login) throws Exception{
 		if ( (login == null) || (login.trim().equals("")) ){
-			throw new Exception("Login inválido");
+			throw new ProjetoCaronaException("Login inválido");
 		}
 		this.login = login;	
 	}
@@ -82,7 +82,7 @@ public class UsuarioDomain {
 	 */
 	public void setSenha(String senha) throws Exception {
 		if ( (senha == null) || (senha.trim().equals("")) ){
-			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.SENHA_INVALIDA);
 		}
 		
 		this.senha = senha;

@@ -43,9 +43,9 @@ public class PerfilDomain {
 	 * @param email String - Email do Usuário
 	 */
 	public PerfilDomain(String nome, String endereco, String email) {
-		this.nome = nome;
-		this.endereco = endereco;
-		this.email = email;
+		setNome(nome);
+		setEndereco(endereco);
+		setEmail(email);
 	}
 
 	/**

@@ -25,8 +25,10 @@ public class MensagensErro {
 	public static final String SESSAO_INEXISTENTE = "Sessão inexistente";
 	public static final String USUARIO_INEXISTENTE = "Usuário inexistente";
 	public static final String USUARIO_JA_EXISTE = "Já existe um usuário com este login";
+	public static final String EMAIL_JA_EXISTE = "Já existe um usuário com este email";
 	
 	public static final String LOGIN_INVALIDO = "Login inválido";
+	public static final String SENHA_INVALIDA = "Senha inválida";
 	public static final String NOME_INVALIDO = "Nome inválido";
 	public static final String ENDERECO_INVALIDO = "Endereco inválido";
 	public static final String EMAIL_INVALIDO = "Email inválido";
