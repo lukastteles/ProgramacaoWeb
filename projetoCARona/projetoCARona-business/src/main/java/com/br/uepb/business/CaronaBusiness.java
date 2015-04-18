@@ -23,6 +23,8 @@ public class CaronaBusiness {
 	
 	
 	public ArrayList<CaronaDomain> localizarCarona(String idSessao, String origem, String destino) throws Exception{
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		
 		ArrayList<CaronaDomain> caronas;
 
 		if (verificaCaracteres(origem) == false){
@@ -84,12 +86,9 @@ public class CaronaBusiness {
 		try {
 			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);			
 		} catch (Exception e) {
-			if (e.getMessage().equals(MensagensErro.CARONA_INEXISTENTE)) {
+			//if (e.getMessage().equals(MensagensErro.CARONA_INEXISTENTE)) {
 				throw new ProjetoCaronaException(MensagensErro.ITEM_INEXISTENTE);
-			}		
-			else {
-				throw new ProjetoCaronaException(MensagensErro.ITEM_INEXISTENTE);
-			}
+			//}		
 		}
 		
 		if(atributo.equals("origem")){
@@ -116,12 +115,12 @@ public class CaronaBusiness {
 			if (e.getMessage().equals(MensagensErro.CARONA_INVALIDA)) {				
 					throw new ProjetoCaronaException(MensagensErro.TRAJETO_INVALIDO);
 			}
-			else if (e.getMessage().equals(MensagensErro.CARONA_INEXISTENTE)) {
+			else {//if (e.getMessage().equals(MensagensErro.CARONA_INEXISTENTE)) {
 				throw new ProjetoCaronaException(MensagensErro.TRAJETO_INEXISTENTE);
 			}			
-			else {
-				throw new ProjetoCaronaException(MensagensErro.TRAJETO_INEXISTENTE);
-			}			
+			//else {
+			//	throw new ProjetoCaronaException(MensagensErro.TRAJETO_INEXISTENTE);
+			//}			
 		}
 		
 		

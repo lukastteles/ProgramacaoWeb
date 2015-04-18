@@ -4,7 +4,7 @@ package com.br.uepb.constants;
 public class MensagensErro {
 
 	//Mensagens para Carona	
-	public static final String CARONA_INVALIDA = "Carona inválida";
+	public static final String CARONA_INVALIDA = "Carona Inválida";
 	public static final String ORIGEM_INVALIDA = "Origem inválida";
 	public static final String DESTINO_INVALIDO = "Destino inválido";
 	public static final String ATRIBUTO_INVALIDO = "Atributo inválido";
