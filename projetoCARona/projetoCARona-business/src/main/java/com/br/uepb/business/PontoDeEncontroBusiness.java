@@ -2,9 +2,11 @@ package com.br.uepb.business;
 
 import java.util.ArrayList;
 
+import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.domain.PontoDeEncontroDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class PontoDeEncontroBusiness {
 	
@@ -47,7 +49,7 @@ public class PontoDeEncontroBusiness {
 			}
 		}
 		if(!ponto.equals("aceito")){
-			throw new Exception("Ponto Inválido");
+			throw new ProjetoCaronaException(MensagensErro.PONTO_INVALIDO);
 		}
 	}
 	

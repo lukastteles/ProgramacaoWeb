@@ -2,6 +2,7 @@ package com.br.uepb.business;
 
 import java.util.ArrayList;
 
+import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
@@ -11,6 +12,7 @@ import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class SolicitacaoVagaBusiness {
 
@@ -19,11 +21,11 @@ public class SolicitacaoVagaBusiness {
 	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws Exception{
 		
 		if( (idSolicitacao == null) || (idSolicitacao.trim().equals(""))){
-			throw new Exception("Solicitação inválida");
+			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INVALIDA);
 		}
 		
 		if( (atributo == null) || (atributo.trim().equals(""))){
-			throw new Exception("Atributo inválido");
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INVALIDO);
 		}
 		
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
@@ -42,7 +44,7 @@ public class SolicitacaoVagaBusiness {
 		}else if(atributo.equals("Ponto de Encontro")){
 			return solicitacaoVaga.getPonto().getPontoDeEncontro();
 		}else {
-			throw new Exception("Atributo inexistente");
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
 		}		 		
 	}
 		
@@ -51,7 +53,7 @@ public class SolicitacaoVagaBusiness {
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		if (!carona.getIdSessao().equals(sessao.getLogin())) {
-			throw new Exception("Carona não identificada para o usuário informado");
+			throw new ProjetoCaronaException(MensagensErro.CARONA_NAO_IDENTIFICADA);
 		}
 		
 		ArrayList<SolicitacaoVagaDomain> solicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(idCarona);
@@ -64,7 +66,7 @@ public class SolicitacaoVagaBusiness {
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		if (!carona.getIdSessao().equals(sessao.getLogin())) {
-			throw new Exception("Carona não identificada para o usuário informado");
+			throw new ProjetoCaronaException(MensagensErro.CARONA_NAO_IDENTIFICADA);
 		}
 		
 		ArrayList<SolicitacaoVagaDomain> solicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesPendentes(idCarona);
@@ -80,7 +82,7 @@ public class SolicitacaoVagaBusiness {
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		if (carona.getVagas() == 0) {
-			throw new Exception("Todas as vagas já foram ocupadas!");
+			throw new ProjetoCaronaException(MensagensErro.VAGAS_OCUPADAS);
 		}
 		else {
 			//Cria a solicitacao da vaga e adiciona na carona 
@@ -99,7 +101,7 @@ public class SolicitacaoVagaBusiness {
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		if (carona.getVagas() == 0) {
-			throw new Exception("Todas as vagas já foram ocupadas!");
+			throw new ProjetoCaronaException(MensagensErro.VAGAS_OCUPADAS);
 		}
 		else {
 			//Cria a solicitacao da vaga e adiciona na carona
@@ -126,7 +128,7 @@ public class SolicitacaoVagaBusiness {
 			carona.diminuiVagas();			
 		}
 		else {			
-			throw new Exception("Solicitação inexistente");			
+			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);			
 		}	
 	}
 	
@@ -141,7 +143,7 @@ public class SolicitacaoVagaBusiness {
 			carona.diminuiVagas();			
 		}
 		else {			
-			throw new Exception("Solicitação inexistente");			
+			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);			
 		}
 		
 	}

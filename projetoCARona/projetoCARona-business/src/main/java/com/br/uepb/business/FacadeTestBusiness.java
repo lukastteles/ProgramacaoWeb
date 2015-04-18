@@ -2,8 +2,14 @@ package com.br.uepb.business;
 
 import java.util.ArrayList;
 
+import com.br.uepb.constants.MensagensErro;
+import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.SessaoDAOImpl;
+import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
+import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 import com.br.uepb.validator.ValidarCampos;
 
 public class FacadeTestBusiness {
@@ -247,7 +253,7 @@ public class FacadeTestBusiness {
 		}else if(atributo.equals("presenças em vagas de caronas")){
 			return ""+perfilBusiness.getFaltasEmVagasDeCaronas(login).length;
 		}else {
-			throw new Exception("Atributo inexistente");
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
 		}		
 	}
 		
@@ -265,7 +271,10 @@ public class FacadeTestBusiness {
 	}
 		
 	public void zerarSistema(){
-	
+		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
+		CaronaDAOImpl.getInstance().apagaCaronas();		
+		UsuarioDAOImpl.getInstance().apagaUsuarios();
+		SessaoDAOImpl.getInstance().apagaSessoes();
 	}
 	
 	private String trataLista(String[] pontos){

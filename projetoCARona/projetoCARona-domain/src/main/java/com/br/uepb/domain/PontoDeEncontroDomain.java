@@ -1,5 +1,8 @@
 package com.br.uepb.domain;
 
+import com.br.uepb.constants.MensagensErro;
+import com.br.uepb.exceptions.ProjetoCaronaException;
+
 public class PontoDeEncontroDomain {
 	
 	private String idSugestao;
@@ -25,7 +28,7 @@ public class PontoDeEncontroDomain {
 
 	public void setPontoDeEncontro(String pontoDeEncontro) throws Exception {
 		if ( (pontoDeEncontro == null) || (pontoDeEncontro.trim().equals("")) ){
-			throw new Exception("Ponto Inválido");
+			throw new ProjetoCaronaException(MensagensErro.PONTO_INVALIDO);
 		}
 		this.pontoDeEncontro = pontoDeEncontro;
 		

@@ -7,4 +7,5 @@ public interface SessaoDAO {
 	public void addSessao(SessaoDomain sessao) throws Exception;
 	public SessaoDomain getSessao(String login) throws Exception;
 	public void deleteSessao(String login) throws Exception;
+	public void apagaSessoes();
 }

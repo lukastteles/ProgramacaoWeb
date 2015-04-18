@@ -11,5 +11,5 @@ public interface SolicitacaoVagaDAO {
 	public SolicitacaoVagaDomain getSolicitacaoVaga(String idSolicitacao) throws Exception;
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idCarona);
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idCarona);
-	
+	public void apagaSolicitacoes();
 }

@@ -1,9 +1,10 @@
 package com.br.uepb.business;
 
-import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class PerfilBusiness {
 	
@@ -14,7 +15,7 @@ public class PerfilBusiness {
 		try{
 			usuario = UsuarioDAOImpl.getInstance().getUsuario(login);
 		}catch(Exception e){
-			throw new Exception("Login inválido");
+			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		
 		usuario.getPerfil();

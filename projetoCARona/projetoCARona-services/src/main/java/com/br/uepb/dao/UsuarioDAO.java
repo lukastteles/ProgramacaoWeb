@@ -13,6 +13,9 @@ public interface UsuarioDAO {
 
 	public UsuarioDomain getUsuario(String login) throws Exception;
 	public void addUsuario(UsuarioDomain usuario) throws Exception;
+	public boolean loginExiste(String login);
+	public boolean emailExiste(String email);
+	public void apagaUsuarios();
 	
 	
 	

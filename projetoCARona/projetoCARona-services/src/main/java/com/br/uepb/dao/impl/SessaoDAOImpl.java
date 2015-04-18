@@ -2,9 +2,11 @@ package com.br.uepb.dao.impl;
 
 import java.util.ArrayList;
 
+import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.SessaoDAO;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class SessaoDAOImpl implements SessaoDAO {
 	
@@ -29,7 +31,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 				
 		//Se a senha informada for diferente da senha do usuario
 		if (!usuario.getSenha().equals(sessao.getSenha())) {
-			throw new Exception("Login inválido");
+			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		
 		boolean sessaoExiste = false;
@@ -50,7 +52,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 	@Override
 	public SessaoDomain getSessao(String login) throws Exception {
 		if ((login == null) || (login.trim().equals(""))) {
-			throw new Exception("Sessão inválida");
+			throw new ProjetoCaronaException(MensagensErro.SESSAO_INVALIDA);
 		}
 		
 		for (SessaoDomain sessao : listaSessoes) {
@@ -59,12 +61,12 @@ public class SessaoDAOImpl implements SessaoDAO {
 			}
 		}
 		
-		throw new Exception("Sessão inexistente");
+		throw new ProjetoCaronaException(MensagensErro.SESSAO_INEXISTENTE);
 		
 	}
 	
 	public void deleteSessao(String login) throws Exception{
-		SessaoDomain sessaoApagar = null;
+		SessaoDomain sessaoApagar = new SessaoDomain();
 		for (SessaoDomain sessao : listaSessoes) {
 			if (sessao.getLogin().equals(login)) {
 				sessaoApagar = sessao;
@@ -76,7 +78,14 @@ public class SessaoDAOImpl implements SessaoDAO {
 			listaSessoes.remove(sessaoApagar);
 		}
 		else {
-			throw new Exception("Sessao inexistente");
+			throw new ProjetoCaronaException(MensagensErro.SESSAO_INEXISTENTE);
+		}
+	}
+	
+	public void apagaSessoes(){
+		if (listaSessoes.size() > 0) {
+			listaSessoes.removeAll(listaSessoes);
+			
 		}
 	}
 }

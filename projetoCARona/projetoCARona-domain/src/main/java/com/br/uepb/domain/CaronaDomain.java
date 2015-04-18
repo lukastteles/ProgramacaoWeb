@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.br.uepb.constants.MensagensErro;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 import com.br.uepb.validator.ValidarCampos;
 
 public class CaronaDomain {
@@ -66,7 +68,7 @@ public class CaronaDomain {
 	
 	private void setIdSessao(String idSessao) throws Exception{
 		if ( (idSessao == null) || (idSessao.trim().equals("")) ){
-			throw new Exception("Sessão inválida");
+			throw new ProjetoCaronaException(MensagensErro.SESSAO_INVALIDA);
 		}
 		
 		this.idSessao = idSessao;
@@ -76,7 +78,7 @@ public class CaronaDomain {
 	}
 	public void setID(String id) throws Exception {
 		if ( (id == null) || (id.trim().equals("")) ){
-			throw new Exception("Identificador da carona não informado");
+			throw new ProjetoCaronaException(MensagensErro.IDENTIFICADOR_NAO_INFORMADO);
 		}
 		
 		this.id = id;
@@ -87,7 +89,7 @@ public class CaronaDomain {
 	}
 	public void setOrigem(String origem) throws Exception {
 		if ( (origem == null) || (origem.trim().equals("")) ){
-			throw new Exception("Origem inválida");
+			throw new ProjetoCaronaException(MensagensErro.ORIGEM_INVALIDA);
 		}
 		this.origem = origem;
 	}
@@ -97,7 +99,7 @@ public class CaronaDomain {
 	}
 	public void setDestino(String destino) throws Exception {
 		if ( (destino == null) || (destino.trim().equals("")) ){
-			throw new Exception("Destino inválido");
+			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
 		}
 		this.destino = destino;
 	}
@@ -157,7 +159,7 @@ public class CaronaDomain {
 				return pontoEncontro;
 			}
 		}
-		throw new Exception("Ponto Inválido");
+		throw new ProjetoCaronaException(MensagensErro.PONTO_INVALIDO);
 	}
 	
 	//Metodos para pontos de Encontro

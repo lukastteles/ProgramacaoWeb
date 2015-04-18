@@ -4,17 +4,21 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
 
+import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 @Component
 public class CaronaBusiness {
 	
 	/** Objeto DAO para manipular os objetos da classe UsuarioDomain*/
 	//private CaronaDAOImpl caronaDAOImpl =  new CaronaDAOImpl();
+	
+	
 	private int idCarona = 1;
 	
 	
@@ -22,11 +26,11 @@ public class CaronaBusiness {
 		ArrayList<CaronaDomain> caronas;
 
 		if (verificaCaracteres(origem) == false){
-			throw new Exception("Origem inválida");
+			throw new ProjetoCaronaException(MensagensErro.ORIGEM_INVALIDA);
 		}
 
 		if (verificaCaracteres(destino) == false){
-			throw new Exception("Destino inválido");
+			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
 		}
 				
 		if ( (origem.trim().equals("")) && (destino.trim().equals("")) ) {
@@ -68,11 +72,11 @@ public class CaronaBusiness {
 	public String getAtributoCarona(String idCarona, String atributo) throws Exception{
 
 		if( (atributo == null) || (atributo.trim().equals(""))){
-			throw new Exception("Atributo inválido");
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INVALIDO);
 		}
 		
 		if ((idCarona == null) || (idCarona.trim().equals(""))) {
-			throw new Exception("Identificador do carona é inválido");
+			throw new ProjetoCaronaException(MensagensErro.IDENTIFICADOR_INVALIDO);
 		}
 		
 		CaronaDomain carona = null; 
@@ -80,11 +84,11 @@ public class CaronaBusiness {
 		try {
 			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);			
 		} catch (Exception e) {
-			if (e.getMessage().equals("Carona Inexistente")) {
-				throw new Exception("Item inexistente");
+			if (e.getMessage().equals(MensagensErro.CARONA_INEXISTENTE)) {
+				throw new ProjetoCaronaException(MensagensErro.ITEM_INEXISTENTE);
 			}		
 			else {
-				throw new Exception("Item inexistente");
+				throw new ProjetoCaronaException(MensagensErro.ITEM_INEXISTENTE);
 			}
 		}
 		
@@ -97,7 +101,7 @@ public class CaronaBusiness {
 		}else if(atributo.equals("vagas")){
 			return ""+carona.getVagas();
 		}else {
-			throw new Exception("Atributo inexistente");
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
 		}
 				
 	}
@@ -109,14 +113,14 @@ public class CaronaBusiness {
 		try {
 			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		} catch (Exception e) {
-			if (e.getMessage().equals("Carona Inválida")) {				
-					throw new Exception("Trajeto Inválida");
+			if (e.getMessage().equals(MensagensErro.CARONA_INVALIDA)) {				
+					throw new ProjetoCaronaException(MensagensErro.TRAJETO_INVALIDO);
 			}
-			else if (e.getMessage().equals("Carona Inexistente")) {
-				throw new Exception("Trajeto Inexistente");
+			else if (e.getMessage().equals(MensagensErro.CARONA_INEXISTENTE)) {
+				throw new ProjetoCaronaException(MensagensErro.TRAJETO_INEXISTENTE);
 			}			
 			else {
-				throw new Exception("Trajeto inexistente");
+				throw new ProjetoCaronaException(MensagensErro.TRAJETO_INEXISTENTE);
 			}			
 		}
 		

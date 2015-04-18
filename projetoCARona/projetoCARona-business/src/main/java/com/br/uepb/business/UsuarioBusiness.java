@@ -2,8 +2,10 @@ package com.br.uepb.business;
 
 import org.springframework.stereotype.Component;
 
+import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 @Component
 public class UsuarioBusiness {
@@ -38,7 +40,7 @@ public class UsuarioBusiness {
 	 */
 	public String getAtributoUsuario(String login, String atributo) throws Exception{		
 		if((atributo == null) || (atributo.trim().equals(""))){
-			throw new Exception("Atributo inválido"); 
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INVALIDO); 
 		}
 		
 		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(login);
@@ -55,7 +57,7 @@ public class UsuarioBusiness {
 		}else if(atributo.equals("email")){
 			return usuario.getPerfil().getEmail();
 		}else {
-			throw new Exception("Atributo inexistente");
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
 		}
 		
 	}

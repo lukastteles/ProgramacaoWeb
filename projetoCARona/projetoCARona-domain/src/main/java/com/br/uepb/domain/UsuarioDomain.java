@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.br.uepb.constants.MensagensErro;
+import com.br.uepb.exceptions.ProjetoCaronaException;
+
 public class UsuarioDomain {
 	
 	/**
@@ -79,7 +82,7 @@ public class UsuarioDomain {
 	 */
 	public void setSenha(String senha) throws Exception {
 		if ( (senha == null) || (senha.trim().equals("")) ){
-			throw new Exception("Login inválido");
+			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		
 		this.senha = senha;
@@ -95,13 +98,13 @@ public class UsuarioDomain {
 
 	private void setPerfil(String nome, String endereco, String email) throws Exception{
 		if ( (nome == null) || (nome.trim().equals("")) ){
-			throw new Exception("Nome inválido");
+			throw new ProjetoCaronaException(MensagensErro.NOME_INVALIDO);
 		}
 		if ( (endereco == null) || (endereco.trim().equals("")) ){
-			throw new Exception("Endereco inválido");
+			throw new ProjetoCaronaException(MensagensErro.ENDERECO_INVALIDO);
 		}
 		if ( (email == null) || (email.trim().equals("")) ){
-			throw new Exception("Email inválido");
+			throw new ProjetoCaronaException(MensagensErro.EMAIL_INVALIDO);
 		}
 		
 		this.perfil = new PerfilDomain(nome, endereco, email);
@@ -122,7 +125,7 @@ public class UsuarioDomain {
 	 
 	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
 		if ((indexCarona == 0) || (indexCarona > idCaronas.size())) {
-			throw new Exception("Indice não encontrado");
+			throw new ProjetoCaronaException(MensagensErro.INDICE_INVALIDO);
 		}
 		
 		return idCaronas.get(indexCarona-1);

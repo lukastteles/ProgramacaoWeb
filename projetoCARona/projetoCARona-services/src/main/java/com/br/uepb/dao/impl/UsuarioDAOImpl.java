@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
+import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.UsuarioDAO;
 import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 @Service
 public class UsuarioDAOImpl implements UsuarioDAO {
@@ -44,7 +46,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	@Override
 	public UsuarioDomain getUsuario(String login) throws Exception {
 		if ( (login == null) || (login.trim().equals("")) ){
-			throw new Exception("Login inválido");
+			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		
 		for (UsuarioDomain usuario : listaUsuarios) {
@@ -53,7 +55,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			}
 		}
 		//logger.debug("Usuário inexistente");
-		throw new Exception("Usuário inexistente");
+		throw new ProjetoCaronaException(MensagensErro.USUARIO_INEXISTENTE);
 	}
 
 	/**
@@ -64,11 +66,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	@Override
 	public void addUsuario(UsuarioDomain usuario) throws Exception{
 		if (loginExiste(usuario.getLogin())) {
-			throw new Exception("Já existe um usuário com este login");	
+			throw new ProjetoCaronaException(MensagensErro.USUARIO_JA_EXISTE);	
 		}
 		
 		if (emailExiste(usuario.getPerfil().getEmail())) {
-			throw new Exception("Já existe um usuário com este email");	
+			throw new ProjetoCaronaException(MensagensErro.USUARIO_JA_EXISTE);	
 		}	
 		
 		listaUsuarios.add(usuario);
@@ -92,5 +94,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			}
 		}
 		return false;
+	}
+	
+	public void apagaUsuarios(){
+		if (listaUsuarios.size() > 0) {
+			listaUsuarios.removeAll(listaUsuarios);
+		}
 	}
 }

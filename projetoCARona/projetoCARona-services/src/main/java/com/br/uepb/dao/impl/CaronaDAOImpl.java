@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.CaronaDAO;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class CaronaDAOImpl implements CaronaDAO{
 
@@ -31,9 +33,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}
 	}
 	
-	private CaronaDAOImpl(){
-		
-	}
+	private CaronaDAOImpl(){ }
 
 	@Override
 	public void addCarona(CaronaDomain carona) {
@@ -91,10 +91,10 @@ public class CaronaDAOImpl implements CaronaDAO{
 	public CaronaDomain getCarona(String idCarona) throws Exception  {		
 		//tratamento para verificar de o IdCarona está null ou vazio
 		if (idCarona == null) {
-			throw new Exception("Carona Inválida");
+			throw new ProjetoCaronaException(MensagensErro.CARONA_INVALIDA);
 		}
 		if (idCarona.trim().equals("")) {
-			throw new Exception("Carona Inexistente");
+			throw new ProjetoCaronaException(MensagensErro.CARONA_INEXISTENTE);
 		}
 		
 		for (CaronaDomain carona : listaCaronas) {
@@ -104,7 +104,12 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}
 		
 		//se não entrou no for é sinal que não existe nenhuma carona com esse parametro cadastrada
-		throw new Exception("Carona Inexistente");
+		throw new ProjetoCaronaException(MensagensErro.CARONA_INEXISTENTE);
 	}
-	
+
+	public void apagaCaronas(){
+		if (listaCaronas.size() > 0) {
+			listaCaronas.removeAll(listaCaronas);
+		}		
+	}
 }

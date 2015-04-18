@@ -2,8 +2,10 @@ package com.br.uepb.dao.impl;
 
 import java.util.ArrayList;
 
+import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.SolicitacaoVagaDAO;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	
@@ -37,7 +39,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			}			
 		}
 		
-		throw new Exception("Solicitação inexistente");
+		throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);
 	}
 	
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idCarona){
@@ -59,5 +61,10 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		}
 		return solicitacoesCarona;
 	}
-	
+
+	public void apagaSolicitacoes(){
+		if (listaSolicitacaoVagas.size() > 0) {			
+			listaSolicitacaoVagas.removeAll(listaSolicitacaoVagas);
+		}
+	}
 }

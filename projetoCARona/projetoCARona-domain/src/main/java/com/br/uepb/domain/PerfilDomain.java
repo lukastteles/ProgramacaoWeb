@@ -1,11 +1,9 @@
 package com.br.uepb.domain;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.metadata.CascadableDescriptor;
 
 public class PerfilDomain {
 
