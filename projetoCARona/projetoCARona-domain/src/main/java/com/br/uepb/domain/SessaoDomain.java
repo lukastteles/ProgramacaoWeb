@@ -30,8 +30,6 @@ public class SessaoDomain {
 	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{6,}$")
 	private String senha;
 	
-	public SessaoDomain(){ }
-	
 	public SessaoDomain(String login, String senha) throws Exception {
 		setLogin(login);
 		setSenha(senha);

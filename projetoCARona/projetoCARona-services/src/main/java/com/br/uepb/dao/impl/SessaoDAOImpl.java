@@ -36,7 +36,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 		
 		boolean sessaoExiste = false;
 		for (SessaoDomain sessaoLista : listaSessoes) {
-			if (sessaoLista.getLogin().equals(sessao.getLogin())) {
+			if (sessaoLista.getLogin().equals(sessao.getLogin())){
 				sessaoExiste = true;
 				break;
 			}
@@ -66,7 +66,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 	}
 	
 	public void deleteSessao(String login) throws Exception{
-		SessaoDomain sessaoApagar = new SessaoDomain();
+		SessaoDomain sessaoApagar = null;
 		for (SessaoDomain sessao : listaSessoes) {
 			if (sessao.getLogin().equals(login)) {
 				sessaoApagar = sessao;
@@ -74,7 +74,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 			}
 		}		
 		
-		if (!sessaoApagar.getLogin().isEmpty()) {
+		if (sessaoApagar != null) {
 			listaSessoes.remove(sessaoApagar);
 		}
 		else {

@@ -23,7 +23,7 @@ public class SessaoBusiness {
 	public String abrirSessao(String login, String senha) throws Exception {
 		sessaoDomain = new SessaoDomain(login, senha);
 		SessaoDAOImpl.getInstance().addSessao(sessaoDomain);
-		return sessaoDomain.getLogin();		
+		return 	SessaoDAOImpl.getInstance().getSessao(login).getLogin();
 	}
 		
 	/**
