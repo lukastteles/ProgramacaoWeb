@@ -1,9 +1,11 @@
 package com.br.uepb.domain;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.metadata.CascadableDescriptor;
 
 public class PerfilDomain {
 
@@ -96,28 +98,52 @@ public class PerfilDomain {
 		this.endereco = endereco;
 	}
 
+	public void addHistoricoDeCaronas(String id) {
+		historicoDeCaronas.add(id);
+	}
+	
 	public String[] getHistoricoDeCaronas() {
-		return (String[]) historicoDeCaronas.toArray();
+		String[] array = new String[historicoDeCaronas.size()];
+		array = historicoDeCaronas.toArray(array);
+		return  array;
 	}
 
+	public void addHistoricoDeVagasEmCaronas(String id) {
+		historicoDeVagasEmCaronas.add(id);
+	}
+	
 	public String[] getHistoricoDeVagasEmCaronas() {
-		return (String[]) historicoDeVagasEmCaronas.toArray();
+		String[] array = new String[historicoDeVagasEmCaronas.size()];
+		array = historicoDeVagasEmCaronas.toArray(array);
+		return  array;
 	}
 
+	//Ainda nao classifica as caronas nesses US
 	public String[] getCaronasSegurasETranquilas() {
-		return (String[]) caronasSegurasETranquilas.toArray();
+		String[] array = new String[caronasSegurasETranquilas.size()];
+		array = caronasSegurasETranquilas.toArray(array);
+		return  array;
 	}
 
+	//Ainda nao classifica as caronas nesses US
 	public String[] getCaronasQueNaoFuncionaram() {
-		return (String[]) caronasQueNaoFuncionaram.toArray();
+		String[] array = new String[caronasQueNaoFuncionaram.size()];
+		array = caronasQueNaoFuncionaram.toArray(array);
+		return  array;
 	}
 
+	//Ainda nao registra as faltas ou presencas nas caronas nesses US
 	public String[] getFaltasEmVagasDeCaronas() {
-		return (String[]) faltasEmVagasDeCaronas.toArray();
+		String[] array = new String[faltasEmVagasDeCaronas.size()];
+		array = faltasEmVagasDeCaronas.toArray(array);
+		return  array;
 	}
 
+	//Ainda nao registra as faltas ou presencas nas caronas nesses US
 	public String[] getPresencasEmVagasDeCaronas() {
-		return (String[]) presencasEmVagasDeCaronas.toArray();
+		String[] array = new String[presencasEmVagasDeCaronas.size()];
+		array = presencasEmVagasDeCaronas.toArray(array);
+		return  array;
 	}
 
 }

@@ -82,17 +82,49 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(login, senha, "", endereco, email);
 			fail();
 		}catch(Exception e){
-			//Assert.assertEquals("Senha inválida", e.getMessage());
+			Assert.assertEquals("Nome inválido", e.getMessage());
 		}
 		
 		try{
 			usuarioBusiness.criarUsuario(login, senha, "", endereco, email);
 			fail();
 		}catch(Exception e){
-			//Assert.assertEquals("Senha inválida", e.getMessage());
+			Assert.assertEquals("Nome inválido", e.getMessage());
 		}
 		
 		
+		//Endereço Vazio
+		try{
+			usuarioBusiness.criarUsuario(login, senha, nome, "", email);
+			fail();
+		}catch(Exception e){
+			Assert.assertEquals("Endereco inválido", e.getMessage());
+		}
+		
+		try{
+			usuarioBusiness.criarUsuario(login, senha, nome, null, email);
+			fail();
+		}catch(Exception e){
+			Assert.assertEquals("Endereco inválido", e.getMessage());
+		}
+		
+		//Email Vazio
+		try{
+			usuarioBusiness.criarUsuario(login, senha, nome, endereco, "");
+			fail();
+		}catch(Exception e){
+			Assert.assertEquals("Email inválido", e.getMessage());
+		}
+		
+		try{
+			usuarioBusiness.criarUsuario(login, senha, nome, endereco, null);
+			fail();
+		}catch(Exception e){
+			Assert.assertEquals("Email inválido", e.getMessage());
+		}
+		
+
+		//Depois de cadastrar
 		try{
 			usuarioBusiness.getAtributoUsuario(login, "Hakuna Matata");
 			fail();
@@ -100,8 +132,6 @@ public class UsuarioUnitTest {
 			Assert.assertEquals("Atributo inexistente", e.getMessage());
 		}
 		
-		
-		//Depois de cadastrar
 		try{
 			usuarioBusiness.getAtributoUsuario(login, "");
 			fail();

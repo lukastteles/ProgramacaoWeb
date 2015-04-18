@@ -234,17 +234,18 @@ public class FacadeTestBusiness {
 		}else if(atributo.equals("email")){
 			return perfilBusiness.getEmail(login);
 		}else if(atributo.equals("historico de caronas")){
-			return perfilBusiness.getHistoricoDeCaronas(login).toString();
+			String[] str = perfilBusiness.getHistoricoDeCaronas(login);
+			return trataLista(str);
 		}else if(atributo.equals("historico de vagas em caronas")){
-			return perfilBusiness.getHistoricoDeVagasEmCaronas(login).toString();
+			return trataLista(perfilBusiness.getHistoricoDeVagasEmCaronas(login));
 		}else if(atributo.equals("caronas seguras e tranquilas")){
-			return perfilBusiness.getCaronasSegurasETranquilas(login).toString();
+			return ""+perfilBusiness.getCaronasSegurasETranquilas(login).length;
 		}else if(atributo.equals("caronas que não funcionaram")){
-			return perfilBusiness.getCaronasQueNaoFuncionaram(login).toString();
+			return ""+perfilBusiness.getCaronasQueNaoFuncionaram(login).length;
 		}else if(atributo.equals("faltas em vagas de caronas")){
-			return perfilBusiness.getFaltasEmVagasDeCaronas(login).toString();
+			return ""+perfilBusiness.getFaltasEmVagasDeCaronas(login).length;
 		}else if(atributo.equals("presenças em vagas de caronas")){
-			return perfilBusiness.getPresencasEmVagasDeCaronas(login).toString();
+			return ""+perfilBusiness.getFaltasEmVagasDeCaronas(login).length;
 		}else {
 			throw new Exception("Atributo inexistente");
 		}		
@@ -265,5 +266,20 @@ public class FacadeTestBusiness {
 		
 	public void zerarSistema(){
 	
+	}
+	
+	private String trataLista(String[] pontos){
+		String ponto = "[";
+		if(pontos.length > 1){
+			for(int i = 0; i < pontos.length-1; i++){
+				ponto+=pontos[i]+";";
+			}
+			ponto+=pontos[pontos.length-1];
+		}
+		if(pontos.length == 1){
+			ponto+=pontos[0];
+		}
+		ponto+="]";
+		return ponto;
 	}
 }

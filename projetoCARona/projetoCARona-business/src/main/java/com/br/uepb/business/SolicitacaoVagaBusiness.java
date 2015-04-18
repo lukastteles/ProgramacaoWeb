@@ -118,9 +118,11 @@ public class SolicitacaoVagaBusiness {
 		
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
 		
-		if (!solicitacaoVaga.getFoiAceita() ){ //TODO: trocar metodo de isFoiAceita para getFoiAceita
+		
+		if (!solicitacaoVaga.getFoiAceita() ){
 			solicitacaoVaga.setFoiAceita(true);
 			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacaoVaga.getIdCarona());
+			UsuarioDAOImpl.getInstance().getUsuario(idSessao).getPerfil().addHistoricoDeVagasEmCaronas(carona.getID());
 			carona.diminuiVagas();			
 		}
 		else {			

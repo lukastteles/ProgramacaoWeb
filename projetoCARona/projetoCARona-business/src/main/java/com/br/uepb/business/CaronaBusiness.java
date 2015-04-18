@@ -59,6 +59,7 @@ public class CaronaBusiness {
 		//Adiciona a carona ao usuario correspondente
 		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);	
 		usuario.addCarona(caronaDomain.getID());
+		usuario.getPerfil().addHistoricoDeCaronas(caronaDomain.getID());
 		
 		idCarona++; //TODO: retirar este contador depois que inserir a persistencia com o BD
 		return caronaDomain.getID();
