@@ -150,7 +150,7 @@ public class CaronaBusiness {
 		return caronasUsuario;
 	}
 	
-	//TODO: colocar este metodo em outra classe
+	//TODO: verificar este metodo 
 	private boolean verificaCaracteres(String valor){
 
 		String patternTexto = valor;

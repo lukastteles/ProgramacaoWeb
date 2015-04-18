@@ -38,8 +38,7 @@ public class MensagensErro {
 	
 	
 	//Mensagens para PontosEncontro
-	public static final String PONTO_INVALIDO = "Ponto Inválido";
-	
+	public static final String PONTO_INVALIDO = "Ponto Inválido";	
 	
 	//Mensagens para SolicitacaoVaga
 	public static final String SOLICITACAO_INVALIDA = "Solicitação inválida";

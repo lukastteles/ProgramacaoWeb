@@ -75,7 +75,8 @@ public class CaronaUnitTest {
 			
 		} catch (Exception e) {
 			fail();
-		}			
+		}	
+		
 	}
 	
 	@Test
@@ -106,8 +107,7 @@ public class CaronaUnitTest {
 		
 		//cadastrar carona com idSessao null
 		try {
-			caronaBusiness.cadastrarCarona(null, origem, destino, data, hora, vagas);
-			caronaBusiness.cadastrarCarona("sessao1", origem, destino, data, hora, vagas);			
+			caronaBusiness.cadastrarCarona(null, origem, destino, data, hora, vagas);	
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
