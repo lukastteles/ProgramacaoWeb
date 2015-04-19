@@ -8,7 +8,6 @@ import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class SessaoDomain {
-	//TODO: Criar uma classe para tratar as excecoes
 	
 	/**
 	 * Classe para registrar as sessões iniciadas
