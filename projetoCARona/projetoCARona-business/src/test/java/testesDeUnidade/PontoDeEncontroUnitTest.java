@@ -270,8 +270,7 @@ public class PontoDeEncontroUnitTest {
 		} catch (Exception e) {
 			fail();
 		}
-
-		//TODO: verificar com Teles porque na resposta não aceita um novo ponto		
+		
 		//informar ponto que nao existe na sugestao
 		try {
 			pontoEncontroBusiness.responderSugestaoPontoEncontro("Mark", caronaID1, idSugestao1, "Parque da Criança");
