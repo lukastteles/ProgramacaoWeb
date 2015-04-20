@@ -8,15 +8,14 @@ import javax.validation.constraints.Size;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
+/**
+ * Classe de domínio que define o modelo para o Usuário
+ * @author Luana Janaina / Lukas Teles
+ * @version 0.1
+ * @since 18/04/2015
+ */
 public class UsuarioDomain {
-	
-	/**
-	 * Classe de domínio que define o modelo para o Usuário
-	 * @author Luana Janaina / Lukas Teles
-	 * @version 0.1
-	 * @since 18/04/2015
-	 */
-	
+
 	/** Login do usuário */
 	@NotNull(message = "Login inválido")
 	@Size(min=2, max=30, message="Login inválido")
@@ -35,12 +34,12 @@ public class UsuarioDomain {
 	
 	/**
 	 * Método construtor de UsuarioDomain
-	 * @param login String - Login do usuário
-	 * @param senha String - Senha do usuário
-	 * @param nome String - Nome do usuário
-	 * @param email String - Email do usuário
-	 * @param endereco String - Endereço do usuário
-	 * @throws Exception - Lança exceção caso qualquer campo informado esteja vazio, null ou inválido 
+	 * @param login Login do usuário
+	 * @param senha Senha do usuário
+	 * @param nome Nome do usuário
+	 * @param email Email do usuário
+	 * @param endereco Endereço do usuário
+	 * @throws Exception Lança exceção caso qualquer campo informado esteja vazio, null ou inválido 
 	 */
 	public UsuarioDomain(String login, String senha, String nome, String endereco, String email) throws Exception {
 		setLogin(login);
@@ -50,7 +49,7 @@ public class UsuarioDomain {
 	
 	/**
 	 * Método para retornar o login do usuário
-	 * @return String - Login do usuário
+	 * @return Login do usuário
 	 */
 	public String getLogin() {
 		return login;
@@ -58,8 +57,8 @@ public class UsuarioDomain {
 	
 	/**
 	 * Método para inserir o Login do usuário
-	 * @param login String - Login do usuário
-	 * @throws Exception - Lança exceção caso o login informado esteja vazio ou null
+	 * @param login Login do usuário
+	 * @throws Lança exceção caso o login informado esteja vazio ou null
 	 */	
 	private void setLogin(String login) throws Exception{
 		if ( (login == null) || (login.trim().equals("")) ){
@@ -70,7 +69,7 @@ public class UsuarioDomain {
 
 	/**
 	 * Método para retornar a senha do usuário
-	 * @return String - Senha do usuário
+	 * @return Senha do usuário
 	 */
 	public String getSenha() {
 		return senha;
@@ -78,8 +77,8 @@ public class UsuarioDomain {
 
 	/**
 	 * Método mudar a senha do usuário
-	 * @param senha String - Senha de login do usuario
-	 * @throws Exception - Lança exceção caso a senha informado esteja vazio ou null
+	 * @param senha Senha de login do usuario
+	 * @throws Exception Lança exceção caso a senha informado esteja vazio ou null
 	 */
 	public void setSenha(String senha) throws Exception {
 		if ( (senha == null) || (senha.trim().equals("")) ){
@@ -91,7 +90,7 @@ public class UsuarioDomain {
 	
 	/**
 	 * Método para retornar o perfil do usuário
-	 * @return PerfilDomain - Perfil do usuário
+	 * @return Perfil do usuário
 	 */
 	public PerfilDomain getPerfil() {
 		return perfil;
@@ -99,10 +98,10 @@ public class UsuarioDomain {
 
 	/**
 	 * Método que informa todos os parâmetros nome, endereço e email do Perfil
-	 * @param nome String - Nome do usuário
-	 * @param endereco String - Endereço do usuário
-	 * @param email String - Email do usuário
-	 * @throws Exception - Lança exceção caso qualquer parâmetro informado esteja vazio ou null
+	 * @param nome Nome do usuário
+	 * @param endereco Endereço do usuário
+	 * @param email Email do usuário
+	 * @throws Exception Lança exceção caso qualquer parâmetro informado esteja vazio ou null
 	 */
 	private void setPerfil(String nome, String endereco, String email) throws Exception{
 		if ( (nome == null) || (nome.trim().equals("")) ){
@@ -121,7 +120,7 @@ public class UsuarioDomain {
 	
 	/**
 	 * Método para retornar a lista de caronas do usuário
-	 * @return ArrayList - Lista de caronas do usuário
+	 * @return Lista de caronas do usuário
 	 */
 	public ArrayList<String> getCaronas() {
 		return idCaronas;
@@ -129,7 +128,7 @@ public class UsuarioDomain {
 	
 	/**
 	 * Método que adiciona um salva o id da carona do Usuário
-	 * @param id String - Id da carona
+	 * @param id Id da carona
 	 */
 	public void addCarona(String id){		
 		idCaronas.add(id);
@@ -137,9 +136,9 @@ public class UsuarioDomain {
 
 	/**
 	 * Método para retornar o id de uma carona do Usuario pelo index 
-	 * @param indexCarona int - Index da carona na lista de caronas
-	 * @return String - Id da carona
-	 * @throws Exception - Lança exceção se o index informado for igual a zero ou maior que a quantidade de indices da lista
+	 * @param indexCarona Index da carona na lista de caronas
+	 * @return Id da carona
+	 * @throws Exception Lança exceção se o index informado for igual a zero ou maior que a quantidade de indices da lista
 	 */
 	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
 		if ((indexCarona == 0) || (indexCarona > idCaronas.size())) {

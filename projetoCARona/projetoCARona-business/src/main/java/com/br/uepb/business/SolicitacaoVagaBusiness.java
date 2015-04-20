@@ -14,21 +14,20 @@ import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
+/**
+ * Classe para as regras de negócio referentes a solicitação de vaga
+ * @author Luana Janaina / Lukas Teles
+ * @version 0.1
+ * @since 20/04/2015
+ */
 public class SolicitacaoVagaBusiness {
-	
-	/**
-	 * Classe para as regras de negócio referentes a solicitação de vaga
-	 * @author Luana Janaina / Lukas Teles
-	 * @version 0.1
-	 * @since 20/04/2015
-	 */
 
 	/**
 	 * Método para retornar os dados referentes a solicitação da vaga
-	 * @param idSolicitacao String - Id da solicitação
-	 * @param atributo String - Tipo do dado da solicitação a ser retornado
-	 * @return String - Dado da solicitação
-	 * @throws Exception - Lança exceção se qualquer atributo informado for null, vazio ou se a solicitação ou o atributo não existir 
+	 * @param idSolicitacao Id da solicitação
+	 * @param atributo Tipo do dado da solicitação a ser retornado
+	 * @return Dado da solicitação
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a solicitação ou o atributo não existir 
 	 */
 	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws Exception{
 		
@@ -62,10 +61,10 @@ public class SolicitacaoVagaBusiness {
 		
 	/**
 	 * Método para retornar uma lista das solicitações de vaga confirmadas para a carona
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String Id da carona
-	 * @return ArrayList<SolicitacaoVagaDomain> - Lista de solicitações de vaga confirmadas
-	 * @throws Exception - Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário sa sessão informada
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @return Lista de solicitações de vaga confirmadas
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário sa sessão informada
 	 */
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idSessao, String idCarona) throws Exception{
 		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -83,10 +82,10 @@ public class SolicitacaoVagaBusiness {
 	
 	/**
 	 * Método para retornar uma lista das solicitacao de vaga que estão pendentes para a carona
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String Id da carona
-	 * @return ArrayList<SolicitacaoVagaDomain> - Lista de solicitações de vaga pendentes
-	 * @throws Exception - Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @return Lista de solicitações de vaga pendentes
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
 	 */
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idSessao, String idCarona) throws Exception{ 
 		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -104,10 +103,10 @@ public class SolicitacaoVagaBusiness {
 	
 	/**
 	 * Método para solicitar uma vaga na carona informada
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String Id da carona
-	 * @return int - Id da solicitação
-	 * @throws Exception - Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @return Id da solicitação
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
 	 */
 	public int solicitarVaga(String idSessao, String idCarona) throws Exception{		
 		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -134,10 +133,11 @@ public class SolicitacaoVagaBusiness {
 	/**
 	 * Método para solicitar uma vaga informando um ponto de encontro. 
 	 * Se o ponto de encontro não existir na lista de sugestão de pontos de encontro este será adicionado
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String Id da carona
-	 * @return int - Id da solicitação
-	 * @throws Exception - Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @param ponto Local do ponto de encontro
+	 * @return Id da solicitação
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
 	 */
 	public int solicitarVagaPontoEncontro(String idSessao, String idCarona, String ponto) throws Exception{		
 		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -178,9 +178,9 @@ public class SolicitacaoVagaBusiness {
 	/**
 	 * Método para aceitar uma solicitacaod e vaga para a carona. 
 	 * Ao aceitar uma solicitacao o sistema está confirmando a vaga na carona informada na solicitacao
-	 * @param idSessao String - Id da sessão
-	 * @param idSolicitacao String - Id da solicitação
-	 * @throws Exception - Lança exceção se qualquer atributo informado for null, vazio ou se a solicitacao não pertencer ao usuário da sessão informada
+	 * @param idSessao Id da sessão
+	 * @param idSolicitacao Id da solicitação
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a solicitacao não pertencer ao usuário da sessão informada
 	 */	
 	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws Exception{ 
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -201,9 +201,9 @@ public class SolicitacaoVagaBusiness {
 	/**
 	 * Método para aceitar a solicitacao de vaga que já tem um ponto de encontro adicionado
 	 * Ao aceitar uma solicitacao o sistema está confirmando a vaga na carona e ainda aceitando o Ponto de Encontro informado na solicitacao
-	 * @param idSessao String - Id da sessão
-	 * @param idSolicitacao String - Id da solicitação
-	 * @throws Exception - Lança exceção se qualquer atributo informado for null, vazio ou se a solicitacao não pertencer ao usuário da sessão informada
+	 * @param idSessao Id da sessão
+	 * @param idSolicitacao Id da solicitação
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a solicitacao não pertencer ao usuário da sessão informada
 	 */
 	public void aceitarSolicitacaoPontoEncontro(String idSessao, String idSolicitacao) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -234,10 +234,10 @@ public class SolicitacaoVagaBusiness {
 	
 	/**
 	 * Método para informar a desistencia da solicitação de vaga na carona
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String - Id da carona
-	 * @param idSolicitacao String - Id da solicitacao
-	 * @throws Exception - Lança exceção se qualquer atributo informado for null, vazio ou inexistente ou se a solicitacao não pertencer ao usuário da sessão informada
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @param idSolicitacao Id da solicitacao
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou inexistente ou se a solicitacao não pertencer ao usuário da sessão informada
 	 */
 	public void desistirRequisicao(String idSessao, String idCarona, String idSolicitacao) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -257,9 +257,9 @@ public class SolicitacaoVagaBusiness {
 
 	/**
 	 * Método para rejeitar a solicitação de uma vaga na carona 
-	 * @param idSessao String - Id da sessão
-	 * @param idSolicitacao String - Id da solicitação
-	 * @throws Exception - Lança exceção se qualquer atributo informado for null, vazio ou inexistente ou se a a carona relacionada a solicitacao não pertencer ao usuário da sessão informada
+	 * @param idSessao Id da sessão
+	 * @param idSolicitacao Id da solicitação
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou inexistente ou se a a carona relacionada a solicitacao não pertencer ao usuário da sessão informada
 	 */
 	public void rejeitarSolicitacao(String idSessao, String idSolicitacao) throws Exception{ 
 		SessaoDAOImpl.getInstance().getSessao(idSessao);		

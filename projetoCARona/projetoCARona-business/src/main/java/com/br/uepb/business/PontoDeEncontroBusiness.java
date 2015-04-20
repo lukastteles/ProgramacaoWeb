@@ -8,22 +8,21 @@ import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
+/**
+ * Classe as regras de negócio referentes ao ponto de encontro 
+ * @author Luana Janaina / Lukas Teles
+ * @version 0.1
+ * @since 20/04/2015
+ */
 public class PontoDeEncontroBusiness {
-	
-	/**
-	 * Classe as regras de negócio referentes ao ponto de encontro 
-	 * @author Luana Janaina / Lukas Teles
-	 * @version 0.1
-	 * @since 20/04/2015
-	 */
 
 	/**
 	 * Método para criar uma sugestão de um ponto de encontro para uma carona
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String - Id da carona
-	 * @param pontoDeEncontro String - Local do ponto de encontro
-	 * @return String - Id da sugestão criada
-	 * @throws Exception - Lança exceção se qualquer parâmetro for null, inválido ou inexistente
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @param pontoDeEncontro Local do ponto de encontro
+	 * @return Id da sugestão criada
+	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente
 	 */
 	public String sugerirPontoEncontro(String idSessao, String idCarona, String pontoDeEncontro) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -37,11 +36,11 @@ public class PontoDeEncontroBusiness {
 	
 	/**
 	 * Método para criar uma sugestão de uma lista de pontos de encontro para a carona 
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String - Id da carona
-	 * @param pontos String[] - Conjunto de pontos sugeridos para a carona
-	 * @return String - Id da sugestão
-	 * @throws Exception - Lança exceção se qualquer parâmetro for null, inválido ou inexistente
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @param pontos Conjunto de pontos sugeridos para a carona
+	 * @return Id da sugestão
+	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente
 	 */
 	public String sugerirPontoEncontro(String idSessao, String idCarona, String[] pontos) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -58,11 +57,11 @@ public class PontoDeEncontroBusiness {
 	
 	/**
 	 * Método para aceitar a sugestão de ponto de encontro para a carona
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String - Id da carona
-	 * @param idSugestao String - Id da sugestão
-	 * @param ponto String - Ponto de encontro que será aceito para a carona
-	 * @throws Exception - Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a sugestão não pertencer a carona 
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @param idSugestao Id da sugestão
+	 * @param ponto Ponto de encontro que será aceito para a carona
+	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a sugestão não pertencer a carona 
 	 */
 	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String ponto) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -82,11 +81,11 @@ public class PontoDeEncontroBusiness {
 	/**
 	 * Método para aceitar uma lista de pontos de encontro sugeridos para a carona.
 	 * É possível aceitar apenas alguns pontos da mesma sugestão e sugerir novos 
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String - Id da carona
-	 * @param idSugestao String - Id da sugestão
-	 * @param ponto String - Ponto de encontro que será aceito para a carona
-	 * @throws Exception - Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a sugestão não pertencer a carona 
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @param idSugestao Id da sugestão
+	 * @param pontos Ponto de encontro que será aceito para a carona
+	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a sugestão não pertencer a carona 
 	 */
 	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String pontos[]) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -109,10 +108,10 @@ public class PontoDeEncontroBusiness {
 	
 	/**
 	 * Método para retornar todos os pontos de encontro sugeridos para a carona 
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String - Id da carona
-	 * @return String[] - Lista de todos os pontos de encontro sugeridos para a carona informada
-	 * @throws Exception - Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a carona não pertencer ao usuario informado
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @return Lista de todos os pontos de encontro sugeridos para a carona informada
+	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a carona não pertencer ao usuario informado
 	 */
 	public String[] getPontosSugeridos(String idSessao, String idCarona) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
@@ -129,10 +128,10 @@ public class PontoDeEncontroBusiness {
 	
 	/**
 	 * Método para todos os pontos de encontro aceitos para a carona
-	 * @param idSessao String - Id da sessão
-	 * @param idCarona String - Id da carona
-	 * @return String[] - Lista de todos os pontos de encontro aceitos para a carona informada
-	 * @throws Exception - Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a carona não pertencer ao usuario da sessao informada
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @return Lista de todos os pontos de encontro aceitos para a carona informada
+	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a carona não pertencer ao usuario da sessao informada
 	 */
 	public String[] getPontosEncontro(String idSessao, String idCarona) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);

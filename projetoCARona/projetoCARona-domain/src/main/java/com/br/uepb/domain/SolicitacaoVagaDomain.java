@@ -1,13 +1,12 @@
 package com.br.uepb.domain;
 
+/**
+ * Classe de domínio que define o modelo para a solicitacão de vaga na carona
+ * @author Luana Janaina / Lukas Teles
+ * @version 0.1
+ * @since 20/04/2015
+ */
 public class SolicitacaoVagaDomain {
-	
-	/**
-	 * Classe de domínio que define o modelo para a solicitacão de vaga na carona
-	 * @author Luana Janaina / Lukas Teles
-	 * @version 0.1
-	 * @since 20/04/2015
-	 */
 	
 	/** Id da solicitacao */ //TODO: Deve ser gerado automaticamente
 	private String id;
@@ -26,10 +25,10 @@ public class SolicitacaoVagaDomain {
 	
 	/**
 	 * Método construtor de SolicitacaoVagaDomain
-	 * @param id String - Id da solicitação
-	 * @param idUsuario String - Id do usuário que irá solicitar a vaga na carona
-	 * @param idCarona String - Id da carona
-	 * @param ponto PontoDeEncontroDomain - Local do ponto de encontro
+	 * @param id Id da solicitação
+	 * @param idUsuario Id do usuário que irá solicitar a vaga na carona
+	 * @param idCarona Id da carona
+	 * @param ponto Local do ponto de encontro
 	 */
 	public SolicitacaoVagaDomain(String id, String idUsuario, String idCarona, PontoDeEncontroDomain ponto) {
 		this.id = id;
@@ -40,9 +39,9 @@ public class SolicitacaoVagaDomain {
 	
 	/**
 	 * Método construtor de SolicitacaoVagaDomain
-	 * @param id String - Id da solicitação
-	 * @param idUsuario String - Id do usuário que irá solicitar a vaga na carona
-	 * @param idCarona String - Id da carona
+	 * @param id Id da solicitação
+	 * @param idUsuario Id do usuário que irá solicitar a vaga na carona
+	 * @param idCarona Id da carona
 	 */
 	public SolicitacaoVagaDomain(String id, String idUsuario, String idCarona) {
 		this.id = id;
@@ -52,7 +51,7 @@ public class SolicitacaoVagaDomain {
 	
 	/**
 	 * Método para verificar se a solicitacao de vaga na carona foi aceita ou não
-	 * @return boolean - Retorna true se a solicitação foi aceita ou false caso contrário
+	 * @return Retorna true se a solicitação foi aceita ou false caso contrário
 	 */
 	public boolean getFoiAceita() {
 		return foiAceita;
@@ -60,7 +59,7 @@ public class SolicitacaoVagaDomain {
 	
 	/**
 	 * Método para informar se a solicitacao de vaga na carona foi aceita ou não
-	 * @param foiAceita boolean - Ietorna true se a solicitação foi aceita ou false caso contrário
+	 * @param foiAceita Ietorna true se a solicitação foi aceita ou false caso contrário
 	 */
 	public void setFoiAceita(boolean foiAceita) {
 		this.foiAceita = foiAceita;
@@ -68,7 +67,7 @@ public class SolicitacaoVagaDomain {
 	
 	/**
 	 * Método para Retornar o id da solicitação
-	 * @return String - Id da solicitação
+	 * @return Id da solicitação
 	 */
 	public String getId() {
 		return id;
@@ -76,7 +75,7 @@ public class SolicitacaoVagaDomain {
 	
 	/**
 	 * Método para Retornar o id do usuário que pediu a solicitação da vaga
-	 * @return String - Id do usuário que solicitou a vaga na carona
+	 * @return Id do usuário que solicitou a vaga na carona
 	 */
 	public String getIdUsuario() {
 		return idUsuario;
@@ -84,7 +83,7 @@ public class SolicitacaoVagaDomain {
 	
 	/**
 	 * Método para retornar o id da carona
-	 * @return String - Id da carona
+	 * @return Id da carona
 	 */
 	public String getIdCarona() {
 		return idCarona;
@@ -92,7 +91,7 @@ public class SolicitacaoVagaDomain {
 	
 	/**
 	 * Método para retornar o local de ponto de encontro da solicitação
-	 * @return PontoDeEncontroDomain - Ponto de encontro para da solicitação
+	 * @return Ponto de encontro para da solicitação
 	 */
 	public PontoDeEncontroDomain getPonto() {
 		return ponto;

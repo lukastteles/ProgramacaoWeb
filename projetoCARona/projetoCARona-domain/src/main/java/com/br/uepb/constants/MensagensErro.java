@@ -1,14 +1,13 @@
 package com.br.uepb.constants;
 
+/**
+ * Classe para definir mensagens de erro padrão
+ * @author Luana Janaina / Lukas Teles
+ * @version 0.1
+ * @since 20/04/2015
+ */
 
 public class MensagensErro {
-
-	/**
-	 * Classe para definir mensagens de erro padrão
-	 * @author Luana Janaina / Lukas Teles
-	 * @version 0.1
-	 * @since 20/04/2015
-	 */
 	
 	//Mensagens para Carona	
 	public static final String CARONA_INVALIDA = "Carona Inválida";

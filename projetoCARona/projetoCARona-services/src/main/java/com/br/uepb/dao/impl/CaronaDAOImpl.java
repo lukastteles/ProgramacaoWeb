@@ -11,20 +11,12 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class CaronaDAOImpl implements CaronaDAO{
 
-	/**
-	 * Classe DAO para o objeto CaronaDomain
-	 * @author Luana Janaina / Lukas Teles
-	 * @version 0.1
-	 * @since 1ª Iteração
-	 */
-
 	//Variáveis temporárias para controlar o Id, que serão retiradas quando houver BD
 	public int idCarona = 1;
 	public int idPontoEncontro = 1;
 	
 	final static Logger logger = Logger.getLogger(CaronaDAOImpl.class);
-	
-	/** Lista para armazenar objetos CaronaDomain*/
+
 	ArrayList<CaronaDomain> listaCaronas = new ArrayList<CaronaDomain>();
 	
 	//instancia Singleton de CaronaDAOImpl

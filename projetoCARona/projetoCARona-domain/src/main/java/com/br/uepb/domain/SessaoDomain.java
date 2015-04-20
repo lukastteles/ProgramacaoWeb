@@ -7,14 +7,13 @@ import javax.validation.constraints.Size;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
+/**
+ * Classe para registrar as sessões iniciadas
+ * @author luana Janaina / Lukas Teles
+ * @version 0.1
+ * @since 20/04/2015
+ */
 public class SessaoDomain {
-	
-	/**
-	 * Classe para registrar as sessões iniciadas
-	 * @author luana Janaina / Lukas Teles
-	 * @version 0.1
-	 * @since 20/04/2015
-	 */
 	
 	//TODO: informar -> final static Logger logger = Logger.getLogger(SessaoDomain.class);
 
@@ -31,9 +30,9 @@ public class SessaoDomain {
 	
 	/**
 	 * Método construtor da classe SessaoDomain
-	 * @param login
-	 * @param senha
-	 * @throws Exception
+	 * @param login Login da sessão
+	 * @param senha Senha da sessão
+	 * @throws Exception Lança exceção
 	 */
 	public SessaoDomain(String login, String senha) throws Exception {
 		setLogin(login);
@@ -42,7 +41,7 @@ public class SessaoDomain {
 		
 	/**
 	 * Método para retornar o login da sessão
-	 * @return String - Login da sessão
+	 * @return Login da sessão
 	 */
 	public String getLogin() {		
 		return login;
@@ -51,8 +50,8 @@ public class SessaoDomain {
 	/**
 	 * Método para informar o login do usuário
 	 * O Login da sessão é definido pelo usuário no momento em que ele se cadastrar no sistema  
-	 * @param login String - Login do usuário
-	 * @throws Exception - Lança exceção se o login informado for null ou vazio
+	 * @param login Login do usuário
+	 * @throws Exception Lança exceção se o login informado for null ou vazio
 	 */
 	private void setLogin(String login) throws Exception{
 		if ( (login == null) || (login.trim().equals("")) ) {
@@ -64,7 +63,7 @@ public class SessaoDomain {
 	
 	/**
 	 * Método para retornar a senha do usuário da sessão
-	 * @return String - Senha do usuário da sessão
+	 * @return Senha do usuário da sessão
 	 */
 	public String getSenha() {		
 		return senha;
@@ -73,8 +72,8 @@ public class SessaoDomain {
 	/**
 	 * Método para informar o login da sessão
 	 * A Senha da sessão é definida pelo usuário no momento em que ele se cadastrar no sistema  
-	 * @param senha String - Senha do usuário
-	 * @throws Exception - Lança exceção se a senha informada for vazia ou null
+	 * @param senha Senha do usuário
+	 * @throws Exception Lança exceção se a senha informada for vazia ou null
 	 */
 	public void setSenha(String senha) throws Exception {
 		if ( (senha == null) || (senha.trim().equals("")) ) {
