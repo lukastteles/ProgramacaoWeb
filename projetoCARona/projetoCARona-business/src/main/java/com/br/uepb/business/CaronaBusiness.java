@@ -15,13 +15,25 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
 @Component
 public class CaronaBusiness {
 	
-	/** Objeto DAO para manipular os objetos da classe UsuarioDomain*/
-	//private CaronaDAOImpl caronaDAOImpl =  new CaronaDAOImpl();
+	/**
+	 * Classe as regras de negócio referentes à carona
+	 * @author Luana Janaina / Lukas Teles
+	 * @version 0.1
+	 * @since 20/04/2015
+	 */
 	
-	
-	private int idCarona = 1;
-	
-	
+	/**
+	 * Método para localizar todas as caronas informadas de uma determinada origem para um destino
+	 * Observações:
+	 * - Se o parâmetro origem não for informado, irá localizar todas as caronas pertencentes ao destino informado
+	 * - Se o parâmetro destino não for informado, irá localizar todas as caronas pertencentes a origem informada
+	 * - Se não for informado nem origem nem destino da carona, irá localizar todas as caronas, sem exceção
+	 * @param idSessao String - Id da sessão atual
+	 * @param origem String - Local de origem da carona
+	 * @param destino String - Local de destino da carona
+	 * @return ArrayList<CaronaDomain> - Lista das caronas localizadas
+	 * @throws Exception - Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida
+	 */
 	public ArrayList<CaronaDomain> localizarCarona(String idSessao, String origem, String destino) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
@@ -53,12 +65,23 @@ public class CaronaBusiness {
 		return caronas;
 	}
 	
+	/**
+	 * Método para cadatrar a carona que um usuário está oferecendo
+	 * @param idSessao String - Id da sessão atual
+	 * @param origem String - Local de origem da carona
+	 * @param destino String - Local de destino da carona
+	 * @param data String - Data de saída da carona
+	 * @param hora String - Hora de partida da carona
+	 * @param vagas int - Quantidade de vagas disponíveis na carona
+	 * @return String - Id da carona dacastrada
+	 * @throws Exception
+	 */
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas) throws Exception{		
 		//funcao para verificar se a sessao existe
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		//adiciona a caronas na lista de caronas
-		String carona = ""+idCarona;
+		String carona = ""+ CaronaDAOImpl.getInstance().idCarona;
 		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, data, hora, vagas);				
 		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
 		
@@ -67,10 +90,17 @@ public class CaronaBusiness {
 		usuario.addCarona(caronaDomain.getID());
 		usuario.getPerfil().addHistoricoDeCaronas(caronaDomain.getID());
 		
-		idCarona++; //TODO: retirar este contador depois que inserir a persistencia com o BD
+		CaronaDAOImpl.getInstance().idCarona++;
 		return caronaDomain.getID();
 	}
 	
+	/**
+	 * Método para retornar os dados da carona
+	 * @param idCarona String - Id da carona
+	 * @param atributo String - Tipo de dado da carona a ser retornado 
+	 * @return String - Dado da carona
+	 * @throws Exception - Lança exceção se qualquer parâmetro informado for null, vazio ou se a carona e/ou atributo for inexistente
+	 */
 	public String getAtributoCarona(String idCarona, String atributo) throws Exception{
 
 		if( (atributo == null) || (atributo.trim().equals(""))){
@@ -105,6 +135,12 @@ public class CaronaBusiness {
 				
 	}
 	
+	/**
+	 * Método para retornar o trajeto(origem - destino) que a carona irá fazer
+	 * @param idCarona String - Id da carona
+	 * @return String - Trajeto da carona
+	 * @throws Exception - Lança exceção se o id da carona for null, vazio ou inexistente
+	 */
 	public String getTrajeto(String idCarona) throws Exception{
 		
 		CaronaDomain carona = null;
@@ -115,12 +151,9 @@ public class CaronaBusiness {
 			if (e.getMessage().equals(MensagensErro.CARONA_INVALIDA)) {				
 					throw new ProjetoCaronaException(MensagensErro.TRAJETO_INVALIDO);
 			}
-			else {//if (e.getMessage().equals(MensagensErro.CARONA_INEXISTENTE)) {
+			else {
 				throw new ProjetoCaronaException(MensagensErro.TRAJETO_INEXISTENTE);
 			}			
-			//else {
-			//	throw new ProjetoCaronaException(MensagensErro.TRAJETO_INEXISTENTE);
-			//}			
 		}
 		
 		
@@ -129,16 +162,35 @@ public class CaronaBusiness {
 		return trajeto;	
 	}
 	
+	/**
+	 * Método para retornar uma carona
+	 * @param idCarona - Id da carona
+	 * @return CaronaDomain - Retorna a carona cadastrada
+	 * @throws Exception - Lança exceção se o id da carona for null, vazio ou inexistente 
+	 */
 	public CaronaDomain getCarona(String idCarona) throws Exception{		
 		return  CaronaDAOImpl.getInstance().getCarona(idCarona);
 	}
 	
+	/**
+	 * Método para retornar a carona de um determinado usuário com base no índice da lista de caronas cadastradas 
+	 * @param idSessao String - Id da sessão atual
+	 * @param indexCarona - Índice da lista de caronas
+	 * @return CaronaDomain - Retorna a carona cadastrada
+	 * @throws Exception - Lança exceção se o id da carona for null, vazio ou inexistente ou se o indice informado for inválido
+	 */
 	public CaronaDomain getCaronaUsuario(String idSessao, int indexCarona) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		String idCarona = UsuarioDAOImpl.getInstance().getUsuario(idSessao).getIdCaronaByIndex(indexCarona);		
 		return CaronaDAOImpl.getInstance().getCarona(idCarona);		
 	}
 	
+	/**
+	 * Método para retornar umaa lista de todas as caronas de um usuario cadastradas  
+	 * @param idSessao String - Id da sessão atual
+	 * @return ArrayList<CaronaDomain> - Lista das caronas cadastradas
+	 * @throws Exception - Lança exceção se o id da sessão for null, vazio ou inexistente
+	 */
 	public ArrayList<CaronaDomain> getTodasCaronasUsuario(String idSessao) throws Exception{
 		UsuarioDomain usuario =  UsuarioDAOImpl.getInstance().getUsuario(idSessao);
 		ArrayList<CaronaDomain> caronasUsuario = new ArrayList<CaronaDomain>();
@@ -149,8 +201,14 @@ public class CaronaBusiness {
 				
 		return caronasUsuario;
 	}
-	
-	//TODO: verificar este metodo 
+
+	//TODO: verificar este metodo
+	/**
+	 * Método para verificar se os campos de origem e destino estão dentro do padrão:
+	 * Para facilitar a padronização dos campos de origem e destino não será permitido informar estes campos utilizando caracteres especiais
+	 * @param valor
+	 * @return
+	 */ 
 	private boolean verificaCaracteres(String valor){
 
 		String patternTexto = valor;

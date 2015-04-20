@@ -10,16 +10,14 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class PontoDeEncontroBusiness {
 	
-	int id = 1;
-	
 	/** Objeto DAO para manipular os objetos da classe UsuarioDomain*/
 	//private CaronaDAOImpl caronaDAOImpl =  new CaronaDAOImpl();
 	
 	public String sugerirPontoEncontro(String idSessao, String idCarona, String pontoDeEncontro) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
-		String idSugestao = ""+id;
-		id++;
+		String idSugestao = ""+ CaronaDAOImpl.getInstance().idPontoEncontro;
+		CaronaDAOImpl.getInstance().idPontoEncontro++;
 		PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idSugestao, pontoDeEncontro);
 		CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoDeEncontro(ponto);
 		return idSugestao;
@@ -28,8 +26,8 @@ public class PontoDeEncontroBusiness {
 	public String sugerirPontoEncontro(String idSessao, String idCarona, String[] pontos) throws Exception{
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
-		String idSugestao = ""+id;
-		id++;
+		String idSugestao = ""+CaronaDAOImpl.getInstance().idPontoEncontro;
+		CaronaDAOImpl.getInstance().idPontoEncontro++;
 		
 		for (int i = 0; i < pontos.length; i++) {
 			PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idSugestao, pontos[i]);

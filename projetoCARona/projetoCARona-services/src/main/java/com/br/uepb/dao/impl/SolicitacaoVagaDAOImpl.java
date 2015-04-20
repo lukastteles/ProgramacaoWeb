@@ -9,6 +9,7 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	
+	public int idSolicitacao = 1;
 	ArrayList<SolicitacaoVagaDomain> listaSolicitacaoVagas = new ArrayList<SolicitacaoVagaDomain>();
 	
 	private static SolicitacaoVagaDAOImpl solocitacaoVagaDAOImpl;

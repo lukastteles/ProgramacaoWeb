@@ -8,7 +8,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserDomain {
-
+	
+	//TODO: lembrar de excluir esta classe de exemplo
 	@NotNull(message = "O nome não pode ser nulo")
 	@Size(min=2, max=30, message="Tamanho inválido de nome")
 	private String nome;

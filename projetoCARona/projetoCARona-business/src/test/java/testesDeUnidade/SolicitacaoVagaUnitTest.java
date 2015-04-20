@@ -197,8 +197,17 @@ public class SolicitacaoVagaUnitTest {
 			fail();
 		}	
 		
-		//TODO: ver com teles quando for solicitarVagaPontoEncontr passando um novo pontoEncontro
-		//tentar solicitar vaga na mesma sessao
+
+		//tentar solicitar vaga com novo ponto 
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Aeroporto");	
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			fail();
+		}
+		
+		//tentar solicitar vaga na carona do proprio usuario
 		try {
 			sessaoBusiness.abrirSessao("Mark", "Mark");
 			solicitacaoBusiness.solicitarVagaPontoEncontro("Mark", idCarona, "Parque do Povo");	
@@ -207,7 +216,7 @@ public class SolicitacaoVagaUnitTest {
 		} catch (Exception e) {
 			fail();
 		}
-		
+				
 		//tentar solicitar vaga em carona já concluida
 		try {
 			//solicitar 4 vagas

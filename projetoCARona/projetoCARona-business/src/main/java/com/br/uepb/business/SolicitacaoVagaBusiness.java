@@ -16,8 +16,6 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class SolicitacaoVagaBusiness {
 
-	int idSolicitacao = 1;
-	
 	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws Exception{
 		
 		if( (idSolicitacao == null) || (idSolicitacao.trim().equals(""))){
@@ -90,9 +88,9 @@ public class SolicitacaoVagaBusiness {
 		}
 		else {
 			//Cria a solicitacao da vaga e adiciona na carona 
-			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(idSolicitacao+"", idSessao, idCarona);
+			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(SolicitacaoVagaDAOImpl.getInstance().idSolicitacao+"", idSessao, idCarona);
 			SolicitacaoVagaDAOImpl.getInstance().addSolicitacaoVaga(solicitacaoVaga);			
-			idSolicitacao++;
+			SolicitacaoVagaDAOImpl.getInstance().idSolicitacao++;
 			int id = Integer.parseInt(solicitacaoVaga.getId());			
 			return id;
 		}		
@@ -114,11 +112,21 @@ public class SolicitacaoVagaBusiness {
 		else {
 			//TODO: criar metodo para sugerir ponto encontro
 			//Cria a solicitacao da vaga e adiciona na carona
-			PontoDeEncontroDomain pontoEncontro = carona.getPontoEncontroByNome(ponto);		 
-			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(idSolicitacao+"", idSessao, idCarona, pontoEncontro);
+			PontoDeEncontroDomain pontoEncontro;
+			if (carona.pontoExiste(ponto)) {
+				pontoEncontro = carona.getPontoEncontroByNome(ponto);
+			} else {
+				//Se o pontoEncontro não existir cria uma nova sugestao
+				String idSugestao = ""+ CaronaDAOImpl.getInstance().idPontoEncontro;
+				CaronaDAOImpl.getInstance().idPontoEncontro++;
+				pontoEncontro = new PontoDeEncontroDomain(idSugestao, ponto);
+				CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoDeEncontro(pontoEncontro);
+			}
+			
+			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(SolicitacaoVagaDAOImpl.getInstance().idSolicitacao+"", idSessao, idCarona, pontoEncontro);
 			SolicitacaoVagaDAOImpl.getInstance().addSolicitacaoVaga(solicitacaoVaga);			
 			
-			idSolicitacao++;
+			SolicitacaoVagaDAOImpl.getInstance().idSolicitacao++;
 			int id = Integer.parseInt(solicitacaoVaga.getId());			
 			return id;
 		}

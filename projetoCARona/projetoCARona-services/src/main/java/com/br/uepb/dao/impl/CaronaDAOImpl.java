@@ -18,6 +18,9 @@ public class CaronaDAOImpl implements CaronaDAO{
 	 * @since 1ª Iteração
 	 */
 
+	public int idCarona = 1;
+	public int idPontoEncontro = 1;
+	
 	final static Logger logger = Logger.getLogger(CaronaDAOImpl.class);
 	//Lista de caronas
 	ArrayList<CaronaDomain> listaCaronas = new ArrayList<CaronaDomain>();

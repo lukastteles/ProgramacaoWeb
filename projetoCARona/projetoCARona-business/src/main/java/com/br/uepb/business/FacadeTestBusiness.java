@@ -10,7 +10,6 @@ import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
-import com.br.uepb.validator.ValidarCampos;
 
 public class FacadeTestBusiness {
 
@@ -69,8 +68,7 @@ public class FacadeTestBusiness {
 	}
 		
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws Exception{
-		ValidarCampos validarCampos =  new ValidarCampos();
-		validarCampos.validarVagas(vagas);		
+		validarVagas(vagas);		
 		return caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, Integer.parseInt(vagas));
 	}
 		
@@ -289,4 +287,17 @@ public class FacadeTestBusiness {
 		ponto+="]";
 		return ponto;
 	}
+	
+	public void validarVagas(String vagas) throws Exception {
+		if ((vagas == null) || (vagas.trim().length() == 0)) {
+			throw new ProjetoCaronaException(MensagensErro.VAGA_INVALIDA);
+		}
+		
+		try { 
+			Integer.parseInt(vagas);
+		} catch (Exception e) {
+			throw new ProjetoCaronaException(MensagensErro.VAGA_INVALIDA);
+		}	
+	}
+	
 }

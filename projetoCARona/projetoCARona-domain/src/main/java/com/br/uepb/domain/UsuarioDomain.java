@@ -14,33 +14,33 @@ public class UsuarioDomain {
 	 * Classe de domínio que define o modelo para o Usuário
 	 * @author Luana Janaina / Lukas Teles
 	 * @version 0.1
-	 * @since 1ª Iteração
+	 * @since 18/04/2015
 	 */
 	
-	/** Login do Usuário*/
+	/** Login do usuário */
 	@NotNull(message = "Login inválido")
 	@Size(min=2, max=30, message="Login inválido")
 	private String login;
 	
-	/** Senha do Usuário para autenticação no sistema*/
-	@NotNull(message = "O login não pode ser nulo")
+	/** Senha do usuário para autenticação no sistema */
+	@NotNull(message = "O login não pode ser null")
 	@Size(min=2, message="A senha deve ter no mínimo 6 dígitos")
 	private String senha; 
 	
-	/** Perfil do Usuario, contém nome, email e endereço*/
+	/** Perfil do usuário, contém nome, email e endereço */
 	private PerfilDomain perfil;
 	
-	/** Caronas do usuário*/
+	/** Caronas do usuário */
 	private ArrayList<String> idCaronas = new ArrayList<String>();
 	
 	/**
-	 * Método Construtor de UsuarioDomain
-	 * @param login String - Login do Usuário
-	 * @param senha String - Senha do Usuário
-	 * @param nome String - Nome do Usuário
-	 * @param email String - Email do Usuário
-	 * @param endereco String - Endereço do Usuário
-	 * @throws Exception 
+	 * Método construtor de UsuarioDomain
+	 * @param login String - Login do usuário
+	 * @param senha String - Senha do usuário
+	 * @param nome String - Nome do usuário
+	 * @param email String - Email do usuário
+	 * @param endereco String - Endereço do usuário
+	 * @throws Exception - Lança exceção caso qualquer campo informado esteja vazio, null ou inválido 
 	 */
 	public UsuarioDomain(String login, String senha, String nome, String endereco, String email) throws Exception {
 		setLogin(login);
@@ -49,17 +49,18 @@ public class UsuarioDomain {
 	}
 	
 	/**
-	 * Método para pegar o Login do Usuário
-	 * @return String - Login do Usuário
+	 * Método para retornar o login do usuário
+	 * @return String - Login do usuário
 	 */
 	public String getLogin() {
 		return login;
 	}
 	
 	/**
-	 * Método para inserir o Login do Usuário
-	 * @return String - Senha do Usuário
-	 */
+	 * Método para inserir o Login do usuário
+	 * @param login String - Login do usuário
+	 * @throws Exception - Lança exceção caso o login informado esteja vazio ou null
+	 */	
 	private void setLogin(String login) throws Exception{
 		if ( (login == null) || (login.trim().equals("")) ){
 			throw new ProjetoCaronaException("Login inválido");
@@ -68,17 +69,17 @@ public class UsuarioDomain {
 	}
 
 	/**
-	 * Método para pegar a senha do Usuário
-	 * @return String - Senha do Usuário
+	 * Método para retornar a senha do usuário
+	 * @return String - Senha do usuário
 	 */
 	public String getSenha() {
 		return senha;
 	}
 
 	/**
-	 * Método mudar a senha do Usuário
-	 * @param senha String - Nova senha
-	 * @throws Exception 
+	 * Método mudar a senha do usuário
+	 * @param senha String - Senha de login do usuario
+	 * @throws Exception - Lança exceção caso a senha informado esteja vazio ou null
 	 */
 	public void setSenha(String senha) throws Exception {
 		if ( (senha == null) || (senha.trim().equals("")) ){
@@ -89,19 +90,19 @@ public class UsuarioDomain {
 	}
 	
 	/**
-	 * Método para pegar o perfil do Usuário
-	 * @return Perfil - Perfil do Usuário
+	 * Método para retornar o perfil do usuário
+	 * @return PerfilDomain - Perfil do usuário
 	 */
 	public PerfilDomain getPerfil() {
 		return perfil;
 	}
 
 	/**
-	 * Método que altera todos os parâmetros Nome, Endereço e Email do Perfil
-	 * @param nome - Nome do Usuario
-	 * @param endereco - Endereço do Usuario
-	 * @param email - Email do Usuario
-	 * @throws Exception
+	 * Método que informa todos os parâmetros nome, endereço e email do Perfil
+	 * @param nome String - Nome do usuário
+	 * @param endereco String - Endereço do usuário
+	 * @param email String - Email do usuário
+	 * @throws Exception - Lança exceção caso qualquer parâmetro informado esteja vazio ou null
 	 */
 	private void setPerfil(String nome, String endereco, String email) throws Exception{
 		if ( (nome == null) || (nome.trim().equals("")) ){
@@ -117,9 +118,10 @@ public class UsuarioDomain {
 		this.perfil = new PerfilDomain(nome, endereco, email);
 		
 	}
+	
 	/**
-	 * Método para pegar a lista de Caronas do Usuário
-	 * @return ArrayList - Lista de Caronas do Usuário
+	 * Método para retornar a lista de caronas do usuário
+	 * @return ArrayList - Lista de caronas do usuário
 	 */
 	public ArrayList<String> getCaronas() {
 		return idCaronas;
@@ -127,17 +129,17 @@ public class UsuarioDomain {
 	
 	/**
 	 * Método que adiciona um salva o id da carona do Usuário
-	 * @param id - Id da Carona
+	 * @param id String - Id da carona
 	 */
 	public void addCarona(String id){		
 		idCaronas.add(id);
 	}
 
 	/**
-	 * Retorna o id de uma carona do Usuario pelo index 
-	 * @param indexCarona - index da Carona
-	 * @return - Id da Carona
-	 * @throws Exception
+	 * Método para retornar o id de uma carona do Usuario pelo index 
+	 * @param indexCarona int - Index da carona na lista de caronas
+	 * @return String - Id da carona
+	 * @throws Exception - Lança exceção se o index informado for igual a zero ou maior que a quantidade de indices da lista
 	 */
 	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
 		if ((indexCarona == 0) || (indexCarona > idCaronas.size())) {

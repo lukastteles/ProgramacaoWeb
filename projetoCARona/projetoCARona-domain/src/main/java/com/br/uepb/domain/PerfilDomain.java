@@ -11,47 +11,46 @@ public class PerfilDomain {
 	 * Classe de domínio que define o modelo para o Perfil do Usuário
 	 * @author Luana Janaina / Lukas Teles
 	 * @version 0.1
-	 * @since 1ª Iteração
+	 * @since 18/04/2015
 	 */
 	
-	/** Nome do Usuário*/
+	/** Nome do usuário*/
 	@NotNull(message = "O Nome não pode ser nulo")
 	private String nome;
 	
-	/** Endereço do Usuário*/
+	/** Endereço do usuário*/
 	@NotNull(message = "O Endereço não pode ser nulo")
 	private String endereco;
 	
-	/** Email do Usuário*/
+	/** Email do usuário*/
 	@NotNull(message = "O Email não pode ser nulo")
 	@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
 	private String email;
 	
-	/** Historico de Caronas*/
+	/** Historico de caronas*/
 	private ArrayList<String> historicoDeCaronas = new ArrayList<String>();
 	
-	/** Historico de vagas em Caronas*/
+	/** Historico de vagas em caronas*/
 	private ArrayList<String> historicoDeVagasEmCaronas = new ArrayList<String>();
-	
-	
-	/** Historico de Caronas Seguras e Tranquilas*/
+		
+	/** Historico de caronas seguras e tranquilas*/
 	private ArrayList<String> caronasSegurasETranquilas = new ArrayList<String>();
 	
-	/** Historico de caronas que não Funcionaram*/
+	/** Historico de caronas que não funcionaram*/
 	private ArrayList<String> caronasQueNaoFuncionaram = new ArrayList<String>();
 	
-	/** Historico de faltas em Vagas de Caronas*/
+	/** Historico de faltas em vagas de caronas*/
 	private ArrayList<String> faltasEmVagasDeCaronas = new ArrayList<String>();
 	
-	/** Historico de presencas em vagas de Caronas*/
+	/** Historico de presencas em vagas de caronas*/
 	private ArrayList<String> presencasEmVagasDeCaronas = new ArrayList<String>();
 
 	/**
-	 * Método Construtor de PerfilDomain
-	 * @param nome String - Nome do Usuário
-	 * @param endereco String - Endereço do Usuário
-	 * @param email String - Email do Usuário
+	 * Método construtor de PerfilDomain
+	 * @param nome String - Nome do usuário
+	 * @param endereco String - Endereço do usuário
+	 * @param email String - Email do usuário
 	 */
 	public PerfilDomain(String nome, String endereco, String email) {
 		setNome(nome);
@@ -60,23 +59,23 @@ public class PerfilDomain {
 	}
 
 	/**
-	 * Método para pegar o Nome do Usuário
-	 * @return String - Nome do Usuário
+	 * Método para retornar o nome do usuário
+	 * @return String - Nome do usuário
 	 */
 	public String getNome() {
 		return nome;
 	}
 
 	/**
-	 * Método mudar o nome do Usuário
-	 * @param senha String - Novo nome
+	 * Método informar o nome do usuário
+	 * @param nome String - Nome do usuário
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
 	/**
-	 * Método para pegar o Email do Usuário
+	 * Método para retornar o email do usuário
 	 * @return String - Email do Usuário
 	 */
 	public String getEmail() {
@@ -84,40 +83,40 @@ public class PerfilDomain {
 	}
 
 	/**
-	 * Método mudar o Email do Usuário
-	 * @param senha String - Novo Email
+	 * Método informar o email do usuário
+	 * @param email String - Email do usuário
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	/**
-	 * Método para pegar o Endereço do Usuário
-	 * @return String - Endereço do Usuário
+	 * Método para retornar o endereço do usuário
+	 * @return String - Endereço do usuário
 	 */
 	public String getEndereco() {
 		return endereco;
 	}
 
 	/**
-	 * Método mudar o Endereço do Usuário
-	 * @param senha String - Novo Endereço
+	 * Método informar o endereço do usuário
+	 * @param endereco String - Endereço do usuário
 	 */
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
 
 	/**
-	 * Adiciona o id da carona no histórico de caronas
-	 * @param id - Id da Carona
+	 * Método para adicionar o id da carona no histórico de caronas
+	 * @param id String - Id da carona
 	 */
 	public void addHistoricoDeCaronas(String id) {
 		historicoDeCaronas.add(id);
 	}
 	
 	/**
-	 * retorna o historico de caronas
-	 * @return - historico de caronas
+	 * Método para retornar o histórico de caronas
+	 * @return String - Histórico de caronas
 	 */
 	public String[] getHistoricoDeCaronas() {
 		String[] array = new String[historicoDeCaronas.size()];
@@ -126,16 +125,16 @@ public class PerfilDomain {
 	}
 
 	/**
-	 * Adiciona o id da carona no histórico de vagas em caronas
-	 * @param id - Id da Carona
+	 * Método para adicionar o id da carona no histórico de vagas em caronas
+	 * @param id String - Id da carona
 	 */
 	public void addHistoricoDeVagasEmCaronas(String id) {
 		historicoDeVagasEmCaronas.add(id);
 	}
 	
 	/**
-	 * Retorna o historico de vagas em carona
-	 * @return - historico de vagas em carona
+	 * Método para retornar o histórico de vagas em carona
+	 * @return String[] - Histórico de vagas em carona
 	 */
 	public String[] getHistoricoDeVagasEmCaronas() {
 		String[] array = new String[historicoDeVagasEmCaronas.size()];
@@ -143,44 +142,44 @@ public class PerfilDomain {
 		return  array;
 	}
 
+	//TODO: Ainda nao classifica as caronas nesses US
 	/**
-	 * Retorna o historico de caronas seguras e tranquilas
-	 * @return - historico de caronas seguras e tranquilas
+	 * Método para retornar o histórico de caronas seguras e tranquilas
+	 * @return String[] - Histórico de caronas seguras e tranquilas
 	 */
-	//Ainda nao classifica as caronas nesses US
 	public String[] getCaronasSegurasETranquilas() {
 		String[] array = new String[caronasSegurasETranquilas.size()];
 		array = caronasSegurasETranquilas.toArray(array);
 		return  array;
 	}
 
+	//TODO: Ainda nao classifica as caronas nesses US
 	/**
-	 * Retorna o histórico de caronas que não funcionaram
-	 * @return - histórico de caronas que não funcionaram
+	 * Método para retornar o histórico de caronas que não funcionaram
+	 * @return String [] - Histórico de caronas que não funcionaram
 	 */
-	//Ainda nao classifica as caronas nesses US
 	public String[] getCaronasQueNaoFuncionaram() {
 		String[] array = new String[caronasQueNaoFuncionaram.size()];
 		array = caronasQueNaoFuncionaram.toArray(array);
 		return  array;
 	}
 
+	//TODO: Ainda nao registra as faltas ou presencas nas caronas nesses US
 	/**
-	 * Retorna o historico de faltas em vagas de caronas
-	 * @return - historico de faltas em vagas de caronas
+	 * Método para retornar o histórico de faltas em vagas de caronas
+	 * @return String[] - Histórico de faltas em vagas de caronas
 	 */
-	//Ainda nao registra as faltas ou presencas nas caronas nesses US
 	public String[] getFaltasEmVagasDeCaronas() {
 		String[] array = new String[faltasEmVagasDeCaronas.size()];
 		array = faltasEmVagasDeCaronas.toArray(array);
 		return  array;
 	}
 
+	//TODO: Ainda nao registra as faltas ou presencas nas caronas nesses US
 	/**
-	 * Retorna o histórico de presencas em vagas de carona
-	 * @return - histórico de presencas em vagas de carona
+	 * Método para retornar o histórico de presencas em vagas de carona
+	 * @return String[] - Histórico de presencas em vagas de carona
 	 */
-	//Ainda nao registra as faltas ou presencas nas caronas nesses US
 	public String[] getPresencasEmVagasDeCaronas() {
 		String[] array = new String[presencasEmVagasDeCaronas.size()];
 		array = presencasEmVagasDeCaronas.toArray(array);
