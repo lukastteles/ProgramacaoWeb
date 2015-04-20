@@ -96,6 +96,13 @@ public class UsuarioDomain {
 		return perfil;
 	}
 
+	/**
+	 * Método que altera todos os parâmetros Nome, Endereço e Email do Perfil
+	 * @param nome - Nome do Usuario
+	 * @param endereco - Endereço do Usuario
+	 * @param email - Email do Usuario
+	 * @throws Exception
+	 */
 	private void setPerfil(String nome, String endereco, String email) throws Exception{
 		if ( (nome == null) || (nome.trim().equals("")) ){
 			throw new ProjetoCaronaException(MensagensErro.NOME_INVALIDO);
@@ -118,11 +125,20 @@ public class UsuarioDomain {
 		return idCaronas;
 	}
 	
+	/**
+	 * Método que adiciona um salva o id da carona do Usuário
+	 * @param id - Id da Carona
+	 */
 	public void addCarona(String id){		
 		idCaronas.add(id);
 	}
 
-	 
+	/**
+	 * Retorna o id de uma carona do Usuario pelo index 
+	 * @param indexCarona - index da Carona
+	 * @return - Id da Carona
+	 * @throws Exception
+	 */
 	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
 		if ((indexCarona == 0) || (indexCarona > idCaronas.size())) {
 			throw new ProjetoCaronaException(MensagensErro.INDICE_INVALIDO);
