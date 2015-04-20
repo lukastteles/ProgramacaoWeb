@@ -1,0 +1,28 @@
+CREATE DATABASE `projetocarona` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE PROJETOCARONA;
+
+
+
+CREATE TABLE USUARIOS(
+
+	ID_USUARIO INT NOT NULL AUTO_INCREMENT,
+
+	LOGIN varchar(25) NOT NULL,
+	SENHA varchar(25) NOT NULL,
+    
+	NOME varchar(255) NOT NULL,
+    
+	ENDERECO varchar(255) NOT NULL,
+    
+	EMAIL varchar(255) NOT NULL,
+    
+    
+
+    PRIMARY KEY (ID_USUARIO)
+    
+
+);
+
+//exemplo de insert
+INSERT INTO `projetocarona`.`USUARIOS` (`LOGIN`, `SENHA`, `NOME`, `ENDERECO`, `EMAIL`) VALUES ('luana', 'luana', '1', 'rua', 'email@email.com');
