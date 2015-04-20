@@ -18,15 +18,19 @@ public class CaronaDAOImpl implements CaronaDAO{
 	 * @since 1ª Iteração
 	 */
 
+	//Variáveis temporárias para controlar o Id, que serão retiradas quando houver BD
 	public int idCarona = 1;
 	public int idPontoEncontro = 1;
 	
 	final static Logger logger = Logger.getLogger(CaronaDAOImpl.class);
-	//Lista de caronas
+	
+	/** Lista para armazenar objetos CaronaDomain*/
 	ArrayList<CaronaDomain> listaCaronas = new ArrayList<CaronaDomain>();
 	
+	//instancia Singleton de CaronaDAOImpl
 	private static CaronaDAOImpl caronaDAOImpl;
 	
+	//método para pegar instancia de CaronaDAOImpl
 	public static CaronaDAOImpl getInstance(){
 		if(caronaDAOImpl == null){
 			caronaDAOImpl = new CaronaDAOImpl();
@@ -36,8 +40,10 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}
 	}
 	
+	//Construtor de CaronaDAOImpl
 	private CaronaDAOImpl(){ }
 
+	
 	@Override
 	public void addCarona(CaronaDomain carona) {
 		listaCaronas.add(carona);
@@ -110,6 +116,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 		throw new ProjetoCaronaException(MensagensErro.CARONA_INEXISTENTE);
 	}
 
+	
 	public void apagaCaronas(){
 		if (listaCaronas.size() > 0) {
 			listaCaronas.removeAll(listaCaronas);
