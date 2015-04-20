@@ -12,14 +12,6 @@ import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class FacadeTestBusiness {
-
-	/**
-	 * Classe para chamar os métodos a serem testados no EasyAccept
-	 * @author luana Janaina / Lukas Teles 
-	 * @version 0.1
-	 * @since 1ª Iteração
-	 */
-	
 	
 	UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
 	SessaoBusiness sessaoBusiness = new SessaoBusiness();

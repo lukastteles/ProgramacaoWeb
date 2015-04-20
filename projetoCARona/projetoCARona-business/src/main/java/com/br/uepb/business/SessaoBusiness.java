@@ -6,19 +6,19 @@ import com.br.uepb.domain.SessaoDomain;
 public class SessaoBusiness {
 
 	/**
-	 * Classe que contém a parte lógica da Sessão
-	 * @author luana Janaina / Lukas Teles 
+	 * Classe para as regras de negócio referentes à sessao
+	 * @author Luana Janaina / Lukas Teles
 	 * @version 0.1
-	 * @since 1ª Iteração
+	 * @since 20/04/2015
 	 */
 	SessaoDomain sessaoDomain;
 	
 	/**
-	 * Método para iniciar uma sessão com o usuário
-	 * @param login String - Login do Usuário da Sessão
-	 * @param senha String - Senha do Usuário da Sessão
-	 * @return int Id da Sessão
-	 * @throws Exception 
+	 * Método para iniciar uma sessão do usuário
+	 * @param login String - Login do usuário da sessão
+	 * @param senha String - Senha do usuário da sessão
+	 * @return String - Id da sessão
+	 * @throws Exception - Lança exceção se qualquer parâmetro informado for null ou vazio ou se não existir nenhum usuário com os login e senha informados 
 	 */
 	public String abrirSessao(String login, String senha) throws Exception {
 		sessaoDomain = new SessaoDomain(login, senha);
@@ -28,8 +28,9 @@ public class SessaoBusiness {
 		
 	/**
 	 * Método para encerrar a sessão do usuário
-	 * Após encerrar a sessão a conexão com o Banco de dados será encerrada
-	 * @throws Exception 
+	 * Após encerrar a sessão a conexão com os dados relacionados ao usuário atual será encerrada
+	 * @param login String - Login do usuário
+	 * @throws Exception - Lança exceção se o login foi null ou vazio ou se não existir uma sessao aberta com o login informado
 	 */
 	public void encerrarSessao(String login) throws Exception{
 		SessaoDAOImpl.getInstance().deleteSessao(login);		

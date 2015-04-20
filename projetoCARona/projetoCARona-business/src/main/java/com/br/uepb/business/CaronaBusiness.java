@@ -16,7 +16,7 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
 public class CaronaBusiness {
 	
 	/**
-	 * Classe as regras de negócio referentes à carona
+	 * Classe para as regras de negócio referentes à carona
 	 * @author Luana Janaina / Lukas Teles
 	 * @version 0.1
 	 * @since 20/04/2015

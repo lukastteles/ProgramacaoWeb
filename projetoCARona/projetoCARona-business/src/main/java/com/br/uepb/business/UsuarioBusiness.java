@@ -14,18 +14,21 @@ public class UsuarioBusiness {
 	 * Classe que contém a lógica de negócio para as funcionalidades referentes ao Usuário
 	 * @author Luana Janaina / Lukas Teles 
 	 * @version 0.1
-	 * @since 1ª Iteração
+	 * @since 20/04/2015
 	 */
-		
-	//private UsuarioDAOImpl usuarioDao = new UsuarioDAOImpl();
 	
 	/**
 	 * Método para criar um novo usuário
-	 * @param login String - Login do Usuário
-	 * @param senha String - Senha do Usuário
-	 * @param nome String - Nome do Usuário
-	 * @param endereco String - Endereço do Usuário
-	 * @param email String - Email do Usuário
+	 * @param login String - Login do usuário
+	 * @param senha String - Senha do usuário
+	 * @param nome String - Nome do usuário
+	 * @param endereco String - Endereço do usuário
+	 * @param email String - Email do usuário
+	 * @throws Exception - Lança exceção se qualquer parâmetro informado for null, vazio ou se não estiver dentro dos padrões definidos
+	 * Os Seguintes padrões utilizados são:
+	 *  - Data: dd/MM/yyyy
+	 *  - Hora: HH:mm
+	 *  - Email: email@email.com
 	 */
 	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception{
 		UsuarioDomain usuario = new UsuarioDomain(login, senha, nome, endereco, email);
@@ -33,10 +36,11 @@ public class UsuarioBusiness {
 	}
 	
 	/**
-	 * Método para pegar o valor de um dos atributos do Usuário
-	 * @param login String - Login do Usuário
-	 * @param atributo String - Atributo a ser requisitado
-	 * @return String - Valor do atributo solicitado
+	 * Método para pegar os dados relacionados do usuário
+	 * @param login String - Login do usuário
+	 * @param atributo String - Tipo de dado do usuário a ser retornado
+	 * @return String - Dado do usuário
+	 * @throws Exception - Lança exceção se qualquer parâmetro informado for null, vazio ou inesistente
 	 */
 	public String getAtributoUsuario(String login, String atributo) throws Exception{		
 		if((atributo == null) || (atributo.trim().equals(""))){
