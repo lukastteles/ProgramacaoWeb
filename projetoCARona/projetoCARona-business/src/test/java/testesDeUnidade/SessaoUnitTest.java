@@ -94,11 +94,10 @@ public class SessaoUnitTest {
 		/*
 		 * excecoes para abrirSessao
 		 */
-		String idSessao;
 		
 		//Login Vazio
 		try {
-			idSessao = sessaoBusiness.abrirSessao("", senha);				
+			sessaoBusiness.abrirSessao("", senha);				
 		} catch (ProjetoCaronaException e) {
 			Assert.assertEquals("Login inválido", e.getMessage());
 		} catch (Exception e) {
@@ -106,7 +105,7 @@ public class SessaoUnitTest {
 		}
 		
 		try {
-			idSessao = sessaoBusiness.abrirSessao(null, senha);				
+			sessaoBusiness.abrirSessao(null, senha);				
 		} catch (ProjetoCaronaException e) {
 			Assert.assertEquals("Login inválido", e.getMessage());
 		} catch (Exception e) {
@@ -115,7 +114,7 @@ public class SessaoUnitTest {
 		
 		//Senha Vazia
 		try {
-			idSessao = sessaoBusiness.abrirSessao(login, "");				
+			sessaoBusiness.abrirSessao(login, "");				
 		} catch (ProjetoCaronaException e) {
 			Assert.assertEquals("Login inválido", e.getMessage());
 		} catch (Exception e) {
@@ -123,7 +122,7 @@ public class SessaoUnitTest {
 		}
 		
 		try {
-			idSessao = sessaoBusiness.abrirSessao(login, null);				
+			sessaoBusiness.abrirSessao(login, null);				
 		} catch (ProjetoCaronaException e) {
 			Assert.assertEquals("Login inválido", e.getMessage());
 		} catch (Exception e) {
@@ -132,7 +131,7 @@ public class SessaoUnitTest {
 		
 		//Login Incoreto
 		try {
-			idSessao = sessaoBusiness.abrirSessao("login", senha);				
+			sessaoBusiness.abrirSessao("login", senha);				
 		} catch (ProjetoCaronaException e) {
 			Assert.assertEquals("Usuário inexistente", e.getMessage());
 		} catch (Exception e) {
@@ -141,7 +140,7 @@ public class SessaoUnitTest {
 		
 		//Senha Incoreta
 		try {
-			idSessao = sessaoBusiness.abrirSessao(login, "senha");				
+			sessaoBusiness.abrirSessao(login, "senha");				
 		} catch (ProjetoCaronaException e) {
 			Assert.assertEquals("Login inválido", e.getMessage());
 		} catch (Exception e) {
@@ -152,8 +151,8 @@ public class SessaoUnitTest {
 		 * Abrir Sessao 2 Vezes
 		 */
 		try {
-			idSessao = sessaoBusiness.abrirSessao(login, senha);
-			idSessao = sessaoBusiness.abrirSessao(login, senha);
+			sessaoBusiness.abrirSessao(login, senha);
+			sessaoBusiness.abrirSessao(login, senha);
 		} catch (ProjetoCaronaException e) {
 			fail();
 		} catch (Exception e) {
@@ -186,8 +185,8 @@ public class SessaoUnitTest {
 		 */
 		//Senha Incoreta
 		try {
-			idSessao = sessaoBusiness.abrirSessao(login, senha);
-			idSessao = sessaoBusiness.abrirSessao("outro", "senha");
+			sessaoBusiness.abrirSessao(login, senha);
+			sessaoBusiness.abrirSessao("outro", "senha");
 			SessaoDAOImpl.getInstance().apagaSessoes();
 		} catch (ProjetoCaronaException e) {
 			fail();

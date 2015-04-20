@@ -34,7 +34,7 @@ public class PontoDeEncontroDomain {
 		
 	}
 	
-	public boolean isFoiAceita() {
+	public boolean getFoiAceita() {
 		return foiAceita;
 	}
 	

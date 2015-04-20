@@ -2,10 +2,6 @@
 
 #US05 - Solicitação de vagas. Permitir a solicitação de uma vaga em uma carona disponível.  Este processo envolve os seguintes passos:
 #          1. Requisitar vaga. Um usuário pode solicitar uma vaga em qualquer carona disponível no sistema.
-#   #User Story 05 - Solicitação de vagas
-
-#US05 - Solicitação de vagas. Permitir a solicitação de uma vaga em uma carona disponível.  Este processo envolve os seguintes passos:
-#          1. Requisitar vaga. Um usuário pode solicitar uma vaga em qualquer carona disponível no sistema.
 #          2. Aprovar vaga. O usuário que cadastrou a carona recebe a solicitação e pode aprová-la ou não. 
 #             Ao aprová-la a quantidade de vagas disponíveis na carona é atualizada.
 

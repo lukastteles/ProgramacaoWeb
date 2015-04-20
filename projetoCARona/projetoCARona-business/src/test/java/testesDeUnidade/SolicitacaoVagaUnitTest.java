@@ -31,6 +31,12 @@ public class SolicitacaoVagaUnitTest {
 	private SolicitacaoVagaBusiness solicitacaoBusiness;
 	private PontoDeEncontroBusiness pontoEncontro;
 	
+	private String idCarona;
+	
+	/* cria o ambiente para realizar os testes
+	 * neste caso será criado 2 usuarios Mark e Teles
+	 * Mark irá cadastrar uma carona com 4 vagas
+	 */
 	@Before
 	public void iniciaBusiness(){
 		usuarioBusiness = new UsuarioBusiness();
@@ -39,59 +45,87 @@ public class SolicitacaoVagaUnitTest {
 		solicitacaoBusiness = new SolicitacaoVagaBusiness();
 		pontoEncontro = new PontoDeEncontroBusiness();
 		
-		//limpa os dados antes de iniciar		
+		//limpa os dados antes de iniciar qualquer teste	
 		CaronaDAOImpl.getInstance().apagaCaronas();
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
 		SessaoDAOImpl.getInstance().apagaSessoes();		
 		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
+
+		try {
+			//cria os usuarios
+			usuarioBusiness.criarUsuario("Mark", "Mark", "Mark", "Rua", "mark@gmail.com");
+			usuarioBusiness.criarUsuario("Teles", "Teles", "Teles", "Rua", "teles@gmail.com");
+			
+			//Mark cadastra 1 carona e sugere 1 ponto encontro
+			sessaoBusiness.abrirSessao("Mark", "Mark");						
+			idCarona = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "João Pessoa", "31/05/2015", "10:00", 4);
+			pontoEncontro.sugerirPontoEncontro("Mark", idCarona, "Parque do Povo");
+			sessaoBusiness.encerrarSessao("Mark");
+			
+			//Teles Sugere um conjunto de pontos	
+			sessaoBusiness.abrirSessao("Teles", "Teles");		
+			String[] pontos = {"Açude Velho", "Parque da Criança"};
+			pontoEncontro.sugerirPontoEncontro("Teles", idCarona, pontos);
+			sessaoBusiness.encerrarSessao("Teles");
+		} catch (Exception e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void testSolicitarVaga(){
-		String caronaID1 = "";
-		
-		//cria usuario e acessa a sessao
 		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 4);
-			sessaoBusiness.encerrarSessao("Mark");
-			
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
-			
+			sessaoBusiness.abrirSessao("Teles", "Teles");	
+			solicitacaoBusiness.solicitarVaga("Teles", idCarona);						
+		} catch (Exception e) {
+			fail();
+		}	
+		
+		//verificar se o usuario que cadastrou a carona pode solicitar vaga
+		try {
+			sessaoBusiness.encerrarSessao("Teles");
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.solicitarVaga("Mark", idCarona);	
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.CARONA_NAO_IDENTIFICADA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}
 		
+		//tentar solicitar vaga em carona já concluida
 		try {
-			solicitacaoBusiness.solicitarVaga("Teles", caronaID1);						
+			//solicitar 4 vagas
+			sessaoBusiness.encerrarSessao("Mark");
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao1 = solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			int idSolicitacao2 = solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			int idSolicitacao3 = solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			int idSolicitacao4 = solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			
+			//aceitar 4 vagas para a carona estar completa
+			sessaoBusiness.encerrarSessao("Teles");
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao2+"");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao3+"");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao4+"");
+			
+			//tenta solicitar a carona que já está completa
+			sessaoBusiness.encerrarSessao("Mark");			
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.VAGAS_OCUPADAS, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
-		}				
+		}
 	}
 	
 	@Test
-	public void testSolicitarVagaSessaoInvalida(){
-		String caronaID1 = "";
-		
-		//cria usuario e acessa a sessao
-		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 5);
-			
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
-		} catch (Exception e) {
-			fail();
-		}
-		
+	public void testSolicitarVagaSessaoInvalida(){	
 		//sessao vazia
 		try {
-			solicitacaoBusiness.solicitarVaga("", caronaID1);
+			solicitacaoBusiness.solicitarVaga("", idCarona);
 		}  catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
@@ -100,16 +134,16 @@ public class SolicitacaoVagaUnitTest {
 		
 		//sessao null
 		try {
-			solicitacaoBusiness.solicitarVaga(null, caronaID1);
+			solicitacaoBusiness.solicitarVaga(null, idCarona);
 		}  catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}	
 		
-		//sessao inexistente
+		//sessao invalida
 		try {
-			solicitacaoBusiness.solicitarVaga("sessao1", caronaID1);
+			solicitacaoBusiness.solicitarVaga("sessao1", idCarona);
 		}  catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
@@ -118,16 +152,10 @@ public class SolicitacaoVagaUnitTest {
 	}
 
 	@Test
-	public void testSolicitarVagaCaronaInvalida(){		
-		//cria usuario e acessa a sessao
+	public void testSolicitarVagaCaronaInvalida(){			
+		//inicia a sessao
 		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 5);
-			
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
+			sessaoBusiness.abrirSessao("Teles", "Teles");
 		} catch (Exception e) {
 			fail();
 		}
@@ -157,42 +185,53 @@ public class SolicitacaoVagaUnitTest {
 			assertEquals(MensagensErro.CARONA_INEXISTENTE, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
-		}	
-		
+		}			
 	}
 	
 	@Test
 	public void testSolicitarVagaPonto(){
-		//cria usuario e acessa a sessao e adiciona Pontos de encontros
-		String caronaID1 = null;
 		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 4);
-			
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
-			String[] pontos = {"Açude Velho", "Parque da Criança"};
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, pontos);
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, "Parque do Povo");			
-			
+			sessaoBusiness.abrirSessao("Teles", "Teles");	
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");				
+		} catch (Exception e) {
+			fail();
+		}	
+		
+		//TODO: ver com teles quando for solicitarVagaPontoEncontr passando um novo pontoEncontro
+		//tentar solicitar vaga na mesma sessao
+		try {
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Mark", idCarona, "Parque do Povo");	
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.CARONA_NAO_IDENTIFICADA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}
 		
+		//tentar solicitar vaga em carona já concluida
 		try {
-			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque do Povo");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			fail();
-		}	
-		
-		//tentar solicitar vaga para ponto nao aceito
-		try {
-			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque da Criança");
+			//solicitar 4 vagas
+			sessaoBusiness.encerrarSessao("Mark");
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+			int idSolicitacao2 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+			int idSolicitacao3 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+			int idSolicitacao4 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+				
+			//aceitar 4 vagas para a carona estar completa
+			sessaoBusiness.encerrarSessao("Teles");
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao2+"");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao3+"");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao4+"");
+					
+			//tenta solicitar a carona que já está completa
+			sessaoBusiness.encerrarSessao("Mark");			
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
-			assertEquals(MensagensErro.PONTO_INVALIDO, projetoCaronaErro.getMessage());
+			assertEquals(MensagensErro.VAGAS_OCUPADAS, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}
@@ -200,24 +239,9 @@ public class SolicitacaoVagaUnitTest {
 	
 	@Test
 	public void testSolicitarVagaPontoSessaoInvalida(){
-		//cria usuario e acessa a sessao e adiciona Pontos de encontros
-		String caronaID1 = null;
-		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 4);
-			
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");							
-			
-		} catch (Exception e) {
-			fail();
-		}
-		
 		//sessao vazia
 		try {
-			solicitacaoBusiness.solicitarVagaPontoEncontro("", caronaID1, "Parque da Criança");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("", idCarona, "Parque da Criança");
 		}  catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
@@ -226,7 +250,7 @@ public class SolicitacaoVagaUnitTest {
 				
 		//sessao null
 		try {
-			solicitacaoBusiness.solicitarVagaPontoEncontro(null, caronaID1, "Parque da Criança");
+			solicitacaoBusiness.solicitarVagaPontoEncontro(null, idCarona, "Parque da Criança");
 		}  catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
@@ -235,7 +259,7 @@ public class SolicitacaoVagaUnitTest {
 				
 		//sessao inexistente
 		try {
-			solicitacaoBusiness.solicitarVagaPontoEncontro("sessao", caronaID1, "Parque da Criança");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("sessao", idCarona, "Parque da Criança");
 		}  catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
@@ -244,24 +268,13 @@ public class SolicitacaoVagaUnitTest {
 	}
 	
 	@Test
-	public void testSolicitarVagaPontoCaronaInvalida(){		
-		//cria usuario e acessa a sessao
-		String caronaID1 = null;
+	public void testSolicitarVagaPontoCaronaInvalida(){
+		//abrir sessao
 		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 4);
-			
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
-			String[] pontos = {"Açude Velho", "Parque da Criança"};
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, pontos);
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, "Parque do Povo");					
-			
+			sessaoBusiness.abrirSessao("Teles", "Teles");					
 		} catch (Exception e) {
 			fail();
-		}
+		}	
 		
 		//carona vazia
 		try {
@@ -293,36 +306,36 @@ public class SolicitacaoVagaUnitTest {
 	
 	@Test
 	public void testGetAtributoSolicitacoes(){
-		//cria usuario e acessa a sessao
-		String caronaID1 = null;
+		//abrir sessao
 		try {
-		//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 4);
-					
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
-			String[] pontos = {"Açude Velho", "Parque da Criança"};
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, pontos);
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, "Parque do Povo");					
-			
+			sessaoBusiness.abrirSessao("Teles", "Teles");					
 		} catch (Exception e) {
 			fail();
 		}
 		
+		//Cria uma solicitacao e verifica o retorno
 		int idSolicitacao=0;
 		try {
-			idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque do Povo");
+			idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
 			Assert.assertEquals("Campina Grande", solicitacaoBusiness.getAtributoSolicitacao(idSolicitacao+"", "origem"));
-			Assert.assertEquals("Areia", solicitacaoBusiness.getAtributoSolicitacao(idSolicitacao+"", "destino"));
+			Assert.assertEquals("João Pessoa", solicitacaoBusiness.getAtributoSolicitacao(idSolicitacao+"", "destino"));
 			Assert.assertEquals("Mark", solicitacaoBusiness.getAtributoSolicitacao(idSolicitacao+"", "Dono da carona"));
 			Assert.assertEquals("Teles", solicitacaoBusiness.getAtributoSolicitacao(idSolicitacao+"", "Dono da solicitacao"));
 			Assert.assertEquals("Parque do Povo", solicitacaoBusiness.getAtributoSolicitacao(idSolicitacao+"", "Ponto de Encontro"));
 		} catch (Exception e) {
 			fail();
 		}
-		
+	}
+	
+	@Test
+	public void testGetAtributoSolicitacaoInexistente(){
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");					
+		} catch (Exception e) {
+			fail();
+		}
+				
 		//solicitacao inexistente
 		try {
 			solicitacaoBusiness.getAtributoSolicitacao("C", "destino");
@@ -350,6 +363,20 @@ public class SolicitacaoVagaUnitTest {
 			fail();
 		}
 		
+	}
+	
+	@Test
+	public void testGetAtributoSolicitacaoInvalido(){
+		int idSolicitacao=0;
+		
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+		} catch (Exception e) {
+			fail();
+		}
+				
 		//atributo inexistente
 		try {
 			solicitacaoBusiness.getAtributoSolicitacao(idSolicitacao+"", "Dados da Carona");
@@ -381,35 +408,61 @@ public class SolicitacaoVagaUnitTest {
 	
 	@Test
 	public void testGetAceitarSolicitacao(){
-		//cria usuario e acessa a sessao
-		String caronaID1 = null;
+		//abrir sessao
+		int idSolicitacao = 0;
+		int idSolicitacao2 = 0;
 		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 4);
-					
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
-			String[] pontos = {"Açude Velho", "Parque da Criança"};
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, pontos);
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, "Parque do Povo");					
-				
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao = solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			idSolicitacao2 = solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");					
 		} catch (Exception e) {
 			fail();
 		}
-						
-		try {
-			int idSolicitacao = solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
+			
+		try {			
 			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
 		} catch (Exception e) {
 			fail();
 		}
 		
+		//aceitar a mesma solicitacao
+		try {			
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//um usuario tentar aceitar a solicitacao de carona que pertence a outro
+		try {			
+			solicitacaoBusiness.aceitarSolicitacao("Teles", idSolicitacao2+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testGetAceitarSolicitacaoSessaoInvalida(){
+		//abrir sessao
+		int idSolicitacao1 = 0;
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");					
+		} catch (Exception e) {
+			fail();
+		}
 		
 		//sessao inexistente
 		try {
-			int idSolicitacao1 = solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
 			solicitacaoBusiness.aceitarSolicitacao("sessao", idSolicitacao1+"");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
@@ -418,8 +471,7 @@ public class SolicitacaoVagaUnitTest {
 		}
 		
 		//sessao vazia
-		try {
-			int idSolicitacao1 = solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
+		try {			
 			solicitacaoBusiness.aceitarSolicitacao("", idSolicitacao1+"");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
@@ -428,18 +480,30 @@ public class SolicitacaoVagaUnitTest {
 		}
 		
 		//sessao null
-		try {
-			int idSolicitacao1 = solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
+		try {			
 			solicitacaoBusiness.aceitarSolicitacao(null, idSolicitacao1+"");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}	
+	}
+	
+	@Test
+	public void testGetAceitarSolicitacaoInvalida(){
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");					
 		} catch (Exception e) {
 			fail();
 		}
 		
 		//carona inexistente
 		try {
-			solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
 			solicitacaoBusiness.aceitarSolicitacao("Mark", "C");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
@@ -449,7 +513,6 @@ public class SolicitacaoVagaUnitTest {
 				
 		//carona vazia
 		try {
-			solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
 			solicitacaoBusiness.aceitarSolicitacao("Mark", "");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
@@ -459,47 +522,73 @@ public class SolicitacaoVagaUnitTest {
 				
 		//carona null
 		try {
-			solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
 			solicitacaoBusiness.aceitarSolicitacao("Mark", null);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}		
+	}
+	
+	@Test
+	public void testAceitarSolicitacaoPontoEncontro(){
+		int idSolicitacao1 = 0;
+		int idSolicitacao2 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			idSolicitacao2 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque da Criança");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");					
+		} catch (Exception e) {
+			fail();
+		}		
+						
+		try {
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//aceitar a mesma solicitacao
+		try {			
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}
 		
+		//tentar aceitar solicitacao de outro usuario
+		try {
+			sessaoBusiness.encerrarSessao("Mark");
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Teles", idSolicitacao2+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
 	}
 	
 	@Test
-	public void testAceitarSolicitacaoPontoEncontro(){
-		//cria usuario e acessa a sessao
-		String caronaID1 = null;
+	public void testAceitarSolicitacaoPontoEncontroSessaoInvalida(){
+		int idSolicitacao = 0;
+		//abrir sessao
 		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 4);
-					
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
-			String[] pontos = {"Açude Velho", "Parque da Criança"};
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, pontos);
-			pontoEncontro.sugerirPontoEncontro("Teles", caronaID1, "Parque do Povo");					
-				
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");					
 		} catch (Exception e) {
 			fail();
-		}
-						
-		try {
-			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque do Povo");
-			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao+"");
-		} catch (Exception e) {
-			fail();
-		}
-		
-		
+		}		
+			
 		//sessao inexistente
 		try {
-			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque do Povo");
 			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("sessao", idSolicitacao+"");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
@@ -509,7 +598,6 @@ public class SolicitacaoVagaUnitTest {
 		
 		//sessao vazia
 		try {
-			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque do Povo");
 			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("", idSolicitacao+"");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
@@ -519,17 +607,29 @@ public class SolicitacaoVagaUnitTest {
 		
 		//sessao null
 		try {
-			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque do Povo");
 			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro(null, idSolicitacao+"");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}
-		
+	}
+	
+	@Test
+	public void testAceitarSolicitacaoPontoEncontroInvalida(){		
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");					
+		} catch (Exception e) {
+			fail();
+		}		
+			
 		//carona inexistente
 		try {
-			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque do Povo");
 			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", "C");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
@@ -539,7 +639,6 @@ public class SolicitacaoVagaUnitTest {
 				
 		//carona vazia
 		try {
-			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque do Povo");
 			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", "");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
@@ -549,48 +648,76 @@ public class SolicitacaoVagaUnitTest {
 				
 		//carona null
 		try {
-			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", caronaID1, "Parque do Povo");
 			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", "");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
-		}
-		
+		}		
 	}
 	
 	@Test
 	public void testGetSolicitacoesConfirmadas(){
-		String caronaID1 = null;
+		int idSolicitacao1 = 0;
+		int idSolicitacao2 = 0;
+		//abrir sessao
 		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 4);
-					
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			idSolicitacao2 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque da Criança");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao2+"");
 		} catch (Exception e) {
 			fail();
-		}
-		
-		try {
-			int idSolicitacao1 = solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
-			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao1+"");
-			int idSolicitacao2 = solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
-			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao2+"");
-			
+		}		
+
+		try {							
 			ArrayList<SolicitacaoVagaDomain> solicitacoes = new ArrayList<SolicitacaoVagaDomain>();						
-			solicitacoes =  solicitacaoBusiness.getSolicitacoesConfirmadas("Mark", caronaID1);
+			solicitacoes =  solicitacaoBusiness.getSolicitacoesConfirmadas("Mark", idCarona);
+			
 			Assert.assertEquals(2, solicitacoes.size());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			fail();
 		}
 		
+		//tentar ver solicitacoes de outro usuario
+		try {
+			sessaoBusiness.encerrarSessao("Mark");			
+			sessaoBusiness.abrirSessao("Teles", "Teles");	
+			solicitacaoBusiness.getSolicitacoesConfirmadas("Teles", idCarona);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.CARONA_NAO_IDENTIFICADA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testGetSolicitacoesConfirmadasSessaoInvalida(){
+		int idSolicitacao1 = 0;
+		int idSolicitacao2 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			idSolicitacao2 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque da Criança");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao2+"");
+		} catch (Exception e) {
+			fail();
+		}	
+	
 		//sessao inexistente
 		try {
-			solicitacaoBusiness.getSolicitacoesConfirmadas("sessao", caronaID1);
+			solicitacaoBusiness.getSolicitacoesConfirmadas("sessao", idCarona);
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 					assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
@@ -599,7 +726,7 @@ public class SolicitacaoVagaUnitTest {
 				
 		//sessao vazia
 		try {
-			solicitacaoBusiness.getSolicitacoesConfirmadas("", caronaID1);
+			solicitacaoBusiness.getSolicitacoesConfirmadas("", idCarona);
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
@@ -608,13 +735,34 @@ public class SolicitacaoVagaUnitTest {
 				
 		//sessao null
 		try {
-			solicitacaoBusiness.getSolicitacoesConfirmadas(null, caronaID1);
+			solicitacaoBusiness.getSolicitacoesConfirmadas(null, idCarona);
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}
-				
+			
+	}
+	
+	@Test
+	public void testGetSolicitacoesConfirmadasCaronaInvalida(){
+		int idSolicitacao1 = 0;
+		int idSolicitacao2 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			idSolicitacao2 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque da Criança");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao2+"");
+		} catch (Exception e) {
+			fail();
+		}	
+		
 		//carona inexistente
 		try {
 			solicitacaoBusiness.getSolicitacoesConfirmadas("Mark", "C");
@@ -646,37 +794,66 @@ public class SolicitacaoVagaUnitTest {
 	
 	@Test
 	public void testGetSolicitacoesPendentes(){
-		String caronaID1 = null;
+		int idSolicitacao1 = 0;
+		int idSolicitacao2 = 0;
+		//abrir sessao
 		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario("Mark", "123", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "123");						
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Areia", "31/05/2015", "10:00", 4);
-					
-			usuarioBusiness.criarUsuario("Teles", "123", "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao("Teles", "123");
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			idSolicitacao2 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque da Criança");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao2+"");
+		} catch (Exception e) {
+			fail();
+		}	
+		
+		try {							
+			ArrayList<SolicitacaoVagaDomain> solicitacoes = new ArrayList<SolicitacaoVagaDomain>();						
+			solicitacoes =  solicitacaoBusiness.getSolicitacoesPendentes("Mark", idCarona);
+			
+			Assert.assertEquals(1, solicitacoes.size());
 		} catch (Exception e) {
 			fail();
 		}
 		
+		//tentar ver solicitacoes de outro usuario
 		try {
-			int idSolicitacao1 = solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
-			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao1+"");
-			solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
-			solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
-			solicitacaoBusiness.solicitarVaga("Teles", caronaID1);
-			
-			ArrayList<SolicitacaoVagaDomain> solicitacoes = new ArrayList<SolicitacaoVagaDomain>();						
-			solicitacoes =  solicitacaoBusiness.getSolicitacoesPendentes("Mark", caronaID1);
-			Assert.assertEquals(3, solicitacoes.size());
+			sessaoBusiness.encerrarSessao("Mark");			
+			sessaoBusiness.abrirSessao("Teles", "Teles");	
+			solicitacaoBusiness.getSolicitacoesPendentes("Teles", idCarona);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+				assertEquals(MensagensErro.CARONA_NAO_IDENTIFICADA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			fail();
 		}
+	}
+	
+	@Test
+	public void testGetSolicitacoesPendentesSessaoInvalida(){
+		int idSolicitacao1 = 0;
+		int idSolicitacao2 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			idSolicitacao2 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque da Criança");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao2+"");
+		} catch (Exception e) {
+			fail();
+		}	
 		
 		//sessao inexistente
 		try {
-			solicitacaoBusiness.getSolicitacoesPendentes("sessao", caronaID1);
+			solicitacaoBusiness.getSolicitacoesPendentes("sessao", idCarona);
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 					assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
@@ -685,7 +862,7 @@ public class SolicitacaoVagaUnitTest {
 				
 		//sessao vazia
 		try {
-			solicitacaoBusiness.getSolicitacoesPendentes("", caronaID1);
+			solicitacaoBusiness.getSolicitacoesPendentes("", idCarona);
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
@@ -694,13 +871,33 @@ public class SolicitacaoVagaUnitTest {
 				
 		//sessao null
 		try {
-			solicitacaoBusiness.getSolicitacoesPendentes(null, caronaID1);
+			solicitacaoBusiness.getSolicitacoesPendentes(null, idCarona);
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}
+	}
 				
+	@Test
+	public void testGetSolicitacoesPendentesCaronaInvalida(){
+		int idSolicitacao1 = 0;
+		int idSolicitacao2 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			idSolicitacao2 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque da Criança");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque do Povo");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao2+"");
+		} catch (Exception e) {
+			fail();
+		}	
+
 		//carona inexistente
 		try {
 			solicitacaoBusiness.getSolicitacoesPendentes("Mark", "C");
@@ -730,7 +927,296 @@ public class SolicitacaoVagaUnitTest {
 		
 	}
 	
+	@Test
+	public void testDesistirRequisicao(){
+		int idSolicitacao1 = 0;
+		int idSolicitacao3 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Parque da Criança");
+			idSolicitacao3 = solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//desistir de solicitacao confirmada e nao confirmada
+		try {		
+			sessaoBusiness.encerrarSessao("Mark");			
+			sessaoBusiness.abrirSessao("Teles", "Teles");						
+			solicitacaoBusiness.desistirRequisicao("Teles", idCarona, idSolicitacao1+"");
+			solicitacaoBusiness.desistirRequisicao("Teles", idCarona, idSolicitacao3+"");
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//informar usuario diferente para a solicitacao
+		try {
+			sessaoBusiness.encerrarSessao("Teles");			
+			sessaoBusiness.abrirSessao("Mark", "Mark");	
+			solicitacaoBusiness.desistirRequisicao("Mark", idCarona, idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+				assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	}
+		
+	@Test
+	public void testDesistirRequisicaoSessaoInvalida(){
+		int idSolicitacao1 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//sessao invalida
+		try {
+			solicitacaoBusiness.desistirRequisicao("sessao", idCarona, idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//sessao vazia
+		try {
+			solicitacaoBusiness.desistirRequisicao("", idCarona, idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//sessao null
+		try {
+			solicitacaoBusiness.desistirRequisicao(null, idCarona, idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testDesistirRequisicaoCaronaInvalida(){
+		int idSolicitacao1 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//carona invalida
+		try {
+			solicitacaoBusiness.desistirRequisicao("Mark", "C", idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//carona vazia
+		try {
+			solicitacaoBusiness.desistirRequisicao("Mark", "", idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//carona null
+		try {
+			solicitacaoBusiness.desistirRequisicao("Mark", null, idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testDesistirRequisicaoSolicitacaoInvalida(){
 
-	//public void desistirRequisicao(String idSessao, String idCarona, String idSolicitacao) throws Exception
-	//public void rejeitarSolicitacao(String idSessao, String idSolicitacao) throws Exception
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//solicitacao invalida
+		try {
+			solicitacaoBusiness.desistirRequisicao("Mark", idCarona, "C");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//solicitacao vazia
+		try {
+			solicitacaoBusiness.desistirRequisicao("Mark", idCarona, "");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//solicitacao null
+		try {
+			solicitacaoBusiness.desistirRequisicao("Mark", idCarona, null);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testRejeitaoSolicitacao(){
+		int idSolicitacao1 = 0;
+		int idSolicitacao3 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			idSolicitacao3 = solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Mark", idSolicitacao1+"");
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//informar usuario diferente para a solicitacao
+		try {
+			sessaoBusiness.encerrarSessao("Mark");			
+			sessaoBusiness.abrirSessao("Teles", "Teles");	
+			solicitacaoBusiness.rejeitarSolicitacao("Teles", idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//rejeitar solicitacoes
+		try {							
+			sessaoBusiness.encerrarSessao("Teles");			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+			solicitacaoBusiness.rejeitarSolicitacao("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.rejeitarSolicitacao("Mark", idSolicitacao3+"");
+		} catch (Exception e) {
+			fail();
+		}
+		
+		
+	}
+	
+	@Test
+	public void testRejeitaoSolicitacaoSessaoInvalida(){
+		int idSolicitacao1 = 0;
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//sessao invalida
+		try {								
+			solicitacaoBusiness.rejeitarSolicitacao("sessao", idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//sessao vazia
+		try {								
+			solicitacaoBusiness.rejeitarSolicitacao("", idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	
+		//sessao null
+		try {								
+			solicitacaoBusiness.rejeitarSolicitacao(null, idSolicitacao1+"");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+	}
+	
+	@Test
+	public void testRejeitaoSolicitacaoSolicitacaoInvalida(){
+		//abrir sessao
+		try {
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			sessaoBusiness.abrirSessao("Mark", "Mark");		
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//solicitacao invalida
+		try {								
+			solicitacaoBusiness.rejeitarSolicitacao("Mark", "C");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//solicitacao vazia
+		try {								
+			solicitacaoBusiness.rejeitarSolicitacao("Mark", "");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	
+		//solicitacao null
+		try {								
+			solicitacaoBusiness.rejeitarSolicitacao("Mark", null);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+	}	
+
 }

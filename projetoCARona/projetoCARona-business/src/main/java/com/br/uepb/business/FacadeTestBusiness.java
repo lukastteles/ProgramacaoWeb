@@ -140,7 +140,6 @@ public class FacadeTestBusiness {
 		}	
 	}
 		
-	//TODO: Ver com o prof. Thiago a diferença entre as funcoes getPontosSugeridos e getPontosEncontro
 	public String getPontosSugeridos(String idSessao, String idCarona) throws Exception{
 		String[] pontos = pontoDeEncontroBusiness.getPontosSugeridos(idSessao, idCarona);
 		String ponto = "[";
@@ -155,7 +154,7 @@ public class FacadeTestBusiness {
 		
 	public String getPontosEncontro(String idSessao, String idCarona) throws Exception{		
 		//String[] pontos = pontoDeEncontroBusiness.getPontosEncontro(idSessao, idCarona);
-		String[] pontos = pontoDeEncontroBusiness.getPontosSugeridos(idSessao, idCarona);		
+		String[] pontos = pontoDeEncontroBusiness.getPontosEncontro(idSessao, idCarona);		
 		String ponto = "[";
 		if(pontos.length > 1){
 			for(int i = 0; i < pontos.length-1; i++){
@@ -214,7 +213,6 @@ public class FacadeTestBusiness {
 		return solicitacaoVagaBusiness.solicitarVagaPontoEncontro(idSessao, idCarona, ponto);
 	}
 		
-	//TODO: Ver com o prof. Thiago a diferença entre as funcoes aceitarSolicitacao e aceitarSolicitacaoPontoEncontro
 	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws Exception{
 		solicitacaoVagaBusiness.aceitarSolicitacao(idSessao, idSolicitacao);
 	}

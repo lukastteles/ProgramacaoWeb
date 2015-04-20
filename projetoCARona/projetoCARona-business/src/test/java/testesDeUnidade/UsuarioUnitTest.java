@@ -15,11 +15,11 @@ public class UsuarioUnitTest {
 	private UsuarioBusiness usuarioBusiness;
 	
 	//Parâmetros
-	String login;
-	String senha;
-	String nome;
-	String endereco;
-	String email;
+	private String login;
+	private String senha;
+	private String nome;
+	private String endereco;
+	private String email;
 	
 	@Before
 	public void iniciaBusiness(){
@@ -27,17 +27,17 @@ public class UsuarioUnitTest {
 		
 		//limpa os dados antes de iniciar
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
-	}
-	
-	@Test
-	public void testeCadastraUsuario(){
 		
+		//define parametros default
 		login = "mark";
 		senha = "m@rk";
 		nome="Mark Zuckerberg";
 		endereco = "Palo Alto, California";
 		email = "mark@facebook.com";
-		
+	}
+	
+	@Test
+	public void testeCadastraUsuario(){
 		//
 		//cadastra um usuario
 		//
@@ -67,14 +67,7 @@ public class UsuarioUnitTest {
 	}
 	
 	@Test
-	public void testesExcecoesUsuario(){
-		
-		login = "mark";
-		senha = "m@rk";
-		nome="Mark Zuckerberg";
-		endereco = "Palo Alto, California";
-		email = "mark@facebook.com";
-		
+	public void testesExcecoesUsuario(){		
 		/*
 		 * Cria Usuario Teste
 		 */

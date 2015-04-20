@@ -135,7 +135,8 @@ public class CaronaDomain {
 	public void diminuiVagas(){
 		this.vagas--;
 	}
-	
+
+	//Metodos para pontos de Encontro
 	public void addPontoDeEncontro(PontoDeEncontroDomain ponto){
 		pontoDeEncontro.add(ponto);
 	}
@@ -148,12 +149,12 @@ public class CaronaDomain {
 		}
 		return pontos;
 	}
-	
+
 	public ArrayList<PontoDeEncontroDomain> getTodosOsPontos(){
 		return pontoDeEncontro;
 	}
 	
-	public PontoDeEncontroDomain getPontoEncontroByNome(String ponto) throws Exception{
+	public PontoDeEncontroDomain getPontoEncontroByNome(String ponto) throws Exception{		
 		for(PontoDeEncontroDomain pontoEncontro : pontoDeEncontro) {
 			if(pontoEncontro.getPontoDeEncontro().equals(ponto)){ 
 				return pontoEncontro;
@@ -162,11 +163,10 @@ public class CaronaDomain {
 		throw new ProjetoCaronaException(MensagensErro.PONTO_INVALIDO);
 	}
 	
-	//Metodos para pontos de Encontro
 	public ArrayList<PontoDeEncontroDomain> getPontoEncontroAceitos() {
 		ArrayList<PontoDeEncontroDomain> pontosAceitos = new ArrayList<PontoDeEncontroDomain>();		
 		for (PontoDeEncontroDomain ponto : pontoDeEncontro) {
-			if(ponto.isFoiAceita() == true)
+			if(ponto.getFoiAceita() == true)
 				pontosAceitos.add(ponto);
 		}
 		return pontosAceitos;

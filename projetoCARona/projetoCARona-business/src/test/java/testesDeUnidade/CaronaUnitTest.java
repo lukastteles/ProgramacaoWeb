@@ -26,13 +26,14 @@ public class CaronaUnitTest {
 	private SessaoBusiness sessaoBusiness;
 	private CaronaBusiness caronaBusiness;
 	
-	//variaveis utilizadas
+	//parâmetros
 	private String idSessao;	
 	private String origem;
 	private String destino;
 	private String data;
 	private String hora;
 	private int vagas;
+	private String idCarona;
 		
 	@Before
 	public void iniciaBusiness(){
@@ -44,28 +45,34 @@ public class CaronaUnitTest {
 		CaronaDAOImpl.getInstance().apagaCaronas();
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
 		SessaoDAOImpl.getInstance().apagaSessoes();
-	}
-	
-	@Test
-	public void testCadastrarCarona() throws Exception{
-		idSessao = "Luana";
+		
+		//define parâmetros default
+		idSessao = "Mark";
 		origem = "Campina Grande";
 		destino = "João Pessoa";
 		data = "23/06/2013";
 		hora="16:00";
-		vagas = 5;
-
-		//Verificar qualquer falha no fluxo normal
+		vagas = 4;
+		
+		//inicializa a sessao e o usuario
 		try {
-			//inicializa a sessao e o usuario
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Luana", "Rua", "luana@gmail.com");
+			usuarioBusiness.criarUsuario(idSessao, idSessao, "Mark", "Rua", "mark@gmail.com");
 			sessaoBusiness.abrirSessao(idSessao, idSessao);
-						
-			String caronaID1 = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);				
-			CaronaDomain carona1 = caronaBusiness.getCarona(caronaID1);			
+		} catch (Exception e) {
+			fail();
+		}
+		
+	}
+	
+	@Test
+	public void testCadastrarCarona() throws Exception{
+		//Verificar qualquer falha no fluxo normal
+		try {			
+			idCarona = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);				
+			CaronaDomain carona1 = caronaBusiness.getCarona(idCarona);			
 			
 			//verifica se armazenou os valores realmente corretos
-			Assert.assertEquals(caronaID1, carona1.getID());
+			Assert.assertEquals(idCarona, carona1.getID());
 			Assert.assertEquals(idSessao, carona1.getIdSessao());
 			Assert.assertEquals(origem, carona1.getOrigem());
 			Assert.assertEquals(destino, carona1.getDestino());
@@ -80,22 +87,7 @@ public class CaronaUnitTest {
 	}
 	
 	@Test
-	public void testeCaronaSessaoInvalida() throws Exception{
-		idSessao = "Luana";
-		origem = "Campina Grande";
-		destino = "João Pessoa";
-		data = "23/06/2013";
-		hora="16:00";
-		vagas = 5;
-	
-		//inicializa a sessao e o usuario 
-		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Luana", "Rua", "luana@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-		} catch (Exception e) {
-			fail();
-		}
-
+	public void testeCaronaSessaoInvalida() throws Exception{				
 		//cadastrar carona com idSessao vazia
 		try {
 			caronaBusiness.cadastrarCarona("", origem, destino, data, hora, vagas);			
@@ -125,21 +117,7 @@ public class CaronaUnitTest {
 	}
 		
 	@Test
-	public void testeCaronaOrigemInvalida() throws Exception{		
-		idSessao = "Luana";		
-		destino = "João Pessoa";
-		data = "23/06/2013";
-		hora="16:00";
-		vagas = 5;
-		
-		//inicializa a sessao e o usuario
-		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Luana", "Rua", "luana@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-		} catch (Exception e) {
-			fail();
-		}
-		
+	public void testeCaronaOrigemInvalida() throws Exception{				
 		//cadastrar carona com origem vazia
 		try {
 			caronaBusiness.cadastrarCarona(idSessao, "", destino, data, hora, vagas);
@@ -161,20 +139,6 @@ public class CaronaUnitTest {
 	
 	@Test
 	public void testeCaronaDestinoInvalido() throws Exception{		
-		idSessao = "Luana";
-		origem = "Campina Grande";		
-		data = "23/06/2013";
-		hora="16:00";
-		vagas = 5;
-	
-		//inicializa a sessao e o usuario
-		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Luana", "Rua", "luana@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-		} catch (Exception e) {
-			fail();
-		}
-
 		//cadastrar carona com destino vazio
 		try {
 			caronaBusiness.cadastrarCarona(idSessao, origem, "", data, hora, vagas);
@@ -197,20 +161,6 @@ public class CaronaUnitTest {
 	
 	@Test
 	public void testeCaronaDataInvalida() throws Exception{		
-		idSessao = "Luana";
-		origem = "Campina Grande";
-		destino = "João Pessoa";
-		hora="16:00";
-		vagas = 5;	
-
-	//inicializa a sessao e o usuario
-		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Luana", "Rua", "luana@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-		} catch (Exception e) {
-			fail();
-		}
-		
 		//cadastrar carona com data vazia
 		try {
 			caronaBusiness.cadastrarCarona(idSessao, origem, destino, "", hora, vagas);
@@ -259,20 +209,6 @@ public class CaronaUnitTest {
 			
 	@Test
 	public void testCaronaHoraInvalida() throws Exception{
-		String idSessao = "Luana";
-		String origem = "Campina Grande";
-		String destino = "João Pessoa";
-		String data = "23/06/2013";
-		int vagas = 5;	
-
-	//inicializa a sessao e o usuario
-		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Luana", "Rua", "luana@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-		} catch (Exception e) {
-			fail();
-		}
-
 		//cadastrar carona com hora vazia
 		try {
 			caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, "", vagas);				
@@ -312,37 +248,26 @@ public class CaronaUnitTest {
 
 	@Test
 	public void testGetAtributoCarona(){
-		idSessao = "Mark";
-		origem = "Campina Grande";
-		destino = "João Pessoa";
-		data = "23/06/2013";
-		hora="16:00";
-		vagas = 3;	
-		
-		String caronaID1 = "";
-		
-		//inicializa a sessao e o usuario 
+		//cadastrar carona 
 		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-			caronaID1 = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
-		} catch (Exception e) {			
+			idCarona = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);				
+		} catch (Exception e) {
 			fail();
 		}
-
-		//verifica se a funcao getAtributoCarona retorna os Valores Corretor
+		
+		//verifica se a funcao getAtributoCarona retorna os Valores Corretos
 		try {		
-			Assert.assertEquals(origem, caronaBusiness.getAtributoCarona(caronaID1, "origem"));
-			Assert.assertEquals(destino, caronaBusiness.getAtributoCarona(caronaID1, "destino"));
-			Assert.assertEquals(data, caronaBusiness.getAtributoCarona(caronaID1, "data"));
-			Assert.assertEquals(vagas+"", caronaBusiness.getAtributoCarona(caronaID1, "vagas"));
+			Assert.assertEquals(origem, caronaBusiness.getAtributoCarona(idCarona, "origem"));
+			Assert.assertEquals(destino, caronaBusiness.getAtributoCarona(idCarona, "destino"));
+			Assert.assertEquals(data, caronaBusiness.getAtributoCarona(idCarona, "data"));
+			Assert.assertEquals(vagas+"", caronaBusiness.getAtributoCarona(idCarona, "vagas"));
 		} catch (Exception e) {			
 			fail();
 		}
 		
 		//atributo vazio
 		try {		
-			caronaBusiness.getAtributoCarona(caronaID1, "");
+			caronaBusiness.getAtributoCarona(idCarona, "");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.ATRIBUTO_INVALIDO, projetoCaronaErro.getMessage());
 		} catch (Exception e) {	
@@ -351,7 +276,7 @@ public class CaronaUnitTest {
 		
 		//atributo null
 		try {		
-			caronaBusiness.getAtributoCarona(caronaID1, null);
+			caronaBusiness.getAtributoCarona(idCarona, null);
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.ATRIBUTO_INVALIDO, projetoCaronaErro.getMessage());
 		} catch (Exception e) {	
@@ -387,7 +312,7 @@ public class CaronaUnitTest {
 		
 		//atributo que nao existe
 		try {		
-			caronaBusiness.getAtributoCarona(caronaID1, "atributo");
+			caronaBusiness.getAtributoCarona(idCarona, "atributo");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.ATRIBUTO_INEXISTENTE, projetoCaronaErro.getMessage());
 		} catch (Exception e) {	
@@ -396,21 +321,10 @@ public class CaronaUnitTest {
 	}
 	
 	@Test
-	public void testGetTrajeto(){
-		idSessao = "Mark";
-		origem = "Campina Grande";
-		destino = "João Pessoa";
-		data = "23/06/2013";
-		hora="16:00";
-		vagas = 3;	
-		
-		String caronaID1 = "";
-		
+	public void testGetTrajeto(){		
 		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-			caronaID1 = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
-			Assert.assertEquals(origem+" - "+destino, caronaBusiness.getTrajeto(caronaID1));
+			idCarona = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
+			Assert.assertEquals(origem+" - "+destino, caronaBusiness.getTrajeto(idCarona));
 		} catch (Exception e) {			
 			fail();
 		}
@@ -444,15 +358,7 @@ public class CaronaUnitTest {
 	}
 
 	@Test
-	public void testGetCarona(){		
-		idSessao = "Mark";
-		origem = "Campina Grande";
-		destino = "João Pessoa";
-		data = "23/06/2013";
-		hora="16:00";
-		vagas = 3;	
-		
-		String caronaID1 = "";
+	public void testGetCarona(){				
 		//carona null			
 		try {		
 			caronaBusiness.getCarona(null);
@@ -473,10 +379,8 @@ public class CaronaUnitTest {
 		
 		//carona existente		
 		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-			caronaID1 = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
-			Assert.assertEquals(origem+" - "+destino, caronaBusiness.getTrajeto(caronaID1));
+			idCarona = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
+			Assert.assertEquals(origem+" - "+destino, caronaBusiness.getTrajeto(idCarona));
 		} catch (Exception e) {			
 			fail();
 		}
@@ -484,23 +388,20 @@ public class CaronaUnitTest {
 
 	@Test
 	public void testGetCaronas(){
-		String caronaID1 = "";
-		String caronaID2 = "";
-		String caronaID3 = "";
+		String idCarona2 = "";
+		String idCarona3 = "";
 					
 		ArrayList<CaronaDomain> listaCaronas = new ArrayList<CaronaDomain>();
 		
 		try {
-			usuarioBusiness.criarUsuario("Mark", "Mark", "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao("Mark", "Mark");
 			Assert.assertEquals(listaCaronas, caronaBusiness.getTodasCaronasUsuario("Mark"));
-			caronaID1 = caronaBusiness.cadastrarCarona("Mark", "João Pessoa", "Campina Grande", "26/03/2015", "08:00", 5);
-			caronaID2 = caronaBusiness.cadastrarCarona("Mark", "João Pessoa", "Araruna", "01/06/2015", "10:00", 3);
-			caronaID3 = caronaBusiness.cadastrarCarona("Mark", "João Pessoa", "Piloes", "05/10/2015", "15:00", 2);
+			idCarona = caronaBusiness.cadastrarCarona("Mark", "João Pessoa", "Campina Grande", "26/03/2015", "08:00", 5);
+			idCarona2 = caronaBusiness.cadastrarCarona("Mark", "João Pessoa", "Araruna", "01/06/2015", "10:00", 3);
+			idCarona3 = caronaBusiness.cadastrarCarona("Mark", "João Pessoa", "Piloes", "05/10/2015", "15:00", 2);
 			
-			listaCaronas.add(caronaBusiness.getCarona(caronaID1));
-			listaCaronas.add(caronaBusiness.getCarona(caronaID2));
-			listaCaronas.add(caronaBusiness.getCarona(caronaID3));
+			listaCaronas.add(caronaBusiness.getCarona(idCarona));
+			listaCaronas.add(caronaBusiness.getCarona(idCarona2));
+			listaCaronas.add(caronaBusiness.getCarona(idCarona3));
 			
 			Assert.assertEquals(listaCaronas, caronaBusiness.getTodasCaronasUsuario("Mark"));
 			sessaoBusiness.encerrarSessao("Mark");
@@ -511,21 +412,10 @@ public class CaronaUnitTest {
 	}
 	
 	@Test
-	public void testGetCaronaUsuario(){
-		idSessao = "Mark";
-		origem = "Campina Grande";
-		destino = "João Pessoa";
-		data = "23/06/2013";
-		hora="16:00";
-		vagas = 3;	
-		
-		String caronaID1 = "";
-		
+	public void testGetCaronaUsuario(){		
 		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Mark", "Rua", "mark@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-			caronaID1 = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
-			Assert.assertEquals(origem+" - "+destino, caronaBusiness.getTrajeto(caronaID1));
+			idCarona = caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, vagas);
+			Assert.assertEquals(origem+" - "+destino, caronaBusiness.getTrajeto(idCarona));
 		} catch (Exception e) {			
 			fail();
 		}
@@ -577,20 +467,15 @@ public class CaronaUnitTest {
 
 	@Test
 	public void testLocalizarCarona(){
-		idSessao = "Teles";
-		
-		String caronaID1 = "";
-		String caronaID2 = "";
-		String caronaID3 = "";
+		String idCarona2 = "";
+		String idCarona3 = "";
 		String caronaID4 = "";
 		String caronaID5 = "";
 		String caronaID6 = "";
 		try {
-			usuarioBusiness.criarUsuario(idSessao, idSessao, "Teles", "Rua", "teles@gmail.com");
-			sessaoBusiness.abrirSessao(idSessao, idSessao);
-			caronaID1 = caronaBusiness.cadastrarCarona(idSessao, "Campina Grande", "Joao Pessoa", "12/05/2015", "10:00", 3);
-			caronaID2 = caronaBusiness.cadastrarCarona(idSessao, "Campina Grande", "Araruna", "12/05/2015", "10:00", 3);
-			caronaID3 = caronaBusiness.cadastrarCarona(idSessao, "Campina Grande", "Joao Pessoa", "12/05/2015", "10:00", 3);
+			idCarona = caronaBusiness.cadastrarCarona(idSessao, "Campina Grande", "Joao Pessoa", "12/05/2015", "10:00", 3);
+			idCarona2 = caronaBusiness.cadastrarCarona(idSessao, "Campina Grande", "Araruna", "12/05/2015", "10:00", 3);
+			idCarona3 = caronaBusiness.cadastrarCarona(idSessao, "Campina Grande", "Joao Pessoa", "12/05/2015", "10:00", 3);
 			caronaID4 = caronaBusiness.cadastrarCarona(idSessao, "João Pessoa", "Araruna", "12/05/2015", "10:00", 3);
 			caronaID5 = caronaBusiness.cadastrarCarona(idSessao, "Araruna", "Alagoa Nova", "12/05/2015", "10:00", 3);
 			caronaID6 = caronaBusiness.cadastrarCarona(idSessao, "Araruna", "Joao Pessoa", "12/05/2015", "10:00", 3);
@@ -601,14 +486,13 @@ public class CaronaUnitTest {
 		//localiza todas as caronas
 		try {
 			ArrayList<CaronaDomain> listTodascaronas = new ArrayList<CaronaDomain>();
-			listTodascaronas.add(caronaBusiness.getCarona(caronaID1));
-			listTodascaronas.add(caronaBusiness.getCarona(caronaID2));
-			listTodascaronas.add(caronaBusiness.getCarona(caronaID3));
+			listTodascaronas.add(caronaBusiness.getCarona(idCarona));
+			listTodascaronas.add(caronaBusiness.getCarona(idCarona2));
+			listTodascaronas.add(caronaBusiness.getCarona(idCarona3));
 			listTodascaronas.add(caronaBusiness.getCarona(caronaID4));
 			listTodascaronas.add(caronaBusiness.getCarona(caronaID5));
 			listTodascaronas.add(caronaBusiness.getCarona(caronaID6));
-			System.out.println();
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Teles", "", "")); 		
+			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "", "")); 		
 		} catch (Exception e) {	
 			fail();
 		}
@@ -616,10 +500,10 @@ public class CaronaUnitTest {
 		//localiza todas as caronas de origem=Campina Grande
 		try {
 			ArrayList<CaronaDomain> listTodascaronas = new ArrayList<CaronaDomain>();
-			listTodascaronas.add(caronaBusiness.getCarona(caronaID1));
-			listTodascaronas.add(caronaBusiness.getCarona(caronaID2));
-			listTodascaronas.add(caronaBusiness.getCarona(caronaID3));
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Teles", "Campina Grande", "")); 	
+			listTodascaronas.add(caronaBusiness.getCarona(idCarona));
+			listTodascaronas.add(caronaBusiness.getCarona(idCarona2));
+			listTodascaronas.add(caronaBusiness.getCarona(idCarona3));
+			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina Grande", "")); 	
 		} catch (Exception e) {	
 			fail();
 		}
@@ -627,9 +511,9 @@ public class CaronaUnitTest {
 		//localiza todas as caronas de destino=Araruna
 		try {
 			ArrayList<CaronaDomain> listTodascaronas = new ArrayList<CaronaDomain>();
-			listTodascaronas.add(caronaBusiness.getCarona(caronaID2));
+			listTodascaronas.add(caronaBusiness.getCarona(idCarona2));
 			listTodascaronas.add(caronaBusiness.getCarona(caronaID4));
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Teles", "", "Araruna")); 							
+			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "", "Araruna")); 							
 		} catch (Exception e) {	
 			fail();
 		}
@@ -637,9 +521,9 @@ public class CaronaUnitTest {
 		//localiza todas as caronas de Campina Grande a João Pessoa
 		try {
 			ArrayList<CaronaDomain> listTodascaronas = new ArrayList<CaronaDomain>();
-			listTodascaronas.add(caronaBusiness.getCarona(caronaID1));
-			listTodascaronas.add(caronaBusiness.getCarona(caronaID3));
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Teles", "Campina Grande", "Joao Pessoa")); 							
+			listTodascaronas.add(caronaBusiness.getCarona(idCarona));
+			listTodascaronas.add(caronaBusiness.getCarona(idCarona3));
+			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina Grande", "Joao Pessoa")); 							
 		} catch (Exception e) {	
 			fail();
 		}
@@ -647,7 +531,7 @@ public class CaronaUnitTest {
 		//informar origem nao existente
 		try {
 			ArrayList<CaronaDomain> listTodascaronas = new ArrayList<CaronaDomain>();
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Teles", "Campina", "Joao Pessoa")); 							
+			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina", "Joao Pessoa")); 							
 		} catch (Exception e) {	
 			fail();
 		}
@@ -655,7 +539,6 @@ public class CaronaUnitTest {
 		//informar login não cadastrado
 		try {
 			caronaBusiness.localizarCarona("Mark", "", "Joao Pessoa");
-			System.out.println(caronaBusiness.localizarCarona("Mark", "", "Joao Pessoa"));
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
 		}  catch (Exception e) {	
@@ -666,7 +549,6 @@ public class CaronaUnitTest {
 		try {
 			caronaBusiness.localizarCarona("", "", "Joao Pessoa");
 			caronaBusiness.localizarCarona(null, "", "Joao Pessoa");
-			System.out.println(caronaBusiness.localizarCarona("Mark", "", "Joao Pessoa"));
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
 		}  catch (Exception e) {	
@@ -684,7 +566,7 @@ public class CaronaUnitTest {
 		
 		//informar origem invalida
 		try {
-			caronaBusiness.localizarCarona("Teles", "?", "Joao Pessoa");
+			caronaBusiness.localizarCarona("Mark", "?", "Joao Pessoa");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.ORIGEM_INVALIDA, projetoCaronaErro.getMessage());
 		}  catch (Exception e) {	
@@ -693,7 +575,7 @@ public class CaronaUnitTest {
 		
 		//informar destino invalido
 		try {
-			caronaBusiness.localizarCarona("Teles", "Campina Grande", "()");
+			caronaBusiness.localizarCarona("Mark", "Campina Grande", "()");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.DESTINO_INVALIDO, projetoCaronaErro.getMessage());
 		}  catch (Exception e) {	

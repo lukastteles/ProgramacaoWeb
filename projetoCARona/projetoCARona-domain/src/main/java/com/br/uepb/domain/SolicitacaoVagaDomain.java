@@ -44,8 +44,4 @@ public class SolicitacaoVagaDomain {
 	public PontoDeEncontroDomain getPonto() {
 		return ponto;
 	}
-	
-	public void setPonto(PontoDeEncontroDomain ponto) {
-		this.ponto = ponto;
-	}
 }
