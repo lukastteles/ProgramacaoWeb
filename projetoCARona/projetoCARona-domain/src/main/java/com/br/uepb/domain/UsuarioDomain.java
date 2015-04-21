@@ -2,6 +2,7 @@ package com.br.uepb.domain;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -35,6 +36,7 @@ public class UsuarioDomain {
 	
 	/** Perfil do usuário, contém nome, email e endereço */
 	@OneToOne
+	@Column(name="id_perfil")
 	private PerfilDomain perfil;
 	
 	/** Caronas do usuário */
@@ -53,8 +55,7 @@ public class UsuarioDomain {
 		setLogin(login);
 		setSenha(senha);
 		
-		//TODO: desfazer esse comentario
-		//setPerfil(nome, endereco, email);
+		setPerfil(nome, endereco, email);
 	}
 	
 	/**

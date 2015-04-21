@@ -576,7 +576,7 @@ public class SolicitacaoVagaUnitTest {
 			sessaoBusiness.abrirSessao("Teles", "Teles");
 			solicitacaoBusiness.aceitarSolicitacaoPontoEncontro("Teles", idSolicitacao2+"");
 		} catch (ProjetoCaronaException projetoCaronaErro) {
-			assertEquals(MensagensErro.SOLICITACAO_INVALIDA, projetoCaronaErro.getMessage());
+			assertEquals(MensagensErro.SOLICITACAO_INEXISTENTE, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}

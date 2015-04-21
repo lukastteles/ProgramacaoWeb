@@ -2,13 +2,10 @@ package com.br.uepb.dao.impl;
 
 import java.util.ArrayList;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.UsuarioDAO;
-import com.br.uepb.dao.hibernateUtil.HibernateUtil;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -52,26 +49,15 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	@Override
 	public void addUsuario(UsuarioDomain usuario) throws Exception{
 		if (loginExiste(usuario.getLogin())) {	
-			System.out.println("Usuario já existe");
 			throw new ProjetoCaronaException(MensagensErro.USUARIO_JA_EXISTE);
 		}
 
-		//TODO: desfazer esse comentario
-		/*
 		if (emailExiste(usuario.getPerfil().getEmail())) {
 			throw new ProjetoCaronaException(MensagensErro.EMAIL_JA_EXISTE);
-		} */	
-
-		System.out.println("DAOImpl - chamando sessão");
-		Session session = HibernateUtil.openSession();
-		System.out.println("DAOImpl - "+session.isOpen());
-		Transaction transation = session.beginTransaction();
-		session.save(usuario);
-		transation.commit();
+		} 	
 		
 		listaUsuarios.add(usuario);
-		
-		//logger
+
 	}
 	
 	private boolean loginExiste(String login) {

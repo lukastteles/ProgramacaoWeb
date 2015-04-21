@@ -212,7 +212,7 @@ public class SolicitacaoVagaBusiness {
 		//Garantir que o id do usuario que criou a carona é igual ao id da sessao
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacaoVaga.getIdCarona()); 
 		if (!carona.getIdSessao().equals(idSessao)) {
-			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INVALIDA);				
+			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);				
 		}
 		
 		//aceita a vaga na carona
