@@ -2,8 +2,10 @@ package com.br.uepb.domain;
 
 import java.util.ArrayList;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
@@ -14,19 +16,25 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  * @version 0.1
  * @since 18/04/2015
  */
+@Entity
+@Table(name="USUARIOS")
 public class UsuarioDomain {
 
 	/** Login do usuário */
+	/*
 	@NotNull(message = "Login inválido")
-	@Size(min=2, max=30, message="Login inválido")
+	@Size(min=2, max=30, message="Login inválido") */
+	@Id
 	private String login;
 	
 	/** Senha do usuário para autenticação no sistema */
+	/*
 	@NotNull(message = "O login não pode ser null")
-	@Size(min=2, message="A senha deve ter no mínimo 6 dígitos")
+	@Size(min=2, message="A senha deve ter no mínimo 6 dígitos") */
 	private String senha; 
 	
 	/** Perfil do usuário, contém nome, email e endereço */
+	@OneToOne
 	private PerfilDomain perfil;
 	
 	/** Caronas do usuário */
@@ -44,7 +52,9 @@ public class UsuarioDomain {
 	public UsuarioDomain(String login, String senha, String nome, String endereco, String email) throws Exception {
 		setLogin(login);
 		setSenha(senha);
-		setPerfil(nome, endereco, email);
+		
+		//TODO: desfazer esse comentario
+		//setPerfil(nome, endereco, email);
 	}
 	
 	/**

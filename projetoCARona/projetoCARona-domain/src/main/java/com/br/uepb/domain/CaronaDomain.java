@@ -2,6 +2,10 @@ package com.br.uepb.domain;
 
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -15,17 +19,19 @@ import com.br.uepb.validator.ValidarCampos;
  * @version 0.1
  * @since 19/04/2015
  */
+@Entity
+@Table(name="CARONAS")
 public class CaronaDomain {
 
-	/** Classe para validar os campos de data, hora e email */
-	ValidarCampos validar = new ValidarCampos();
-
+	
 	/** Id da sessão */ //TODO: Deve ser gerado automaticamente
-	@NotNull(message = "O ID da Sessao não pode ser null")
+	//@NotNull(message = "O ID da Sessao não pode ser null")
 	private String idSessao;
 	
 	/** Id da carona */ //TODO: Deve ser gerado automaticamente
-	@NotNull(message = "O ID da Carona não pode ser null")	
+	//@NotNull(message = "O ID da Carona não pode ser null")
+	@Id
+	@GeneratedValue
 	private String id;
 
 	/** Local de origem da carona */ 
@@ -171,6 +177,7 @@ public class CaronaDomain {
 	 */
 	public void setHora(String hora) throws Exception {
 		//validacao da Hora
+		ValidarCampos validar = new ValidarCampos();
 		validar.validarHora(hora);
 		
 		this.hora = hora;
@@ -191,6 +198,7 @@ public class CaronaDomain {
 	 */
 	public void setData(String data) throws Exception {
 		//validacao da Data
+		ValidarCampos validar = new ValidarCampos();
 		validar.validarData(data);
 		
 		this.data = data;

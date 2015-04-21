@@ -2,8 +2,10 @@ package com.br.uepb.domain;
 
 import java.util.ArrayList;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Classe de domínio que define o modelo para o Perfil do Usuário
@@ -11,20 +13,25 @@ import javax.validation.constraints.Pattern;
  * @version 0.1
  * @since 18/04/2015
  */
+@Entity
+@Table(name="PERFIL_USUARIO")
 public class PerfilDomain {
 	
+	@Id
+	@GeneratedValue
+	private int idPerfil;
+	
 	/** Nome do usuário */
-	@NotNull(message = "O Nome não pode ser nulo")
+	//@NotNull(message = "O Nome não pode ser nulo")
 	private String nome;
 	
 	/** Endereço do usuário */
-	@NotNull(message = "O Endereço não pode ser nulo")
+	//@NotNull(message = "O Endereço não pode ser nulo")
 	private String endereco;
 	
 	/** Email do usuário */
-	@NotNull(message = "O Email não pode ser nulo")
-	@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+	//@NotNull(message = "O Email não pode ser nulo")
+	//@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
 	private String email;
 	
 	/** Historico de caronas */
