@@ -12,7 +12,7 @@
 #User Story 07 - Persistencia de Informacoes - FIM
 
 #Limpar os dados do sistema.
-#zerarSistema
+zerarSistema
 
 #Criar usuário.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
@@ -114,5 +114,5 @@ expect "[]" getPontosEncontro idSessao=${sessaoMark} idCarona=${carona2ID}
 expect "[Acude Velho;Hiper Bompreco]" getPontosSugeridos idSessao=${sessaoMark} idCarona=${carona2ID}
 
 #Finaliza o sistema
-#encerrarSistema
-#quit
+encerrarSistema
+quit

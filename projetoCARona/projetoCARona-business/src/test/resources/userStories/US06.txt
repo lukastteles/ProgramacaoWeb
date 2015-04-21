@@ -2,7 +2,7 @@
 
 
 #Limpar os dados do sistema.
-#zerarSistema
+zerarSistema
 
 #Criar usuário.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
@@ -41,5 +41,5 @@ expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caron
 expectError "Login inválido" visualizarPerfil idSessao=${sessaoMark} login=pedro
 
 #Sair do sistema.
-#encerrarSistema
-#quit
+encerrarSistema
+quit

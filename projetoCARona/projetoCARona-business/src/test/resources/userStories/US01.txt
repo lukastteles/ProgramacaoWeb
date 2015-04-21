@@ -1,6 +1,6 @@
 # User Story 01 - Criação de conta
 
-#zerarSistema
+zerarSistema
 
 # entradas válidas
 
@@ -44,5 +44,5 @@ expectError "Atributo inválido" getAtributoUsuario login="mark" atributo=
 expectError "Atributo inválido" getAtributoUsuario login="mark" atributo=""
 expectError "Atributo inexistente" getAtributoUsuario login="mark" atributo="xpto"
 
-#encerrarSistema
-#quit
+encerrarSistema
+quit

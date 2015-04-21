@@ -9,7 +9,7 @@
 
 
 #Limpar os dados do sistema.
-#zerarSistema
+zerarSistema
 
 #Criar usuário.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
@@ -77,5 +77,5 @@ expectError "Ponto Inválido" responderSugestaoPontoEncontro idSessao=${sessaoMa
 encerrarSessao login="mark"
 encerrarSessao login="bill"
 
-#encerrarSistema
-#quit
+encerrarSistema
+quit

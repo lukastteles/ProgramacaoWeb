@@ -1,6 +1,6 @@
 #User Story 02 - Cadastro de Caronas
 
-#zerarSistema
+zerarSistema
 
 #US02 - Cadastro de caronas. Permitir o cadastro de caronas no perfil do usuário. 
 #Deve-se informar o local de origem, o local de destino, data, hora de saída e quantidade de vagas disponíveis.
@@ -99,5 +99,5 @@ expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="C
 expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="()"
 expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="!?"
 
-#encerrarSistema
-#quit
+encerrarSistema
+quit

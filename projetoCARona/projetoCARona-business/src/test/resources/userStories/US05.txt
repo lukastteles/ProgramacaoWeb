@@ -7,7 +7,7 @@
 
 
 #Limpar os dados do sistema.
-#zerarSistema
+zerarSistema
 
 #Criar usuário.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
@@ -63,5 +63,5 @@ expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 expectError "Solicitação inexistente" rejeitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
 expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
-#encerrarSistema
-#quit
+encerrarSistema
+quit

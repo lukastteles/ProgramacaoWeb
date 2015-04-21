@@ -5,7 +5,7 @@
 
 
 #Limpar os dados do sistema.
-#zerarSistema
+zerarSistema
 
 #Criar usuário.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
@@ -40,5 +40,5 @@ expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="C
 expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="!?"
 
 #Sair do sistema
-#encerrarSistema
-#quit
+encerrarSistema
+quit
