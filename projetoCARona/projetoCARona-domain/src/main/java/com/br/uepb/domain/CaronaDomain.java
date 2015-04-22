@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 import com.br.uepb.validator.ValidarCampos;
@@ -19,10 +21,9 @@ import com.br.uepb.validator.ValidarCampos;
  * @version 0.1
  * @since 19/04/2015
  */
-@Entity
-@Table(name="CARONAS")
 public class CaronaDomain {
 
+	final static Logger logger = Logger.getLogger(CaronaDomain.class);
 	
 	/** Id da sessão */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Sessao não pode ser null")
@@ -30,8 +31,6 @@ public class CaronaDomain {
 	
 	/** Id da carona */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Carona não pode ser null")
-	@Id
-	@GeneratedValue
 	private String id;
 
 	/** Local de origem da carona */ 
@@ -95,6 +94,7 @@ public class CaronaDomain {
 	 */
 	private void setIdSessao(String idSessao) throws Exception{
 		if ( (idSessao == null) || (idSessao.trim().equals("")) ){
+			logger.debug("setIdSessao() Exceção: "+MensagensErro.SESSAO_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.SESSAO_INVALIDA);
 		}
 		
@@ -116,6 +116,7 @@ public class CaronaDomain {
 	 */
 	public void setID(String id) throws Exception {
 		if ( (id == null) || (id.trim().equals("")) ){
+			logger.debug("setId() Exceção: "+MensagensErro.IDENTIFICADOR_NAO_INFORMADO);
 			throw new ProjetoCaronaException(MensagensErro.IDENTIFICADOR_NAO_INFORMADO);
 		}
 		
@@ -137,6 +138,7 @@ public class CaronaDomain {
 	 */
 	public void setOrigem(String origem) throws Exception {
 		if ( (origem == null) || (origem.trim().equals("")) ){
+			logger.debug("setOrigem() Exceção: "+MensagensErro.ORIGEM_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.ORIGEM_INVALIDA);
 		}
 		this.origem = origem;
@@ -157,6 +159,7 @@ public class CaronaDomain {
 	 */
 	public void setDestino(String destino) throws Exception {
 		if ( (destino == null) || (destino.trim().equals("")) ){
+			logger.debug("setDestino() Exceção: "+MensagensErro.DESTINO_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
 		}
 		this.destino = destino;
@@ -277,6 +280,7 @@ public class CaronaDomain {
 				return pontoEncontro;
 			}
 		}
+		logger.debug("getPontoEncontroByNome() Exceção: "+MensagensErro.PONTO_INVALIDO);
 		throw new ProjetoCaronaException(MensagensErro.PONTO_INVALIDO);
 	}
 	

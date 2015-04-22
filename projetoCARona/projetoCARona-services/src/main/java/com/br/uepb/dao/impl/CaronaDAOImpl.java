@@ -92,9 +92,11 @@ public class CaronaDAOImpl implements CaronaDAO{
 	public CaronaDomain getCarona(String idCarona) throws Exception  {		
 		//tratamento para verificar de o IdCarona está null ou vazio
 		if (idCarona == null) {
+			logger.debug("getCarona() Exceção: "+MensagensErro.CARONA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.CARONA_INVALIDA);
 		}
 		if (idCarona.trim().equals("")) {
+			logger.debug("getCarona() Exceção: "+MensagensErro.CARONA_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.CARONA_INEXISTENTE);
 		}
 		
@@ -105,11 +107,13 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}
 		
 		//se não entrou no for é sinal que não existe nenhuma carona com esse parametro cadastrada
+		logger.debug("getCarona() Exceção: "+MensagensErro.CARONA_INEXISTENTE);
 		throw new ProjetoCaronaException(MensagensErro.CARONA_INEXISTENTE);
 	}
 
 	
 	public void apagaCaronas(){
+		logger.debug("apagando lista de caronas");
 		if (listaCaronas.size() > 0) {
 			listaCaronas.removeAll(listaCaronas);
 		}		

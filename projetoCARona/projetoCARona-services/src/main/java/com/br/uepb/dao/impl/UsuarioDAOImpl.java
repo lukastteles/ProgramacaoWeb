@@ -2,6 +2,7 @@ package com.br.uepb.dao.impl;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.br.uepb.constants.MensagensErro;
@@ -14,7 +15,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	private static UsuarioDAOImpl usuarioDAOImpl;
 	
-	//final static Logger logger = Logger.getLogger(UsuarioDAOImpl.class);
+	final static Logger logger = Logger.getLogger(UsuarioDAOImpl.class);
+	
 	//Lista de usuários
 	ArrayList<UsuarioDomain> listaUsuarios = new ArrayList<UsuarioDomain>();
 	
@@ -34,6 +36,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	@Override
 	public UsuarioDomain getUsuario(String login) throws Exception {
 		if ( (login == null) || (login.trim().equals("")) ){
+			logger.debug("getUsuario() Exceção: "+MensagensErro.LOGIN_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		
@@ -42,17 +45,19 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 				return usuario;
 			}
 		}
-		//logger.debug("Usuário inexistente");
+		logger.debug("getUsuario() Exceção: "+MensagensErro.USUARIO_INEXISTENTE);
 		throw new ProjetoCaronaException(MensagensErro.USUARIO_INEXISTENTE);
 	}
 
 	@Override
 	public void addUsuario(UsuarioDomain usuario) throws Exception{
 		if (loginExiste(usuario.getLogin())) {	
+			logger.debug("addUsuario() Exceção: "+MensagensErro.USUARIO_JA_EXISTE);
 			throw new ProjetoCaronaException(MensagensErro.USUARIO_JA_EXISTE);
 		}
 
 		if (emailExiste(usuario.getPerfil().getEmail())) {
+			logger.debug("addUsuario() Exceção: "+MensagensErro.EMAIL_JA_EXISTE);
 			throw new ProjetoCaronaException(MensagensErro.EMAIL_JA_EXISTE);
 		} 	
 		
@@ -79,6 +84,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 	
 	public void apagaUsuarios(){
+		logger.debug("apagando lista de usuarios");
 		if (listaUsuarios.size() > 0) {
 			listaUsuarios.removeAll(listaUsuarios);
 		}

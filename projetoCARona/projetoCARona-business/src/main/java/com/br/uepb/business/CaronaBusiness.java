@@ -2,6 +2,7 @@ package com.br.uepb.business;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.br.uepb.constants.MensagensErro;
@@ -21,6 +22,8 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
 @Component
 public class CaronaBusiness {
 	
+	final static Logger logger = Logger.getLogger(CaronaBusiness.class);
+	
 	/**
 	 * Método para localizar todas as caronas informadas de uma determinada origem para um destino
 	 * Observações:
@@ -34,15 +37,18 @@ public class CaronaBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida
 	 */
 	public ArrayList<CaronaDomain> localizarCarona(String idSessao, String origem, String destino) throws Exception{
+		logger.debug("localizando carona para origem: "+origem+" e destino: "+destino);
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		ArrayList<CaronaDomain> caronas;
 
 		if (verificaCaracteres(origem) == false){
+			logger.debug("localizarCarona() Exceção: "+MensagensErro.ORIGEM_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.ORIGEM_INVALIDA);
 		}
 
 		if (verificaCaracteres(destino) == false){
+			logger.debug("localizarCarona() Exceção: "+MensagensErro.DESTINO_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
 		}
 				
@@ -60,7 +66,7 @@ public class CaronaBusiness {
 		else {
 			caronas = CaronaDAOImpl.getInstance().listCaronas(origem, destino);
 		}
-		
+		logger.debug("retornando caronas encontradas");
 		return caronas;
 	}
 	
@@ -76,18 +82,24 @@ public class CaronaBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida
 	 */
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas) throws Exception{		
+		logger.debug("cadastrando carona");
 		//funcao para verificar se a sessao existe
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		//adiciona a caronas na lista de caronas
 		String carona = ""+ CaronaDAOImpl.getInstance().idCarona;
-		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, data, hora, vagas);				
+		logger.debug("criando carona");
+		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, data, hora, vagas);
+		logger.debug("carona criada");
+		logger.debug("adicionando carona na lista");
 		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
+		logger.debug("carona adicionada na lista");
 		
 		//Adiciona a carona ao usuario correspondente
 		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);	
 		usuario.addCarona(caronaDomain.getID());
 		usuario.getPerfil().addHistoricoDeCaronas(caronaDomain.getID());
+		logger.debug("carona adicionada no historico do usuario");
 		
 		CaronaDAOImpl.getInstance().idCarona++;
 		return caronaDomain.getID();
@@ -101,12 +113,15 @@ public class CaronaBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou se a carona e/ou atributo for inexistente
 	 */
 	public String getAtributoCarona(String idCarona, String atributo) throws Exception{
-
+		logger.debug("buscando atributo da carona");
+		
 		if( (atributo == null) || (atributo.trim().equals(""))){
+			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.ATRIBUTO_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INVALIDO);
 		}
 		
 		if ((idCarona == null) || (idCarona.trim().equals(""))) {
+			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.IDENTIFICADOR_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.IDENTIFICADOR_INVALIDO);
 		}
 		
@@ -115,6 +130,7 @@ public class CaronaBusiness {
 		try {
 			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);			
 		} catch (Exception e) {
+			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.ITEM_INEXISTENTE);
 			//if (e.getMessage().equals(MensagensErro.CARONA_INEXISTENTE)) {
 				throw new ProjetoCaronaException(MensagensErro.ITEM_INEXISTENTE);
 			//}		
@@ -129,6 +145,7 @@ public class CaronaBusiness {
 		}else if(atributo.equals("vagas")){
 			return ""+carona.getVagas();
 		}else {
+			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.ATRIBUTO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
 		}
 				
@@ -141,22 +158,25 @@ public class CaronaBusiness {
 	 * @throws Exception Lança exceção se o id da carona for null, vazio ou inexistente
 	 */
 	public String getTrajeto(String idCarona) throws Exception{
-		
+		logger.debug("buscando trajeto de uma carona");
 		CaronaDomain carona = null;
 		
 		try {
 			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		} catch (Exception e) {
-			if (e.getMessage().equals(MensagensErro.CARONA_INVALIDA)) {				
+			if (e.getMessage().equals(MensagensErro.CARONA_INVALIDA)) {
+				logger.debug("getTrajeto() Exceção: "+MensagensErro.TRAJETO_INVALIDO);
 					throw new ProjetoCaronaException(MensagensErro.TRAJETO_INVALIDO);
 			}
 			else {
+				logger.debug("getTrajeto() Exceção: "+MensagensErro.TRAJETO_INEXISTENTE);
 				throw new ProjetoCaronaException(MensagensErro.TRAJETO_INEXISTENTE);
 			}			
 		}
 		
-		
 		String trajeto = carona.getOrigem()+" - "+carona.getDestino();
+		
+		logger.debug("trajeto encontrado ("+trajeto+")");
 		
 		return trajeto;	
 	}
@@ -168,6 +188,7 @@ public class CaronaBusiness {
 	 * @throws Exception Lança exceção se o id da carona for null, vazio ou inexistente 
 	 */
 	public CaronaDomain getCarona(String idCarona) throws Exception{		
+		logger.debug("buscando carona");
 		return  CaronaDAOImpl.getInstance().getCarona(idCarona);
 	}
 	
@@ -179,6 +200,7 @@ public class CaronaBusiness {
 	 * @throws Exception Lança exceção se o id da carona for null, vazio ou inexistente ou se o indice informado for inválido
 	 */
 	public CaronaDomain getCaronaUsuario(String idSessao, int indexCarona) throws Exception{
+		logger.debug("buscando carona de um usuário");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		String idCarona = UsuarioDAOImpl.getInstance().getUsuario(idSessao).getIdCaronaByIndex(indexCarona);		
 		return CaronaDAOImpl.getInstance().getCarona(idCarona);		
@@ -191,13 +213,14 @@ public class CaronaBusiness {
 	 * @throws Exception Lança exceção se o id da sessão for null, vazio ou inexistente
 	 */
 	public ArrayList<CaronaDomain> getTodasCaronasUsuario(String idSessao) throws Exception{
+		logger.debug("buscando todas as carona de um usuário");
 		UsuarioDomain usuario =  UsuarioDAOImpl.getInstance().getUsuario(idSessao);
 		ArrayList<CaronaDomain> caronasUsuario = new ArrayList<CaronaDomain>();
 		for (String idCarona : usuario.getCaronas()) {
 			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 			caronasUsuario.add(carona);
 		}
-				
+		logger.debug("caronas encontradas");
 		return caronasUsuario;
 	}
 

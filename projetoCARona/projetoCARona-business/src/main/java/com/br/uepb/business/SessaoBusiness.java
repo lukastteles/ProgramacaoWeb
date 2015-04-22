@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.domain.SessaoDomain;
 
@@ -11,6 +13,7 @@ import com.br.uepb.domain.SessaoDomain;
  */
 public class SessaoBusiness {
 
+	final static Logger logger = Logger.getLogger(SessaoBusiness.class);
 	SessaoDomain sessaoDomain;
 	
 	/**
@@ -21,8 +24,10 @@ public class SessaoBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se não existir nenhum usuário com os login e senha informados 
 	 */
 	public String abrirSessao(String login, String senha) throws Exception {
+		logger.debug("abrindo sessão "+login);
 		sessaoDomain = new SessaoDomain(login, senha);
 		SessaoDAOImpl.getInstance().addSessao(sessaoDomain);
+		logger.debug("sessão "+login+" aberta");
 		return 	SessaoDAOImpl.getInstance().getSessao(login).getLogin();
 	}
 		
@@ -33,7 +38,9 @@ public class SessaoBusiness {
 	 * @throws Exception Lança exceção se o login foi null ou vazio ou se não existir uma sessao aberta com o login informado
 	 */
 	public void encerrarSessao(String login) throws Exception{
-		SessaoDAOImpl.getInstance().deleteSessao(login);		
+		logger.debug("encerrando sessão "+login);
+		SessaoDAOImpl.getInstance().deleteSessao(login);
+		logger.debug("sessão "+login+" encerrada");
 	}
 	
 }

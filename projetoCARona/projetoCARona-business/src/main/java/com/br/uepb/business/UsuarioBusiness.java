@@ -1,5 +1,6 @@
 package com.br.uepb.business;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.br.uepb.constants.MensagensErro;
@@ -16,6 +17,8 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
 @Component
 public class UsuarioBusiness {
 	
+	final static Logger logger = Logger.getLogger(UsuarioBusiness.class);
+	
 	/**
 	 * Método para criar um novo usuário
 	 * @param login Login do usuário
@@ -30,8 +33,16 @@ public class UsuarioBusiness {
 	 *  - Email: email@email.com
 	 */
 	public void criarUsuario(String login, String senha, String nome, String endereco, String email) throws Exception{
+		logger.debug("criando usuário "+nome);
+		
 		UsuarioDomain usuario = new UsuarioDomain(login, senha, nome, endereco, email);
+		
+		logger.debug("usuário "+nome+" criado");
+		logger.debug("adicionando usuário "+nome+" na lista");
+		
 		UsuarioDAOImpl.getInstance().addUsuario(usuario);
+		
+		logger.debug("usuário "+nome+" adicionado na lista");
 	}
 	
 	/**
@@ -42,11 +53,15 @@ public class UsuarioBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou inesistente
 	 */
 	public String getAtributoUsuario(String login, String atributo) throws Exception{		
+		logger.debug("buscando atributo do usuário");
 		if((atributo == null) || (atributo.trim().equals(""))){
+			logger.debug("getAtributoUsuario() Exceção: "+MensagensErro.ATRIBUTO_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INVALIDO); 
 		}
 		
+		logger.debug("buscando usuário lista");
 		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(login);
+		logger.debug("usuário encontrado");
 		
 		//Não usamos switch-case por causa do compilador que ficou muendo pra colocar String no parâmetro do switch
 		if(atributo.equals("login")){
@@ -60,6 +75,7 @@ public class UsuarioBusiness {
 		}else if(atributo.equals("email")){
 			return usuario.getPerfil().getEmail();
 		}else {
+			logger.debug("getAtributoUsuario() Exceção: "+MensagensErro.ATRIBUTO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
 		}
 		

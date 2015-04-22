@@ -1,5 +1,7 @@
 package com.br.uepb.domain;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -10,6 +12,8 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  * @since 19/04/2015
  */
 public class PontoDeEncontroDomain {
+	
+	final static Logger logger = Logger.getLogger(PontoDeEncontroDomain.class);
 	
 	/** Id da sugestão */ //TODO: Deve ser gerado automaticamente
 	private String idSugestao;
@@ -62,6 +66,7 @@ public class PontoDeEncontroDomain {
 	 */
 	public void setPontoDeEncontro(String pontoDeEncontro) throws Exception {
 		if ( (pontoDeEncontro == null) || (pontoDeEncontro.trim().equals("")) ){
+			logger.debug("setPontoDeEncontro() Exceção: "+MensagensErro.PONTO_INVALIDO); 
 			throw new ProjetoCaronaException(MensagensErro.PONTO_INVALIDO);
 		}
 		this.pontoDeEncontro = pontoDeEncontro;		

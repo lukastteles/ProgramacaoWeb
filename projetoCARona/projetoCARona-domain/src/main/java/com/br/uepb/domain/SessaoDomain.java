@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -15,7 +17,7 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  */
 public class SessaoDomain {
 	
-	//TODO: informar -> final static Logger logger = Logger.getLogger(SessaoDomain.class);
+	final static Logger logger = Logger.getLogger(SessaoDomain.class);
 
 	/** Login da sessão	 */
 	@NotNull(message = "O Login não pode ser nulo")
@@ -55,7 +57,7 @@ public class SessaoDomain {
 	 */
 	private void setLogin(String login) throws Exception{
 		if ( (login == null) || (login.trim().equals("")) ) {
-			//logger.debug("Login inválido");
+			logger.debug("setLogin() Excceção: "+MensagensErro.LOGIN_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		this.login = login;
@@ -77,7 +79,7 @@ public class SessaoDomain {
 	 */
 	public void setSenha(String senha) throws Exception {
 		if ( (senha == null) || (senha.trim().equals("")) ) {
-			//logger.debug("Login inválido");
+			logger.debug("setSenha() Excceção: "+MensagensErro.LOGIN_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		

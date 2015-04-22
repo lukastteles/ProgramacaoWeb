@@ -2,12 +2,16 @@ package com.br.uepb.dao.impl;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.SolicitacaoVagaDAO;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
+	
+	final static Logger logger = Logger.getLogger(SolicitacaoVagaDAOImpl.class);
 	
 	public int idSolicitacao = 1;
 	ArrayList<SolicitacaoVagaDomain> listaSolicitacaoVagas = new ArrayList<SolicitacaoVagaDomain>();
@@ -39,7 +43,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 				return solicitacaoVagaDomain;
 			}			
 		}
-		
+		logger.debug("getSolicitacaoVaga() Exceção: "+MensagensErro.SOLICITACAO_INEXISTENTE);
 		throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);
 	}
 	

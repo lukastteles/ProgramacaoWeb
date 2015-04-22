@@ -1,5 +1,7 @@
 package com.br.uepb.domain;
 
+import org.apache.log4j.Logger;
+
 /**
  * Classe de domínio que define o modelo para a solicitacão de vaga na carona
  * @author Luana Janaina / Lukas Teles
@@ -7,6 +9,8 @@ package com.br.uepb.domain;
  * @since 20/04/2015
  */
 public class SolicitacaoVagaDomain {
+	
+	final static Logger logger = Logger.getLogger(SolicitacaoVagaDomain.class);
 	
 	/** Id da solicitacao */ //TODO: Deve ser gerado automaticamente
 	private String id;

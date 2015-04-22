@@ -2,6 +2,8 @@ package com.br.uepb.dao.impl;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.SessaoDAO;
 import com.br.uepb.domain.SessaoDomain;
@@ -10,6 +12,7 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class SessaoDAOImpl implements SessaoDAO {
 	
+	final static Logger logger = Logger.getLogger(SessaoDAOImpl.class);
 	private static SessaoDAOImpl sessaoDAOImpl;
 
 	//Lista de caronas
@@ -31,6 +34,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 				
 		//Se a senha informada for diferente da senha do usuario
 		if (!usuario.getSenha().equals(sessao.getSenha())) {
+			logger.debug("addSessao() Excceção: "+MensagensErro.LOGIN_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		
@@ -52,6 +56,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 	@Override
 	public SessaoDomain getSessao(String login) throws Exception {
 		if ((login == null) || (login.trim().equals(""))) {
+			logger.debug("getSessao() Excceção: "+MensagensErro.SESSAO_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.SESSAO_INVALIDA);
 		}
 		
@@ -60,7 +65,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 				return sessao;
 			}
 		}
-		
+		logger.debug("getSessao() Excceção: "+MensagensErro.SESSAO_INEXISTENTE);
 		throw new ProjetoCaronaException(MensagensErro.SESSAO_INEXISTENTE);
 		
 	}
@@ -78,11 +83,13 @@ public class SessaoDAOImpl implements SessaoDAO {
 			listaSessoes.remove(sessaoApagar);
 		}
 		else {
+			logger.debug("deleteSessao() Excceção: "+MensagensErro.SESSAO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.SESSAO_INEXISTENTE);
 		}
 	}
 	
 	public void apagaSessoes(){
+		logger.debug("apagando lista de sessões");
 		if (listaSessoes.size() > 0) {
 			listaSessoes.removeAll(listaSessoes);
 			

@@ -7,19 +7,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
+
 /**
  * Classe de domínio que define o modelo para o Perfil do Usuário
  * @author Luana Janaina / Lukas Teles
  * @version 0.1
  * @since 18/04/2015
  */
-@Entity
-@Table(name="PERFIL_USUARIO")
 public class PerfilDomain {
 	
-	@Id
-	@GeneratedValue
-	private int idPerfil;
+	final static Logger logger = Logger.getLogger(PerfilDomain.class);
 	
 	/** Nome do usuário */
 	//@NotNull(message = "O Nome não pode ser nulo")

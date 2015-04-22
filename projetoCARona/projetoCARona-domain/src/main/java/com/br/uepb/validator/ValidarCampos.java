@@ -3,6 +3,8 @@ package com.br.uepb.validator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -15,6 +17,8 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  */
 public class ValidarCampos {
 
+	final static Logger logger = Logger.getLogger(ValidarCampos.class);
+	
 	/**
 	 * Método para verificar se a data está dentro do padrão dd/MM/yyyy 
 	 * @param data Data a ser validada
@@ -22,6 +26,7 @@ public class ValidarCampos {
 	 */
 	public void validarData(String data) throws Exception {
 		if ( (data == null) || (data.trim().equals("")) ){
+			logger.debug("validarData() Exceção: "+MensagensErro.DATA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.DATA_INVALIDA);
 		}
 		
@@ -32,6 +37,7 @@ public class ValidarCampos {
 			
 			new java.sql.Date( ((java.util.Date)formato.parse(data)).getTime() );
 		} catch (Exception e) {
+			logger.debug("validarData() Exceção: "+MensagensErro.DATA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.DATA_INVALIDA);
 		}		
 	}
@@ -43,6 +49,7 @@ public class ValidarCampos {
 	 */
 	public void validarHora(String hora) throws Exception {
 		if ( (hora == null) || (hora.trim().equals("")) ){
+			logger.debug("validarHora() Exceção: "+MensagensErro.HORA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.HORA_INVALIDA);
 		}
 		
@@ -53,6 +60,7 @@ public class ValidarCampos {
 			
 			new java.sql.Date( ((java.util.Date)formato.parse(hora)).getTime() );
 		} catch (Exception e) {
+			logger.debug("validarHora() Exceção: "+MensagensErro.HORA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.HORA_INVALIDA);
 		}		
 	}
@@ -66,6 +74,7 @@ public class ValidarCampos {
 	public void validarEmail(String email) throws Exception
 	{
 		if ((email == null) || (email.trim().length() == 0)) {
+			logger.debug("validarEmail() Exceção: "+MensagensErro.EMAIL_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.EMAIL_INVALIDO);
 		}
 		

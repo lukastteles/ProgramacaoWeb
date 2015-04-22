@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -17,15 +19,14 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  * @version 0.1
  * @since 18/04/2015
  */
-@Entity
-@Table(name="USUARIOS")
 public class UsuarioDomain {
 
+	final static Logger logger = Logger.getLogger(UsuarioDomain.class);
+	
 	/** Login do usuário */
 	/*
 	@NotNull(message = "Login inválido")
 	@Size(min=2, max=30, message="Login inválido") */
-	@Id
 	private String login;
 	
 	/** Senha do usuário para autenticação no sistema */
@@ -35,8 +36,6 @@ public class UsuarioDomain {
 	private String senha; 
 	
 	/** Perfil do usuário, contém nome, email e endereço */
-	@OneToOne
-	@Column(name="id_perfil")
 	private PerfilDomain perfil;
 	
 	/** Caronas do usuário */
@@ -54,7 +53,6 @@ public class UsuarioDomain {
 	public UsuarioDomain(String login, String senha, String nome, String endereco, String email) throws Exception {
 		setLogin(login);
 		setSenha(senha);
-		
 		setPerfil(nome, endereco, email);
 	}
 	
@@ -73,7 +71,8 @@ public class UsuarioDomain {
 	 */	
 	private void setLogin(String login) throws Exception{
 		if ( (login == null) || (login.trim().equals("")) ){
-			throw new ProjetoCaronaException("Login inválido");
+			logger.debug("setLogin() Exceção: "+MensagensErro.LOGIN_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		this.login = login;	
 	}
@@ -93,6 +92,7 @@ public class UsuarioDomain {
 	 */
 	public void setSenha(String senha) throws Exception {
 		if ( (senha == null) || (senha.trim().equals("")) ){
+			logger.debug("setSenha() Exceção: "+MensagensErro.SENHA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.SENHA_INVALIDA);
 		}
 		
@@ -116,12 +116,15 @@ public class UsuarioDomain {
 	 */
 	private void setPerfil(String nome, String endereco, String email) throws Exception{
 		if ( (nome == null) || (nome.trim().equals("")) ){
+			logger.debug("setPerfil() Exceção: "+MensagensErro.NOME_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.NOME_INVALIDO);
 		}
 		if ( (endereco == null) || (endereco.trim().equals("")) ){
+			logger.debug("setPerfil() Exceção: "+MensagensErro.ENDERECO_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.ENDERECO_INVALIDO);
 		}
 		if ( (email == null) || (email.trim().equals("")) ){
+			logger.debug("setPerfil() Exceção: "+MensagensErro.EMAIL_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.EMAIL_INVALIDO);
 		}
 		
@@ -153,6 +156,7 @@ public class UsuarioDomain {
 	 */
 	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
 		if ((indexCarona == 0) || (indexCarona > idCaronas.size())) {
+			logger.debug("getIdCaronaByIndex() Exceção: "+MensagensErro.INDICE_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.INDICE_INVALIDO);
 		}
 		

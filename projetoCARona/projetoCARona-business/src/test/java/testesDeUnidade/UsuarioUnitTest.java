@@ -180,7 +180,7 @@ public class UsuarioUnitTest {
 		
 		//Criar outro usuario com mesmo login
 		try {
-			usuarioBusiness.criarUsuario(login, "senha", "nome", "endereco", "email@email.com");
+			usuarioBusiness.criarUsuario(login, "senha", "teste", "endereco", "email@email.com");
 		} catch (ProjetoCaronaException e) {
 			Assert.assertEquals("Já existe um usuário com este login", e.getMessage());
 		}catch (Exception e) {
@@ -189,7 +189,7 @@ public class UsuarioUnitTest {
 		
 		//Criar outro usuario com mesmo email
 		try {
-			usuarioBusiness.criarUsuario("login", "senha", "nome", "endereco", email);
+			usuarioBusiness.criarUsuario("login", "senha", "teste", "endereco", email);
 		} catch (ProjetoCaronaException e) {
 			Assert.assertEquals("Já existe um usuário com este email", e.getMessage());
 		}catch (Exception e) {

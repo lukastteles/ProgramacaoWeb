@@ -2,6 +2,8 @@ package com.br.uepb.business;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
@@ -22,6 +24,8 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  */
 public class SolicitacaoVagaBusiness {
 
+	final static Logger logger = Logger.getLogger(SolicitacaoVagaBusiness.class);
+	
 	/**
 	 * Método para retornar os dados referentes a solicitação da vaga
 	 * @param idSolicitacao Id da solicitação
@@ -30,12 +34,15 @@ public class SolicitacaoVagaBusiness {
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a solicitação ou o atributo não existir 
 	 */
 	public String getAtributoSolicitacao(String idSolicitacao, String atributo) throws Exception{
+		logger.debug("buscando atributo da solicitação");
 		
 		if( (idSolicitacao == null) || (idSolicitacao.trim().equals(""))){
+			logger.debug("getAtributoSolicitacao() Exceção: "+MensagensErro.SOLICITACAO_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INVALIDA);
 		}
 		
 		if( (atributo == null) || (atributo.trim().equals(""))){
+			logger.debug("getAtributoSolicitacao() Exceção: "+MensagensErro.ATRIBUTO_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INVALIDO);
 		}
 		
@@ -55,6 +62,7 @@ public class SolicitacaoVagaBusiness {
 		}else if(atributo.equals("Ponto de Encontro")){
 			return solicitacaoVaga.getPonto().getPontoDeEncontro();
 		}else {
+			logger.debug("getAtributoSolicitacao() Exceção: "+MensagensErro.ATRIBUTO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
 		}		 		
 	}
@@ -67,16 +75,18 @@ public class SolicitacaoVagaBusiness {
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário sa sessão informada
 	 */
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idSessao, String idCarona) throws Exception{
+		logger.debug("buscando solicitacões comfirmadas");
 		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		//Metodo para garantir que o usuario informado na sessao é o dono da carona
 		if (!carona.getIdSessao().equals(sessao.getLogin())) {
+			logger.debug("getSolicitacoesConfirmadas() Exceção: "+MensagensErro.CARONA_NAO_IDENTIFICADA);
 			throw new ProjetoCaronaException(MensagensErro.CARONA_NAO_IDENTIFICADA);
 		}
 		
 		ArrayList<SolicitacaoVagaDomain> solicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(idCarona);
-		
+		logger.debug("solicitacões comfirmadas encontradas");
 		return solicitacoes; 
 	}
 	
@@ -88,16 +98,18 @@ public class SolicitacaoVagaBusiness {
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
 	 */
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idSessao, String idCarona) throws Exception{ 
+		logger.debug("buscando solicitacões pendentes");
 		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		//Metodo para garantir que o usuario informado na sessao é o dono da carona
 		if (!carona.getIdSessao().equals(sessao.getLogin())) {
+			logger.debug("getSolicitacoesPendentes() Exceção: "+MensagensErro.CARONA_NAO_IDENTIFICADA);
 			throw new ProjetoCaronaException(MensagensErro.CARONA_NAO_IDENTIFICADA);
 		}
 		
 		ArrayList<SolicitacaoVagaDomain> solicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesPendentes(idCarona);
-		
+		logger.debug("solicitacões pendentes encontradas");
 		return solicitacoes; 
 	}
 	
@@ -109,21 +121,28 @@ public class SolicitacaoVagaBusiness {
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
 	 */
 	public int solicitarVaga(String idSessao, String idCarona) throws Exception{		
+		logger.debug("solicitando vaga numa carona");
 		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		//garantir que um usuario não pode solicitar vaga na sua própria carona
 		if (carona.getIdSessao().equals(sessao.getLogin())) {
+			logger.debug("solicitarVaga() Exceção: "+MensagensErro.CARONA_NAO_IDENTIFICADA);
 			throw new ProjetoCaronaException(MensagensErro.CARONA_NAO_IDENTIFICADA);
 		}
 		
+		logger.debug("verificando se há vagas disponíveis");
 		if (carona.getVagas() == 0) {
+			logger.debug("solicitarVaga() Exceção: "+MensagensErro.VAGAS_OCUPADAS);
 			throw new ProjetoCaronaException(MensagensErro.VAGAS_OCUPADAS);
 		}
 		else {
+			logger.debug("criando solicitando de vaga");
 			//Cria a solicitacao da vaga e adiciona na carona 
 			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(SolicitacaoVagaDAOImpl.getInstance().idSolicitacao+"", idSessao, idCarona);
-			SolicitacaoVagaDAOImpl.getInstance().addSolicitacaoVaga(solicitacaoVaga);			
+			logger.debug("solicitação de vaga criada");
+			SolicitacaoVagaDAOImpl.getInstance().addSolicitacaoVaga(solicitacaoVaga);
+			logger.debug("solicitação de vaga adicionada na carona");
 			SolicitacaoVagaDAOImpl.getInstance().idSolicitacao++;
 			int id = Integer.parseInt(solicitacaoVaga.getId());			
 			return id;
@@ -140,21 +159,26 @@ public class SolicitacaoVagaBusiness {
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
 	 */
 	public int solicitarVagaPontoEncontro(String idSessao, String idCarona, String ponto) throws Exception{		
+		logger.debug("solicitando vaga numa carona informando o ponto "+ponto);
 		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		//Metodo para garantir que um usuario não pode solicitar vaga na sua própria carona
 		if (carona.getIdSessao().equals(sessao.getLogin())) {
+			logger.debug("solicitarVagaPontoEncontro() Exceção: "+MensagensErro.CARONA_NAO_IDENTIFICADA);
 			throw new ProjetoCaronaException(MensagensErro.CARONA_NAO_IDENTIFICADA);
 		}
 		
+		logger.debug("verificando se há vagas disponíveis");
 		//Verifica se a carona tem vagas disponíveis
 		if (carona.getVagas() == 0) {
+			logger.debug("solicitarVagaPontoEncontro() Exceção: "+MensagensErro.VAGAS_OCUPADAS);
 			throw new ProjetoCaronaException(MensagensErro.VAGAS_OCUPADAS);
 		}
 		else {
 			//TODO: criar metodo para sugerir ponto encontro
 			//Cria a solicitacao da vaga e adiciona na carona
+			logger.debug("Criando ponto "+ponto);
 			PontoDeEncontroDomain pontoEncontro;
 			if (carona.pontoExiste(ponto)) {
 				pontoEncontro = carona.getPontoEncontroByNome(ponto);
@@ -164,11 +188,12 @@ public class SolicitacaoVagaBusiness {
 				CaronaDAOImpl.getInstance().idPontoEncontro++;
 				pontoEncontro = new PontoDeEncontroDomain(idSugestao, ponto);
 				CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoDeEncontro(pontoEncontro);
+				logger.debug("ponto "+ponto+" criado");
 			}
 			
 			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(SolicitacaoVagaDAOImpl.getInstance().idSolicitacao+"", idSessao, idCarona, pontoEncontro);
 			SolicitacaoVagaDAOImpl.getInstance().addSolicitacaoVaga(solicitacaoVaga);			
-			
+			logger.debug("solicitacao de vaga realizada");
 			SolicitacaoVagaDAOImpl.getInstance().idSolicitacao++;
 			int id = Integer.parseInt(solicitacaoVaga.getId());			
 			return id;
@@ -183,6 +208,7 @@ public class SolicitacaoVagaBusiness {
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a solicitacao não pertencer ao usuário da sessão informada
 	 */	
 	public void aceitarSolicitacao(String idSessao, String idSolicitacao) throws Exception{ 
+		logger.debug("aceitando solicitação de vaga numa carona");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
@@ -191,9 +217,11 @@ public class SolicitacaoVagaBusiness {
 			solicitacaoVaga.setFoiAceita(true);
 			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacaoVaga.getIdCarona());
 			UsuarioDAOImpl.getInstance().getUsuario(idSessao).getPerfil().addHistoricoDeVagasEmCaronas(carona.getID());
-			carona.diminuiVagas();			
+			carona.diminuiVagas();	
+			logger.debug("solicitação aceita");
 		}
-		else {			
+		else {	
+			logger.debug("aceitarSolicitacao() Exceção: "+MensagensErro.SOLICITACAO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);			
 		}	
 	}
@@ -206,12 +234,14 @@ public class SolicitacaoVagaBusiness {
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a solicitacao não pertencer ao usuário da sessão informada
 	 */
 	public void aceitarSolicitacaoPontoEncontro(String idSessao, String idSolicitacao) throws Exception{
+		logger.debug("aceitando solicitação de vaga numa carona que já tem um ponto de encontro adicionado");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
 		
 		//Garantir que o id do usuario que criou a carona é igual ao id da sessao
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacaoVaga.getIdCarona()); 
 		if (!carona.getIdSessao().equals(idSessao)) {
+			logger.debug("aceitarSolicitacaoPontoEncontro() Exceção: "+MensagensErro.SOLICITACAO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);				
 		}
 		
@@ -219,14 +249,17 @@ public class SolicitacaoVagaBusiness {
 		if (!solicitacaoVaga.getFoiAceita() ){ 
 			solicitacaoVaga.setFoiAceita(true);			
 			carona.diminuiVagas();
+			logger.debug("solicitação aceita");
 			
 			//aceita o ponto de encontro para a carona
 			PontoDeEncontroDomain pontoEncontro =  solicitacaoVaga.getPonto();
 			if (!pontoEncontro.getFoiAceita()) {
 				pontoEncontro.setFoiAceita(true);
+				logger.debug("ponto de encontro aceito");
 			}
 		}
-		else {			
+		else {	
+			logger.debug("aceitarSolicitacaoPontoEncontro() Exceção: "+MensagensErro.SOLICITACAO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);			
 		}
 		
@@ -240,19 +273,22 @@ public class SolicitacaoVagaBusiness {
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou inexistente ou se a solicitacao não pertencer ao usuário da sessão informada
 	 */
 	public void desistirRequisicao(String idSessao, String idCarona, String idSolicitacao) throws Exception{
+		logger.debug("desistindo de uma requisicao de vaga numa carona");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		/* Garantir que o id do usuario que solicitou é igual ao id da sessao
 		  Se não a solicitacao nao pertencer ao usuario retorna solicitacao invalida */ 
 		SolicitacaoVagaDomain solicitacao = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
 		if (!solicitacao.getIdUsuario().equals(idSessao)) {
+			logger.debug("desistirRequisicao() Exceção: "+MensagensErro.SOLICITACAO_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INVALIDA);				
 		}
 		
 		SolicitacaoVagaDAOImpl.getInstance().deleteSolicitacaoVaga(idSolicitacao);
 		
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
-		carona.aumentaVagas();		
+		carona.aumentaVagas();
+		logger.debug("solicitação de vaga cancelada");
 	}
 
 	/**
@@ -262,6 +298,7 @@ public class SolicitacaoVagaBusiness {
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou inexistente ou se a a carona relacionada a solicitacao não pertencer ao usuário da sessão informada
 	 */
 	public void rejeitarSolicitacao(String idSessao, String idSolicitacao) throws Exception{ 
+		logger.debug("rejeitando uma solicitação de vaga");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);		
 
 		/* Garantir que o id do usuario que criou a carona é igual ao id da sessao
@@ -269,10 +306,12 @@ public class SolicitacaoVagaBusiness {
 		SolicitacaoVagaDomain solicitacao = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacao.getIdCarona()); 
 		if (!carona.getIdSessao().equals(idSessao)) {
+			logger.debug("rejeitarSolicitacao() Exceção: "+MensagensErro.SOLICITACAO_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INVALIDA);				
 		}
 		
-		SolicitacaoVagaDAOImpl.getInstance().deleteSolicitacaoVaga(idSolicitacao);		
+		SolicitacaoVagaDAOImpl.getInstance().deleteSolicitacaoVaga(idSolicitacao);
+		logger.debug("solicitação de vaga rejeitada");
 	}
 	
 

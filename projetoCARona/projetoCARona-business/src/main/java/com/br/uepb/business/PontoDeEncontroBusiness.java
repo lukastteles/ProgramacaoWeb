@@ -2,6 +2,8 @@ package com.br.uepb.business;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
@@ -16,6 +18,8 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  */
 public class PontoDeEncontroBusiness {
 
+	final static Logger logger = Logger.getLogger(PontoDeEncontroBusiness.class);
+	
 	/**
 	 * Método para criar uma sugestão de um ponto de encontro para uma carona
 	 * @param idSessao Id da sessão
@@ -25,12 +29,16 @@ public class PontoDeEncontroBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente
 	 */
 	public String sugerirPontoEncontro(String idSessao, String idCarona, String pontoDeEncontro) throws Exception{
+		logger.debug("sugerindo "+pontoDeEncontro+" como ponto de encontro");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		String idSugestao = ""+ CaronaDAOImpl.getInstance().idPontoEncontro;
 		CaronaDAOImpl.getInstance().idPontoEncontro++;
+		logger.debug("criando ponto de encontro "+pontoDeEncontro);
 		PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idSugestao, pontoDeEncontro);
+		logger.debug("ponto "+pontoDeEncontro+" criado");
 		CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoDeEncontro(ponto);
+		logger.debug("ponto "+pontoDeEncontro+" sugerido");
 		return idSugestao;
 	}
 	
@@ -43,15 +51,19 @@ public class PontoDeEncontroBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente
 	 */
 	public String sugerirPontoEncontro(String idSessao, String idCarona, String[] pontos) throws Exception{
+		logger.debug("sugerindo varios ponto de encontro");
+		
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		String idSugestao = ""+CaronaDAOImpl.getInstance().idPontoEncontro;
 		CaronaDAOImpl.getInstance().idPontoEncontro++;
 		
+		logger.debug("criando e adicionando pontos de encontro");
 		for (int i = 0; i < pontos.length; i++) {
 			PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idSugestao, pontos[i]);
 			CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoDeEncontro(ponto);
 		}
+		logger.debug("pontos de encontro adicionados");
 		return idSugestao;
 	}
 	
@@ -64,9 +76,10 @@ public class PontoDeEncontroBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a sugestão não pertencer a carona 
 	 */
 	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String ponto) throws Exception{
+		logger.debug("respondendo sugestao de ponto de encontro");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		ArrayList<PontoDeEncontroDomain> pontosSugestao = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontro(idSugestao);
-		
+		logger.debug("buscando ponto");
 		for (PontoDeEncontroDomain pontoSugestao : pontosSugestao) {
 			if(pontoSugestao.getPontoDeEncontro().equals(ponto)){
 				pontoSugestao.setFoiAceita(true);
@@ -74,8 +87,10 @@ public class PontoDeEncontroBusiness {
 			}
 		}
 		if(!ponto.equals("aceito")){
+			logger.debug("responderSugestaoPontoEncontro() Exceção: "+MensagensErro.PONTO_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.PONTO_INVALIDO);
 		}
+		logger.debug("ponto aceito");
 	}
 	
 	/**
@@ -88,8 +103,10 @@ public class PontoDeEncontroBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a sugestão não pertencer a carona 
 	 */
 	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String pontos[]) throws Exception{
+		logger.debug("respondendo sugestao de vários pontos de encontro");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		ArrayList<PontoDeEncontroDomain> pontosSugestao = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontro(idSugestao);
+		logger.debug("buscando pontos");
 		for (int i = 0; i < pontos.length; i++) {
 			for (PontoDeEncontroDomain pontoSugestao : pontosSugestao) {
 				if(pontoSugestao.getPontoDeEncontro().equals(pontos[i])){
@@ -98,9 +115,11 @@ public class PontoDeEncontroBusiness {
 				}
 			}
 		}
+		logger.debug("pontos aceitos");
 		for (int i = 0; i < pontos.length; i++) {
 			//se nao pertence a sugestao, cria um novo ponto
 			if(!pontos[i].equals("aceito")){
+				logger.debug("adicionando novos pontos");
 				sugerirPontoEncontro(idSessao, idCarona, pontos[i]);
 			}
 		}
@@ -114,6 +133,7 @@ public class PontoDeEncontroBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a carona não pertencer ao usuario informado
 	 */
 	public String[] getPontosSugeridos(String idSessao, String idCarona) throws Exception{
+		logger.debug("buscando todos os pontros sugeridos para uma carona");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		ArrayList<PontoDeEncontroDomain> todosOsPontos = CaronaDAOImpl.getInstance().getCarona(idCarona).getTodosOsPontos();
@@ -123,6 +143,7 @@ public class PontoDeEncontroBusiness {
 			todos[count] = ponto.getPontoDeEncontro();
 			count++;
 		}
+		logger.debug("pontos encontrados");
 		return todos;
 	}
 	
@@ -134,6 +155,7 @@ public class PontoDeEncontroBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a carona não pertencer ao usuario da sessao informada
 	 */
 	public String[] getPontosEncontro(String idSessao, String idCarona) throws Exception{
+		logger.debug("buscando todos os pontros aceitos para uma carona");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 				
 		ArrayList<PontoDeEncontroDomain> pontosAceitos = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontroAceitos();
@@ -144,6 +166,7 @@ public class PontoDeEncontroBusiness {
 			aceitos[count] = ponto.getPontoDeEncontro();
 			count++;
 		}
+		logger.debug("pontos encontrados");
 		return aceitos;
 		
 	}

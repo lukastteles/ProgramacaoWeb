@@ -1,5 +1,7 @@
 package com.br.uepb.business;
 
+import org.apache.log4j.Logger;
+
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
@@ -14,6 +16,8 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  */
 public class PerfilBusiness {
 	
+	final static Logger logger = Logger.getLogger(PerfilBusiness.class);
+	
 	/**
 	 * Método para visualizar as informações do perfil
 	 * @param idSessao Id da sessão atual
@@ -22,16 +26,20 @@ public class PerfilBusiness {
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou inexistente ou se o idSessao for diferente do login do usuário
 	 */
 	public String visualizaPerfil(String idSessao, String login) throws Exception{
+		logger.debug("visualizando perfil");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		UsuarioDomain usuario;
 		
+		UsuarioDomain usuario;
+		logger.debug("buscando usuário");
 		try{
 			usuario = UsuarioDAOImpl.getInstance().getUsuario(login);
 		}catch(Exception e){
 			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
+		logger.debug("usuário encontrado");
 		
 		usuario.getPerfil();
+		logger.debug("perfil encontrado");
 		return usuario.getLogin();
 	}
 	
@@ -42,6 +50,7 @@ public class PerfilBusiness {
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
 	public String getNome(String login) throws Exception{
+		logger.debug("buscando nome do usuário");
 		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getNome();
 	}
 	
@@ -52,6 +61,7 @@ public class PerfilBusiness {
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente 
 	 */
 	public String getEndereco(String login) throws Exception{
+		logger.debug("buscando endereço do usuário");
 		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getEndereco();
 	}
 	
@@ -62,6 +72,7 @@ public class PerfilBusiness {
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
 	public String getEmail(String login) throws Exception{
+		logger.debug("buscando email do usuário");
 		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getEmail();
 	}
 	
@@ -72,6 +83,7 @@ public class PerfilBusiness {
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
 	public String[] getHistoricoDeCaronas(String login) throws Exception{
+		logger.debug("buscando histórico de caronas do usuário");
 		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getHistoricoDeCaronas();
 	}
 	
@@ -82,6 +94,7 @@ public class PerfilBusiness {
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
 	public String[] getHistoricoDeVagasEmCaronas(String login) throws Exception{
+		logger.debug("buscando histórico de vagas em caronas do usuário");
 		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getHistoricoDeVagasEmCaronas();
 	}
 	
@@ -92,6 +105,7 @@ public class PerfilBusiness {
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
 	public String[] getCaronasSegurasETranquilas(String login) throws Exception{
+		logger.debug("buscando histórico de caronas seguras e tranquilas do usuário");
 		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getCaronasSegurasETranquilas();
 	}
 	
@@ -102,6 +116,7 @@ public class PerfilBusiness {
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
 	public String[] getCaronasQueNaoFuncionaram(String login) throws Exception{
+		logger.debug("buscando histórico de caronas que não funcionaram");
 		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getCaronasQueNaoFuncionaram();
 	}
 	
@@ -112,6 +127,7 @@ public class PerfilBusiness {
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
 	public String[] getFaltasEmVagasDeCaronas(String login) throws Exception{
+		logger.debug("buscando histórico faltas em vagas de caronas do usuário");
 		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getFaltasEmVagasDeCaronas();
 	}
 	
@@ -122,6 +138,7 @@ public class PerfilBusiness {
 	* @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	*/
 	public String[] getPresencasEmVagasDeCaronas(String login) throws Exception{
+		logger.debug("buscando histórico presenças em vagas de caronas do usuário");
 		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getPresencasEmVagasDeCaronas();
 	}
 	
