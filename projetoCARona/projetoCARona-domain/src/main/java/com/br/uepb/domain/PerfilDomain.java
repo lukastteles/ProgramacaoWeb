@@ -15,9 +15,17 @@ import org.apache.log4j.Logger;
  * @version 0.1
  * @since 18/04/2015
  */
+@Entity
+@Table(name="PERFIL")
 public class PerfilDomain {
 	
 	final static Logger logger = Logger.getLogger(PerfilDomain.class);
+	
+	//TODO: variavel adicionada	
+	@Id
+	@GeneratedValue
+	/** Id do Perfil do usuário */
+	private int id;
 	
 	/** Nome do usuário */
 	//@NotNull(message = "O Nome não pode ser nulo")
@@ -62,6 +70,14 @@ public class PerfilDomain {
 		setEmail(email);
 	}
 
+	/**
+	 * Método para retornar o id do Perfil do Usuário
+	 * @return Id do perfil
+	 */
+	public int getID() {
+		return id;
+	}
+	
 	/**
 	 * Método para retornar o nome do usuário
 	 * @return Nome do usuário

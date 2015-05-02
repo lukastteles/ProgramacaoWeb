@@ -2,7 +2,6 @@ package com.br.uepb.domain;
 
 import java.util.ArrayList;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -19,6 +18,9 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  * @version 0.1
  * @since 18/04/2015
  */
+
+@Entity
+@Table(name="USUARIOS")
 public class UsuarioDomain {
 
 	final static Logger logger = Logger.getLogger(UsuarioDomain.class);
@@ -26,7 +28,8 @@ public class UsuarioDomain {
 	/** Login do usuário */
 	/*
 	@NotNull(message = "Login inválido")
-	@Size(min=2, max=30, message="Login inválido") */
+	@Size(min=2, max=30, message="Login inválido") */	
+	@Id
 	private String login;
 	
 	/** Senha do usuário para autenticação no sistema */
@@ -36,6 +39,7 @@ public class UsuarioDomain {
 	private String senha; 
 	
 	/** Perfil do usuário, contém nome, email e endereço */
+	@OneToOne
 	private PerfilDomain perfil;
 	
 	/** Caronas do usuário */
