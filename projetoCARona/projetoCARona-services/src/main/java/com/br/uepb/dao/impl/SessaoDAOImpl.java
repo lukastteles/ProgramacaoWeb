@@ -36,7 +36,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 	}
 	
 	@Override
-	@Transactional
+	//@Transactional
 	public void addSessao(SessaoDomain sessao) throws Exception {
 		//verificar se existe usuario com esse login-senha		
 		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(sessao.getLogin());
