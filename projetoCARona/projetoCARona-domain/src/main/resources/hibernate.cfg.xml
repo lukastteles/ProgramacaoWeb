@@ -17,9 +17,9 @@
      
     	<!--  mapping classes main.java. -->    
 		<mapping class="com.br.uepb.domain.UsuarioDomain" />
-		<mapping class="com.br.uepb.domain.PerfilDomain" />
-		<!-- <mapping class="com.br.uepb.domain.PerfilDomain" /> -->    
-		<!-- <mapping class="com.br.uepb.domain.CaronaDomain" /> -->
+		<mapping class="com.br.uepb.domain.PerfilDomain" />    
+		<mapping class="com.br.uepb.domain.CaronaDomain" />    
+		<mapping class="com.br.uepb.domain.PontoDeEncontroDomain" /> 
     </session-factory>
 	    
 </hibernate-configuration>

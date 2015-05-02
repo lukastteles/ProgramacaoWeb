@@ -1,13 +1,14 @@
 package com.br.uepb.domain;
 
-import java.util.ArrayList;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
@@ -40,10 +41,12 @@ public class UsuarioDomain {
 	
 	/** Perfil do usuário, contém nome, email e endereço */
 	@OneToOne
+	@JoinColumn(name="idPerfil") 
+	@Cascade(CascadeType.ALL)  
 	private PerfilDomain perfil;
 	
 	/** Caronas do usuário */
-	private ArrayList<String> idCaronas = new ArrayList<String>();
+	//private ArrayList<String> idCaronas = new ArrayList<String>();
 	
 	/**
 	 * Método construtor de UsuarioDomain
@@ -140,17 +143,19 @@ public class UsuarioDomain {
 	 * Método para retornar a lista de caronas do usuário
 	 * @return Lista de caronas do usuário
 	 */
+	/*
 	public ArrayList<String> getCaronas() {
 		return idCaronas;
-	}
+	}*/
 	
 	/**
 	 * Método que adiciona um salva o id da carona do Usuário
 	 * @param id Id da carona
 	 */
+	/*
 	public void addCarona(String id){		
 		idCaronas.add(id);
-	}
+	}*/
 
 	/**
 	 * Método para retornar o id de uma carona do Usuario pelo index 
@@ -158,6 +163,7 @@ public class UsuarioDomain {
 	 * @return Id da carona
 	 * @throws Exception Lança exceção se o index informado for igual a zero ou maior que a quantidade de indices da lista
 	 */
+	/*
 	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
 		if ((indexCarona == 0) || (indexCarona > idCaronas.size())) {
 			logger.debug("getIdCaronaByIndex() Exceção: "+MensagensErro.INDICE_INVALIDO);
@@ -166,5 +172,6 @@ public class UsuarioDomain {
 		
 		return idCaronas.get(indexCarona-1);
 	}
+	*/
 }
 

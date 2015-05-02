@@ -3,13 +3,16 @@ package com.br.uepb.domain;
 import java.util.ArrayList;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.apache.log4j.Logger;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
@@ -21,16 +24,21 @@ import com.br.uepb.validator.ValidarCampos;
  * @version 0.1
  * @since 19/04/2015
  */
+
+@Entity
+@Table(name="CARONAS")
 public class CaronaDomain {
 
 	final static Logger logger = Logger.getLogger(CaronaDomain.class);
 	
 	/** Id da sessão */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Sessao não pode ser null")
+	@JoinTable(name="USUARIOS", joinColumns= @JoinColumn(name = "login") )
 	private String idSessao;
 	
 	/** Id da carona */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Carona não pode ser null")
+	@Id
 	private String id;
 
 	/** Local de origem da carona */ 
@@ -56,6 +64,8 @@ public class CaronaDomain {
 	private int vagas;
 	
 	/** Lista de pontos de encontro da carona */
+	@JoinTable(name="PONTOS_ENCONTRO", joinColumns= @JoinColumn(name = "idSugestao") )
+	@Cascade(CascadeType.ALL) 
 	private ArrayList<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
 	
 	/**

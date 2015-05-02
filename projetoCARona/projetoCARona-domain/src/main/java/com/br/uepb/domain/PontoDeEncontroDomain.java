@@ -1,5 +1,9 @@
 package com.br.uepb.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.log4j.Logger;
 
 import com.br.uepb.constants.MensagensErro;
@@ -11,11 +15,15 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  * @version 0.1
  * @since 19/04/2015
  */
+
+@Entity
+@Table(name="PONTOS_ENCONTRO")
 public class PontoDeEncontroDomain {
 	
 	final static Logger logger = Logger.getLogger(PontoDeEncontroDomain.class);
 	
 	/** Id da sugestão */ //TODO: Deve ser gerado automaticamente
+	@Id
 	private String idSugestao;
 	
 	/** Local sugerido para ser um ponto de encontro da carona */
