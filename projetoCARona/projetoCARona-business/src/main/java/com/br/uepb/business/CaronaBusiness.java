@@ -37,11 +37,11 @@ public class CaronaBusiness {
 	 * @return Lista das caronas localizadas
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida
 	 */
-	public ArrayList<CaronaDomain> localizarCarona(String idSessao, String origem, String destino) throws Exception{
+	public List<CaronaDomain> localizarCarona(String idSessao, String origem, String destino) throws Exception{
 		logger.debug("localizando carona para origem: "+origem+" e destino: "+destino);
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
-		ArrayList<CaronaDomain> caronas;
+		List<CaronaDomain> caronas;
 
 		if (verificaCaracteres(origem) == false){
 			logger.debug("localizarCarona() Exceção: "+MensagensErro.ORIGEM_INVALIDA);
@@ -203,7 +203,7 @@ public class CaronaBusiness {
 	public CaronaDomain getCaronaUsuario(String idSessao, int indexCarona) throws Exception{
 		logger.debug("buscando carona de um usuário");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		String idCarona = UsuarioDAOImpl.getInstance().getUsuario(idSessao).getIdCaronaByIndex(indexCarona);		
+		String idCarona = UsuarioDAOImpl.getInstance().getUsuario(idSessao).getPerfil().getIdCaronaByIndex(indexCarona);		
 		return CaronaDAOImpl.getInstance().getCarona(idCarona);		
 	}
 	

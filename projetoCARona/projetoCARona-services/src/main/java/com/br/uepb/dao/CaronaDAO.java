@@ -1,6 +1,6 @@
 package com.br.uepb.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.br.uepb.domain.CaronaDomain;
 
@@ -16,15 +16,17 @@ public interface CaronaDAO {
 	/**
 	 * Adciona uma carona na lista
 	 * @param carona Carona a ser adicionada
+	 * @throws Exception 
 	 */
-	public void addCarona(CaronaDomain carona);
+	public void addCarona(CaronaDomain carona) throws Exception;
 	
 	
 	/**
 	 * Pega a Lista de caronas
 	 * @return Lista de caronas
+	 * @throws Exception 
 	 */
-	public ArrayList<CaronaDomain> listCaronas();
+	public List<CaronaDomain> listCaronas() throws Exception;
 	
 	
 	/**
@@ -32,23 +34,26 @@ public interface CaronaDAO {
 	 * @param origem Local de origem da carona
 	 * @param destino Local de destino da carona
 	 * @return Lista de caronas com a origem e o destino especificados
+	 * @throws Exception 
 	 */
-	public ArrayList<CaronaDomain> listCaronas(String origem, String destino);
+	public List<CaronaDomain> listCaronas(String origem, String destino) throws Exception;
 	
 	
 	/**
 	 * Pega as caronas da lista pela origem
 	 * @param origem Local de origem da carona
 	 * @return Lista de caronas com a origem especificada
+	 * @throws Exception 
 	 */
-	public ArrayList<CaronaDomain> listCaronasByOrigem(String origem);
+	public List<CaronaDomain> listCaronasByOrigem(String origem) throws Exception;
 	
 	/**
 	 * Pega as caronas da lista pelo destino
 	 * @param destino Çocal de destino da carona
 	 * @return Lista de caronas com o destino especificado
+	 * @throws Exception 
 	 */
-	public ArrayList<CaronaDomain> listCaronasByDestino(String destino);
+	public List<CaronaDomain> listCaronasByDestino(String destino) throws Exception;
 	
 	/**
 	 * Pega uma carona pelo id

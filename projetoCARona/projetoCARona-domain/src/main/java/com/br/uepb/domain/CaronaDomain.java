@@ -5,13 +5,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cascade;
@@ -43,43 +42,40 @@ public class CaronaDomain {
 	/** Id da carona */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Carona não pode ser null")
 	@Id
-	@Column(name="id")
+	@GeneratedValue
 	private String id;
 
 	/** Local de origem da carona */ 
-	@NotNull(message = "O local de origem da carona não pode ser null")
+	//@NotNull(message = "O local de origem da carona não pode ser null")
 	@Column(nullable=false)
 	private String origem;
 	
 	/** Local de destino da carona */ 
-	@NotNull(message = "O local de Destino da Carona não pode ser null")
+	//@NotNull(message = "O local de Destino da Carona não pode ser null")
 	@Column(nullable=false)
 	private String destino;
 	
 	/** Horário da carona */ 
-	@NotNull(message = "O Horario da Carona não pode ser null")
-	@Pattern(regexp = "d{2}\\:\\d{2}", message="Hora: preencha no formato hh:mm")
+	//@NotNull(message = "O Horario da Carona não pode ser null")
+	//@Pattern(regexp = "d{2}\\:\\d{2}", message="Hora: preencha no formato hh:mm")
 	@Column(nullable=false)
 	private String hora;
 	
 	/** Dia da carona */ 	
-	@NotNull(message = "O dia da Carona não pode ser null")
-	@Pattern(regexp = "d{2}\\/\\d{2}\\/\\d{4}", message="Data: preencha no formato dd/mm/yyyy")
+	//@NotNull(message = "O dia da Carona não pode ser null")
+	//@Pattern(regexp = "d{2}\\/\\d{2}\\/\\d{4}", message="Data: preencha no formato dd/mm/yyyy")
 	@Column(nullable=false)
 	private String data;
 	
 	/** Quantidade de vagas disponívels para a carona */ 
-	@NotNull(message = "A quantidade de vagas na Carona não pode ser nula")
+	//@NotNull(message = "A quantidade de vagas na Carona não pode ser nula")
 	@Column(nullable=false)
 	private int vagas;
 	
 	/** Lista de pontos de encontro da carona */
-	@OneToMany(mappedBy="idCarona")
-	//@JoinColumn(table="PONTOS_ENCONTRO", name = "idCarona",  referencedColumnName="id")	
+	@OneToMany(mappedBy="idCarona")	
 	@Cascade(CascadeType.ALL)
-	//private Collection<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
 	private List<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
-	//private ArrayList<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
 	
 	/**
 	 * Método construtor de CaronaDomain

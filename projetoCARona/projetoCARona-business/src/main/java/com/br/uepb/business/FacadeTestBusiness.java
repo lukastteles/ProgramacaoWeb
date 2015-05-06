@@ -1,6 +1,6 @@
 package com.br.uepb.business;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
@@ -40,7 +40,7 @@ public class FacadeTestBusiness {
 		
 	//Metodos de controle da classe Carona
 	public String localizarCarona(String idSessao, String origem, String destino) throws Exception {		
-		ArrayList<CaronaDomain> caronas;
+		List<CaronaDomain> caronas;
 			
 		caronas = caronaBusiness.localizarCarona(idSessao, origem, destino);
 		
@@ -88,7 +88,7 @@ public class FacadeTestBusiness {
 	}
 		
 	public String getTodasCaronasUsuario(String idSessao) throws Exception{
-		ArrayList<CaronaDomain> caronas = caronaBusiness.getTodasCaronasUsuario(idSessao);
+		List<CaronaDomain> caronas = caronaBusiness.getTodasCaronasUsuario(idSessao);
 
 		String caronasList = "{";
 		
@@ -162,7 +162,7 @@ public class FacadeTestBusiness {
 	}
 		
 	public String getSolicitacoesConfirmadas(String idSessao, String idCarona) throws Exception{
-		ArrayList<SolicitacaoVagaDomain> solicitacoes = solicitacaoVagaBusiness.getSolicitacoesConfirmadas(idSessao, idCarona);
+		List<SolicitacaoVagaDomain> solicitacoes = solicitacaoVagaBusiness.getSolicitacoesConfirmadas(idSessao, idCarona);
 
 		String solicitacoesList = "{";
 		
@@ -179,7 +179,7 @@ public class FacadeTestBusiness {
 	}
 		
 	public String getSolicitacoesPendentes(String idSessao, String idCarona) throws Exception{
-		ArrayList<SolicitacaoVagaDomain> solicitacoes = solicitacaoVagaBusiness.getSolicitacoesPendentes(idSessao, idCarona);
+		List<SolicitacaoVagaDomain> solicitacoes = solicitacaoVagaBusiness.getSolicitacoesPendentes(idSessao, idCarona);
 
 		String solicitacoesList = "{";
 		
