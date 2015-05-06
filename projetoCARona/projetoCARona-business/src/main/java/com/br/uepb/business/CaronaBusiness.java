@@ -1,6 +1,7 @@
 package com.br.uepb.business;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -97,7 +98,7 @@ public class CaronaBusiness {
 		
 		//Adiciona a carona ao usuario correspondente
 		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);	
-		usuario.addCarona(caronaDomain.getID());
+		//usuario.addCarona(caronaDomain.getID());
 		usuario.getPerfil().addHistoricoDeCaronas(caronaDomain.getID());
 		logger.debug("carona adicionada no historico do usuario");
 		
@@ -212,11 +213,11 @@ public class CaronaBusiness {
 	 * @return Lista das caronas cadastradas
 	 * @throws Exception Lança exceção se o id da sessão for null, vazio ou inexistente
 	 */
-	public ArrayList<CaronaDomain> getTodasCaronasUsuario(String idSessao) throws Exception{
+	public List<CaronaDomain> getTodasCaronasUsuario(String idSessao) throws Exception{
 		logger.debug("buscando todas as carona de um usuário");
 		UsuarioDomain usuario =  UsuarioDAOImpl.getInstance().getUsuario(idSessao);
-		ArrayList<CaronaDomain> caronasUsuario = new ArrayList<CaronaDomain>();
-		for (String idCarona : usuario.getCaronas()) {
+		List<CaronaDomain> caronasUsuario = new ArrayList<CaronaDomain>();
+		for (String idCarona : usuario.getPerfil().getHistoricoDeCaronas()) {
 			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 			caronasUsuario.add(carona);
 		}

@@ -1,5 +1,10 @@
 package com.br.uepb.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -8,11 +13,15 @@ import org.apache.log4j.Logger;
  * @version 0.1
  * @since 20/04/2015
  */
+
+@Entity
+@Table(name="SOLICITACAO_VAGA")
 public class SolicitacaoVagaDomain {
 	
 	final static Logger logger = Logger.getLogger(SolicitacaoVagaDomain.class);
 	
 	/** Id da solicitacao */ //TODO: Deve ser gerado automaticamente
+	@Id
 	private String id;
 	
 	/** Id do usuário */
@@ -25,6 +34,7 @@ public class SolicitacaoVagaDomain {
 	private boolean foiAceita = false;
 	
 	/** Local onde o passageiro da solicitação irá esperar a carona */
+	@OneToOne(mappedBy="idCarona")
 	private PontoDeEncontroDomain ponto;
 	
 	/**

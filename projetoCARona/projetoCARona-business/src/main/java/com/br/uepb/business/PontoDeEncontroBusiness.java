@@ -1,6 +1,6 @@
 package com.br.uepb.business;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -78,7 +78,7 @@ public class PontoDeEncontroBusiness {
 	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String ponto) throws Exception{
 		logger.debug("respondendo sugestao de ponto de encontro");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		ArrayList<PontoDeEncontroDomain> pontosSugestao = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontro(idSugestao);
+		List<PontoDeEncontroDomain> pontosSugestao = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontro(idSugestao);
 		logger.debug("buscando ponto");
 		for (PontoDeEncontroDomain pontoSugestao : pontosSugestao) {
 			if(pontoSugestao.getPontoDeEncontro().equals(ponto)){
@@ -105,7 +105,7 @@ public class PontoDeEncontroBusiness {
 	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String pontos[]) throws Exception{
 		logger.debug("respondendo sugestao de vários pontos de encontro");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		ArrayList<PontoDeEncontroDomain> pontosSugestao = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontro(idSugestao);
+		List<PontoDeEncontroDomain> pontosSugestao = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontro(idSugestao);
 		logger.debug("buscando pontos");
 		for (int i = 0; i < pontos.length; i++) {
 			for (PontoDeEncontroDomain pontoSugestao : pontosSugestao) {
@@ -136,7 +136,7 @@ public class PontoDeEncontroBusiness {
 		logger.debug("buscando todos os pontros sugeridos para uma carona");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
-		ArrayList<PontoDeEncontroDomain> todosOsPontos = CaronaDAOImpl.getInstance().getCarona(idCarona).getTodosOsPontos();
+		List<PontoDeEncontroDomain> todosOsPontos = CaronaDAOImpl.getInstance().getCarona(idCarona).getTodosOsPontos();
 		String[] todos = new String[todosOsPontos.size()];
 		int count = 0;
 		for (PontoDeEncontroDomain ponto : todosOsPontos) {
@@ -158,7 +158,7 @@ public class PontoDeEncontroBusiness {
 		logger.debug("buscando todos os pontros aceitos para uma carona");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 				
-		ArrayList<PontoDeEncontroDomain> pontosAceitos = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontroAceitos();
+		List<PontoDeEncontroDomain> pontosAceitos = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontroAceitos();
 		
 		String[] aceitos = new String[pontosAceitos.size()];
 		int count = 0;

@@ -1,11 +1,14 @@
 package com.br.uepb.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -34,39 +37,49 @@ public class CaronaDomain {
 	/** Id da sessão */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Sessao não pode ser null")
 	@JoinTable(name="USUARIOS", joinColumns= @JoinColumn(name = "login") )
+	@Column(nullable=false)
 	private String idSessao;
 	
 	/** Id da carona */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Carona não pode ser null")
 	@Id
+	@Column(name="id")
 	private String id;
 
 	/** Local de origem da carona */ 
 	@NotNull(message = "O local de origem da carona não pode ser null")
+	@Column(nullable=false)
 	private String origem;
 	
 	/** Local de destino da carona */ 
 	@NotNull(message = "O local de Destino da Carona não pode ser null")
+	@Column(nullable=false)
 	private String destino;
 	
 	/** Horário da carona */ 
 	@NotNull(message = "O Horario da Carona não pode ser null")
-	@Pattern(regexp = "d{2}\\:\\d{2}", message="Hora: preencha no formato hh:mm")	
+	@Pattern(regexp = "d{2}\\:\\d{2}", message="Hora: preencha no formato hh:mm")
+	@Column(nullable=false)
 	private String hora;
 	
 	/** Dia da carona */ 	
 	@NotNull(message = "O dia da Carona não pode ser null")
 	@Pattern(regexp = "d{2}\\/\\d{2}\\/\\d{4}", message="Data: preencha no formato dd/mm/yyyy")
+	@Column(nullable=false)
 	private String data;
 	
 	/** Quantidade de vagas disponívels para a carona */ 
-	@NotNull(message = "A quantidade de vagas na Carona não pode ser nula")	
+	@NotNull(message = "A quantidade de vagas na Carona não pode ser nula")
+	@Column(nullable=false)
 	private int vagas;
 	
 	/** Lista de pontos de encontro da carona */
-	@JoinTable(name="PONTOS_ENCONTRO", joinColumns= @JoinColumn(name = "idSugestao") )
-	@Cascade(CascadeType.ALL) 
-	private ArrayList<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
+	@OneToMany(mappedBy="idCarona")
+	//@JoinColumn(table="PONTOS_ENCONTRO", name = "idCarona",  referencedColumnName="id")	
+	@Cascade(CascadeType.ALL)
+	//private Collection<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
+	private List<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
+	//private ArrayList<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
 	
 	/**
 	 * Método construtor de CaronaDomain
@@ -261,8 +274,8 @@ public class CaronaDomain {
 	 * @param idSugestao Id da sugestão de ponto de encontro  
 	 * @return Lista de Pontos dos Encontro de uma sugestão de pontos de encontro da carona
 	 */
-	public ArrayList<PontoDeEncontroDomain> getPontoEncontro(String idSugestao) {
-		ArrayList<PontoDeEncontroDomain> pontos = new ArrayList<PontoDeEncontroDomain>();
+	public List<PontoDeEncontroDomain> getPontoEncontro(String idSugestao) {
+		List<PontoDeEncontroDomain> pontos = new ArrayList<PontoDeEncontroDomain>();
 		for (PontoDeEncontroDomain ponto : pontoDeEncontro) {
 			if(ponto.getIdSugestao().equals(idSugestao))
 				pontos.add(ponto);
@@ -274,7 +287,8 @@ public class CaronaDomain {
 	 * Método para retornar todos os pontos de encontro (aceitos ou não) da carona
 	 * @return Lista de todos os pontos de encontro da carona
 	 */
-	public ArrayList<PontoDeEncontroDomain> getTodosOsPontos(){
+	//public ArrayList<PontoDeEncontroDomain> getTodosOsPontos(){
+	public List<PontoDeEncontroDomain> getTodosOsPontos(){
 		return pontoDeEncontro;
 	}
 	
@@ -298,8 +312,8 @@ public class CaronaDomain {
 	 * Método para informar um conjunto de pontos de encontro aceitos para a carona
 	 * @return Lista dos pontos de encontro aceitos
 	 */
-	public ArrayList<PontoDeEncontroDomain> getPontoEncontroAceitos() {
-		ArrayList<PontoDeEncontroDomain> pontosAceitos = new ArrayList<PontoDeEncontroDomain>();		
+	public List<PontoDeEncontroDomain> getPontoEncontroAceitos() {
+		List<PontoDeEncontroDomain> pontosAceitos = new ArrayList<PontoDeEncontroDomain>();		
 		for (PontoDeEncontroDomain ponto : pontoDeEncontro) {
 			if(ponto.getFoiAceita() == true)
 				pontosAceitos.add(ponto);

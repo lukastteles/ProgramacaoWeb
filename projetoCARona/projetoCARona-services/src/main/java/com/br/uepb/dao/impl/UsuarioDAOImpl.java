@@ -84,10 +84,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			throw new ProjetoCaronaException(MensagensErro.USUARIO_JA_EXISTE);
 		}
 
+		//TODO: ajustar esse metodo
+		/*
 		if (emailExiste(usuario.getPerfil().getEmail())) {
 			logger.debug("addUsuario() Exceção: "+MensagensErro.EMAIL_JA_EXISTE);
 			throw new ProjetoCaronaException(MensagensErro.EMAIL_JA_EXISTE);
-		} 	
+		} */	
 		
 		try{
 			session = sessionFactory.openSession();	

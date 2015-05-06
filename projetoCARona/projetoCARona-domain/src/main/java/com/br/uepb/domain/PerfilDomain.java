@@ -2,12 +2,16 @@ package com.br.uepb.domain;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
+
+import com.br.uepb.constants.MensagensErro;
+import com.br.uepb.exceptions.ProjetoCaronaException;
 
 /**
  * Classe de domínio que define o modelo para o Perfil do Usuário
@@ -29,15 +33,18 @@ public class PerfilDomain {
 	
 	/** Nome do usuário */
 	//@NotNull(message = "O Nome não pode ser nulo")
+	@Column(nullable=false)
 	private String nome;
 	
 	/** Endereço do usuário */
 	//@NotNull(message = "O Endereço não pode ser nulo")
+	@Column(nullable=false)
 	private String endereco;
 	
 	/** Email do usuário */
 	//@NotNull(message = "O Email não pode ser nulo")
 	//@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+	@Column(unique=true, nullable=false)
 	private String email;
 	
 	/** Historico de caronas */
@@ -68,6 +75,10 @@ public class PerfilDomain {
 		setNome(nome);
 		setEndereco(endereco);
 		setEmail(email);
+	}
+	
+	private PerfilDomain(){
+		
 	}
 
 	/**
@@ -138,7 +149,7 @@ public class PerfilDomain {
 	 * Método para retornar o histórico de caronas
 	 * @return Histórico de caronas
 	 */
-	public String[] getHistoricoDeCaronas() {
+	public String[] getHistoricoDeCaronas() {		
 		String[] array = new String[historicoDeCaronas.size()];
 		array = historicoDeCaronas.toArray(array);
 		return  array;
@@ -204,6 +215,22 @@ public class PerfilDomain {
 		String[] array = new String[presencasEmVagasDeCaronas.size()];
 		array = presencasEmVagasDeCaronas.toArray(array);
 		return  array;
+	}
+	
+	/**
+	 * Método para retornar o id de uma carona do Usuario pelo index 
+	 * @param indexCarona Index da carona na lista de caronas
+	 * @return Id da carona
+	 * @throws Exception Lança exceção se o index informado for igual a zero ou maior que a quantidade de indices da lista
+	 */
+	
+	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
+		if ((indexCarona == 0) || (indexCarona > historicoDeCaronas.size())) {
+			logger.debug("getIdCaronaByIndex() Exceção: "+MensagensErro.INDICE_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.INDICE_INVALIDO);
+		}
+		
+		return historicoDeCaronas.get(indexCarona-1);
 	}
 
 }

@@ -25,6 +25,9 @@ public class PontoDeEncontroDomain {
 	/** Id da sugestão */ //TODO: Deve ser gerado automaticamente
 	@Id
 	private String idSugestao;
+		
+	/** Id da carona */ 
+	private String idCarona;
 	
 	/** Local sugerido para ser um ponto de encontro da carona */
 	private String pontoDeEncontro;
@@ -59,6 +62,22 @@ public class PontoDeEncontroDomain {
 		this.idSugestao = idSugestao;
 	}
 
+	/**
+	 * Método para retornar o id da carona do usuário 
+	 * @return Id da carona
+	 */
+	public String getIdCarona(){
+		return idCarona;
+	}
+	
+	/**
+	 * Método para informar o id da carona do usuário
+	 * @param idCarona Id da sugestão
+	 */
+	public void setIdCarona(String idCarona){
+		this.idCarona = idCarona;
+	}
+	
 	/**
 	 * Método para retornar o ponto de encontro
 	 * @return Ponto de Encontro
