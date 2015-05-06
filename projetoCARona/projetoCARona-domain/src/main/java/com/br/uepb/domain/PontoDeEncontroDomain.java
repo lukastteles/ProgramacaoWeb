@@ -1,6 +1,7 @@
 package com.br.uepb.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -22,8 +23,12 @@ public class PontoDeEncontroDomain {
 	
 	final static Logger logger = Logger.getLogger(PontoDeEncontroDomain.class);
 	
-	/** Id da sugestão */ //TODO: Deve ser gerado automaticamente
+	/** Id do Ponto de Encontro */
 	@Id
+	@GeneratedValue
+	private int id;
+	
+	/** Id da sugestão */ //TODO: Deve ser gerado automaticamente
 	private String idSugestao;
 		
 	/** Id da carona */ 
@@ -44,6 +49,14 @@ public class PontoDeEncontroDomain {
 	public PontoDeEncontroDomain(String idSugestao, String pontoDeEncontro) throws Exception {
 		setIdSugestao(idSugestao);
 		setPontoDeEncontro(pontoDeEncontro);
+	}
+	
+	/**
+	 * Método para retornar o id do ponto de encontro 
+	 * @return Id do ponto de encontro
+	 */
+	public int getId() {
+		return id;
 	}
 	
 	/**
@@ -113,6 +126,5 @@ public class PontoDeEncontroDomain {
 	 */
 	public void setFoiAceita(boolean foiAceita) {
 		this.foiAceita = foiAceita;
-	}
-	
+	}	
 }
