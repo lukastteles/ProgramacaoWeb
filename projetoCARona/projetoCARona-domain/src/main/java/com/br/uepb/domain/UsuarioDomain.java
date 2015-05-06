@@ -1,5 +1,6 @@
 package com.br.uepb.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -31,12 +32,14 @@ public class UsuarioDomain {
 	@NotNull(message = "Login inválido")
 	@Size(min=2, max=30, message="Login inválido") */	
 	@Id
+	@Column(nullable=false)
 	private String login;
 	
 	/** Senha do usuário para autenticação no sistema */
 	/*
 	@NotNull(message = "O login não pode ser null")
 	@Size(min=2, message="A senha deve ter no mínimo 6 dígitos") */
+	@Column(nullable=false)
 	private String senha; 
 	
 	/** Perfil do usuário, contém nome, email e endereço */
@@ -62,6 +65,9 @@ public class UsuarioDomain {
 		setSenha(senha);
 		setPerfil(nome, endereco, email);
 	}
+	
+	//Necessário para o hibernate
+	public UsuarioDomain() {}
 	
 	/**
 	 * Método para retornar o login do usuário

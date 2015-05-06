@@ -7,16 +7,15 @@ public class TesteMain {
 
 	//TODO: Teles veja esse teste
 	public static void main(String[] args) {
-		SessaoDomain sessao;
 		try {
 			//cria e adiciona o usuario na lista
 			UsuarioDomain usuario = new UsuarioDomain("Luana", "123", "Luana", "rua", "email");
 			UsuarioDAOImpl.getInstance().addUsuario(usuario);
+			System.out.println("salvo\n");
+			usuario = UsuarioDAOImpl.getInstance().getUsuario("Luana");
+			System.out.println(usuario.getLogin());
 			
-			sessao = new SessaoDomain("Luana", "123");
-			System.out.println("TESTE MAIN - ABRINDO SESSAO....");
-			SessaoDAOImpl.getInstance().addSessao(sessao);
-			System.out.println("TESTE MAIN - FECHANDO SESSAO....");
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

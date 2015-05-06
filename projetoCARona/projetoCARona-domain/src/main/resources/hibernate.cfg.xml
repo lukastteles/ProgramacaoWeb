@@ -19,7 +19,8 @@
 		<mapping class="com.br.uepb.domain.UsuarioDomain" />
 		<mapping class="com.br.uepb.domain.PerfilDomain" />    
 		<mapping class="com.br.uepb.domain.CaronaDomain" />    
-		<mapping class="com.br.uepb.domain.PontoDeEncontroDomain" /> 
+		<mapping class="com.br.uepb.domain.PontoDeEncontroDomain" />
+		<mapping class="com.br.uepb.domain.SolicitacaoVagaDomain" /> 
     </session-factory>
 	    
 </hibernate-configuration>

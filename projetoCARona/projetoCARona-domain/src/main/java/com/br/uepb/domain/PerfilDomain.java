@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
 
@@ -48,21 +49,27 @@ public class PerfilDomain {
 	private String email;
 	
 	/** Historico de caronas */
+	@Transient
 	private ArrayList<String> historicoDeCaronas = new ArrayList<String>();
 	
 	/** Historico de vagas em caronas */
+	@Transient
 	private ArrayList<String> historicoDeVagasEmCaronas = new ArrayList<String>();
 		
 	/** Historico de caronas seguras e tranquilas */
+	@Transient
 	private ArrayList<String> caronasSegurasETranquilas = new ArrayList<String>();
 	
 	/** Historico de caronas que não funcionaram */
+	@Transient
 	private ArrayList<String> caronasQueNaoFuncionaram = new ArrayList<String>();
 	
 	/** Historico de faltas em vagas de caronas */
+	@Transient
 	private ArrayList<String> faltasEmVagasDeCaronas = new ArrayList<String>();
 	
 	/** Historico de presencas em vagas de caronas */
+	@Transient
 	private ArrayList<String> presencasEmVagasDeCaronas = new ArrayList<String>();
 
 	/**

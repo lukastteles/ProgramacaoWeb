@@ -1,11 +1,15 @@
 package com.br.uepb.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Classe de domínio que define o modelo para a solicitacão de vaga na carona
@@ -22,6 +26,7 @@ public class SolicitacaoVagaDomain {
 	
 	/** Id da solicitacao */ //TODO: Deve ser gerado automaticamente
 	@Id
+	@GeneratedValue
 	private String id;
 	
 	/** Id do usuário */
@@ -34,7 +39,9 @@ public class SolicitacaoVagaDomain {
 	private boolean foiAceita = false;
 	
 	/** Local onde o passageiro da solicitação irá esperar a carona */
-	@OneToOne(mappedBy="idCarona")
+	@OneToOne
+    @JoinColumn(name="idPontoEncontro") 
+    @Cascade(CascadeType.ALL)  
 	private PontoDeEncontroDomain ponto;
 	
 	/**

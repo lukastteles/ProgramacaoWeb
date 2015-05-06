@@ -34,7 +34,7 @@ public class PontoDeEncontroDomain {
 	/** Id da carona */ 
 	private String idCarona;
 	
-	/** Local sugerido para ser um ponto de encontro da carona */
+	/** Local sugerido para ser um ponto de encontro da carona */  
 	private String pontoDeEncontro;
 	
 	/** Variável para verificar se o ponto de encontro foi aceito */
