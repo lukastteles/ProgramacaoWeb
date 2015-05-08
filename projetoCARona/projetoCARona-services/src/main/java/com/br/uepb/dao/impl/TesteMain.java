@@ -14,6 +14,7 @@ public class TesteMain {
 			System.out.println("salvo\n");
 			usuario = UsuarioDAOImpl.getInstance().getUsuario("Luana");
 			System.out.println(usuario.getLogin());
+			//UsuarioDAOImpl.getInstance().apagaUsuarios();;
 			
 			
 		} catch (Exception e) {

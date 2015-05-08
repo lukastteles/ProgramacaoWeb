@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.UsuarioDAO;
 import com.br.uepb.dao.hibernateUtil.HibernateUtil;
+import com.br.uepb.domain.PerfilDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -56,6 +57,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			criteria = session.createCriteria(UsuarioDomain.class);
 			criteria.add(Restrictions.eq("login", login));
 			usuario = (UsuarioDomain) criteria.uniqueResult();
+			session.close();
+			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
@@ -83,13 +86,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			logger.debug("addUsuario() Exceção: "+MensagensErro.USUARIO_JA_EXISTE);
 			throw new ProjetoCaronaException(MensagensErro.USUARIO_JA_EXISTE);
 		}
-
-		//TODO: ajustar esse metodo
-		/*
+		
 		if (emailExiste(usuario.getPerfil().getEmail())) {
 			logger.debug("addUsuario() Exceção: "+MensagensErro.EMAIL_JA_EXISTE);
 			throw new ProjetoCaronaException(MensagensErro.EMAIL_JA_EXISTE);
-		} */	
+		}	
 		
 		try{
 			session = sessionFactory.openSession();	
@@ -113,6 +114,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			criteria = session.createCriteria(UsuarioDomain.class);
 			criteria.add(Restrictions.eq("login", login));
 			usuario = (UsuarioDomain) criteria.uniqueResult();
+			session.close();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
@@ -132,18 +134,19 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 }
 	
 	private boolean emailExiste(String email) throws Exception {
-		UsuarioDomain usuario;
+		PerfilDomain perfil;
 		try{
 			session = sessionFactory.openSession();
-			criteria = session.createCriteria(UsuarioDomain.class);
+			criteria = session.createCriteria(PerfilDomain.class);
 			criteria.add(Restrictions.eq("email", email));
-			usuario = (UsuarioDomain) criteria.uniqueResult();
+			perfil = (PerfilDomain) criteria.uniqueResult();
+			session.close();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
 		}
 		
-		if(usuario != null){
+		if(perfil != null){
 			return true;
 		}
 		return false;
@@ -160,7 +163,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		logger.debug("apagando lista de usuarios");
 		session = sessionFactory.openSession();	
 		transaction = session.beginTransaction();
-		session.createQuery("delete from UsuarioDomain").executeUpdate();
+		session.createQuery("delete from PerfilDomain").executeUpdate();
 		transaction.commit();
 		session.close();
 //		if (listaUsuarios.size() > 0) {

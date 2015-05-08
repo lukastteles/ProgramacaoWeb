@@ -62,7 +62,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 			//TODO: teste para abrir e fechar a sessao sessionFactory		
 			Session session = sessionFactory.openSession();	
 			
-			sessionFactory.close();	
+			session.close();	
 		}
 		
 	}

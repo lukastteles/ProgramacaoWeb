@@ -2,6 +2,7 @@ package com.br.uepb.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -44,8 +45,8 @@ public class UsuarioDomain {
 	
 	/** Perfil do usuário, contém nome, email e endereço */
 	@OneToOne
-	@JoinColumn(name="idPerfil") 
-	@Cascade(CascadeType.ALL)  
+	@JoinColumn(name="idPerfil")
+	@Cascade(CascadeType.ALL)
 	private PerfilDomain perfil;
 	
 	/** Caronas do usuário */
