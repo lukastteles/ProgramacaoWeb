@@ -163,6 +163,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		logger.debug("apagando lista de usuarios");
 		session = sessionFactory.openSession();	
 		transaction = session.beginTransaction();
+		session.createQuery("delete from UsuarioDomain").executeUpdate();
 		session.createQuery("delete from PerfilDomain").executeUpdate();
 		transaction.commit();
 		session.close();

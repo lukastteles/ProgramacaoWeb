@@ -5,16 +5,14 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.exceptions.ProjetoCaronaException;
@@ -35,14 +33,14 @@ public class CaronaDomain {
 	
 	/** Id da sessão */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Sessao não pode ser null")
-	@JoinTable(name="USUARIOS", joinColumns= @JoinColumn(name = "login") )
+	@JoinColumn(name="login", foreignKey=@ForeignKey(name="fk_idSessao_Carona"))
 	@Column(nullable=false)
 	private String idSessao;
 	
 	/** Id da carona */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Carona não pode ser null")
 	@Id
-	@GeneratedValue
+	//@GeneratedValue
 	private String id;
 
 	/** Local de origem da carona */ 
@@ -73,8 +71,7 @@ public class CaronaDomain {
 	private int vagas;
 	
 	/** Lista de pontos de encontro da carona */
-	@OneToMany(mappedBy="idCarona")	
-	@Cascade(CascadeType.ALL)
+	@OneToMany(mappedBy="idCarona", cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
 	
 	/**
@@ -98,6 +95,7 @@ public class CaronaDomain {
 		setVagas(vagas);
 	}
 	
+	public CaronaDomain(){}
 	/**
 	 * Método para retornar o id da sessão
 	 * @return idSessao

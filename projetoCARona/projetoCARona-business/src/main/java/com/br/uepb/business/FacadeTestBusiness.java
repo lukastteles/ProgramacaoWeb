@@ -261,7 +261,7 @@ public class FacadeTestBusiness {
 	public void zerarSistema(){
 		//TODO: procurar sobre Cascade da FK de UsuarioDomain 
 		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
-		//CaronaDAOImpl.getInstance().apagaCaronas();		
+		CaronaDAOImpl.getInstance().apagaCaronas();		
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
 		SessaoDAOImpl.getInstance().apagaSessoes();
 	}
