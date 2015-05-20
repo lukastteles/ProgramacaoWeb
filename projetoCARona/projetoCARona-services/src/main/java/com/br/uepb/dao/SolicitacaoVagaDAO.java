@@ -15,8 +15,9 @@ public interface SolicitacaoVagaDAO {
 	/**
 	 * Adiciona uma solicitação de vaga na lista
 	 * @param solicitacaoVaga Solicitação de vaga a ser adicionada
+	 * @throws Exception 
 	 */
-	public void addSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga);
+	public void addSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga) throws Exception;
 	
 	
 	/**
@@ -40,16 +41,18 @@ public interface SolicitacaoVagaDAO {
 	 * Pega todas as solicitacões que já foram confirmadas
 	 * @param idCarona id da carona
 	 * @return Lista de solicitações de vaga
+	 * @throws Exception 
 	 */
-	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idCarona);
+	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idCarona) throws Exception;
 	
 	
 	/**
 	 * Pega todas as solicitacões que não foram confirmadas
 	 * @param idCarona Id da carona
 	 * @return Lista de solicitações de vaga
+	 * @throws Exception 
 	 */
-	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idCarona);
+	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idCarona) throws Exception;
 	
 	
 	/**

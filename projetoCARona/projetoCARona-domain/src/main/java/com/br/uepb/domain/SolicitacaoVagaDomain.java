@@ -1,7 +1,6 @@
 package com.br.uepb.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -26,7 +25,7 @@ public class SolicitacaoVagaDomain {
 	
 	/** Id da solicitacao */ //TODO: Deve ser gerado automaticamente
 	@Id
-	@GeneratedValue
+	//@GeneratedValue
 	private String id;
 	
 	/** Id do usuário */
