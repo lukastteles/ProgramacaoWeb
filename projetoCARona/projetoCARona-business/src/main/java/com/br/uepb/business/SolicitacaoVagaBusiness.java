@@ -216,9 +216,13 @@ public class SolicitacaoVagaBusiness {
 		
 		if (!solicitacaoVaga.getFoiAceita() ){
 			solicitacaoVaga.setFoiAceita(true);
+			SolicitacaoVagaDAOImpl.getInstance().atualizaSolicitacaoVaga(solicitacaoVaga);//atualiza solicitacao
+			
 			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacaoVaga.getIdCarona());
 			UsuarioDAOImpl.getInstance().getUsuario(idSessao).getPerfil().addHistoricoDeVagasEmCaronas(carona.getID());
-			carona.diminuiVagas();	
+			carona.diminuiVagas();
+			CaronaDAOImpl.getInstance().atualizaCarona(carona);//atualiza carona
+			
 			logger.debug("solicitação aceita");
 		}
 		else {	
@@ -249,7 +253,12 @@ public class SolicitacaoVagaBusiness {
 		//aceita a vaga na carona
 		if (!solicitacaoVaga.getFoiAceita() ){ 
 			solicitacaoVaga.setFoiAceita(true);			
+			SolicitacaoVagaDAOImpl.getInstance().atualizaSolicitacaoVaga(solicitacaoVaga);//atualiza solicitacao
+			
+			//coloca no historico da pessoa que solicitou a vaga na carona
 			carona.diminuiVagas();
+			CaronaDAOImpl.getInstance().atualizaCarona(carona);//atualiza carona
+			
 			logger.debug("solicitação aceita");
 			
 			//aceita o ponto de encontro para a carona
@@ -289,6 +298,8 @@ public class SolicitacaoVagaBusiness {
 		
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		carona.aumentaVagas();
+		CaronaDAOImpl.getInstance().atualizaCarona(carona);//atualiza carona
+		
 		logger.debug("solicitação de vaga cancelada");
 	}
 

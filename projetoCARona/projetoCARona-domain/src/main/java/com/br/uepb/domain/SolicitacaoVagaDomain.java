@@ -69,6 +69,8 @@ public class SolicitacaoVagaDomain {
 		this.idCarona = idCarona;
 	}
 	
+	public SolicitacaoVagaDomain(){}
+	
 	/**
 	 * Método para verificar se a solicitacao de vaga na carona foi aceita ou não
 	 * @return Retorna true se a solicitação foi aceita ou false caso contrário

@@ -54,7 +54,8 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			throw e;
 		}
 	}
-		
+	
+	@Override
 	public void deleteSolicitacaoVaga(String idSolicitacao) throws Exception{		
 		SolicitacaoVagaDomain solicitacaoVaga = getSolicitacaoVaga(idSolicitacao);
 		//listaSolicitacaoVagas.remove(solicitacaoVaga);
@@ -65,6 +66,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		session.close();
 	}
 	
+	@Override
 	public SolicitacaoVagaDomain getSolicitacaoVaga(String idSolicitacao) throws Exception {
 		/* for (SolicitacaoVagaDomain solicitacaoVagaDomain : listaSolicitacaoVagas) {
 			if (solicitacaoVagaDomain.getId().equals(idSolicitacao)) {
@@ -77,7 +79,8 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
 			criteria.add(Restrictions.eq("id", idSolicitacao));
-			SolicitacaoVagaDomain = (SolicitacaoVagaDomain) criteria.uniqueResult();			
+			SolicitacaoVagaDomain = (SolicitacaoVagaDomain) criteria.uniqueResult();
+			session.close();
 			return SolicitacaoVagaDomain;
 		}catch(Exception e){
 			//throw e;
@@ -87,6 +90,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		
 	}
 	
+	@Override
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idCarona) throws Exception{
 		ArrayList<SolicitacaoVagaDomain> solicitacoesCarona = new ArrayList<SolicitacaoVagaDomain>();
 		/*for (SolicitacaoVagaDomain solicitacao : listaSolicitacaoVagas) {
@@ -100,6 +104,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
 			criteria.add(Restrictions.eq("idCarona", idCarona));
 			solicitacoesCarona = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
+			session.close();
 			return solicitacoesCarona;
 		}catch(Exception e){
 			throw e;
@@ -107,6 +112,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		
 	}
 	
+	@Override
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idCarona) throws Exception{
 		ArrayList<SolicitacaoVagaDomain> solicitacoesCarona = new ArrayList<SolicitacaoVagaDomain>();
 		/*for (SolicitacaoVagaDomain solicitacao : listaSolicitacaoVagas) {
@@ -121,12 +127,14 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			criteria.add(Restrictions.eq("idCarona", idCarona));
 			criteria.add(Restrictions.eq("foiAceita", false));
 			solicitacoesCarona = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
+			session.close();
 			return solicitacoesCarona;
 		}catch(Exception e){
 			throw e;
 		}		
 	}
 
+	@Override
 	public void apagaSolicitacoes(){
 		logger.debug("apagando lista de solicitacoes");
 		session = sessionFactory.openSession();	
@@ -138,5 +146,22 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		//if (listaSolicitacaoVagas.size() > 0) {			
 		//	listaSolicitacaoVagas.removeAll(listaSolicitacaoVagas);
 		//}
+	}
+	
+	@Override
+	public void atualizaSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga){
+		try 
+		{
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.update(solicitacaoVaga);
+		    session.getTransaction().commit();
+		}
+		catch (Exception e) 
+		{
+		    e.printStackTrace();
+		}
+
+		session.close();
 	}
 }

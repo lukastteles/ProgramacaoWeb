@@ -14,6 +14,7 @@ import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.CaronaDAO;
 import com.br.uepb.dao.hibernateUtil.HibernateUtil;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class CaronaDAOImpl implements CaronaDAO{
@@ -71,6 +72,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(CaronaDomain.class);
 			caronas = (ArrayList<CaronaDomain>) criteria.list();
+			session.close();
 			return caronas;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -94,6 +96,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 			criteria.add(Restrictions.eq("origem", origem));
 			criteria.add(Restrictions.eq("destino", destino));
 			caronas = (ArrayList<CaronaDomain>)criteria.list();
+			session.close();
 			return caronas;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -120,6 +123,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 			criteria = session.createCriteria(CaronaDomain.class);
 			criteria.add(Restrictions.eq("origem", origem));
 			caronas = (ArrayList<CaronaDomain>)criteria.list();
+			session.close();
 			return caronas;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -145,6 +149,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 			criteria = session.createCriteria(CaronaDomain.class);
 			criteria.add(Restrictions.eq("destino", destino));
 			caronas = (ArrayList<CaronaDomain>)criteria.list();
+			session.close();
 			return caronas;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -184,6 +189,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 			criteria = session.createCriteria(CaronaDomain.class);
 			criteria.add(Restrictions.eq("id", idCarona));
 			carona = (CaronaDomain) criteria.uniqueResult();
+			session.close();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
@@ -208,6 +214,22 @@ public class CaronaDAOImpl implements CaronaDAO{
 //		if (listaCaronas.size() > 0) {
 //			listaCaronas.removeAll(listaCaronas);
 //		}		
+	}
+	
+	@Override
+	public void atualizaCarona(CaronaDomain carona){
+		try 
+		{
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.update(carona);
+		    session.getTransaction().commit();
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		session.close();
 	}
 	
 }

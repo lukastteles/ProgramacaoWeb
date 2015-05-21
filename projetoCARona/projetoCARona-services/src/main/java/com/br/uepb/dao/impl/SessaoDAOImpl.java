@@ -21,8 +21,6 @@ public class SessaoDAOImpl implements SessaoDAO {
 	final static Logger logger = Logger.getLogger(SessaoDAOImpl.class);
 	private static SessaoDAOImpl sessaoDAOImpl;
 	
-	private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-	
 	//Lista de caronas
 	ArrayList<SessaoDomain> listaSessoes = new ArrayList<SessaoDomain>();
 	
@@ -58,11 +56,6 @@ public class SessaoDAOImpl implements SessaoDAO {
 		//So adiciona na lista se a sessao ainda não existir
 		if (!sessaoExiste) {
 			listaSessoes.add(sessao);
-			
-			//TODO: teste para abrir e fechar a sessao sessionFactory		
-			Session session = sessionFactory.openSession();	
-			
-			session.close();	
 		}
 		
 	}

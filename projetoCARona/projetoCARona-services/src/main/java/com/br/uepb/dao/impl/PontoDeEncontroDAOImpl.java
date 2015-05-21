@@ -85,6 +85,7 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 			criteria = session.createCriteria(PontoDeEncontroDomain.class);
 			criteria.add(Restrictions.eq("idCarona", idCarona));
 			pontos = (ArrayList<PontoDeEncontroDomain>)criteria.list();
+			session.close();
 			return pontos;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -101,6 +102,7 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 			criteria.add(Restrictions.eq("idCarona", idCarona));
 			criteria.add(Restrictions.eq("pontoDeEncontro", ponto));
 			pontoDeEncontro = (PontoDeEncontroDomain) criteria.uniqueResult();
+			session.close();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
@@ -124,6 +126,7 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 			criteria.add(Restrictions.eq("idCarona", idCarona));
 			criteria.add(Restrictions.eq("foiAceita", true));
 			pontosAceitos = (ArrayList<PontoDeEncontroDomain>)criteria.list();
+			session.close();
 			return pontosAceitos;
 		}catch(Exception e){
 			System.out.println(e.getMessage());

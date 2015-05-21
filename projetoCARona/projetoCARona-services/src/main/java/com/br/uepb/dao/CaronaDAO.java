@@ -67,5 +67,11 @@ public interface CaronaDAO {
 	 * Apaga todas as caronas da lista
 	 */
 	public void apagaCaronas();
+
+	/**
+	 *  Atualiza algum atributo que tenha sido modificado para uma Carona desde que o Id exista
+	 * @param carona Carona a ser atualizada
+	 */
+	void atualizaCarona(CaronaDomain carona);
 	
 }

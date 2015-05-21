@@ -59,4 +59,10 @@ public interface SolicitacaoVagaDAO {
 	 * Apaga todas as solicitações de vaga da lista
 	 */
 	public void apagaSolicitacoes();
+
+	/**
+	 * Atualiza algum atributo que tenha sido modificado para uma solicitacao de vaga desde que o Id exista
+	 * @param solicitacaoVaga Solicitacao a ser atualizada
+	 */
+	void atualizaSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga);
 }

@@ -63,9 +63,8 @@ public interface PontoDeEncontroDAO {
 
 
 	/**
-	 * Método para verificar se um ponto de encontro existe 
-	 * @param id Id do ponto que sera atualizado 
-	 * @throws Exception Lança exceção se hover problema com a conexão com o banco
+	 *  Atualiza algum atributo que tenha sido modificado para um ponto de encontro desde que o Id exista
+	 * @param ponto Ponto a ser atualizada
 	 */
 	public void atualizaPonto(PontoDeEncontroDomain ponto);
 }
