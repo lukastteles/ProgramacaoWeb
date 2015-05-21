@@ -49,10 +49,13 @@ public class PontoDeEncontroDomain {
 	 * @param pontoDeEncontro Nome do Ponto de Encontro
 	 * @throws Exception Lança exceção se o ponto de encontro informado for null ou vazio
 	 */
-	public PontoDeEncontroDomain(String idSugestao, String pontoDeEncontro) throws Exception {
+	public PontoDeEncontroDomain(String idCarona, String idSugestao, String pontoDeEncontro) throws Exception {
+		setIdCarona(idCarona);
 		setIdSugestao(idSugestao);
 		setPontoDeEncontro(pontoDeEncontro);
 	}
+	
+	public PontoDeEncontroDomain(){}
 	
 	/**
 	 * Método para retornar o id do ponto de encontro 

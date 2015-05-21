@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
@@ -35,9 +36,9 @@ public class PontoDeEncontroBusiness {
 		String idSugestao = ""+ CaronaDAOImpl.getInstance().idPontoEncontro;
 		CaronaDAOImpl.getInstance().idPontoEncontro++;
 		logger.debug("criando ponto de encontro "+pontoDeEncontro);
-		PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idSugestao, pontoDeEncontro);
+		PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idCarona, idSugestao, pontoDeEncontro);
 		logger.debug("ponto "+pontoDeEncontro+" criado");
-		CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoDeEncontro(ponto);
+		PontoDeEncontroDAOImpl.getInstance().addPontoDeEncontro(ponto);
 		logger.debug("ponto "+pontoDeEncontro+" sugerido");
 		return idSugestao;
 	}
@@ -60,8 +61,8 @@ public class PontoDeEncontroBusiness {
 		
 		logger.debug("criando e adicionando pontos de encontro");
 		for (int i = 0; i < pontos.length; i++) {
-			PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idSugestao, pontos[i]);
-			CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoDeEncontro(ponto);
+			PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idCarona, idSugestao, pontos[i]);
+			PontoDeEncontroDAOImpl.getInstance().addPontoDeEncontro(ponto);
 		}
 		logger.debug("pontos de encontro adicionados");
 		return idSugestao;
@@ -78,11 +79,12 @@ public class PontoDeEncontroBusiness {
 	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String ponto) throws Exception{
 		logger.debug("respondendo sugestao de ponto de encontro");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		List<PontoDeEncontroDomain> pontosSugestao = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontro(idSugestao);
+		List<PontoDeEncontroDomain> pontosSugestao = PontoDeEncontroDAOImpl.getInstance().getPontosSugestao(idCarona, idSugestao);
 		logger.debug("buscando ponto");
 		for (PontoDeEncontroDomain pontoSugestao : pontosSugestao) {
 			if(pontoSugestao.getPontoDeEncontro().equals(ponto)){
 				pontoSugestao.setFoiAceita(true);
+				PontoDeEncontroDAOImpl.getInstance().atualizaPonto(pontoSugestao);
 				ponto = "aceito";
 			}
 		}
@@ -105,12 +107,13 @@ public class PontoDeEncontroBusiness {
 	public void responderSugestaoPontoEncontro(String idSessao, String idCarona, String idSugestao, String pontos[]) throws Exception{
 		logger.debug("respondendo sugestao de vários pontos de encontro");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		List<PontoDeEncontroDomain> pontosSugestao = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontro(idSugestao);
+		List<PontoDeEncontroDomain> pontosSugestao = PontoDeEncontroDAOImpl.getInstance().getPontosSugestao(idCarona, idSugestao);
 		logger.debug("buscando pontos");
 		for (int i = 0; i < pontos.length; i++) {
 			for (PontoDeEncontroDomain pontoSugestao : pontosSugestao) {
 				if(pontoSugestao.getPontoDeEncontro().equals(pontos[i])){
 					pontoSugestao.setFoiAceita(true);
+					PontoDeEncontroDAOImpl.getInstance().atualizaPonto(pontoSugestao);
 					pontos[i] = "aceito";
 				}
 			}
@@ -120,7 +123,9 @@ public class PontoDeEncontroBusiness {
 			//se nao pertence a sugestao, cria um novo ponto
 			if(!pontos[i].equals("aceito")){
 				logger.debug("adicionando novos pontos");
-				sugerirPontoEncontro(idSessao, idCarona, pontos[i]);
+				String sugestao = sugerirPontoEncontro(idSessao, idCarona, pontos[i]);
+				responderSugestaoPontoEncontro(idSessao, idCarona, sugestao, pontos[i]);
+				
 			}
 		}
 	}
@@ -136,7 +141,7 @@ public class PontoDeEncontroBusiness {
 		logger.debug("buscando todos os pontros sugeridos para uma carona");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
-		List<PontoDeEncontroDomain> todosOsPontos = CaronaDAOImpl.getInstance().getCarona(idCarona).getTodosOsPontos();
+		List<PontoDeEncontroDomain> todosOsPontos = PontoDeEncontroDAOImpl.getInstance().listPontos(idCarona);
 		String[] todos = new String[todosOsPontos.size()];
 		int count = 0;
 		for (PontoDeEncontroDomain ponto : todosOsPontos) {
@@ -158,7 +163,7 @@ public class PontoDeEncontroBusiness {
 		logger.debug("buscando todos os pontros aceitos para uma carona");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 				
-		List<PontoDeEncontroDomain> pontosAceitos = CaronaDAOImpl.getInstance().getCarona(idCarona).getPontoEncontroAceitos();
+		List<PontoDeEncontroDomain> pontosAceitos = PontoDeEncontroDAOImpl.getInstance().getPontoEncontroAceitos(idCarona);
 		
 		String[] aceitos = new String[pontosAceitos.size()];
 		int count = 0;
