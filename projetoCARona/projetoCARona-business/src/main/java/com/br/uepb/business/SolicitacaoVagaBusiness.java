@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
@@ -180,14 +181,14 @@ public class SolicitacaoVagaBusiness {
 			//Cria a solicitacao da vaga e adiciona na carona
 			logger.debug("Criando ponto "+ponto);
 			PontoDeEncontroDomain pontoEncontro;
-			if (carona.pontoExiste(ponto)) {
-				pontoEncontro = carona.getPontoEncontroByNome(ponto);
+			if (PontoDeEncontroDAOImpl.getInstance().pontoExiste(idCarona, ponto)) {
+				pontoEncontro = PontoDeEncontroDAOImpl.getInstance().getPontoEncontroByNome(idCarona, ponto);
 			} else {
 				//Se o pontoEncontro não existir cria uma nova sugestao
 				String idSugestao = ""+ CaronaDAOImpl.getInstance().idPontoEncontro;
 				CaronaDAOImpl.getInstance().idPontoEncontro++;
-				pontoEncontro = new PontoDeEncontroDomain(idSugestao, ponto);
-				CaronaDAOImpl.getInstance().getCarona(idCarona).addPontoDeEncontro(pontoEncontro);
+				pontoEncontro = new PontoDeEncontroDomain(idCarona, idSugestao, ponto);
+				PontoDeEncontroDAOImpl.getInstance().addPontoDeEncontro(pontoEncontro);
 				logger.debug("ponto "+ponto+" criado");
 			}
 			

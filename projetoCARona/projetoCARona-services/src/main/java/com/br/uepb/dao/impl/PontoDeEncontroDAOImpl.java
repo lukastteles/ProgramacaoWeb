@@ -138,7 +138,9 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(PontoDeEncontroDomain.class);
 			criteria.add(Restrictions.eq("idCarona", idCarona));
+			criteria.add(Restrictions.eq("pontoDeEncontro", ponto));
 			pontoDeEncontro = (PontoDeEncontroDomain) criteria.uniqueResult();
+			session.close();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
