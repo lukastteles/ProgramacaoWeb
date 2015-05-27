@@ -1,5 +1,6 @@
 package com.br.uepb.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.br.uepb.constants.MensagensErro;
@@ -88,7 +89,7 @@ public class FacadeTestBusiness {
 	}
 		
 	public String getTodasCaronasUsuario(String idSessao) throws Exception{
-		List<CaronaDomain> caronas = caronaBusiness.getTodasCaronasUsuario(idSessao);
+		List<CaronaDomain> caronas = perfilBusiness.getHistoricoDeCaronas(idSessao);
 
 		String caronasList = "{";
 		
@@ -228,8 +229,12 @@ public class FacadeTestBusiness {
 		}else if(atributo.equals("email")){
 			return perfilBusiness.getEmail(login);
 		}else if(atributo.equals("historico de caronas")){
-			String[] str = perfilBusiness.getHistoricoDeCaronas(login);
-			return trataLista(str);
+			List<CaronaDomain> caronas = perfilBusiness.getHistoricoDeCaronas(login);
+			String[] historico = new String[caronas.size()];
+			for (int i=0; i<historico.length; i++) {
+				historico[i] = caronas.get(i).getID();
+			}
+			return trataLista(historico);
 		}else if(atributo.equals("historico de vagas em caronas")){
 			return trataLista(perfilBusiness.getHistoricoDeVagasEmCaronas(login));
 		}else if(atributo.equals("caronas seguras e tranquilas")){

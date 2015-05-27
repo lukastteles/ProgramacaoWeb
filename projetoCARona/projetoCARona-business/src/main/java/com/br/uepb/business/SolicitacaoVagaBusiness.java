@@ -219,7 +219,6 @@ public class SolicitacaoVagaBusiness {
 			SolicitacaoVagaDAOImpl.getInstance().atualizaSolicitacaoVaga(solicitacaoVaga);//atualiza solicitacao
 			
 			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacaoVaga.getIdCarona());
-			UsuarioDAOImpl.getInstance().getUsuario(idSessao).getPerfil().addHistoricoDeVagasEmCaronas(carona.getID());
 			carona.diminuiVagas();
 			CaronaDAOImpl.getInstance().atualizaCarona(carona);//atualiza carona
 			

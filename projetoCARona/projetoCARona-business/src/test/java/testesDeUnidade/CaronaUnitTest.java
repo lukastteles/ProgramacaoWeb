@@ -385,31 +385,6 @@ public class CaronaUnitTest {
 			fail();
 		}
 	}
-
-	@Test
-	public void testGetCaronas(){
-		String idCarona2 = "";
-		String idCarona3 = "";
-					
-		ArrayList<CaronaDomain> listaCaronas = new ArrayList<CaronaDomain>();
-		
-		try {
-			Assert.assertEquals(listaCaronas, caronaBusiness.getTodasCaronasUsuario("Mark"));
-			idCarona = caronaBusiness.cadastrarCarona("Mark", "João Pessoa", "Campina Grande", "26/03/2015", "08:00", 5);
-			idCarona2 = caronaBusiness.cadastrarCarona("Mark", "João Pessoa", "Araruna", "01/06/2015", "10:00", 3);
-			idCarona3 = caronaBusiness.cadastrarCarona("Mark", "João Pessoa", "Piloes", "05/10/2015", "15:00", 2);
-			
-			listaCaronas.add(caronaBusiness.getCarona(idCarona));
-			listaCaronas.add(caronaBusiness.getCarona(idCarona2));
-			listaCaronas.add(caronaBusiness.getCarona(idCarona3));
-			
-			Assert.assertEquals(listaCaronas, caronaBusiness.getTodasCaronasUsuario("Mark"));
-			sessaoBusiness.encerrarSessao("Mark");
-		} catch (Exception e) {
-			fail();
-		}
-				
-	}
 	
 	@Test
 	public void testGetCaronaUsuario(){		

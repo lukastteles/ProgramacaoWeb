@@ -89,12 +89,10 @@ public class PerfilBusiness {
 	 * @return Histórico das caronas do usuário
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
-	public String[] getHistoricoDeCaronas(String login) throws Exception{
+	public List<CaronaDomain> getHistoricoDeCaronas(String login) throws Exception{
 		logger.debug("buscando histórico de caronas do usuário");
 		List<CaronaDomain> historicoCaronas =  CaronaDAOImpl.getInstance().getHistoricoDeCaronas(login);
-		String[] historico = new String[historicoCaronas.size()];
-		historico = historicoCaronas.toArray(historico);
-		return historico;
+		return historicoCaronas;
 	}
 	
 	/**
@@ -106,9 +104,12 @@ public class PerfilBusiness {
 	public String[] getHistoricoDeVagasEmCaronas(String login) throws Exception{
 		logger.debug("buscando histórico de vagas em caronas do usuário");
 		//return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getHistoricoDeVagasEmCaronas();
+		
 		List<SolicitacaoVagaDomain> historicoDeVagasEmCaronas =  SolicitacaoVagaDAOImpl.getInstance().getHistoricoDeVagasEmCaronas(login);
 		String[] historico = new String[historicoDeVagasEmCaronas.size()];
-		historico = historicoDeVagasEmCaronas.toArray(historico);
+		for (int i=0; i<historico.length; i++) {
+			historico[i] = historicoDeVagasEmCaronas.get(i).getIdCarona();
+		}
 		return historico;
 	}
 	
@@ -120,7 +121,9 @@ public class PerfilBusiness {
 	 */
 	public String[] getCaronasSegurasETranquilas(String login) throws Exception{
 		logger.debug("buscando histórico de caronas seguras e tranquilas do usuário");
-		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getCaronasSegurasETranquilas();
+		//return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getCaronasSegurasETranquilas();
+		String[] caronas = new String[0];
+		return caronas;
 	}
 	
 	/**
@@ -131,7 +134,9 @@ public class PerfilBusiness {
 	 */
 	public String[] getCaronasQueNaoFuncionaram(String login) throws Exception{
 		logger.debug("buscando histórico de caronas que não funcionaram");
-		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getCaronasQueNaoFuncionaram();
+		//return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getCaronasQueNaoFuncionaram();
+		String[] caronas = new String[0];
+		return caronas;
 	}
 	
 	/**
@@ -142,7 +147,9 @@ public class PerfilBusiness {
 	 */
 	public String[] getFaltasEmVagasDeCaronas(String login) throws Exception{
 		logger.debug("buscando histórico faltas em vagas de caronas do usuário");
-		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getFaltasEmVagasDeCaronas();
+		//return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getFaltasEmVagasDeCaronas();
+		String[] caronas = new String[0];
+		return caronas;
 	}
 	
 	/**
@@ -153,7 +160,9 @@ public class PerfilBusiness {
 	*/
 	public String[] getPresencasEmVagasDeCaronas(String login) throws Exception{
 		logger.debug("buscando histórico presenças em vagas de caronas do usuário");
-		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getPresencasEmVagasDeCaronas();
+		//return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getPresencasEmVagasDeCaronas();
+		String[] caronas = new String[0];
+		return caronas;
 	}
 	
 }

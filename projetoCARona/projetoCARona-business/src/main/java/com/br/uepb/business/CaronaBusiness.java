@@ -99,7 +99,6 @@ public class CaronaBusiness {
 		//Adiciona a carona ao usuario correspondente
 		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);	
 		//usuario.addCarona(caronaDomain.getID());
-		usuario.getPerfil().addHistoricoDeCaronas(caronaDomain.getID());
 		logger.debug("carona adicionada no historico do usuario");
 		
 		CaronaDAOImpl.getInstance().idCarona++;
@@ -203,26 +202,26 @@ public class CaronaBusiness {
 	public CaronaDomain getCaronaUsuario(String idSessao, int indexCarona) throws Exception{
 		logger.debug("buscando carona de um usuário");
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		String idCarona = UsuarioDAOImpl.getInstance().getUsuario(idSessao).getPerfil().getIdCaronaByIndex(indexCarona);		
+		String idCarona = getIdCaronaByIndex(indexCarona, idSessao);		
 		return CaronaDAOImpl.getInstance().getCarona(idCarona);		
 	}
 	
+	
 	/**
-	 * Método para retornar umaa lista de todas as caronas de um usuario cadastradas  
-	 * @param idSessao Id da sessão atual
-	 * @return Lista das caronas cadastradas
-	 * @throws Exception Lança exceção se o id da sessão for null, vazio ou inexistente
+	 * Método para retornar o id de uma carona do Usuario pelo index 
+	 * @param indexCarona Index da carona na lista de caronas
+	 * @return Id da carona
+	 * @throws Exception Lança exceção se o index informado for igual a zero ou maior que a quantidade de indices da lista
 	 */
-	public List<CaronaDomain> getTodasCaronasUsuario(String idSessao) throws Exception{
-		logger.debug("buscando todas as carona de um usuário");
-		UsuarioDomain usuario =  UsuarioDAOImpl.getInstance().getUsuario(idSessao);
-		List<CaronaDomain> caronasUsuario = new ArrayList<CaronaDomain>();
-		for (String idCarona : usuario.getPerfil().getHistoricoDeCaronas()) {
-			CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
-			caronasUsuario.add(carona);
+	private String getIdCaronaByIndex(int indexCarona, String login) throws Exception{
+		List<CaronaDomain> caronas = CaronaDAOImpl.getInstance().getHistoricoDeCaronas(login);
+		
+		if ((indexCarona == 0) || (indexCarona > caronas.size())) {
+			logger.debug("getIdCaronaByIndex() Exceção: "+MensagensErro.INDICE_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.INDICE_INVALIDO);
 		}
-		logger.debug("caronas encontradas");
-		return caronasUsuario;
+		
+		return caronas.get(indexCarona-1).getID();
 	}
 
 	//TODO: verificar este metodo

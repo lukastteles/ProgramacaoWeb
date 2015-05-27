@@ -50,30 +50,6 @@ public class PerfilDomain {
 	@Column(unique=true, nullable=false)
 	private String email;
 	
-	/** Historico de caronas */
-	@Transient
-	private ArrayList<String> historicoDeCaronas = new ArrayList<String>();
-	
-	/** Historico de vagas em caronas */
-	@Transient
-	private ArrayList<String> historicoDeVagasEmCaronas = new ArrayList<String>();
-		
-	/** Historico de caronas seguras e tranquilas */
-	@Transient
-	private ArrayList<String> caronasSegurasETranquilas = new ArrayList<String>();
-	
-	/** Historico de caronas que não funcionaram */
-	@Transient
-	private ArrayList<String> caronasQueNaoFuncionaram = new ArrayList<String>();
-	
-	/** Historico de faltas em vagas de caronas */
-	@Transient
-	private ArrayList<String> faltasEmVagasDeCaronas = new ArrayList<String>();
-	
-	/** Historico de presencas em vagas de caronas */
-	@Transient
-	private ArrayList<String> presencasEmVagasDeCaronas = new ArrayList<String>();
-
 	/**
 	 * Método construtor de PerfilDomain
 	 * @param nome Nome do usuário
@@ -144,102 +120,6 @@ public class PerfilDomain {
 	 */
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
-	}
-
-	/**
-	 * Método para adicionar o id da carona no histórico de caronas
-	 * @param id Id da carona
-	 */
-	public void addHistoricoDeCaronas(String id) {
-		historicoDeCaronas.add(id);
-	}
-	
-	/**
-	 * Método para retornar o histórico de caronas
-	 * @return Histórico de caronas
-	 */
-	public String[] getHistoricoDeCaronas() {		
-		String[] array = new String[historicoDeCaronas.size()];
-		array = historicoDeCaronas.toArray(array);
-		return  array;
-	}
-
-	/**
-	 * Método para adicionar o id da carona no histórico de vagas em caronas
-	 * @param id Id da carona
-	 */
-	public void addHistoricoDeVagasEmCaronas(String id) {
-		historicoDeVagasEmCaronas.add(id);
-	}
-	
-	/**
-	 * Método para retornar o histórico de vagas em carona
-	 * @return Histórico de vagas em carona
-	 */
-	public String[] getHistoricoDeVagasEmCaronas() {
-		String[] array = new String[historicoDeVagasEmCaronas.size()];
-		array = historicoDeVagasEmCaronas.toArray(array);
-		return  array;
-	}
-
-	//TODO: Ainda nao classifica as caronas nesses US
-	/**
-	 * Método para retornar o histórico de caronas seguras e tranquilas
-	 * @return Histórico de caronas seguras e tranquilas
-	 */
-	public String[] getCaronasSegurasETranquilas() {
-		String[] array = new String[caronasSegurasETranquilas.size()];
-		array = caronasSegurasETranquilas.toArray(array);
-		return  array;
-	}
-
-	//TODO: Ainda nao classifica as caronas nesses US
-	/**
-	 * Método para retornar o histórico de caronas que não funcionaram
-	 * @return Histórico de caronas que não funcionaram
-	 */
-	public String[] getCaronasQueNaoFuncionaram() {
-		String[] array = new String[caronasQueNaoFuncionaram.size()];
-		array = caronasQueNaoFuncionaram.toArray(array);
-		return  array;
-	}
-
-	//TODO: Ainda nao registra as faltas ou presencas nas caronas nesses US
-	/**
-	 * Método para retornar o histórico de faltas em vagas de caronas
-	 * @return Histórico de faltas em vagas de caronas
-	 */
-	public String[] getFaltasEmVagasDeCaronas() {
-		String[] array = new String[faltasEmVagasDeCaronas.size()];
-		array = faltasEmVagasDeCaronas.toArray(array);
-		return  array;
-	}
-
-	//TODO: Ainda nao registra as faltas ou presencas nas caronas nesses US
-	/**
-	 * Método para retornar o histórico de presencas em vagas de carona
-	 * @return Histórico de presencas em vagas de carona
-	 */
-	public String[] getPresencasEmVagasDeCaronas() {
-		String[] array = new String[presencasEmVagasDeCaronas.size()];
-		array = presencasEmVagasDeCaronas.toArray(array);
-		return  array;
-	}
-	
-	/**
-	 * Método para retornar o id de uma carona do Usuario pelo index 
-	 * @param indexCarona Index da carona na lista de caronas
-	 * @return Id da carona
-	 * @throws Exception Lança exceção se o index informado for igual a zero ou maior que a quantidade de indices da lista
-	 */
-	
-	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
-		if ((indexCarona == 0) || (indexCarona > historicoDeCaronas.size())) {
-			logger.debug("getIdCaronaByIndex() Exceção: "+MensagensErro.INDICE_INVALIDO);
-			throw new ProjetoCaronaException(MensagensErro.INDICE_INVALIDO);
-		}
-		
-		return historicoDeCaronas.get(indexCarona-1);
 	}
 
 }
