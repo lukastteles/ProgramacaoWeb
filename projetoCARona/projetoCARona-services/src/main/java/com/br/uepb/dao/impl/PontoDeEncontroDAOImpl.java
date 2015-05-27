@@ -13,7 +13,6 @@ import org.hibernate.criterion.Restrictions;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.PontoDeEncontroDAO;
 import com.br.uepb.dao.hibernateUtil.HibernateUtil;
-import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -155,6 +154,17 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 			return true;
 		}
 	}
+	
+	@Override
+	public void apagaPontosEncontro(){
+		logger.debug("apagando lista de Pontos de Encontro");
+		session = sessionFactory.openSession();	
+		transaction = session.beginTransaction();
+		session.createQuery("delete from PontoDeEncontroDomain").executeUpdate();
+		transaction.commit();
+		session.close();
+	}
+
 
 	@Override
 	public void atualizaPonto(PontoDeEncontroDomain ponto) {

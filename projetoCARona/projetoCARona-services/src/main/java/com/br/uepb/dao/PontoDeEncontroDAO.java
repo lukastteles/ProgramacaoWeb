@@ -67,4 +67,7 @@ public interface PontoDeEncontroDAO {
 	 * @param ponto Ponto a ser atualizada
 	 */
 	public void atualizaPonto(PontoDeEncontroDomain ponto);
+
+
+	void apagaPontosEncontro();
 }

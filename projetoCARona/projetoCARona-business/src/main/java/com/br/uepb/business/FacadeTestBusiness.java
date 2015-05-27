@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
@@ -107,6 +108,11 @@ public class FacadeTestBusiness {
 		return caronasList;
 	}	
 		
+	//reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona4ID} loginCaroneiro=bill review="faltou"
+	public void reviewVagaEmCarona(String idSessao, String idCarona, String loginCaroneiro, String review){
+		
+	}
+	
 	////Metodos de controle da classe PontoDeEncontro
 	public String sugerirPontoEncontro(String idSessao, String idCarona, String ponto) throws Exception{
 		if(ponto.contains(";")){
@@ -265,6 +271,7 @@ public class FacadeTestBusiness {
 		
 	public void zerarSistema(){
 		//TODO: procurar sobre Cascade da FK de UsuarioDomain 
+		PontoDeEncontroDAOImpl.getInstance().apagaPontosEncontro();
 		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
 		CaronaDAOImpl.getInstance().apagaCaronas();		
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
