@@ -202,8 +202,26 @@ public class CaronaDAOImpl implements CaronaDAO{
 			logger.debug("getCarona() Exceção: "+MensagensErro.CARONA_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.CARONA_INEXISTENTE);
 		}
-	}	
+	}
 	
+	//colocar na interface
+	public List<CaronaDomain> getHistoricoDeCaronas(String login) throws Exception{
+		ArrayList<CaronaDomain> historicoCaronas;
+		
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(CaronaDomain.class);
+			criteria.add(Restrictions.eq("idSessao", login));
+			historicoCaronas = (ArrayList<CaronaDomain>) criteria.list();
+			session.close();
+			return historicoCaronas;
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+	
+	@Override
 	public void apagaCaronas(){
 		logger.debug("apagando lista de caronas");
 		session = sessionFactory.openSession();	

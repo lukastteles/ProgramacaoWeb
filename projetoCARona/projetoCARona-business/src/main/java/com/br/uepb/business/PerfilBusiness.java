@@ -1,10 +1,17 @@
 package com.br.uepb.business;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 
 import com.br.uepb.constants.MensagensErro;
+import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
+import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
+import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -84,7 +91,10 @@ public class PerfilBusiness {
 	 */
 	public String[] getHistoricoDeCaronas(String login) throws Exception{
 		logger.debug("buscando histórico de caronas do usuário");
-		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getHistoricoDeCaronas();
+		List<CaronaDomain> historicoCaronas =  CaronaDAOImpl.getInstance().getHistoricoDeCaronas(login);
+		String[] historico = new String[historicoCaronas.size()];
+		historico = historicoCaronas.toArray(historico);
+		return historico;
 	}
 	
 	/**
@@ -95,7 +105,11 @@ public class PerfilBusiness {
 	 */
 	public String[] getHistoricoDeVagasEmCaronas(String login) throws Exception{
 		logger.debug("buscando histórico de vagas em caronas do usuário");
-		return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getHistoricoDeVagasEmCaronas();
+		//return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getHistoricoDeVagasEmCaronas();
+		List<SolicitacaoVagaDomain> historicoDeVagasEmCaronas =  SolicitacaoVagaDAOImpl.getInstance().getHistoricoDeVagasEmCaronas(login);
+		String[] historico = new String[historicoDeVagasEmCaronas.size()];
+		historico = historicoDeVagasEmCaronas.toArray(historico);
+		return historico;
 	}
 	
 	/**

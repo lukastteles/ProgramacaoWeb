@@ -321,6 +321,7 @@ public class SolicitacaoVagaBusiness {
 			logger.debug("rejeitarSolicitacao() Exceção: "+MensagensErro.SOLICITACAO_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INVALIDA);				
 		}
+		SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
 		
 		SolicitacaoVagaDAOImpl.getInstance().deleteSolicitacaoVaga(idSolicitacao);
 		logger.debug("solicitação de vaga rejeitada");

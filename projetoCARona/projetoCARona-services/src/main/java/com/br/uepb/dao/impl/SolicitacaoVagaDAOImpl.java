@@ -1,6 +1,7 @@
 package com.br.uepb.dao.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -73,17 +74,22 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 				return solicitacaoVagaDomain;
 			}			
 		}*/		
-		SolicitacaoVagaDomain SolicitacaoVagaDomain;// = new ArrayList<CaronaDomain>();
+		SolicitacaoVagaDomain solicitacaoVagaDomain;// = new ArrayList<CaronaDomain>();
 		
 		try{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
 			criteria.add(Restrictions.eq("id", idSolicitacao));
-			SolicitacaoVagaDomain = (SolicitacaoVagaDomain) criteria.uniqueResult();
+			solicitacaoVagaDomain = (SolicitacaoVagaDomain) criteria.uniqueResult();
 			session.close();
-			return SolicitacaoVagaDomain;
 		}catch(Exception e){
-			//throw e;
+			System.out.println(e.getMessage());
+			throw e;
+		}
+		
+		if(solicitacaoVagaDomain != null){
+			return solicitacaoVagaDomain;
+		}else{
 			logger.debug("getSolicitacaoVaga() Exceção: "+MensagensErro.SOLICITACAO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);
 		}
@@ -163,5 +169,21 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		}
 
 		session.close();
+	}
+
+	public List<SolicitacaoVagaDomain> getHistoricoDeVagasEmCaronas(String login) throws Exception {
+		List<SolicitacaoVagaDomain> solicitacoesCarona = new ArrayList<SolicitacaoVagaDomain>();
+		
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
+			criteria.add(Restrictions.eq("idUsuario", login));
+			criteria.add(Restrictions.eq("foiAceita", true));
+			solicitacoesCarona = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
+			session.close();
+			return solicitacoesCarona;
+		}catch(Exception e){
+			throw e;
+		}		
 	}
 }
