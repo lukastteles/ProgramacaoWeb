@@ -1,6 +1,5 @@
 package com.br.uepb.business;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.br.uepb.constants.MensagensErro;
@@ -45,9 +44,7 @@ public class FacadeTestBusiness {
 		List<CaronaDomain> caronas;
 			
 		caronas = caronaBusiness.localizarCarona(idSessao, origem, destino);
-		
 		String caronasList = "{";
-		
 		for (CaronaDomain caronaDomain : caronas) {
 			caronasList += caronaDomain.getID()+ ",";				
 		}
@@ -108,9 +105,8 @@ public class FacadeTestBusiness {
 		return caronasList;
 	}	
 		
-	//reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona4ID} loginCaroneiro=bill review="faltou"
-	public void reviewVagaEmCarona(String idSessao, String idCarona, String loginCaroneiro, String review){
-		
+	public void reviewVagaEmCarona(String idSessao, String idCarona, String loginCaroneiro, String review) throws Exception{
+		solicitacaoVagaBusiness.reviewVagaEmCarona(idSessao, idCarona, loginCaroneiro, review);		
 	}
 	
 	////Metodos de controle da classe PontoDeEncontro
@@ -248,9 +244,9 @@ public class FacadeTestBusiness {
 		}else if(atributo.equals("caronas que não funcionaram")){
 			return ""+perfilBusiness.getCaronasQueNaoFuncionaram(login).length;
 		}else if(atributo.equals("faltas em vagas de caronas")){
-			return ""+perfilBusiness.getFaltasEmVagasDeCaronas(login).length;
+			return ""+perfilBusiness.getFaltasEmVagasDeCaronas(login).size();
 		}else if(atributo.equals("presenças em vagas de caronas")){
-			return ""+perfilBusiness.getFaltasEmVagasDeCaronas(login).length;
+			return ""+perfilBusiness.getPresencasEmVagasDeCaronas(login).size();
 		}else {
 			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
 		}		
@@ -270,7 +266,7 @@ public class FacadeTestBusiness {
 	}
 		
 	public void zerarSistema(){
-		//TODO: procurar sobre Cascade da FK de UsuarioDomain 
+		//TODO: procurar sobre Cascade da FK de UsuarioDomain
 		PontoDeEncontroDAOImpl.getInstance().apagaPontosEncontro();
 		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
 		CaronaDAOImpl.getInstance().apagaCaronas();		
@@ -282,7 +278,7 @@ public class FacadeTestBusiness {
 		String ponto = "[";
 		if(pontos.length > 1){
 			for(int i = 0; i < pontos.length-1; i++){
-				ponto+=pontos[i]+";";
+				ponto+=pontos[i]+",";
 			}
 			ponto+=pontos[pontos.length-1];
 		}

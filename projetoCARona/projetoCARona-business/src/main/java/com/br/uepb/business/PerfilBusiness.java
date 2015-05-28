@@ -1,7 +1,6 @@
 package com.br.uepb.business;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
@@ -145,11 +144,10 @@ public class PerfilBusiness {
 	 * @return Histórico da quantidade de vagas que faltam nas caronas
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
-	public String[] getFaltasEmVagasDeCaronas(String login) throws Exception{
+	public List<SolicitacaoVagaDomain> getFaltasEmVagasDeCaronas(String login) throws Exception{
 		logger.debug("buscando histórico faltas em vagas de caronas do usuário");
-		//return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getFaltasEmVagasDeCaronas();
-		String[] caronas = new String[0];
-		return caronas;
+		List<SolicitacaoVagaDomain> faltasEmCaronas = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesByFaltas(login);		
+		return faltasEmCaronas;
 	}
 	
 	/**
@@ -158,11 +156,10 @@ public class PerfilBusiness {
 	* @return Histórico da presenças nas caronas
 	* @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	*/
-	public String[] getPresencasEmVagasDeCaronas(String login) throws Exception{
+	public List<SolicitacaoVagaDomain> getPresencasEmVagasDeCaronas(String login) throws Exception{
 		logger.debug("buscando histórico presenças em vagas de caronas do usuário");
-		//return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getPresencasEmVagasDeCaronas();
-		String[] caronas = new String[0];
-		return caronas;
+		List<SolicitacaoVagaDomain> presencasEmCaronas = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesByPresencas(login);		
+		return presencasEmCaronas;
 	}
 	
 }

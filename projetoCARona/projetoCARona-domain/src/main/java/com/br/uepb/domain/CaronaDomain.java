@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -33,7 +32,7 @@ public class CaronaDomain {
 	
 	/** Id da sessão */ //TODO: Deve ser gerado automaticamente
 	//@NotNull(message = "O ID da Sessao não pode ser null")
-	@JoinColumn(name="login", foreignKey=@ForeignKey(name="fk_idSessao_Carona"))
+	@JoinColumn(name="login")
 	@Column(nullable=false)
 	private String idSessao;
 	

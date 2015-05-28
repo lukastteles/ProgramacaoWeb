@@ -326,5 +326,26 @@ public class SolicitacaoVagaBusiness {
 		logger.debug("solicitação de vaga rejeitada");
 	}
 	
+	public void reviewVagaEmCarona(String idSessao, String idCarona, String loginCaroneiro, String review) throws Exception{
+		//Verificar se os parametros sao validos
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		CaronaDAOImpl.getInstance().getCarona(idCarona);		
+		UsuarioDAOImpl.getInstance().getUsuario(loginCaroneiro);
+
+		//verificar se usuario pertence a esta carona
+		if (SolicitacaoVagaDAOImpl.getInstance().participouCarona(idCarona, loginCaroneiro) == false) {
+			throw new ProjetoCaronaException(MensagensErro.USUARIO_SEM_VAGA_NA_CARONA);
+		}
+		
+		if ((!review.equals(MensagensErro.FALTOU)) && (!review.equals(MensagensErro.NAO_FALTOU))) {
+			throw new ProjetoCaronaException(MensagensErro.OPCAO_INVALIDA);
+		}
+		
+		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idCarona, loginCaroneiro);
+		solicitacaoVaga.setReview(review);
+		SolicitacaoVagaDAOImpl.getInstance().atualizaSolicitacaoVaga(solicitacaoVaga);
+		
+	}
+	
 
 }

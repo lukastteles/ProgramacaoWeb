@@ -13,7 +13,6 @@ import org.hibernate.criterion.Restrictions;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.SolicitacaoVagaDAO;
 import com.br.uepb.dao.hibernateUtil.HibernateUtil;
-import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -55,6 +54,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			throw e;
 		}
 	}
+	
 	
 	@Override
 	public void deleteSolicitacaoVaga(String idSolicitacao) throws Exception{		
@@ -170,7 +170,8 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 
 		session.close();
 	}
-
+	
+	@Override
 	public List<SolicitacaoVagaDomain> getHistoricoDeVagasEmCaronas(String login) throws Exception {
 		List<SolicitacaoVagaDomain> solicitacoesCarona = new ArrayList<SolicitacaoVagaDomain>();
 		
@@ -186,4 +187,81 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			throw e;
 		}		
 	}
+	
+	@Override
+	public boolean participouCarona(String idCarona, String login) throws Exception{
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
+			criteria.add(Restrictions.eq("idCarona", idCarona));
+			criteria.add(Restrictions.eq("idUsuario", login));
+			criteria.add(Restrictions.eq("foiAceita", true));
+			SolicitacaoVagaDomain solicitacaoVaga = (SolicitacaoVagaDomain)criteria.uniqueResult();
+			session.close();
+			
+			if (solicitacaoVaga == null) {
+				return false;
+			}
+			else {
+				return true;
+			}
+			
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	@Override
+	public SolicitacaoVagaDomain getSolicitacaoVaga(String idCarona, String loginCaroneiro) throws Exception {
+		try{
+			session = sessionFactory.openSession();	
+			transaction = session.beginTransaction();
+			
+			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
+			criteria.add(Restrictions.eq("idUsuario", loginCaroneiro));			
+			criteria.add(Restrictions.eq("idCarona", idCarona));			
+			criteria.add(Restrictions.eq("foiAceita", true));
+			SolicitacaoVagaDomain solicitacoesVaga = (SolicitacaoVagaDomain)criteria.uniqueResult();			
+			session.close();
+			return solicitacoesVaga;
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+	
+	@Override
+	public List<SolicitacaoVagaDomain> getSolicitacoesByFaltas(String login) throws Exception{
+		List<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();
+		
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
+			criteria.add(Restrictions.eq("idUsuario", login));
+			criteria.add(Restrictions.eq("review", MensagensErro.FALTOU));			
+			solicitacaoVaga = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
+			session.close();
+			return solicitacaoVaga;
+		}catch(Exception e){
+			throw e;
+		}		
+	}
+
+	@Override
+	public List<SolicitacaoVagaDomain> getSolicitacoesByPresencas(String login) throws Exception{
+		List<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();
+		
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
+			criteria.add(Restrictions.eq("idUsuario", login));
+			criteria.add(Restrictions.eq("review", MensagensErro.NAO_FALTOU));			
+			solicitacaoVaga = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
+			session.close();
+			return solicitacaoVaga;
+		}catch(Exception e){
+			throw e;
+		}		
+	}
+
 }

@@ -8,13 +8,14 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.CaronaDAO;
 import com.br.uepb.dao.hibernateUtil.HibernateUtil;
 import com.br.uepb.domain.CaronaDomain;
-import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class CaronaDAOImpl implements CaronaDAO{
@@ -71,6 +72,8 @@ public class CaronaDAOImpl implements CaronaDAO{
 		try{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(CaronaDomain.class);
+			//criteria.addOrder(Property.forName("id").asc());
+			criteria.addOrder(Order.asc("id"));
 			caronas = (ArrayList<CaronaDomain>) criteria.list();
 			session.close();
 			return caronas;
@@ -95,7 +98,8 @@ public class CaronaDAOImpl implements CaronaDAO{
 			criteria = session.createCriteria(CaronaDomain.class);
 			criteria.add(Restrictions.eq("origem", origem));
 			criteria.add(Restrictions.eq("destino", destino));
-			caronas = (ArrayList<CaronaDomain>)criteria.list();
+			criteria.addOrder(Property.forName("id").asc());			 
+			caronas = (ArrayList<CaronaDomain>)criteria.list();		  
 			session.close();
 			return caronas;
 		}catch(Exception e){
@@ -122,6 +126,8 @@ public class CaronaDAOImpl implements CaronaDAO{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(CaronaDomain.class);
 			criteria.add(Restrictions.eq("origem", origem));
+			//criteria.addOrder(Property.forName("id").asc());
+			criteria.addOrder(Order.asc("id"));
 			caronas = (ArrayList<CaronaDomain>)criteria.list();
 			session.close();
 			return caronas;
@@ -148,6 +154,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(CaronaDomain.class);
 			criteria.add(Restrictions.eq("destino", destino));
+			criteria.addOrder(Property.forName("id").asc());
 			caronas = (ArrayList<CaronaDomain>)criteria.list();
 			session.close();
 			return caronas;

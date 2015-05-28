@@ -1,20 +1,12 @@
 package com.br.uepb.domain;
 
-import java.util.ArrayList;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
-import com.br.uepb.constants.MensagensErro;
-import com.br.uepb.exceptions.ProjetoCaronaException;
 
 /**
  * Classe de domínio que define o modelo para o Perfil do Usuário

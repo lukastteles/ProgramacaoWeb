@@ -31,6 +31,7 @@ public class MensagensErro {
 	public static final String SESSAO_INEXISTENTE = "Sessão inexistente";
 	public static final String USUARIO_INEXISTENTE = "Usuário inexistente";
 	public static final String USUARIO_JA_EXISTE = "Já existe um usuário com este login";
+	public static final String USUARIO_SEM_VAGA_NA_CARONA = "Usuário não possui vaga na carona.";
 	public static final String EMAIL_JA_EXISTE = "Já existe um usuário com este email";
 	
 	public static final String LOGIN_INVALIDO = "Login inválido";
@@ -42,7 +43,9 @@ public class MensagensErro {
 	public static final String HORA_INVALIDA = "Hora inválida";
 	public static final String VAGA_INVALIDA = "Vaga inválida";
 	
-	
+	public static final String FALTOU = "faltou";
+	public static final String NAO_FALTOU = "não faltou";
+	public static final String OPCAO_INVALIDA = "Opção inválida.";
 	//Mensagens para PontosEncontro
 	public static final String PONTO_INVALIDO = "Ponto Inválido";	
 	

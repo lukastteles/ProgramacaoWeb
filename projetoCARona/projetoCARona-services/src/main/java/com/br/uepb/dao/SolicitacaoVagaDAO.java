@@ -1,6 +1,7 @@
 package com.br.uepb.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 
@@ -64,5 +65,15 @@ public interface SolicitacaoVagaDAO {
 	 * Atualiza algum atributo que tenha sido modificado para uma solicitacao de vaga desde que o Id exista
 	 * @param solicitacaoVaga Solicitacao a ser atualizada
 	 */
-	void atualizaSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga);
+	public void atualizaSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga);
+	
+	public List<SolicitacaoVagaDomain> getHistoricoDeVagasEmCaronas(String login) throws Exception;
+	
+	public boolean participouCarona(String idCarona, String login) throws Exception;
+
+	public SolicitacaoVagaDomain getSolicitacaoVaga(String idCarona, String loginCaroneiro) throws Exception;
+	
+	public List<SolicitacaoVagaDomain> getSolicitacoesByFaltas(String login) throws Exception;
+	
+	public List<SolicitacaoVagaDomain> getSolicitacoesByPresencas(String login) throws Exception;
 }

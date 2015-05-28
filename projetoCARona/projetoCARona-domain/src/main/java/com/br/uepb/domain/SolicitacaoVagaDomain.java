@@ -43,6 +43,7 @@ public class SolicitacaoVagaDomain {
     @Cascade(CascadeType.ALL)  
 	private PontoDeEncontroDomain ponto;
 	
+	private String review;
 	/**
 	 * Método construtor de SolicitacaoVagaDomain
 	 * @param id Id da solicitação
@@ -56,6 +57,7 @@ public class SolicitacaoVagaDomain {
 		this.idCarona = idCarona;
 		this.ponto = ponto;
 	}
+	
 	
 	/**
 	 * Método construtor de SolicitacaoVagaDomain
@@ -117,5 +119,15 @@ public class SolicitacaoVagaDomain {
 	 */
 	public PontoDeEncontroDomain getPonto() {
 		return ponto;
+	}
+
+
+	public String getReview() {
+		return review;
+	}
+
+
+	public void setReview(String review) {
+		this.review = review;
 	}
 }

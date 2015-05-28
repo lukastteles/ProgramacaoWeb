@@ -1,7 +1,6 @@
 package com.br.uepb.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -34,7 +33,7 @@ public class PontoDeEncontroDomain {
 	private String idSugestao;
 		
 	/** Id da carona */ 
-	@JoinColumn(referencedColumnName="id", foreignKey=@ForeignKey(name = "fk_idCarona_pontosEncontro"))
+	@JoinColumn(referencedColumnName="id")
 	private String idCarona;
 	
 	/** Local sugerido para ser um ponto de encontro da carona */  

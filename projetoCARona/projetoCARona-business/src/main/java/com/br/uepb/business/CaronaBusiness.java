@@ -1,6 +1,5 @@
 package com.br.uepb.business;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -223,7 +222,7 @@ public class CaronaBusiness {
 		
 		return caronas.get(indexCarona-1).getID();
 	}
-
+	
 	//TODO: verificar este metodo
 	private boolean verificaCaracteres(String valor){
 
@@ -237,4 +236,6 @@ public class CaronaBusiness {
 			return false;
 		}		
 	}
+	
+
 }
