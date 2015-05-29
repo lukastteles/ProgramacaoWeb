@@ -98,9 +98,15 @@ public class CaronaBusiness {
 			logger.debug("localizarCarona() Exceção: "+MensagensErro.DESTINO_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
 		}
-						
-		caronas = CaronaDAOImpl.getInstance().listCaronasMunicipais(cidade, origem, destino);
+		if(origem == "" && destino == ""){
+			caronas = CaronaDAOImpl.getInstance().listCaronasMunicipais(cidade);
+		}else{
+			caronas = CaronaDAOImpl.getInstance().listCaronasMunicipais(cidade, origem, destino);
+		}
 		
+		if(caronas.isEmpty()){
+			throw new ProjetoCaronaException(MensagensErro.CIDADE_INEXISTENTE);
+		}
 		logger.debug("retornando caronas encontradas");
 		return caronas;
 	}

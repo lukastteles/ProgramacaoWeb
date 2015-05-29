@@ -193,6 +193,24 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}		
 	}
 	
+	@Override
+	public List<CaronaDomain> listCaronasMunicipais(String cidade) throws Exception {
+		ArrayList<CaronaDomain> caronas;// = new ArrayList<CaronaDomain>();
+		
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(CaronaDomain.class);
+			criteria.add(Restrictions.eq("cidade", cidade));
+			criteria.addOrder(Property.forName("id").asc());			 
+			caronas = (ArrayList<CaronaDomain>)criteria.list();		  
+			session.close();
+			return caronas;
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+	
 	
 	@Override
 	public CaronaDomain getCarona(String idCarona) throws Exception  {		

@@ -58,6 +58,23 @@ public class FacadeTestBusiness {
 		
 	}
 	
+	public String localizarCaronaMunicipal(String idSessao, String cidade) throws Exception{
+		List<CaronaDomain> caronas;
+		
+		caronas = caronaBusiness.localizarCaronaMunicipal(idSessao, cidade, "", "");
+		String caronasList = "{";
+		for (CaronaDomain caronaDomain : caronas) {
+			caronasList += caronaDomain.getID()+ ",";				
+		}
+		//tratamento para retirar a última ", "
+		if (caronasList.length() > 1) {
+			caronasList = caronasList.substring (0, caronasList.length() - 1);
+		}
+		caronasList += "}";
+		
+		return caronasList;
+	}
+	
 	public String localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception{
 		List<CaronaDomain> caronas;
 		

@@ -84,4 +84,12 @@ public interface CaronaDAO {
 	 */
 	public void apagaCaronas();
 
+	/**
+	 * Pega as caronas municipais de uma cidade da lista
+	 * @param cidade Cidade onde acontecera a carona
+	 * @return  Lista de caronas municipais da cidade
+	 * @throws Exception
+	 */
+	public List<CaronaDomain> listCaronasMunicipais(String cidade) throws Exception;
+
 }

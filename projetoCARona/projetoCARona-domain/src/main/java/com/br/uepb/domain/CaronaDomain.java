@@ -109,7 +109,7 @@ public class CaronaDomain {
 	 * @param vagas Quantidade de vagas disponíveis para a carona
 	 * @throws Exception Lança exceção caso algum dos campos informados esteja vazio, null ou inválido
 	 */
-	public CaronaDomain(String idSessao, String idCarona, String origem, String cidade, String destino, String data, String hora, int vagas) throws Exception { 
+	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String cidade, String data, String hora, int vagas) throws Exception { 
 		setID(idCarona);
 		setIdSessao(idSessao);
 		setOrigem(origem);
