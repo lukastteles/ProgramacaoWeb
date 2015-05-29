@@ -109,6 +109,10 @@ public class FacadeTestBusiness {
 		solicitacaoVagaBusiness.reviewVagaEmCarona(idSessao, idCarona, loginCaroneiro, review);		
 	}
 	
+	public void reviewCarona(String idSessao, String idCarona, String review) throws Exception{
+		solicitacaoVagaBusiness.reviewCarona(idSessao, idCarona, review);
+	}
+	
 	////Metodos de controle da classe PontoDeEncontro
 	public String sugerirPontoEncontro(String idSessao, String idCarona, String ponto) throws Exception{
 		if(ponto.contains(";")){
@@ -240,9 +244,9 @@ public class FacadeTestBusiness {
 		}else if(atributo.equals("historico de vagas em caronas")){
 			return trataLista(perfilBusiness.getHistoricoDeVagasEmCaronas(login));
 		}else if(atributo.equals("caronas seguras e tranquilas")){
-			return ""+perfilBusiness.getCaronasSegurasETranquilas(login).length;
+			return ""+perfilBusiness.getCaronasSegurasETranquilas(login).size();
 		}else if(atributo.equals("caronas que não funcionaram")){
-			return ""+perfilBusiness.getCaronasQueNaoFuncionaram(login).length;
+			return ""+perfilBusiness.getCaronasQueNaoFuncionaram(login).size();
 		}else if(atributo.equals("faltas em vagas de caronas")){
 			return ""+perfilBusiness.getFaltasEmVagasDeCaronas(login).size();
 		}else if(atributo.equals("presenças em vagas de caronas")){

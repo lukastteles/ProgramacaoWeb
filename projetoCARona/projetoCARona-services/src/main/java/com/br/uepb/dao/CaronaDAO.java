@@ -64,14 +64,15 @@ public interface CaronaDAO {
 	public CaronaDomain getCarona(String idCarona) throws Exception;
 	
 	/**
+	 *  Atualiza algum atributo que tenha sido modificado para uma Carona desde que o Id exista
+	 * @param carona Carona a ser atualizada
+	 */
+	public void atualizaCarona(CaronaDomain carona);
+	
+	/**
 	 * Apaga todas as caronas da lista
 	 */
 	public void apagaCaronas();
 
-	/**
-	 *  Atualiza algum atributo que tenha sido modificado para uma Carona desde que o Id exista
-	 * @param carona Carona a ser atualizada
-	 */
-	void atualizaCarona(CaronaDomain carona);
-	
+
 }

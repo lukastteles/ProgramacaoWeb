@@ -31,7 +31,7 @@ public class SolicitacaoVagaDomain {
 	/** Id do usuário */
 	private String idUsuario;
 	
-	/** Id da carona */
+	/** Id da carona */	
 	private String idCarona;
 	
 	/** Variável para verificar se o a solicitação da vaga na carona foi aceita */
@@ -43,7 +43,11 @@ public class SolicitacaoVagaDomain {
     @Cascade(CascadeType.ALL)  
 	private PontoDeEncontroDomain ponto;
 	
-	private String review;
+	/** Avaliacao do motorista sobre a presenca do caroneiro na carona */
+	private String reviewVaga;
+	
+	/** Avaliacao do caroneiro sobre a carona */
+	private String reviewCarona;
 	/**
 	 * Método construtor de SolicitacaoVagaDomain
 	 * @param id Id da solicitação
@@ -71,6 +75,9 @@ public class SolicitacaoVagaDomain {
 		this.idCarona = idCarona;
 	}
 	
+	/**
+	 * Método construtor de SolicitacaoVagaDomain
+	 */
 	public SolicitacaoVagaDomain(){}
 	
 	/**
@@ -121,13 +128,36 @@ public class SolicitacaoVagaDomain {
 		return ponto;
 	}
 
+	/**
+	 * Metodo para retornar a avaliacao da presenca do caroneiro na vaga
+	 * @return Avaliacao da presenca do caroneiro na vaga ("faltou" ou "nao faltou")
+	 */
+	public String getReviewVaga() {
+		return reviewVaga;
+	}
 
-	public String getReview() {
-		return review;
+	/** 
+	 * Metodo para adicionar uma avaliacao da presenca do caroneiro na vaga	 
+	 * @param reviewVaga Avaliacao da presenca do caroneiro na vaga ("faltou" ou "nao faltou")
+	 */
+	public void setReviewVaga(String reviewVaga) {
+		this.reviewVaga = reviewVaga;
 	}
 
 
-	public void setReview(String review) {
-		this.review = review;
+	/**
+	 * Metodo para retornar a avaliacao da carona feita pelo caroneiro
+	 * @return Avaliacao da carona feita pelo caroneiro ("segura e tranquila" ou "nao funcionou")
+	 */
+	public String getReviewCarona() {
+		return reviewCarona;
+	}
+
+	/**
+	 * Metodo para adicionar avaliacao da carona feita pelo caroneiro
+	 * @param reviewCarona Avaliacao da carona feita pelo caroneiro
+	 */
+	public void setReviewCarona(String reviewCarona) {
+		this.reviewCarona = reviewCarona;
 	}
 }

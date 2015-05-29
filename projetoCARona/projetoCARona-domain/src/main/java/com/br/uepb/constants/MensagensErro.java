@@ -43,9 +43,16 @@ public class MensagensErro {
 	public static final String HORA_INVALIDA = "Hora inválida";
 	public static final String VAGA_INVALIDA = "Vaga inválida";
 	
+	//Review vaga na carona
 	public static final String FALTOU = "faltou";
 	public static final String NAO_FALTOU = "não faltou";
+	
+	//Review carona
+	public static final String SEGURA_TRANQUILA = "segura e tranquila";
+	public static final String NAO_FUNCIONOU = "não funcionou";
+	
 	public static final String OPCAO_INVALIDA = "Opção inválida.";
+	
 	//Mensagens para PontosEncontro
 	public static final String PONTO_INVALIDO = "Ponto Inválido";	
 	

@@ -13,7 +13,8 @@ public class EasyAcceptTeste {
 																		"src/test/resources/userStories/US05.txt",
 																		"src/test/resources/userStories/US06.txt",
 																		"src/test/resources/userStories/US07.txt",
-																		"src/test/resources/userStories/US08.txt"};
+																		"src/test/resources/userStories/US08.txt",
+																		"src/test/resources/userStories/US09.txt"}; 
 		EasyAccept.main(args);
 	}
 }

@@ -229,19 +229,6 @@ public class CaronaDAOImpl implements CaronaDAO{
 	}
 	
 	@Override
-	public void apagaCaronas(){
-		logger.debug("apagando lista de caronas");
-		session = sessionFactory.openSession();	
-		transaction = session.beginTransaction();
-		session.createQuery("delete from CaronaDomain").executeUpdate();
-		transaction.commit();
-		session.close();
-//		if (listaCaronas.size() > 0) {
-//			listaCaronas.removeAll(listaCaronas);
-//		}		
-	}
-	
-	@Override
 	public void atualizaCarona(CaronaDomain carona){
 		try 
 		{
@@ -255,6 +242,16 @@ public class CaronaDAOImpl implements CaronaDAO{
 			e.printStackTrace();
 		}
 		session.close();
+	}
+	
+	@Override
+	public void apagaCaronas(){
+		logger.debug("apagando lista de caronas");
+		session = sessionFactory.openSession();	
+		transaction = session.beginTransaction();
+		session.createQuery("delete from CaronaDomain").executeUpdate();
+		transaction.commit();
+		session.close();		
 	}
 	
 }

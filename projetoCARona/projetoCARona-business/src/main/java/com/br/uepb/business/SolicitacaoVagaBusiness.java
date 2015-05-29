@@ -326,10 +326,25 @@ public class SolicitacaoVagaBusiness {
 		logger.debug("solicitação de vaga rejeitada");
 	}
 	
+	/**
+	 * Metodo para o motorista adicionar uma avaliacao da presenca ou nao do caroneiro na carona. 
+	 * As avaliacoes possiveis sao: "faltou" e "nao faltou" 
+	 * @param idSessao Id da sessao
+	 * @param idCarona Id da carona
+	 * @sparam loginCaroneiro Id do caroneiro
+	 * @param review Avaliacao da presenca do caroneiro na carona
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou inexistente, 
+	 * se a carona relacionada a solicitacao não pertencer ao usuário da sessão informada ou 
+	 * se o review informado for invalido
+	 */
 	public void reviewVagaEmCarona(String idSessao, String idCarona, String loginCaroneiro, String review) throws Exception{
 		//Verificar se os parametros sao validos
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		CaronaDAOImpl.getInstance().getCarona(idCarona);		
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);		
+		if (!carona.getIdSessao().equals(idSessao)) {
+			logger.debug("rejeitarSolicitacao() Exceção: "+MensagensErro.SOLICITACAO_INVALIDA);
+			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INVALIDA);				
+		}
 		UsuarioDAOImpl.getInstance().getUsuario(loginCaroneiro);
 
 		//verificar se usuario pertence a esta carona
@@ -342,10 +357,38 @@ public class SolicitacaoVagaBusiness {
 		}
 		
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idCarona, loginCaroneiro);
-		solicitacaoVaga.setReview(review);
+		solicitacaoVaga.setReviewVaga(review);
 		SolicitacaoVagaDAOImpl.getInstance().atualizaSolicitacaoVaga(solicitacaoVaga);
 		
 	}
 	
+	/**
+	 * Metodo para o caroneiro adicionar uma avaliacao sobre a carona. 
+	 * As avaliacoes possiveis sao: "Segura e Tranquila" e "nao funcionou" 
+	 * @param idSessao Id da sessao
+	 * @param idCarona Id da carona
+	 * @param review Avaliacao da carona
+	 * @throws Exception Lanca excecao se qualquer atributo informado for null, vazio ou inexistente
+	 * se a a carona relacionada a solicitacao não pertencer ao usuário da sessão informada ou
+	 * se o review informado for invalido
+	 */
+	public void reviewCarona(String idSessao, String idCarona, String review) throws Exception{
+		//Verificar se os parametros sao validos
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		CaronaDAOImpl.getInstance().getCarona(idCarona);				
+		
+		//verificar se usuario pertence a esta carona
+		if (SolicitacaoVagaDAOImpl.getInstance().participouCarona(idCarona, idSessao) == false) {
+			throw new ProjetoCaronaException(MensagensErro.USUARIO_SEM_VAGA_NA_CARONA);
+		}
+			
+		if ((!review.equals(MensagensErro.SEGURA_TRANQUILA)) && (!review.equals(MensagensErro.NAO_FUNCIONOU))) {
+			throw new ProjetoCaronaException(MensagensErro.OPCAO_INVALIDA);
+		}
+		
+		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idCarona, idSessao);
+		solicitacaoVaga.setReviewCarona(review);
+		SolicitacaoVagaDAOImpl.getInstance().atualizaSolicitacaoVaga(solicitacaoVaga);
+	}
 
 }

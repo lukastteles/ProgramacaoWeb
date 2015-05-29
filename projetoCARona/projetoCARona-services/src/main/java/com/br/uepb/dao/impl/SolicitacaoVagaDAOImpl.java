@@ -8,11 +8,13 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.SolicitacaoVagaDAO;
 import com.br.uepb.dao.hibernateUtil.HibernateUtil;
+import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -25,6 +27,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	private Session session;
 	private Transaction transaction;
 	private Criteria criteria;
+	private Disjunction disjunction;
 	
 	public int idSolicitacao = 1;
 	//ArrayList<SolicitacaoVagaDomain> listaSolicitacaoVagas = new ArrayList<SolicitacaoVagaDomain>();
@@ -139,20 +142,6 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			throw e;
 		}		
 	}
-
-	@Override
-	public void apagaSolicitacoes(){
-		logger.debug("apagando lista de solicitacoes");
-		session = sessionFactory.openSession();	
-		transaction = session.beginTransaction();
-		session.createQuery("delete from SolicitacaoVagaDomain").executeUpdate();
-		transaction.commit();
-		session.close();
-		
-		//if (listaSolicitacaoVagas.size() > 0) {			
-		//	listaSolicitacaoVagas.removeAll(listaSolicitacaoVagas);
-		//}
-	}
 	
 	@Override
 	public void atualizaSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga){
@@ -231,14 +220,14 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	}
 	
 	@Override
-	public List<SolicitacaoVagaDomain> getSolicitacoesByFaltas(String login) throws Exception{
+	public List<SolicitacaoVagaDomain> getSolicitacoesByReviewVaga(String login, String review) throws Exception{
 		List<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();
 		
 		try{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
 			criteria.add(Restrictions.eq("idUsuario", login));
-			criteria.add(Restrictions.eq("review", MensagensErro.FALTOU));			
+			criteria.add(Restrictions.eq("reviewVaga", review));			
 			solicitacaoVaga = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
 			session.close();
 			return solicitacaoVaga;
@@ -246,16 +235,22 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			throw e;
 		}		
 	}
-
+	
 	@Override
-	public List<SolicitacaoVagaDomain> getSolicitacoesByPresencas(String login) throws Exception{
-		List<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();
-		
+	public List<SolicitacaoVagaDomain> getSolicitacoesByReviewCarona(List<CaronaDomain> caronas, String reviewCarona) throws Exception{
+		List<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();		
 		try{
 			session = sessionFactory.openSession();
-			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
-			criteria.add(Restrictions.eq("idUsuario", login));
-			criteria.add(Restrictions.eq("review", MensagensErro.NAO_FALTOU));			
+			criteria = session.createCriteria(SolicitacaoVagaDomain.class);			
+			criteria.add(Restrictions.eq("reviewCarona", reviewCarona));	
+			
+			//usando a disjunction para fazer um 'ou' entre vários elementos
+			disjunction = Restrictions.disjunction();
+			for (CaronaDomain carona : caronas) {
+				disjunction.add(Restrictions.eq("idCarona", carona.getID()));
+			}
+			criteria.add(disjunction);
+			  
 			solicitacaoVaga = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
 			session.close();
 			return solicitacaoVaga;
@@ -263,5 +258,14 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			throw e;
 		}		
 	}
-
+	
+	@Override
+	public void apagaSolicitacoes(){
+		logger.debug("apagando lista de solicitacoes");
+		session = sessionFactory.openSession();	
+		transaction = session.beginTransaction();
+		session.createQuery("delete from SolicitacaoVagaDomain").executeUpdate();
+		transaction.commit();
+		session.close();
+	}
 }
