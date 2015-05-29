@@ -12,7 +12,7 @@ public class MensagensErro {
 	//Mensagens para Carona	
 	public static final String CARONA_INVALIDA = "Carona Inválida";
 	public static final String ORIGEM_INVALIDA = "Origem inválida";
-	public static final String DESTINO_INVALIDO = "Destino inválido";
+	public static final String DESTINO_INVALIDO = "Destino inválido";	
 	public static final String ATRIBUTO_INVALIDO = "Atributo inválido";
 	public static final String IDENTIFICADOR_INVALIDO = "Identificador do carona é inválido";
 	public static final String TRAJETO_INVALIDO = "Trajeto Inválida";
@@ -24,6 +24,7 @@ public class MensagensErro {
 	public static final String ITEM_INEXISTENTE = "Item inexistente";
 	public static final String ATRIBUTO_INEXISTENTE = "Atributo inexistente";
 	public static final String TRAJETO_INEXISTENTE = "Trajeto Inexistente";
+	public static  final String CIDADE_INEXISTENTE = "Cidade inexistente";
 	
 	
 	//Mensagens para Sessao e Usuario

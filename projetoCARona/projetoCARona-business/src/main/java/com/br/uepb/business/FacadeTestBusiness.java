@@ -57,12 +57,35 @@ public class FacadeTestBusiness {
 		return caronasList;
 		
 	}
+	
+	public String localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception{
+		List<CaronaDomain> caronas;
+		
+		caronas = caronaBusiness.localizarCaronaMunicipal(idSessao, cidade, origem, destino);
+		String caronasList = "{";
+		for (CaronaDomain caronaDomain : caronas) {
+			caronasList += caronaDomain.getID()+ ",";				
+		}
+		//tratamento para retirar a última ", "
+		if (caronasList.length() > 1) {
+			caronasList = caronasList.substring (0, caronasList.length() - 1);
+		}
+		caronasList += "}";
+		
+		return caronasList;
+	}
 		
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, String vagas) throws Exception{
 		validarVagas(vagas);		
 		return caronaBusiness.cadastrarCarona(idSessao, origem, destino, data, hora, Integer.parseInt(vagas));
 	}
-		
+	
+	
+	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, String vagas) throws Exception{
+		validarVagas(vagas);		
+		return caronaBusiness.cadastrarCaronaMunicipal(idSessao, origem, destino, cidade, data, hora, Integer.parseInt(vagas));
+	}
+	
 	public String getAtributoCarona(String idCarona, String atributo) throws Exception{
 		return caronaBusiness.getAtributoCarona(idCarona, atributo);
 	}

@@ -71,6 +71,40 @@ public class CaronaBusiness {
 	}
 	
 	/**
+	 * Método para localizar todas as caronas informadas de uma determinada origem para um destino
+	 * Observações:
+	 * - Se o parâmetro origem não for informado, irá localizar todas as caronas pertencentes ao destino informado
+	 * - Se o parâmetro destino não for informado, irá localizar todas as caronas pertencentes a origem informada
+	 * - Se não for informado nem origem nem destino da carona, irá localizar todas as caronas, sem exceção
+	 * @param idSessao Id da sessão atual
+	 * @param cidade Cidade onde acontecera a carona municipal
+	 * @param origem Local de origem da carona
+	 * @param destino Local de destino da carona
+	 * @return Lista das caronas localizadas
+	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida
+	 */
+	public List<CaronaDomain> localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception{
+		logger.debug("localizando carona para origem: "+origem+" e destino: "+destino);
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		
+		List<CaronaDomain> caronas;
+
+		if (verificaCaracteres(origem) == false){
+			logger.debug("localizarCarona() Exceção: "+MensagensErro.ORIGEM_INVALIDA);
+			throw new ProjetoCaronaException(MensagensErro.ORIGEM_INVALIDA);
+		}
+
+		if (verificaCaracteres(destino) == false){
+			logger.debug("localizarCarona() Exceção: "+MensagensErro.DESTINO_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
+		}
+						
+		caronas = CaronaDAOImpl.getInstance().listCaronasMunicipais(cidade, origem, destino);
+		
+		logger.debug("retornando caronas encontradas");
+		return caronas;
+	}
+	/**
 	 * Método para cadatrar a carona que um usuário está oferecendo
 	 * @param idSessao Id da sessão atual
 	 * @param origem Local de origem da carona
@@ -96,14 +130,48 @@ public class CaronaBusiness {
 		logger.debug("carona adicionada na lista");
 		
 		//Adiciona a carona ao usuario correspondente
-		UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);	
+		//UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);	
 		//usuario.addCarona(caronaDomain.getID());
-		logger.debug("carona adicionada no historico do usuario");
+		//logger.debug("carona adicionada no historico do usuario");
 		
 		CaronaDAOImpl.getInstance().idCarona++;
 		return caronaDomain.getID();
 	}
 	
+	/**
+	 * Método para cadatrar a carona na mesma cidade
+	 * @param idSessao Id da sessão atual
+	 * @param origem Local de origem da carona
+	 * @param destino Local de destino da carona
+	 * @param cidade Nome da cidade onde a carona será realizada
+	 * @param data Data de saída da carona
+	 * @param hora Hora de partida da carona
+	 * @param vagas Quantidade de vagas disponíveis na carona
+	 * @return Id da carona dacastrada
+	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida 
+	 */
+	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, int vagas) throws Exception{
+		logger.debug("cadastrando carona");
+		//funcao para verificar se a sessao existe
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		
+		//adiciona a caronas na lista de caronas
+		String carona = ""+ CaronaDAOImpl.getInstance().idCarona;
+		logger.debug("criando carona municipal");
+		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, cidade, data, hora, vagas);
+		logger.debug("carona criada");
+		logger.debug("adicionando carona na lista");
+		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
+		logger.debug("carona adicionada na lista");
+		
+		//Adiciona a carona ao usuario correspondente
+		//UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);	
+		//usuario.addCarona(caronaDomain.getID());
+		//logger.debug("carona adicionada no historico do usuario");
+		
+		CaronaDAOImpl.getInstance().idCarona++;
+		return caronaDomain.getID();
+	}
 	/**
 	 * Método para retornar os dados da carona
 	 * @param idCarona Id da carona
@@ -143,6 +211,12 @@ public class CaronaBusiness {
 			return carona.getData();
 		}else if(atributo.equals("vagas")){
 			return ""+carona.getVagas();
+		}else if(atributo.equals("ehMunicipal")){			
+			if ((carona.getCidade() == null) || (carona.getCidade().trim().equals(""))) {
+				return "false";
+			} else { 
+				return "true";
+			}
 		}else {
 			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.ATRIBUTO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);

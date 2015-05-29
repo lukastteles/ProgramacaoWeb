@@ -52,6 +52,9 @@ public class CaronaDomain {
 	@Column(nullable=false)
 	private String destino;
 	
+	/** Cidade onde a carona ira acontecer (no caso de caronas municipais) */
+	private String cidade;
+	
 	/** Horário da carona */ 
 	//@NotNull(message = "O Horario da Carona não pode ser null")
 	//@Pattern(regexp = "d{2}\\:\\d{2}", message="Hora: preencha no formato hh:mm")
@@ -89,6 +92,29 @@ public class CaronaDomain {
 		setIdSessao(idSessao);
 		setOrigem(origem);
 		setDestino(destino);
+		setData(data);
+		setHora(hora);
+		setVagas(vagas);
+	}
+	
+	/**
+	 * Método construtor de CaronaDomain
+	 * @param idSessao Armazena o login do usuário
+	 * @param idCarona Id da carona
+	 * @param origem Local de origem da carona
+	 * @param destino Local de destino da carona
+	 * @param cidade Cidade onde a carona sera realizada (apenas para caronas municipais)
+	 * @param data Data que a carona irá acontecer
+	 * @param hora Horário em que a carona irá sair
+	 * @param vagas Quantidade de vagas disponíveis para a carona
+	 * @throws Exception Lança exceção caso algum dos campos informados esteja vazio, null ou inválido
+	 */
+	public CaronaDomain(String idSessao, String idCarona, String origem, String cidade, String destino, String data, String hora, int vagas) throws Exception { 
+		setID(idCarona);
+		setIdSessao(idSessao);
+		setOrigem(origem);
+		setDestino(destino);
+		setCidade(cidade);
 		setData(data);
 		setHora(hora);
 		setVagas(vagas);
@@ -179,6 +205,18 @@ public class CaronaDomain {
 			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
 		}
 		this.destino = destino;
+	}
+	
+	public String getCidade() {
+		return cidade;
+	}
+
+	private void setCidade(String cidade) throws ProjetoCaronaException {
+		if ( (cidade == null) || (cidade.trim().equals("")) ){
+			logger.debug("setDestino() Exceção: "+MensagensErro.CIDADE_INEXISTENTE);
+			throw new ProjetoCaronaException(MensagensErro.CIDADE_INEXISTENTE);
+		}
+		this.cidade = cidade;
 	}
 	
 	/**

@@ -174,6 +174,27 @@ public class CaronaDAOImpl implements CaronaDAO{
 	}
 
 	@Override
+	public List<CaronaDomain> listCaronasMunicipais(String cidade, String origem, String destino) throws Exception {
+		ArrayList<CaronaDomain> caronas;// = new ArrayList<CaronaDomain>();
+		
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(CaronaDomain.class);
+			criteria.add(Restrictions.eq("cidade", cidade));
+			criteria.add(Restrictions.eq("origem", origem));
+			criteria.add(Restrictions.eq("destino", destino));
+			criteria.addOrder(Property.forName("id").asc());			 
+			caronas = (ArrayList<CaronaDomain>)criteria.list();		  
+			session.close();
+			return caronas;
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}		
+	}
+	
+	
+	@Override
 	public CaronaDomain getCarona(String idCarona) throws Exception  {		
 		//tratamento para verificar de o IdCarona está null ou vazio
 		if (idCarona == null) {

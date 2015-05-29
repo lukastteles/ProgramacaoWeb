@@ -56,6 +56,16 @@ public interface CaronaDAO {
 	public List<CaronaDomain> listCaronasByDestino(String destino) throws Exception;
 	
 	/**
+ 	 * Pega as caronas municipais da lista pela origem e destino
+ 	 * @param cidade Cidade onde acontecera a carona  
+	 * @param origem Local de origem da carona
+	 * @param destino Local de destino da carona
+	 * @return Lista de caronas com a origem e o destino especificados
+	 * @throws Exception 
+	 */
+	public List<CaronaDomain> listCaronasMunicipais(String cidade, String origem, String destino) throws Exception;
+	
+	/**
 	 * Pega uma carona pelo id
 	 * @param idCarona Id da carona
 	 * @return carona com o id especificado
@@ -73,6 +83,5 @@ public interface CaronaDAO {
 	 * Apaga todas as caronas da lista
 	 */
 	public void apagaCaronas();
-
 
 }

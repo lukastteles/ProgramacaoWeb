@@ -6,7 +6,7 @@ public class EasyAcceptTeste {
 	
 	public static void main(String[] args) {
 		
-		args = new String[] {"com.br.uepb.business.FacadeTestBusiness", "src/test/resources/userStories/US01.txt", 
+		args = new String[] {"com.br.uepb.business.FacadeTestBusiness", "src/test/resources/userStories/US10.txt"};/*, 
 																		"src/test/resources/userStories/US02.txt",
 																		"src/test/resources/userStories/US03.txt",
 																		"src/test/resources/userStories/US04.txt",
@@ -14,7 +14,8 @@ public class EasyAcceptTeste {
 																		"src/test/resources/userStories/US06.txt",
 																		"src/test/resources/userStories/US07.txt",
 																		"src/test/resources/userStories/US08.txt",
-																		"src/test/resources/userStories/US09.txt"}; 
+																		"src/test/resources/userStories/US09.txt",
+																		"src/test/resources/userStories/US10.txt"}; */
 		EasyAccept.main(args);
 	}
 }
