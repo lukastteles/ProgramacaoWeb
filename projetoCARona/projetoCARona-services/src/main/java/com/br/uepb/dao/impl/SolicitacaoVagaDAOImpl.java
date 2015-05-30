@@ -98,20 +98,16 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		}
 		
 	}
-	
+		
 	@Override
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idCarona) throws Exception{
 		ArrayList<SolicitacaoVagaDomain> solicitacoesCarona = new ArrayList<SolicitacaoVagaDomain>();
-		/*for (SolicitacaoVagaDomain solicitacao : listaSolicitacaoVagas) {
-			if ((solicitacao.getIdCarona().equals(idCarona)) && (solicitacao.getFoiAceita())) {
-				solicitacoesCarona.add(solicitacao);
-			}
-		}*/
 		
 		try{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
 			criteria.add(Restrictions.eq("idCarona", idCarona));
+			criteria.add(Restrictions.eq("foiAceita", true));
 			solicitacoesCarona = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
 			session.close();
 			return solicitacoesCarona;

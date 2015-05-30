@@ -102,9 +102,18 @@ public class FacadeTestBusiness {
 		validarVagas(vagas);		
 		return caronaBusiness.cadastrarCaronaMunicipal(idSessao, origem, destino, cidade, data, hora, Integer.parseInt(vagas));
 	}
+
+	public String cadastrarCaronaRelampago(String idSessao, String origem, String destino, String dataIda, String dataVolta, String hora, String minimoCaroneiros) throws Exception{
+		validarMinimoCaroneiros(minimoCaroneiros);		
+		return caronaBusiness.cadastrarCaronaRelampago(idSessao, origem, destino, dataIda, dataVolta, Integer.parseInt(minimoCaroneiros), hora);
+	}
 	
 	public String getAtributoCarona(String idCarona, String atributo) throws Exception{
 		return caronaBusiness.getAtributoCarona(idCarona, atributo);
+	}
+	
+	public String getAtributoCaronaRelampago(String idCarona, String atributo) throws Exception{
+		return caronaBusiness.getAtributoCaronaRelampago(idCarona, atributo);
 	}
 		
 	public String getTrajeto(String idCarona) throws Exception{
@@ -116,11 +125,46 @@ public class FacadeTestBusiness {
 		String percurso = carona.getOrigem()+" para "+carona.getDestino()+
 						  ", no dia "+carona.getData()+
 						  ", as "+carona.getHora();
-						  
 		
 		return percurso;
 	}
+	
+	public String getCaronaRelampago(String idCarona) throws Exception{
+		CaronaDomain carona = caronaBusiness.getCarona(idCarona);
+		String percurso = carona.getOrigem()+" para "+carona.getDestino()+
+						  ", no dia "+carona.getData()+
+						  ", as "+carona.getHora();
+	
+		return percurso;
+	}
+	
+	public String setCaronaRelampagoExpired(String idCarona) throws Exception{
+		return caronaBusiness.setCaronaRelampagoExpired(idCarona);
+	}
+
 		
+	public String getMinimoCaroneiros(String idCarona) throws Exception {
+		return ""+caronaBusiness.getMinimoCaroneiros(idCarona);
+	}
+	
+	public String getAtributoExpired(String idExpired, String atributo) throws Exception{		
+		if( (atributo == null) || (atributo.trim().equals(""))){
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INVALIDO);
+		}
+		
+		if ((idExpired == null) || (idExpired.trim().equals(""))) {
+			throw new ProjetoCaronaException(MensagensErro.IDENTIFICADOR_INVALIDO);
+		}
+		
+		if(atributo.equals("emailTo")){
+			return getUsuariosByCarona(idExpired);
+		}else {
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
+		}
+	}
+	
+	
+	
 	public String getCaronaUsuario(String idSessao, int indexCarona) throws Exception{
 		CaronaDomain carona = caronaBusiness.getCaronaUsuario(idSessao, indexCarona);		
 		return carona.getID();
@@ -299,6 +343,12 @@ public class FacadeTestBusiness {
 	public String visualizarPerfil(String idSessao, String login) throws Exception{
 		return perfilBusiness.visualizaPerfil(idSessao, login);
 	}
+		
+	//TODO: Criar o metodo enviarEmail
+	public boolean enviarEmail(String idSessao, String destino, String message){
+		
+		return true;
+	}
 	
 	//Metodos de controle da classe Sistema
 	public void encerrarSistema(){
@@ -311,11 +361,47 @@ public class FacadeTestBusiness {
 		
 	public void zerarSistema(){
 		//TODO: procurar sobre Cascade da FK de UsuarioDomain
-		PontoDeEncontroDAOImpl.getInstance().apagaPontosEncontro();
 		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
+		PontoDeEncontroDAOImpl.getInstance().apagaPontosEncontro();
 		CaronaDAOImpl.getInstance().apagaCaronas();		
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
 		SessaoDAOImpl.getInstance().apagaSessoes();
+	}
+	
+	public void validarVagas(String vagas) throws Exception {
+		if ((vagas == null) || (vagas.trim().length() == 0)) {
+			throw new ProjetoCaronaException(MensagensErro.VAGA_INVALIDA);
+		}
+		
+		try { 
+			Integer.parseInt(vagas);
+		} catch (Exception e) {
+			throw new ProjetoCaronaException(MensagensErro.VAGA_INVALIDA);
+		}	
+	}
+	
+	public void validarMinimoCaroneiros(String minimoCaroneiros) throws Exception {
+		if ((minimoCaroneiros == null) || (minimoCaroneiros.trim().length() == 0)) {
+			throw new ProjetoCaronaException(MensagensErro.MINIMO_CARONEIROS_INVALIDO);
+		}
+		
+		try { 
+			Integer.parseInt(minimoCaroneiros);
+		} catch (Exception e) {
+			throw new ProjetoCaronaException(MensagensErro.MINIMO_CARONEIROS_INVALIDO);
+		}	
+	}
+	
+	private String getUsuariosByCarona(String idCarona) throws Exception{
+		String[] solicitacoes = caronaBusiness.getUsuariosByCarona(idCarona);
+		String usuarios = "[";
+		if(solicitacoes.length > 1){
+			for(int i = 0; i < solicitacoes.length-1; i++){
+				usuarios+=solicitacoes[i]+",";
+			}
+		}
+		usuarios+=solicitacoes[solicitacoes.length-1]+"]";
+		return usuarios;
 	}
 	
 	private String trataLista(String[] pontos){
@@ -331,18 +417,6 @@ public class FacadeTestBusiness {
 		}
 		ponto+="]";
 		return ponto;
-	}
-	
-	public void validarVagas(String vagas) throws Exception {
-		if ((vagas == null) || (vagas.trim().length() == 0)) {
-			throw new ProjetoCaronaException(MensagensErro.VAGA_INVALIDA);
-		}
-		
-		try { 
-			Integer.parseInt(vagas);
-		} catch (Exception e) {
-			throw new ProjetoCaronaException(MensagensErro.VAGA_INVALIDA);
-		}	
 	}
 	
 }

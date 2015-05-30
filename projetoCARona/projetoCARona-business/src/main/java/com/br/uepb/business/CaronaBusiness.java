@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
-import com.br.uepb.dao.impl.UsuarioDAOImpl;
+import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
-import com.br.uepb.domain.UsuarioDomain;
+import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 /**
@@ -153,7 +153,7 @@ public class CaronaBusiness {
 	 * @param data Data de saída da carona
 	 * @param hora Hora de partida da carona
 	 * @param vagas Quantidade de vagas disponíveis na carona
-	 * @return Id da carona dacastrada
+	 * @return Id da carona cadastrada
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida 
 	 */
 	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, int vagas) throws Exception{
@@ -170,14 +170,40 @@ public class CaronaBusiness {
 		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
 		logger.debug("carona adicionada na lista");
 		
-		//Adiciona a carona ao usuario correspondente
-		//UsuarioDomain usuario = UsuarioDAOImpl.getInstance().getUsuario(idSessao);	
-		//usuario.addCarona(caronaDomain.getID());
-		//logger.debug("carona adicionada no historico do usuario");
+		CaronaDAOImpl.getInstance().idCarona++;
+		return caronaDomain.getID();
+	}
+	
+	/**
+	 * Método para cadatrar uma carona relampago
+	 * @param idSessao Id da sessão atual
+	 * @param origem Local de origem da carona
+	 * @param destino Local de destino da carona 
+	 * @param dataIda Data de saida da carona
+	 * @param dataVolta Data de volta da carona
+	 * @param minimoCaroneiros Quantidade minima de caroneiros
+	 * @param hora Hora de partida da carona
+	 * @return Id da carona cadastrada
+	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida 
+	 */
+	public String cadastrarCaronaRelampago(String idSessao, String origem, String destino, String dataIda, String dataVolta, int minimoCaroneiros, String hora) throws Exception{
+		logger.debug("cadastrando carona");
+		//funcao para verificar se a sessao existe
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		
+		//adiciona a caronas na lista de caronas
+		String carona = ""+ CaronaDAOImpl.getInstance().idCarona;
+		logger.debug("criando carona municipal");
+		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, dataIda, dataVolta, minimoCaroneiros, hora);
+		logger.debug("carona criada");
+		logger.debug("adicionando carona na lista");
+		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
+		logger.debug("carona adicionada na lista");
 		
 		CaronaDAOImpl.getInstance().idCarona++;
 		return caronaDomain.getID();
 	}
+	
 	/**
 	 * Método para retornar os dados da carona
 	 * @param idCarona Id da carona
@@ -231,6 +257,76 @@ public class CaronaBusiness {
 	}
 	
 	/**
+	 * Método para retornar os dados da carona relampago
+	 * @param idCarona Id da carona
+	 * @param atributo Tipo de dado da carona a ser retornado 
+	 * @return Dado da carona
+	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou se a carona e/ou atributo for inexistente
+	 */
+	public String getAtributoCaronaRelampago(String idCarona, String atributo) throws Exception{
+		logger.debug("buscando atributo da carona");
+		
+		if( (atributo == null) || (atributo.trim().equals(""))){
+			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.ATRIBUTO_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INVALIDO);
+		}
+		
+		if ((idCarona == null) || (idCarona.trim().equals(""))) {
+			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.IDENTIFICADOR_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.IDENTIFICADOR_INVALIDO);
+		}
+		
+		CaronaDomain carona = null; 
+		
+		try {
+			carona = CaronaDAOImpl.getInstance().getCarona(idCarona);			
+		} catch (Exception e) {
+			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.ITEM_INEXISTENTE);
+			//if (e.getMessage().equals(MensagensErro.CARONA_INEXISTENTE)) {
+				throw new ProjetoCaronaException(MensagensErro.ITEM_INEXISTENTE);
+			//}		
+		}
+		
+		if(atributo.equals("origem")){
+			return carona.getOrigem();
+		}else if(atributo.equals("destino")){
+			return carona.getDestino();
+		}else if(atributo.equals("dataIda")){
+			return carona.getData();
+		}else if(atributo.equals("dataVolta")){
+			return carona.getDataVolta();
+		}else if(atributo.equals("minimoCaroneiros")){
+			return ""+carona.getMinimoCaroneiros();
+		}else if(atributo.equals("expired")){
+			return ""+carona.isCaronaRelampagoExpirada();
+		}
+		else {
+			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.ATRIBUTO_INEXISTENTE);
+			throw new ProjetoCaronaException(MensagensErro.ATRIBUTO_INEXISTENTE);
+		}				
+	}
+	
+	/**
+	 * Metodo para obter os caroneiros pertencentes a carona
+	 * @param idExpired Informa se a carona foi expirada ou nao
+	 * @param atributo Tipo de dado da carona a ser retornado
+	 * @return Dado da carona
+	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou se a carona e/ou atributo for inexistente
+	 */
+	public String[] getUsuariosByCarona(String idExpired) throws Exception{
+		CaronaDAOImpl.getInstance().getCarona(idExpired);
+	
+		List<SolicitacaoVagaDomain> solicitacoesVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(idExpired);
+		String[] solicitacoes = new String[solicitacoesVaga.size()];
+		int count = 0;
+		for (SolicitacaoVagaDomain solicitacaoVaga : solicitacoesVaga) {		
+			solicitacoes[count] = solicitacaoVaga.getIdUsuario();
+			count++;
+		}
+		return solicitacoes;
+	}
+	
+	/**
 	 * Método para retornar o trajeto(origem - destino) que a carona irá fazer
 	 * @param idCarona Id da carona
 	 * @return Trajeto da carona
@@ -269,6 +365,24 @@ public class CaronaBusiness {
 	public CaronaDomain getCarona(String idCarona) throws Exception{		
 		logger.debug("buscando carona");
 		return  CaronaDAOImpl.getInstance().getCarona(idCarona);
+	}
+	
+	/**
+	 * Metodo para obter a quantidade minima de caroneiros para para uma carona relampago
+	 * @param idCarona
+	 * @return
+	 * @throws Exception
+	 */
+	public int getMinimoCaroneiros(String idCarona) throws Exception {
+		return CaronaDAOImpl.getInstance().getCarona(idCarona).getMinimoCaroneiros();		
+	};
+	
+	public String setCaronaRelampagoExpired(String idCarona) throws Exception{
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+		carona.setCaronaRelampagoExpirada(true);		
+		//atualiza a carona 
+		CaronaDAOImpl.getInstance().atualizaCarona(carona);
+		return carona.getID();
 	}
 	
 	/**

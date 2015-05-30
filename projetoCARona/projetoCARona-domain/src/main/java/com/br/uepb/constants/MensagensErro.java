@@ -16,6 +16,7 @@ public class MensagensErro {
 	public static final String ATRIBUTO_INVALIDO = "Atributo inválido";
 	public static final String IDENTIFICADOR_INVALIDO = "Identificador do carona é inválido";
 	public static final String TRAJETO_INVALIDO = "Trajeto Inválida";
+	public static final String MINIMO_CARONEIROS_INVALIDO = "Minimo Caroneiros inválido";
 	
 	public static final String IDENTIFICADOR_NAO_INFORMADO = "Identificador da carona não informado";
 	public static final String CARONA_NAO_IDENTIFICADA ="Carona não identificada para o usuário informado";

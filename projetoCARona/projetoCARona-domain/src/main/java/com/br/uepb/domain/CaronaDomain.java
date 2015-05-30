@@ -67,10 +67,19 @@ public class CaronaDomain {
 	@Column(nullable=false)
 	private String data;
 	
+	/** Data da volta (no caso de carona relampago)*/
+	private String dataVolta;
+	
 	/** Quantidade de vagas disponívels para a carona */ 
 	//@NotNull(message = "A quantidade de vagas na Carona não pode ser nula")
 	@Column(nullable=false)
 	private int vagas;
+	
+	/** Quantidade minima de caroneiros (para carona relampago) */
+	private int minimoCaroneiros;
+	
+	/** Informar se a carona relampago foi expirada */
+	private boolean caronaRelampagoExpirada = false;
 	
 	/** Lista de pontos de encontro da carona */
 	@OneToMany(mappedBy="idCarona", cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.LAZY)
@@ -98,7 +107,7 @@ public class CaronaDomain {
 	}
 	
 	/**
-	 * Método construtor de CaronaDomain
+	 * Método construtor de CaronaDomain para o caso de caronas municipais
 	 * @param idSessao Armazena o login do usuário
 	 * @param idCarona Id da carona
 	 * @param origem Local de origem da carona
@@ -118,6 +127,31 @@ public class CaronaDomain {
 		setData(data);
 		setHora(hora);
 		setVagas(vagas);
+	}
+	
+	/**
+	 * Método construtor de CaronaDomain para o caso de carona relampago
+	 * @param idSessao Armazena o login do usuário
+	 * @param idCarona Id da carona
+	 * @param origem Local de origem da carona
+	 * @param destino Local de destino da carona
+	 * @param cidade Cidade onde a carona sera realizada (apenas para caronas municipais)
+	 * @param dataIda Data de ida da carona
+	 * @param dataVolta Data de volta da carona
+	 * @param hora Horário em que a carona irá sair
+	 * @param minimoCaroneiros Quantidade mínima de caroneiros para a carona acontecer
+	 * @throws Exception Lança exceção caso algum dos campos informados esteja vazio, null ou inválido
+	 */
+	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String dataIda, String dataVolta, int minimoCaroneiros, String hora) throws Exception { 
+		setID(idCarona);
+		setIdSessao(idSessao);
+		setOrigem(origem);
+		setDestino(destino);
+		setData(dataIda);
+		setDataVolta(dataVolta);
+		setMinimoCaroneiros(minimoCaroneiros);
+		setVagas(minimoCaroneiros);
+		setHora(hora);
 	}
 	
 	public CaronaDomain(){}
@@ -262,6 +296,27 @@ public class CaronaDomain {
 	}
 	
 	/**
+	 * Método para retornar a data de volta da carona (no caso de carona relampago)
+	 * @return Data da carona
+	 */
+	public String getDataVolta() {
+		return dataVolta;
+	}
+
+	/**
+	 * Método para informar a data de volta da carona (no caso de carona relampago)
+	 * @param data Data da carona
+	 * @throws Exception Lança exceção se a data informada estiver null, vazia ou estiver fora do padrão - dia/mês/ano(dd/mm/yyyy)
+	 */
+	public void setDataVolta(String dataVolta) throws Exception {
+		//validacao da Data
+		ValidarCampos validar = new ValidarCampos();
+		validar.validarData(dataVolta);
+	
+		this.dataVolta = dataVolta;
+	}
+	
+	/**
 	 * Método para retornar a quantidade de vagas disponíveis na carona
 	 * @return Vagas disponíveis na carona
 	 */
@@ -290,5 +345,43 @@ public class CaronaDomain {
 	public void diminuiVagas(){
 		this.vagas--;
 	}
+
+	/**
+	 * Metodo para retornar a quantidade minima de caroneiros na viagem (no caso de carona relampago)
+	 * @return Quantidade minima de caroneiros na viagem
+	 */
+	public int getMinimoCaroneiros() {
+		return minimoCaroneiros;
+	}
+
+	/**
+	 * Metodo para informar a quantidade minima de caroneiros na viagem (no caso de carona relampago)
+	 * @param minimoCaroneiros Quantidade minima de caroneiros na viagem
+	 * @throws ProjetoCaronaException 
+	 */
+	public void setMinimoCaroneiros(int minimoCaroneiros) throws ProjetoCaronaException {
+		if (minimoCaroneiros == 0){
+			logger.debug("setMinimoCaroneiros() Exceção: "+MensagensErro.MINIMO_CARONEIROS_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.MINIMO_CARONEIROS_INVALIDO);
+		}
+		this.minimoCaroneiros = minimoCaroneiros;
+	}
+
+	/**
+	 * Metodo para retornar se a carona esta expirada ou nao
+	 * @return boolean Informacao se a carona esta expirada
+	 */
+	public boolean isCaronaRelampagoExpirada() {
+		return caronaRelampagoExpirada;
+	}
+
+	/**
+	 * Metodo para informar se a carona esta expirada ou nao
+	 * @param caronaRelampagoExpired Informacao se a carona esta expirada
+	 */
+	public void setCaronaRelampagoExpirada(boolean caronaRelampagoExpirada) {
+		this.caronaRelampagoExpirada = caronaRelampagoExpirada;
+	}
+
 	
 }
