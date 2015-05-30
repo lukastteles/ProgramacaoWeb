@@ -1,9 +1,12 @@
 package com.br.uepb.business;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.InteresseEmCaronaDAOImpl;
 import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
@@ -44,6 +47,7 @@ public class FacadeTestBusiness {
 		List<CaronaDomain> caronas;
 			
 		caronas = caronaBusiness.localizarCarona(idSessao, origem, destino);
+		
 		String caronasList = "{";
 		for (CaronaDomain caronaDomain : caronas) {
 			caronasList += caronaDomain.getID()+ ",";				
@@ -343,6 +347,15 @@ public class FacadeTestBusiness {
 	public String visualizarPerfil(String idSessao, String login) throws Exception{
 		return perfilBusiness.visualizaPerfil(idSessao, login);
 	}
+	
+	public int cadastrarInteresse(String idSessao, String origem, String destino, String data, String horaInicio, String horaFim) throws Exception{
+		return perfilBusiness.cadastraInteresse(idSessao, origem, destino, data, horaInicio, horaFim);
+	}
+	
+	public String verificarMensagensPerfil(String idSessao) throws Exception{
+		String mensagemPerfil = perfilBusiness.verificarMensagensPerfil(idSessao);
+		return "["+mensagemPerfil+"]";
+	}
 		
 	//TODO: Criar o metodo enviarEmail
 	public boolean enviarEmail(String idSessao, String destino, String message){
@@ -366,6 +379,7 @@ public class FacadeTestBusiness {
 		CaronaDAOImpl.getInstance().apagaCaronas();		
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
 		SessaoDAOImpl.getInstance().apagaSessoes();
+		InteresseEmCaronaDAOImpl.getInstance().apagaInteresses();
 	}
 	
 	public void validarVagas(String vagas) throws Exception {

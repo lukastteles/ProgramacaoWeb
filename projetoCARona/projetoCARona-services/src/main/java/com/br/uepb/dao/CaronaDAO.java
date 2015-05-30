@@ -3,6 +3,7 @@ package com.br.uepb.dao;
 import java.util.List;
 
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.InteresseEmCaronaDomain;
 
 
 /**
@@ -91,5 +92,8 @@ public interface CaronaDAO {
 	 * @throws Exception
 	 */
 	public List<CaronaDomain> listCaronasMunicipais(String cidade) throws Exception;
+
+
+	public CaronaDomain getCaronaByInteresse(InteresseEmCaronaDomain inresseEmCaronas) throws Exception;
 
 }

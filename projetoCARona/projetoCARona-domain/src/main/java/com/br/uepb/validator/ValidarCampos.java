@@ -20,7 +20,7 @@ public class ValidarCampos {
 	final static Logger logger = Logger.getLogger(ValidarCampos.class);
 	
 	/**
-	 * Método para verificar se a data está dentro do padrão dd/MM/yyyy 
+	 * Método para verificar se a data está dentro do padrão dd/MM/yyyy ou se está nulo 
 	 * @param data Data a ser validada
 	 * @throws Exception Lança exceção de a data informada for null, vazia ou não estivier no padrão dd/MM/yyyy
 	 */
@@ -30,6 +30,16 @@ public class ValidarCampos {
 			throw new ProjetoCaronaException(MensagensErro.DATA_INVALIDA);
 		}
 		
+		validarFormatoData(data);
+				
+	}
+	
+	/**
+	 * Método para verificar se a data está dentro do padrão dd/MM/yyyy
+	 * @param data Data a ser validada
+	 * @throws ProjetoCaronaException Lança exceção de a data informada não estivier no padrão dd/MM/yyyy
+	 */
+	public void validarFormatoData(String data) throws ProjetoCaronaException{
 		try { 
 			//conversão de string para data			
 			DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");			
@@ -39,7 +49,7 @@ public class ValidarCampos {
 		} catch (Exception e) {
 			logger.debug("validarData() Exceção: "+MensagensErro.DATA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.DATA_INVALIDA);
-		}		
+		}
 	}
 	
 	/**
@@ -53,6 +63,11 @@ public class ValidarCampos {
 			throw new ProjetoCaronaException(MensagensErro.HORA_INVALIDA);
 		}
 		
+		validarFormatoHora(hora);
+				
+	}
+	
+	public void validarFormatoHora(String hora) throws ProjetoCaronaException{
 		try { 
 			//conversão de string para data
 			DateFormat formato = new SimpleDateFormat("HH:mm");			
@@ -62,7 +77,7 @@ public class ValidarCampos {
 		} catch (Exception e) {
 			logger.debug("validarHora() Exceção: "+MensagensErro.HORA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.HORA_INVALIDA);
-		}		
+		}
 	}
 	
 	//TODO: Acrescentar metodo para validar email

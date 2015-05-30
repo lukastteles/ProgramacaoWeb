@@ -2,14 +2,18 @@ package com.br.uepb.business;
 
 import java.util.List;
 
+import javax.mail.Message;
+
 import org.apache.log4j.Logger;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.InteresseEmCaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.InteresseEmCaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
@@ -161,5 +165,60 @@ public class PerfilBusiness {
 		List<SolicitacaoVagaDomain> presencasEmCaronas = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesByReviewVaga(login, MensagensErro.NAO_FALTOU);		
 		return presencasEmCaronas;
 	}
+
+	public int cadastraInteresse(String idSessao, String origem, String destino, String data, String horaInicio, String horaFim) throws Exception {
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		
+		if (verificaCaracteres(origem) == false){
+			logger.debug("localizarCarona() Exceção: "+MensagensErro.ORIGEM_INVALIDA);
+			throw new ProjetoCaronaException(MensagensErro.ORIGEM_INVALIDA);
+		}
+
+		if (verificaCaracteres(destino) == false){
+			logger.debug("localizarCarona() Exceção: "+MensagensErro.DESTINO_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
+		}
+		
+		InteresseEmCaronaDomain interesse = new InteresseEmCaronaDomain(idSessao, origem, destino, data, horaInicio, horaFim);
+		return InteresseEmCaronaDAOImpl.getInstance().addIntereseEmCarona(interesse);
+		
+	}
 	
+	public String verificarMensagensPerfil(String idSessao) throws Exception {
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		
+		InteresseEmCaronaDomain inresseEmCaronas;
+		CaronaDomain carona;
+		UsuarioDomain usuario;
+		String mensagem = "";
+		
+		inresseEmCaronas = InteresseEmCaronaDAOImpl.getInstance().getInteresseEmCaronas(idSessao).get(0);
+		if(inresseEmCaronas == null){
+			return mensagem;
+		}
+		
+		carona = CaronaDAOImpl.getInstance().getCaronaByInteresse(inresseEmCaronas);
+		if(carona == null){
+			return mensagem;
+		}
+		
+		usuario = UsuarioDAOImpl.getInstance().getUsuario(carona.getIdSessao());
+		
+		mensagem = "Carona cadastrada no dia "+carona.getData()+", às "+carona.getHora()+" de acordo com os seus interesses registrados. Entrar em contato com "+usuario.getPerfil().getEmail();
+		return mensagem;
+	}
+	
+	private boolean verificaCaracteres(String valor){
+
+		String patternTexto = valor;
+		patternTexto = patternTexto.replaceAll("[-?!().]", "");
+
+		if (patternTexto.equals(valor)) {
+			return true; 
+		}
+		else {
+			return false;
+		}
+	}
+
 }

@@ -1,9 +1,14 @@
 package com.br.uepb.domain;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
@@ -54,9 +59,7 @@ public class PerfilDomain {
 		setEmail(email);
 	}
 	
-	private PerfilDomain(){
-		
-	}
+	private PerfilDomain() {}
 
 	/**
 	 * Método para retornar o id do Perfil do Usuário
@@ -113,5 +116,7 @@ public class PerfilDomain {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
+	
+	
 
 }
