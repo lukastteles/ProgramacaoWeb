@@ -69,4 +69,7 @@ public class MensagensErro {
 	//Carona Preferencial
 	public static final String USUARIO_NAO_PREFERENCIAL = "Usuário não está na lista preferencial da carona";
 	
+	//Envio de email
+	public static final String EMAIL_NAO_ENVIADO = "Problemas no envio do email. Email nao enviado";
+	
 }

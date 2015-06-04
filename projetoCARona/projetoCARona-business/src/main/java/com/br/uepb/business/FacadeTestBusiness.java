@@ -1,7 +1,5 @@
 package com.br.uepb.business;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import com.br.uepb.constants.MensagensErro;
@@ -15,6 +13,7 @@ import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
+import com.uepb.email.EmailPadrao;
 
 public class FacadeTestBusiness {
 	
@@ -375,9 +374,10 @@ public class FacadeTestBusiness {
 		return "["+mensagemPerfil+"]";
 	}
 		
-	//TODO: Criar o metodo enviarEmail
 	public boolean enviarEmail(String idSessao, String destino, String message){
-		
+		//Este metodo ira enviar um email
+		//EmailPadrao email = new EmailPadrao();
+		//return email.enviarEmail("CARona - AVISO", message, destino);
 		return true;
 	}
 	
