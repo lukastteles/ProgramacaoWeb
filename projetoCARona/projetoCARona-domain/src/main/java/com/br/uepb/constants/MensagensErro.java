@@ -66,4 +66,7 @@ public class MensagensErro {
 	//Indices
 	public static final String INDICE_INVALIDO = "Indice não encontrado";
 	
+	//Carona Preferencial
+	public static final String USUARIO_NAO_PREFERENCIAL = "Usuário não está na lista preferencial da carona";
+	
 }

@@ -1,6 +1,7 @@
 package com.br.uepb.business;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -126,6 +127,10 @@ public class SolicitacaoVagaBusiness {
 		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
+		if(carona.isPreferencial() == true && !isPreferencial(idSessao, carona)){
+			throw new ProjetoCaronaException(MensagensErro.USUARIO_NAO_PREFERENCIAL);
+		}
+		
 		//garantir que um usuario não pode solicitar vaga na sua própria carona
 		if (carona.getIdSessao().equals(sessao.getLogin())) {
 			logger.debug("solicitarVaga() Exceção: "+MensagensErro.CARONA_NAO_IDENTIFICADA);
@@ -148,6 +153,31 @@ public class SolicitacaoVagaBusiness {
 			int id = Integer.parseInt(solicitacaoVaga.getId());			
 			return id;
 		}		
+	}
+	
+	private boolean isPreferencial(String login, CaronaDomain carona) throws Exception{
+		//pega todas as caronas
+		List<CaronaDomain> caronas = CaronaDAOImpl.getInstance().getHistoricoDeCaronas(carona.getIdSessao());
+		
+		//remove a carona preferencial da lista de caronas
+		for (int i = 0; i < caronas.size(); i++) {
+			if(caronas.get(i).getID().equals(carona.getID())){
+				caronas.remove(i);
+			}
+		}
+		
+		//verifica os que avaliaram bem as outras caronas
+		for (CaronaDomain caronaDomain : caronas) {
+			List<SolicitacaoVagaDomain> vagasCarona = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(caronaDomain.getID());
+			for (SolicitacaoVagaDomain vaga : vagasCarona) {
+				if(vaga.getReviewCarona() != null){
+					if(vaga.getReviewCarona().equals("segura e tranquila") && vaga.getIdUsuario().equals(login)){
+						return true;
+					}
+				}
+			}
+		}			
+		return false;
 	}
 	
 	/**

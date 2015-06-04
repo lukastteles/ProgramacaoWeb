@@ -13,6 +13,7 @@ import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
+import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class FacadeTestBusiness {
@@ -199,6 +200,23 @@ public class FacadeTestBusiness {
 	
 	public void reviewCarona(String idSessao, String idCarona, String review) throws Exception{
 		solicitacaoVagaBusiness.reviewCarona(idSessao, idCarona, review);
+	}
+	
+	public void definirCaronaPreferencial(String idCarona) throws Exception{
+		caronaBusiness.definirdefinirCaronaPreferencial(idCarona);
+	}
+	
+	public boolean isCaronaPreferencial(String idCarona) throws Exception{
+		return caronaBusiness.isCaronaPreferencial(idCarona);
+	}
+	
+	public String getUsuariosPreferenciaisCarona(String idCarona) throws Exception{
+		List<UsuarioDomain> usuariosPreferenciais = caronaBusiness.getUsuariosPreferenciaisCarona(idCarona);
+		String[] historico = new String[usuariosPreferenciais.size()];
+		for (int i=0; i<historico.length; i++) {
+			historico[i] = usuariosPreferenciais.get(i).getLogin();
+		}
+		return trataLista(historico);
 	}
 	
 	////Metodos de controle da classe PontoDeEncontro

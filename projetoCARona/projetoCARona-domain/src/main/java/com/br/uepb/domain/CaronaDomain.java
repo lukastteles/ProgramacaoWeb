@@ -81,6 +81,11 @@ public class CaronaDomain {
 	/** Informar se a carona relampago foi expirada */
 	private boolean caronaRelampagoExpirada = false;
 	
+	/**
+	 * Diz se a carona é ou não preferencial
+	 */
+	private boolean preferencial = false;
+	
 	/** Lista de pontos de encontro da carona */
 	@OneToMany(mappedBy="idCarona", cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<PontoDeEncontroDomain> pontoDeEncontro = new ArrayList<PontoDeEncontroDomain>();
@@ -381,6 +386,14 @@ public class CaronaDomain {
 	 */
 	public void setCaronaRelampagoExpirada(boolean caronaRelampagoExpirada) {
 		this.caronaRelampagoExpirada = caronaRelampagoExpirada;
+	}
+
+	public boolean isPreferencial() {
+		return preferencial;
+	}
+
+	public void setPreferencial(boolean preferencial) {
+		this.preferencial = preferencial;
 	}
 
 	

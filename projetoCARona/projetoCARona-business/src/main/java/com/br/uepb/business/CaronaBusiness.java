@@ -1,5 +1,6 @@
 package com.br.uepb.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,8 +10,10 @@ import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
+import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
+import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 /**
@@ -417,6 +420,29 @@ public class CaronaBusiness {
 		return caronas.get(indexCarona-1).getID();
 	}
 	
+	/**
+	 * Define a carona como preferencial por 24h para todos os caroneiros que deram uma review positiva ao dono da carona
+	 * @param idCarona Id da carona
+	 * @throws Exception Lanca excecao se idCarona for vazio, a carona não existir ou problema com a consulta no banco de dados
+	 */
+	public void definirdefinirCaronaPreferencial(String idCarona) throws Exception {
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+		carona.setPreferencial(true);
+		CaronaDAOImpl.getInstance().atualizaCarona(carona);
+		
+	}
+	
+	/**
+	 * Método para verivicar se uma carona é preferencial
+	 * @param idCarona Id da carona
+	 * @return Retorna valor booleano indicando se é ou não preferencial
+	 * @throws Exception Exception Lanca excecao se idCarona for vazio, a carona não existir ou problema com a consulta no banco de dados
+	 */
+	public boolean isCaronaPreferencial(String idCarona) throws Exception {
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+		return carona.isPreferencial();
+	}
+	
 	//TODO: verificar este metodo
 	private boolean verificaCaracteres(String valor){
 
@@ -430,6 +456,42 @@ public class CaronaBusiness {
 			return false;
 		}		
 	}
-	
+
+	/**
+	 * Pega todos os usuário que avaliaram uma carona como "segura e tranquila"
+	 * @param idCarona Id da carona
+	 * @return Retorna todos os usuarios preferenciais
+	 * @throws Exception Lanca excecao se houver problema com a consulta no banco de dados
+	 */
+	public List<UsuarioDomain> getUsuariosPreferenciaisCarona(String idCarona) throws Exception {
+		List<UsuarioDomain> usuariosPreferenciais = new ArrayList<UsuarioDomain>();
+		//pega caronas preferencial
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+		String login = carona.getIdSessao();
+		
+		//pega todas as caronas
+		List<CaronaDomain> caronas = CaronaDAOImpl.getInstance().getHistoricoDeCaronas(login);
+		
+		//remove a carona preferencial da lista de caronas
+		for (int i = 0; i < caronas.size(); i++) {
+			if(caronas.get(i).getID().equals(carona.getID())){
+				caronas.remove(i);
+			}
+		}
+		
+		//verifica os que avaliaram bem as outras caronas
+		for (CaronaDomain caronaDomain : caronas) {
+			List<SolicitacaoVagaDomain> vagasCarona = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(caronaDomain.getID());
+			for (SolicitacaoVagaDomain vaga : vagasCarona) {
+				if(vaga.getReviewCarona() != null){
+					if(vaga.getReviewCarona().equals("segura e tranquila")){
+						usuariosPreferenciais.add(UsuarioDAOImpl.getInstance().getUsuario(vaga.getIdUsuario()));
+					}
+				}
+			}
+		}
+		
+		return usuariosPreferenciais;
+	}
 
 }
