@@ -68,6 +68,8 @@ public interface PontoDeEncontroDAO {
 	 */
 	public void atualizaPonto(PontoDeEncontroDomain ponto);
 
-
+	/**
+	 * Apaga todos os pontos de encontro da lista
+	 */
 	void apagaPontosEncontro();
 }

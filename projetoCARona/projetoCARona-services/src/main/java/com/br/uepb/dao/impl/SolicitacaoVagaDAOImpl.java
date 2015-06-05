@@ -30,7 +30,6 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	private Disjunction disjunction;
 	
 	public int idSolicitacao = 1;
-	//ArrayList<SolicitacaoVagaDomain> listaSolicitacaoVagas = new ArrayList<SolicitacaoVagaDomain>();
 	
 	private static SolicitacaoVagaDAOImpl solocitacaoVagaDAOImpl;
 	
@@ -45,7 +44,6 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	
 	@Override
 	public void addSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga) throws Exception {
-		//listaSolicitacaoVagas.add(solicitacaoVaga);
 		try{
 			session = sessionFactory.openSession();	
 			transaction = session.beginTransaction();
@@ -62,7 +60,6 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	@Override
 	public void deleteSolicitacaoVaga(String idSolicitacao) throws Exception{		
 		SolicitacaoVagaDomain solicitacaoVaga = getSolicitacaoVaga(idSolicitacao);
-		//listaSolicitacaoVagas.remove(solicitacaoVaga);
 		session = sessionFactory.openSession();	
 		transaction = session.beginTransaction();
 		session.delete(solicitacaoVaga);
@@ -71,13 +68,8 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	}
 	
 	@Override
-	public SolicitacaoVagaDomain getSolicitacaoVaga(String idSolicitacao) throws Exception {
-		/* for (SolicitacaoVagaDomain solicitacaoVagaDomain : listaSolicitacaoVagas) {
-			if (solicitacaoVagaDomain.getId().equals(idSolicitacao)) {
-				return solicitacaoVagaDomain;
-			}			
-		}*/		
-		SolicitacaoVagaDomain solicitacaoVagaDomain;// = new ArrayList<CaronaDomain>();
+	public SolicitacaoVagaDomain getSolicitacaoVaga(String idSolicitacao) throws Exception {	
+		SolicitacaoVagaDomain solicitacaoVagaDomain;
 		
 		try{
 			session = sessionFactory.openSession();
@@ -120,11 +112,6 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	@Override
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idCarona) throws Exception{
 		ArrayList<SolicitacaoVagaDomain> solicitacoesCarona = new ArrayList<SolicitacaoVagaDomain>();
-		/*for (SolicitacaoVagaDomain solicitacao : listaSolicitacaoVagas) {
-			if ((solicitacao.getIdCarona().equals(idCarona)) && (!solicitacao.getFoiAceita())) {
-				solicitacoesCarona.add(solicitacao);
-			}
-		}*/
 		
 		try{
 			session = sessionFactory.openSession();

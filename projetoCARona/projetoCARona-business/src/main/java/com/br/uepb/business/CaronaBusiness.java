@@ -499,7 +499,8 @@ public class CaronaBusiness {
 		return usuariosPreferenciais;
 	}
 	
-	public boolean verificaCaronaExpirada(String idCarona) throws Exception{		
+	//Verifica se uma carona relâmpago falta menos de 48h para a carona acontecer e tem o numero de vagas minímas preenchidas
+	private boolean verificaCaronaExpirada(String idCarona) throws Exception{		
 		List<SolicitacaoVagaDomain> listaSolicitacoes;
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		

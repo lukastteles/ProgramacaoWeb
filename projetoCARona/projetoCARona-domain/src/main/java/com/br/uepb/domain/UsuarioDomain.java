@@ -147,39 +147,5 @@ public class UsuarioDomain {
 		
 	}
 	
-	/**
-	 * Método para retornar a lista de caronas do usuário
-	 * @return Lista de caronas do usuário
-	 */
-	/*
-	public ArrayList<String> getCaronas() {
-		return idCaronas;
-	}*/
-	
-	/**
-	 * Método que adiciona um salva o id da carona do Usuário
-	 * @param id Id da carona
-	 */
-	/*
-	public void addCarona(String id){		
-		idCaronas.add(id);
-	}*/
-
-	/**
-	 * Método para retornar o id de uma carona do Usuario pelo index 
-	 * @param indexCarona Index da carona na lista de caronas
-	 * @return Id da carona
-	 * @throws Exception Lança exceção se o index informado for igual a zero ou maior que a quantidade de indices da lista
-	 */
-	/*
-	public String getIdCaronaByIndex(int indexCarona) throws Exception  {		
-		if ((indexCarona == 0) || (indexCarona > idCaronas.size())) {
-			logger.debug("getIdCaronaByIndex() Exceção: "+MensagensErro.INDICE_INVALIDO);
-			throw new ProjetoCaronaException(MensagensErro.INDICE_INVALIDO);
-		}
-		
-		return idCaronas.get(indexCarona-1);
-	}
-	*/
 }
 

@@ -15,9 +15,23 @@ import org.apache.log4j.Logger;
 
 import com.br.uepb.constants.MensagensErro;
 
+/**
+ * Classe para Email Padrao
+ * @author Luana Janaina / Lukas Teles
+ * @version 0.1
+ * @since 04/05/2015
+ */
+
 public class EmailPadrao {
 	final static Logger logger = Logger.getLogger(EmailPadrao.class);
 	
+	/**
+	 * Médoto para enviar email para um usuario sobre algum evento
+	 * @param assunto Titulo do email
+	 * @param textoEmail Mensagem do email
+	 * @param destinatarios emails de destino
+	 * @return Retorna true se o email foi enviado com sucesso
+	 */
 	public Boolean enviarEmail(String assunto, String textoEmail, String destinatarios){
 		final String remetente = "contato.projetocarona@gmail.com";
 		final String senha = "pr0j3t0c4r0n4";

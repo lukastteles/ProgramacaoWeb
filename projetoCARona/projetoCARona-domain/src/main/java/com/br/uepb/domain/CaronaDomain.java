@@ -30,7 +30,7 @@ public class CaronaDomain {
 
 	final static Logger logger = Logger.getLogger(CaronaDomain.class);
 	
-	/** Id da sessão */ //TODO: Deve ser gerado automaticamente
+	/** Id da sessão */
 	//@NotNull(message = "O ID da Sessao não pode ser null")
 	@JoinColumn(name="login")
 	@Column(nullable=false)
@@ -255,10 +255,19 @@ public class CaronaDomain {
 		this.destino = destino;
 	}
 	
+	/**
+	 * Método para retornar a cidade onde ocorrerá a carona (no caso de carona relampago)
+	 * @return Cidade da carona
+	 */
 	public String getCidade() {
 		return cidade;
 	}
 
+	/**
+	 * Método para informar a cidade da carona (no caso de carona relampago)
+	 * @param cidade Cidade onde a carona ocorrerá
+	 * @throws ProjetoCaronaException Lanca excecao caso a cidade informada for for null ou vazio
+	 */
 	private void setCidade(String cidade) throws ProjetoCaronaException {
 		if ( (cidade == null) || (cidade.trim().equals("")) ){
 			logger.debug("setDestino() Exceção: "+MensagensErro.CIDADE_INEXISTENTE);
@@ -401,18 +410,37 @@ public class CaronaDomain {
 		this.caronaRelampagoExpirada = caronaRelampagoExpirada;
 	}
 
+	/**
+	 * Verifica se a carona é preferencial
+	 * @return Retorna true se a carona for preferencial
+	 */
 	public boolean isPreferencial() {
 		return preferencial;
 	}
 
+	/**
+	 * Define se a carona será preferencial
+	 * @param preferencial true para tornar a carona preferencial
+	 */
 	public void setPreferencial(boolean preferencial) {
 		this.preferencial = preferencial;
 	}
 
+	/**
+	 * Metodo para informar o tipo da carona
+	 * Pode ser C=Carona Comum, M=Carona Municipal, e R=Carona Relampago
+	 * @return Retorna o tipo da carona
+	 */
 	public String getTipoCarona() {
 		return tipoCarona;
 	}
 
+	/**
+	 * Define o tipo da carona
+	 * Pode ser C=Carona Comum, M=Carona Municipal, e R=Carona Relampago
+	 * @param tipoCarona Tipo da carona
+	 * @throws Exception Lanca excecao se o tipo da carona for inválido
+	 */
 	public void setTipoCarona(String tipoCarona) throws Exception {
 		if ((!tipoCarona.equals("C")) && (!tipoCarona.equals("M")) && !tipoCarona.equals("R")) {
 			throw new Exception(MensagensErro.TIPO_CARONA_INVALIDO);

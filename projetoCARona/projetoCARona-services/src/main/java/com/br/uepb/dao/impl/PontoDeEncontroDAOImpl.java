@@ -44,7 +44,6 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 	
 	@Override
 	public void addPontoDeEncontro(PontoDeEncontroDomain ponto) throws Exception{
-		//pontoDeEncontro.add(ponto);
 		try{
 			session = sessionFactory.openSession();	
 			transaction = session.beginTransaction();
@@ -155,15 +154,6 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 		}
 	}
 	
-	@Override
-	public void apagaPontosEncontro(){
-		logger.debug("apagando lista de Pontos de Encontro");
-		session = sessionFactory.openSession();	
-		transaction = session.beginTransaction();
-		session.createQuery("delete from PontoDeEncontroDomain").executeUpdate();
-		transaction.commit();
-		session.close();
-	}
 
 
 	@Override
@@ -182,5 +172,15 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 
 		session.close();
 		
+	}
+	
+	@Override
+	public void apagaPontosEncontro(){
+		logger.debug("apagando lista de Pontos de Encontro");
+		session = sessionFactory.openSession();	
+		transaction = session.beginTransaction();
+		session.createQuery("delete from PontoDeEncontroDomain").executeUpdate();
+		transaction.commit();
+		session.close();
 	}
 }

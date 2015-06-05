@@ -41,10 +41,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		return usuarioDAOImpl;		
 	}
 	
-	///////////////////////
-	private UsuarioDAOImpl() {
-	}
-	//////////////////////
+	private UsuarioDAOImpl() {}
 	
 	@Override
 	public UsuarioDomain getUsuario(String login) throws Exception {
@@ -72,14 +69,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			logger.debug("getUsuario() Exceção: "+MensagensErro.USUARIO_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.USUARIO_INEXISTENTE);
 		}
-		
-//		for (UsuarioDomain usuario : listaUsuarios) {
-//			if(usuario.getLogin().equals(login)){
-//				return usuario;
-//			}
-//		}
-//		logger.debug("getUsuario() Exceção: "+MensagensErro.USUARIO_INEXISTENTE);
-//		throw new ProjetoCaronaException(MensagensErro.USUARIO_INEXISTENTE);
 	}
 
 	@Override
@@ -104,9 +93,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			System.out.println(e.getMessage());
 			throw e;
 		}
-		
-		//listaUsuarios.add(usuario);
-
 	}
 	
 	private boolean loginExiste(String login) throws Exception {
@@ -126,13 +112,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			return true;
 		}
 		return false;
-
-//		for (UsuarioDomain usuario : listaUsuarios) {
-//			if(usuario.getLogin().equals(login)){
-//				return true;
-//			}
-//		}
-//		return false;
 }
 	
 	private boolean emailExiste(String email) throws Exception {
@@ -152,13 +131,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			return true;
 		}
 		return false;
-		
-//		for (UsuarioDomain usuario : listaUsuarios) {
-//			if(usuario.getPerfil().getEmail().equals(email)){
-//				return true;
-//			}
-//		}
-//		return false;
 	}
 
 	@Override
@@ -190,6 +162,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		}
 	}
 	
+	@Override
 	public void apagaUsuarios(){
 		logger.debug("apagando lista de usuarios");
 		session = sessionFactory.openSession();	
@@ -198,8 +171,5 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		session.createQuery("delete from PerfilDomain").executeUpdate();
 		transaction.commit();
 		session.close();
-//		if (listaUsuarios.size() > 0) {
-//			listaUsuarios.removeAll(listaUsuarios);
-//		}
 	}
 }

@@ -109,6 +109,14 @@ public interface CaronaDAO {
 	 */
 	public void apagaCaronas();
 
+	/**
+	 * Retorna todas a caronas de um usuario
+	 * @param login Login do usuario
+	 * @return Lista de caronas do usuario
+	 * @throws Exception Lanca excecao se o login for invalido ou se houver problema de conexao com o banco
+	 */
+	List<CaronaDomain> getHistoricoDeCaronas(String login) throws Exception;
+
 
 
 }

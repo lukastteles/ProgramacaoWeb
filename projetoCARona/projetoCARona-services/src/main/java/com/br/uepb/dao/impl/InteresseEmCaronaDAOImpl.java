@@ -69,7 +69,7 @@ public class InteresseEmCaronaDAOImpl implements InteresseEmCaronaDAO{
 		}
 	}
 
-	
+	@Override
 	public void apagaInteresses() {
 		//logger.debug("apagando lista de interesse em carona");
 		session = sessionFactory.openSession();	

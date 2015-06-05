@@ -77,6 +77,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 		
 	}
 	
+	@Override
 	public void deleteSessao(String login) throws Exception{
 		SessaoDomain sessaoApagar = null;
 		for (SessaoDomain sessao : listaSessoes) {
@@ -95,6 +96,7 @@ public class SessaoDAOImpl implements SessaoDAO {
 		}
 	}
 	
+	@Override
 	public void apagaSessoes(){
 		logger.debug("apagando lista de sessões");
 		if (listaSessoes.size() > 0) {

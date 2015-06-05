@@ -166,6 +166,17 @@ public class PerfilBusiness {
 		return presencasEmCaronas;
 	}
 
+	/**
+	 * Cadastra o interesse em uma carona que tenha origem, destino e data especificados. O Usuario será notificado caso uma carona compativel apareca.
+	 * @param idSessao Id do Usuario
+	 * @param origem Origem para a carona de interesse
+	 * @param destino Destino para a carona de interesse
+	 * @param data Data para a carona de interesse
+	 * @param horaInicio Hora Inicio para a carona de interesse
+	 * @param horaFim Hora Fim para a carona de interesse
+	 * @return Retorna o id do cadastro de interesse
+	 * @throws Exception Lanca excecao se a origem ou o destgino forem invalidos ou se hover problema com a conexão com o banco
+	 */
 	public int cadastraInteresse(String idSessao, String origem, String destino, String data, String horaInicio, String horaFim) throws Exception {
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
@@ -184,6 +195,12 @@ public class PerfilBusiness {
 		
 	}
 	
+	/**
+	 * Verifica se há alguma mensagem referente ao interesse em caronas
+	 * @param idSessao Id do Usuario
+	 * @return Mensagem informando sobre caronas de interesse
+	 * @throws Exception Lanca excecao se hover problema com a conexão com o banco
+	 */
 	public String verificarMensagensPerfil(String idSessao) throws Exception {
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		

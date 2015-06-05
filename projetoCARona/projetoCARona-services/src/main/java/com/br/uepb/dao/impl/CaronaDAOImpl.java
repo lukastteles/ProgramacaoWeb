@@ -55,7 +55,6 @@ public class CaronaDAOImpl implements CaronaDAO{
 	
 	@Override
 	public void addCarona(CaronaDomain carona) throws Exception {
-		//listaCaronas.add(carona);
 		try{
 			session = sessionFactory.openSession();	
 			transaction = session.beginTransaction();
@@ -74,7 +73,6 @@ public class CaronaDAOImpl implements CaronaDAO{
 		try{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(CaronaDomain.class);
-			//criteria.addOrder(Property.forName("id").asc());
 			criteria.addOrder(Order.asc("id"));
 			caronas = (ArrayList<CaronaDomain>) criteria.list();
 			session.close();
@@ -82,18 +80,12 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
-		}
-		
-//		for (CaronaDomain carona : listaCaronas) {			
-//				caronas.add(carona);
-//		}
-				
-//		return caronas;					
+		}					
 	}
 
 	@Override
 	public List<CaronaDomain> listCaronas(String origem, String destino) throws Exception {
-		ArrayList<CaronaDomain> caronas;// = new ArrayList<CaronaDomain>();
+		ArrayList<CaronaDomain> caronas;
 		
 		try{
 			session = sessionFactory.openSession();
@@ -107,28 +99,17 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
-		}
-		
-		/*
-		for (CaronaDomain carona : listaCaronas) {
-			if ( (carona.getOrigem().equals(origem)) &&
-				 (carona.getDestino().equals(destino)) ) {
-				caronas.add(carona);
-			}
-		}			
-		return caronas;
-		*/					
+		}				
 	}
 	
 	@Override
 	public List<CaronaDomain> listCaronasByOrigem(String origem) throws Exception {
-		ArrayList<CaronaDomain> caronas;// = new ArrayList<CaronaDomain>();
+		ArrayList<CaronaDomain> caronas;
 		
 		try{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(CaronaDomain.class);
 			criteria.add(Restrictions.eq("origem", origem));
-			//criteria.addOrder(Property.forName("id").asc());
 			criteria.addOrder(Order.asc("id"));
 			caronas = (ArrayList<CaronaDomain>)criteria.list();
 			session.close();
@@ -136,21 +117,12 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
-		}
-		
-		/* for (CaronaDomain carona : listaCaronas) {
-			if (carona.getOrigem().equals(origem)) {
-				caronas.add(carona);
-			}
-		}
-				
-		return caronas;
-		*/	
+		}	
 	}
 
 	@Override
 	public List<CaronaDomain> listCaronasByDestino(String destino) throws Exception {
-		ArrayList<CaronaDomain> caronas; // = new ArrayList<CaronaDomain>();
+		ArrayList<CaronaDomain> caronas;
 
 		try{
 			session = sessionFactory.openSession();
@@ -164,20 +136,11 @@ public class CaronaDAOImpl implements CaronaDAO{
 			System.out.println(e.getMessage());
 			throw e;
 		}
-		
-		/* for (CaronaDomain carona : listaCaronas) {
-			if (carona.getDestino().equals(destino)) {
-				caronas.add(carona);
-			}
-		}
-				
-		return caronas;
-		*/	
 	}
 
 	@Override
 	public List<CaronaDomain> listCaronasMunicipais(String cidade, String origem, String destino) throws Exception {
-		ArrayList<CaronaDomain> caronas;// = new ArrayList<CaronaDomain>();
+		ArrayList<CaronaDomain> caronas;
 		
 		try{
 			session = sessionFactory.openSession();
@@ -197,7 +160,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 	
 	@Override
 	public List<CaronaDomain> listCaronasMunicipais(String cidade) throws Exception {
-		ArrayList<CaronaDomain> caronas;// = new ArrayList<CaronaDomain>();
+		ArrayList<CaronaDomain> caronas;
 		
 		try{
 			session = sessionFactory.openSession();
@@ -225,12 +188,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 			logger.debug("getCarona() Exceção: "+MensagensErro.CARONA_INEXISTENTE);
 			throw new ProjetoCaronaException(MensagensErro.CARONA_INEXISTENTE);
 		}
-		
-//		for (CaronaDomain carona : listaCaronas) {
-//			if (carona.getID().equals(idCarona)) {
-//				return carona;
-//			}
-//		
+	
 		CaronaDomain carona;
 		try{
 			session = sessionFactory.openSession();
@@ -252,7 +210,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}
 	}
 	
-	//colocar na interface
+	@Override
 	public List<CaronaDomain> getHistoricoDeCaronas(String login) throws Exception{
 		ArrayList<CaronaDomain> historicoCaronas;
 		
