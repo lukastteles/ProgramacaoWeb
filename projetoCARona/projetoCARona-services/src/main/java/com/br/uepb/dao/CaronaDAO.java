@@ -79,11 +79,6 @@ public interface CaronaDAO {
 	 * @param carona Carona a ser atualizada
 	 */
 	public void atualizaCarona(CaronaDomain carona);
-	
-	/**
-	 * Apaga todas as caronas da lista
-	 */
-	public void apagaCaronas();
 
 	/**
 	 * Pega as caronas municipais de uma cidade da lista
@@ -93,7 +88,27 @@ public interface CaronaDAO {
 	 */
 	public List<CaronaDomain> listCaronasMunicipais(String cidade) throws Exception;
 
+	/**
+	 * Retorna todas as caronas cadastradas de acordo com o requisito informado como parametro 
+	 * @param interesseEmCaronas Informacao referente aos tipos de caronas desejadas
+	 * @return carona desejada
+	 * @throws Exception
+	 */
+	public CaronaDomain getCaronaByInteresse(InteresseEmCaronaDomain interesseEmCaronas) throws Exception;
 
-	public CaronaDomain getCaronaByInteresse(InteresseEmCaronaDomain inresseEmCaronas) throws Exception;
+	/**
+	 * Retorna todas as caronas relampagos do usuario informado
+	 * @param login Login do usuario
+	 * @return Lista de caronas relampago
+	 * @throws Exception
+	 */
+	public List<CaronaDomain> getCaronasRelampago(String login) throws Exception;
+	
+	/**
+	 * Apaga todas as caronas da lista
+	 */
+	public void apagaCaronas();
+
+
 
 }

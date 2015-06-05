@@ -81,10 +81,11 @@ public class CaronaDomain {
 	/** Informar se a carona relampago foi expirada */
 	private boolean caronaRelampagoExpirada = false;
 	
-	/**
-	 * Diz se a carona é ou não preferencial
-	 */
+	/** Diz se a carona é ou não preferencial */
 	private boolean preferencial = false;
+	
+	/** Informa o tipo da carona. Pode ser C=Carona Comum, M=Carona Municipal, e R=Carona Relampago */
+	private String tipoCarona="C";
 	
 	/** Lista de pontos de encontro da carona */
 	@OneToMany(mappedBy="idCarona", cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.LAZY)
@@ -102,6 +103,7 @@ public class CaronaDomain {
 	 * @throws Exception Lança exceção caso algum dos campos informados esteja vazio, null ou inválido
 	 */
 	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String data, String hora, int vagas) throws Exception { 
+		setTipoCarona("C");
 		setID(idCarona);
 		setIdSessao(idSessao);
 		setOrigem(origem);
@@ -124,6 +126,7 @@ public class CaronaDomain {
 	 * @throws Exception Lança exceção caso algum dos campos informados esteja vazio, null ou inválido
 	 */
 	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String cidade, String data, String hora, int vagas) throws Exception { 
+		setTipoCarona("M");
 		setID(idCarona);
 		setIdSessao(idSessao);
 		setOrigem(origem);
@@ -131,7 +134,7 @@ public class CaronaDomain {
 		setCidade(cidade);
 		setData(data);
 		setHora(hora);
-		setVagas(vagas);
+		setVagas(vagas);		
 	}
 	
 	/**
@@ -148,6 +151,7 @@ public class CaronaDomain {
 	 * @throws Exception Lança exceção caso algum dos campos informados esteja vazio, null ou inválido
 	 */
 	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String dataIda, String dataVolta, int minimoCaroneiros, String hora) throws Exception { 
+		setTipoCarona("R");
 		setID(idCarona);
 		setIdSessao(idSessao);
 		setOrigem(origem);
@@ -157,9 +161,14 @@ public class CaronaDomain {
 		setMinimoCaroneiros(minimoCaroneiros);
 		setVagas(minimoCaroneiros);
 		setHora(hora);
+		
+		//Funcao para verificar se a dataInicial é menor que a dataFinal
+		ValidarCampos validar = new ValidarCampos();
+		validar.verificarDatas(dataIda, dataVolta);
 	}
 	
 	public CaronaDomain(){}
+	
 	/**
 	 * Método para retornar o id da sessão
 	 * @return idSessao
@@ -297,6 +306,10 @@ public class CaronaDomain {
 		ValidarCampos validar = new ValidarCampos();
 		validar.validarData(data);
 		
+		/*if (getTipoCarona().equals("R")){
+			validar.validarDataSistema(data);
+		}*/
+		
 		this.data = data;
 	}
 	
@@ -394,6 +407,18 @@ public class CaronaDomain {
 
 	public void setPreferencial(boolean preferencial) {
 		this.preferencial = preferencial;
+	}
+
+	public String getTipoCarona() {
+		return tipoCarona;
+	}
+
+	public void setTipoCarona(String tipoCarona) throws Exception {
+		if ((!tipoCarona.equals("C")) && (!tipoCarona.equals("M")) && !tipoCarona.equals("R")) {
+			throw new Exception(MensagensErro.TIPO_CARONA_INVALIDO);
+		}
+		
+		this.tipoCarona = tipoCarona;
 	}
 
 	

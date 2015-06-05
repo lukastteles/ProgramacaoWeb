@@ -15,6 +15,8 @@ import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
+import com.br.uepb.validator.ValidarCampos;
+import com.uepb.email.EmailPadrao;
 
 /**
  * Classe para as regras de negócio referentes à carona
@@ -196,7 +198,7 @@ public class CaronaBusiness {
 		
 		//adiciona a caronas na lista de caronas
 		String carona = ""+ CaronaDAOImpl.getInstance().idCarona;
-		logger.debug("criando carona municipal");
+		logger.debug("criando carona relampago");
 		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, dataIda, dataVolta, minimoCaroneiros, hora);
 		logger.debug("carona criada");
 		logger.debug("adicionando carona na lista");
@@ -247,10 +249,10 @@ public class CaronaBusiness {
 		}else if(atributo.equals("vagas")){
 			return ""+carona.getVagas();
 		}else if(atributo.equals("ehMunicipal")){			
-			if ((carona.getCidade() == null) || (carona.getCidade().trim().equals(""))) {
-				return "false";
-			} else { 
+			if (carona.getTipoCarona().equals("M")) {
 				return "true";
+			} else { 
+				return "false";
 			}
 		}else {
 			logger.debug("getAtributoCarona() Exceção: "+MensagensErro.ATRIBUTO_INEXISTENTE);
@@ -382,6 +384,9 @@ public class CaronaBusiness {
 	
 	public String setCaronaRelampagoExpired(String idCarona) throws Exception{
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+		
+		//verificaCaronaExpirada(idCarona);
+		
 		carona.setCaronaRelampagoExpirada(true);		
 		//atualiza a carona 
 		CaronaDAOImpl.getInstance().atualizaCarona(carona);
@@ -493,5 +498,34 @@ public class CaronaBusiness {
 		
 		return usuariosPreferenciais;
 	}
+	
+	public boolean verificaCaronaExpirada(String idCarona) throws Exception{		
+		List<SolicitacaoVagaDomain> listaSolicitacoes;
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+		
+		EmailPadrao email = new EmailPadrao();
+		ValidarCampos validar = new ValidarCampos();
+				
+		if ( (carona.getVagas() > 0) && (!validar.isDataIniValida(carona.getData())) ) {
+			//Lista todos os caroneiros
+			listaSolicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(carona.getID());
+				
+			String destinatarios= "";
+			for (SolicitacaoVagaDomain solicitacao : listaSolicitacoes) {
+				destinatarios = destinatarios + UsuarioDAOImpl.getInstance().getPerfil(solicitacao.getIdUsuario()).getEmail() +", ";				
+			}
 
+			//tratamento para retirar a última ", "
+			if (destinatarios.length() > 1) {
+				destinatarios = destinatarios.substring (0, destinatarios.length() - 1);
+			}
+				
+			//Este metodo ira enviar um email para todos os caroneiros
+			email.enviarEmail("CARona - AVISO", MensagensErro.CARONA_REJEITADA, destinatarios);
+			
+			return false;
+		}
+		
+		return true;
+	}
 }

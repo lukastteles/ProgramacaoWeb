@@ -19,7 +19,9 @@ public class MensagensErro {
 	public static final String MINIMO_CARONEIROS_INVALIDO = "Minimo Caroneiros inválido";
 	
 	public static final String IDENTIFICADOR_NAO_INFORMADO = "Identificador da carona não informado";
+	public static final String TIPO_CARONA_INVALIDO = "Tipo da carona inválido";
 	public static final String CARONA_NAO_IDENTIFICADA ="Carona não identificada para o usuário informado";
+	public static final String CARONA_REJEITADA ="A carona foi rejeitada por falta de vaga";
 	
 	public static final String CARONA_INEXISTENTE = "Carona Inexistente";	
 	public static final String ITEM_INEXISTENTE = "Item inexistente";

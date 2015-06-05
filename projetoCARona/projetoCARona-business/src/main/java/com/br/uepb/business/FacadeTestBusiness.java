@@ -376,9 +376,8 @@ public class FacadeTestBusiness {
 		
 	public boolean enviarEmail(String idSessao, String destino, String message){
 		//Este metodo ira enviar um email
-		//EmailPadrao email = new EmailPadrao();
-		//return email.enviarEmail("CARona - AVISO", message, destino);
-		return true;
+		EmailPadrao email = new EmailPadrao();
+		return email.enviarEmail("CARona - AVISO", message, destino);
 	}
 	
 	//Metodos de controle da classe Sistema

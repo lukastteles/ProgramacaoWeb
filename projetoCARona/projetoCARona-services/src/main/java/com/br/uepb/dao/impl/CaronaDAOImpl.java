@@ -286,15 +286,15 @@ public class CaronaDAOImpl implements CaronaDAO{
 	}
 	
 	@Override
-	public CaronaDomain getCaronaByInteresse(InteresseEmCaronaDomain inresseEmCaronas) throws Exception {
+	public CaronaDomain getCaronaByInteresse(InteresseEmCaronaDomain interesseEmCaronas) throws Exception {
 		List<CaronaDomain> carona;
 		try{
 			session = sessionFactory.openSession();
 			criteria = session.createCriteria(CaronaDomain.class);
-			criteria.add(Restrictions.eq("origem", inresseEmCaronas.getOrigem()));
-			criteria.add(Restrictions.eq("destino", inresseEmCaronas.getDestino()));
-			if(!inresseEmCaronas.getData().trim().equals("")){
-				criteria.add(Restrictions.eq("data", inresseEmCaronas.getData()));
+			criteria.add(Restrictions.eq("origem", interesseEmCaronas.getOrigem()));
+			criteria.add(Restrictions.eq("destino", interesseEmCaronas.getDestino()));
+			if(!interesseEmCaronas.getData().trim().equals("")){
+				criteria.add(Restrictions.eq("data", interesseEmCaronas.getData()));
 			}
 			//criteria.add(Restrictions.between("data", inresseEmCaronas.getHoraInicio(), inresseEmCaronas.getHoraFim()));
 			carona = (ArrayList<CaronaDomain>) criteria.list();
@@ -309,6 +309,24 @@ public class CaronaDAOImpl implements CaronaDAO{
 		}
 		return null;
 	}
+	
+	@Override
+	public List<CaronaDomain> getCaronasRelampago(String login) throws Exception {
+		List<CaronaDomain> caronas;
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(CaronaDomain.class);
+			criteria.add(Restrictions.eq("tipoCarona", "R"));
+			criteria.add(Restrictions.eq("idSessao", "login"));
+			caronas = (ArrayList<CaronaDomain>) criteria.list();
+			session.close();
+			return caronas;
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+	
 	
 	@Override
 	public void apagaCaronas(){
