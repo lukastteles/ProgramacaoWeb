@@ -155,6 +155,13 @@ public class SolicitacaoVagaBusiness {
 		}		
 	}
 	
+	/**
+	 * Metodo para verificar se determinado usuario esta classificado como preferencial para a carona informada
+	 * @param login Login do usuario
+	 * @param carona Carona
+	 * @return Retorna true se o usuario tiver classificado a carona como "segura e tranquila" ou false caso contrario
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se o usuario nao pertencer a carona
+	 */
 	private boolean isPreferencial(String login, CaronaDomain carona) throws Exception{
 		//pega todas as caronas
 		List<CaronaDomain> caronas = CaronaDAOImpl.getInstance().getHistoricoDeCaronas(carona.getIdSessao());
@@ -207,7 +214,6 @@ public class SolicitacaoVagaBusiness {
 			throw new ProjetoCaronaException(MensagensErro.VAGAS_OCUPADAS);
 		}
 		else {
-			//TODO: criar metodo para sugerir ponto encontro
 			//Cria a solicitacao da vaga e adiciona na carona
 			logger.debug("Criando ponto "+ponto);
 			PontoDeEncontroDomain pontoEncontro;

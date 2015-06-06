@@ -15,7 +15,6 @@ import com.br.uepb.domain.InteresseEmCaronaDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
-import com.br.uepb.validator.ValidarCampos;
 
 /**
  * Classe para as regras de negócio referentes ao perfil
@@ -177,23 +176,9 @@ public class PerfilBusiness {
 	 * @throws Exception Lanca excecao se a origem ou o destgino forem invalidos ou se hover problema com a conexão com o banco
 	 */
 	public int cadastraInteresse(String idSessao, String origem, String destino, String data, String horaInicio, String horaFim) throws Exception {
-		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		/*
-		ValidarCampos validar = new ValidarCampos();
-		if (validar.verificaCaracteres(origem) == false){
-			logger.debug("localizarCarona() Exceção: "+MensagensErro.ORIGEM_INVALIDA);
-			throw new ProjetoCaronaException(MensagensErro.ORIGEM_INVALIDA);
-		}
-
-		if (validar.verificaCaracteres(destino) == false){
-			logger.debug("localizarCarona() Exceção: "+MensagensErro.DESTINO_INVALIDO);
-			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
-		}
-		*/
-		
+		SessaoDAOImpl.getInstance().getSessao(idSessao);				
 		InteresseEmCaronaDomain interesse = new InteresseEmCaronaDomain(idSessao, origem, destino, data, horaInicio, horaFim);
-		return InteresseEmCaronaDAOImpl.getInstance().addIntereseEmCarona(interesse);
-		
+		return InteresseEmCaronaDAOImpl.getInstance().addIntereseEmCarona(interesse);		
 	}
 	
 	/**

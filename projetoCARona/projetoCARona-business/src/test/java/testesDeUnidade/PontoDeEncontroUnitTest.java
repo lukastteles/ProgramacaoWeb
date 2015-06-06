@@ -13,7 +13,10 @@ import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.InteresseEmCaronaDAOImpl;
+import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
+import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -36,10 +39,13 @@ public class PontoDeEncontroUnitTest {
 		caronaBusiness = new CaronaBusiness();
 		pontoEncontroBusiness = new  PontoDeEncontroBusiness();
 		
-		//limpa os dados antes de iniciar		
-		CaronaDAOImpl.getInstance().apagaCaronas();
+		//limpa os dados antes de iniciar
+		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
+		PontoDeEncontroDAOImpl.getInstance().apagaPontosEncontro();
+		CaronaDAOImpl.getInstance().apagaCaronas();		
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
-		SessaoDAOImpl.getInstance().apagaSessoes();		
+		SessaoDAOImpl.getInstance().apagaSessoes();
+		InteresseEmCaronaDAOImpl.getInstance().apagaInteresses();
 		
 		//cria usuario e acessa a sessao
 		try {

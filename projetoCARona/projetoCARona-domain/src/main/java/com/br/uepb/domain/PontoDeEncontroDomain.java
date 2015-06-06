@@ -54,6 +54,7 @@ public class PontoDeEncontroDomain {
 		setPontoDeEncontro(pontoDeEncontro);
 	}
 	
+	/** Método construtor de PontoDeEncontroDomain */
 	public PontoDeEncontroDomain(){}
 	
 	/**

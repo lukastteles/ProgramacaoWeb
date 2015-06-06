@@ -138,7 +138,7 @@ public class CaronaDomain {
 	}
 	
 	/**
-	 * Método construtor de CaronaDomain para o caso de carona relampago
+	 * Metodo construtor de CaronaDomain para o caso de carona relampago
 	 * @param idSessao Armazena o login do usuário
 	 * @param idCarona Id da carona
 	 * @param origem Local de origem da carona
@@ -167,6 +167,7 @@ public class CaronaDomain {
 		validar.verificarDatas(dataIda, dataVolta);
 	}
 	
+	/** Método construtor vazio de CaronaDomain */
 	public CaronaDomain(){}
 	
 	/**

@@ -19,8 +19,7 @@ import org.apache.log4j.Logger;
 public class PerfilDomain {
 	
 	final static Logger logger = Logger.getLogger(PerfilDomain.class);
-	
-	//TODO: variavel adicionada	
+		
 	@Id
 	@GeneratedValue
 	/** Id do Perfil do usuário */

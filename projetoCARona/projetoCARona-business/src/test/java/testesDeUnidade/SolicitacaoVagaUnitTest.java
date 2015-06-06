@@ -17,6 +17,8 @@ import com.br.uepb.business.SolicitacaoVagaBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.InteresseEmCaronaDAOImpl;
+import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
@@ -45,11 +47,13 @@ public class SolicitacaoVagaUnitTest {
 		solicitacaoBusiness = new SolicitacaoVagaBusiness();
 		pontoEncontro = new PontoDeEncontroBusiness();
 		
-		//limpa os dados antes de iniciar qualquer teste	
-		CaronaDAOImpl.getInstance().apagaCaronas();
-		UsuarioDAOImpl.getInstance().apagaUsuarios();
-		SessaoDAOImpl.getInstance().apagaSessoes();		
+		//limpa os dados antes de iniciar
 		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
+		PontoDeEncontroDAOImpl.getInstance().apagaPontosEncontro();
+		CaronaDAOImpl.getInstance().apagaCaronas();		
+		UsuarioDAOImpl.getInstance().apagaUsuarios();
+		SessaoDAOImpl.getInstance().apagaSessoes();
+		InteresseEmCaronaDAOImpl.getInstance().apagaInteresses();
 
 		try {
 			//cria os usuarios
@@ -108,7 +112,7 @@ public class SolicitacaoVagaUnitTest {
 			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao1+"");
 			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao2+"");
 			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao3+"");
-			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao4+"");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao4+"");			
 			
 			//tenta solicitar a carona que já está completa
 			sessaoBusiness.encerrarSessao("Mark");			
@@ -116,6 +120,22 @@ public class SolicitacaoVagaUnitTest {
 			solicitacaoBusiness.solicitarVaga("Teles", idCarona);
 		} catch (ProjetoCaronaException projetoCaronaErro) {
 			assertEquals(MensagensErro.VAGAS_OCUPADAS, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//Verificar se um usuario nao preferencial consegue solicitar uma carona preferencial
+		try {
+			//definir carona como preferencial
+			caronaBusiness.definirCaronaPreferencial(idCarona);
+			
+			//testar se o usuario consegue solicitar alguma vaga em uma carona que ele não tem preferencia
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			solicitacaoBusiness.solicitarVaga("Teles", idCarona);
+			sessaoBusiness.encerrarSessao("Teles");
+			
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.USUARIO_NAO_PREFERENCIAL, projetoCaronaErro.getMessage());
 		} catch (Exception e) {
 			fail();
 		}
@@ -198,7 +218,7 @@ public class SolicitacaoVagaUnitTest {
 		}	
 		
 
-		//tentar solicitar vaga com novo ponto 
+		//tentar solicitar vaga com novo ponto - deve criar o novo ponto de encontro 
 		try {
 			sessaoBusiness.abrirSessao("Teles", "Teles");
 			solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Aeroporto");	
@@ -434,6 +454,13 @@ public class SolicitacaoVagaUnitTest {
 		try {			
 			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
 		} catch (Exception e) {
+			fail();
+		}
+		
+		//saber a quantidade de usuarios da carona
+		try{
+			assertEquals(1, caronaBusiness.getUsuariosByCarona(idCarona).length);
+		}catch(Exception e){
 			fail();
 		}
 		
@@ -1226,6 +1253,391 @@ public class SolicitacaoVagaUnitTest {
 			fail();
 		}
 		
-	}	
+	}
+	
+	@Test
+	public void testeReviewVagaEmCaronaSessaoInvalida(){
+		//Preparar o ambiente para os testes
+		try {
+			//Teles solicita uma vaga na carona
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			//Mark aceita a solicitacao de teles
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
+			
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//reviewVagaEmCarona - sessao vazia
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona("", idCarona, "Teles", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewVagaEmCarona - sessao null
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona(null, idCarona, "Teles", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewVagaEmCarona - sessao inexistente
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona("sessao", idCarona, "Teles", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}		
+				
+		//reviewVagaEmCarona - usuario que nao é o dono da carona
+		try {					
+			usuarioBusiness.criarUsuario("Luana", "luana", "luana", "rua", "luana@email.com");
+			sessaoBusiness.abrirSessao("Luana", "luana");
+			solicitacaoBusiness.reviewVagaEmCarona("Luana", idCarona, "Teles", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SOLICITACAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testeReviewVagaEmCarona_CaronaInvalida(){
+		//Preparar o ambiente para os testes
+		try {
+			//Teles solicita uma vaga na carona
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			//Mark aceita a solicitacao de teles
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
+			
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//reviewVagaEmCarona - carona vazia
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona("Mark", "", "Teles", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.CARONA_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewVagaEmCarona - carona null
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona("Mark", null, "Teles", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.CARONA_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewVagaEmCarona - carona inexistente
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona("Mark", "id", "Teles", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.CARONA_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}		
+	}
+
+	@Test
+	public void testeReviewVagaEmCarona_UsuarioInvalido(){
+		//Preparar o ambiente para os testes
+		try {
+			//Teles solicita uma vaga na carona
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			//Mark aceita a solicitacao de teles
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
+			
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//reviewVagaEmCarona - usuario vazio
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona("Mark", idCarona, "", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.LOGIN_INVALIDO, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewVagaEmCarona - usuario null
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona("Mark", idCarona, null, MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.LOGIN_INVALIDO, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewVagaEmCarona - usuario inexistente
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona("Mark", idCarona, "Usuario", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.USUARIO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}		
+		
+		//reviewVagaEmCarona - usuario existe mas nao pertence a carona
+		try {					
+			usuarioBusiness.criarUsuario("luana", "luana", "luana", "rua", "luana@email.com");
+			solicitacaoBusiness.reviewVagaEmCarona("Mark", idCarona, "luana", MensagensErro.FALTOU);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.USUARIO_SEM_VAGA_NA_CARONA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}					
+	}
+	
+	@Test
+	public void testeReviewVagaEmCarona(){
+		//Preparar o ambiente para os testes
+		try {
+			//Teles solicita uma vaga na carona
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			//Mark aceita a solicitacao de teles
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
+			
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//reviewVagaEmCarona - opcao de review invalida
+		try {								
+			solicitacaoBusiness.reviewVagaEmCarona("Mark", idCarona, "Teles", "nao gostei do usuario");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.OPCAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+				
+		//reviewVagaEmCarona - caso normal
+		try {					
+			solicitacaoBusiness.reviewVagaEmCarona("Mark", idCarona, "Teles", MensagensErro.FALTOU);
+		} catch (Exception e) {
+			fail();
+		}	
+	}
+	
+	@Test
+	public void testReviewCarona(){
+		//Preparar o ambiente para os testes
+		try {
+			//Teles solicita uma vaga na carona
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");			
+			
+			//Mark aceita a solicitacao de teles
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
+			
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//reviewCarona - opcao de review invalida
+		try {								
+			solicitacaoBusiness.reviewCarona("Teles", idCarona, "Nao gostei do motorista");
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.OPCAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+						
+		//reviewCarona - caso normal
+		try {					
+			solicitacaoBusiness.reviewCarona("Teles", idCarona, MensagensErro.SEGURA_TRANQUILA);
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testReviewCarona_usuarioInvalido(){
+		//Preparar o ambiente para os testes
+		try {
+			//Teles solicita uma vaga na carona
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			sessaoBusiness.encerrarSessao("Teles");
+			
+			//Mark aceita a solicitacao de teles
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
+			
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//reviewCarona - sessao vazia
+		try {								
+			solicitacaoBusiness.reviewCarona("", idCarona, MensagensErro.SEGURA_TRANQUILA);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewCarona - sessao null
+		try {								
+			solicitacaoBusiness.reviewCarona(null, idCarona, MensagensErro.SEGURA_TRANQUILA);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//reviewCarona - sessao invalida
+		try {								
+			solicitacaoBusiness.reviewCarona("sessao", idCarona, MensagensErro.SEGURA_TRANQUILA);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewCarona - usuario nao pertence a carona 
+		try {								
+			usuarioBusiness.criarUsuario("luana", "luana", "luana", "rua", "luana@email.com");
+			sessaoBusiness.abrirSessao("luana", "luana");
+			solicitacaoBusiness.reviewCarona("luana", idCarona, MensagensErro.SEGURA_TRANQUILA);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.USUARIO_SEM_VAGA_NA_CARONA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testReviewCarona_caronaInvalido(){
+		//Preparar o ambiente para os testes
+		try {
+			//Teles solicita uma vaga na carona
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			
+			//Mark aceita a solicitacao de teles
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao+"");
+			
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewCarona - carona vazia
+		try {								
+			solicitacaoBusiness.reviewCarona("Teles", "", MensagensErro.SEGURA_TRANQUILA);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.CARONA_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//reviewCarona - carona null
+		try {								
+			solicitacaoBusiness.reviewCarona("Teles", null, MensagensErro.SEGURA_TRANQUILA);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.CARONA_INVALIDA, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+				
+		//reviewCarona - carona invalida
+		try {								
+			solicitacaoBusiness.reviewCarona("Teles", "carona", MensagensErro.SEGURA_TRANQUILA);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.CARONA_INEXISTENTE, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}				
+	}
+	
+	@Test
+	public void testaSolicitacoesVagaCarona(){
+		//Preparar o ambiente para os testes
+		String idCarona2 = "";
+		try {
+			//Criar 3 usuarios 1 - dono da carona e 2 - passageiros
+			usuarioBusiness.criarUsuario("luana", "luana", "luana", "rua", "luana@email.com");
+			
+			//Teles solicita uma vaga na carona
+			sessaoBusiness.abrirSessao("Teles", "Teles");
+			int idSolicitacao1 = solicitacaoBusiness.solicitarVagaPontoEncontro("Teles", idCarona, "Açude Velho");
+			
+			//Luana solicita uma vaga na carona
+			sessaoBusiness.abrirSessao("luana", "luana");
+			int idSolicitacao2 = solicitacaoBusiness.solicitarVagaPontoEncontro("luana", idCarona, "Açude Velho");
+			
+			//Mark aceita a solicitacao de teles e de luana
+			sessaoBusiness.abrirSessao("Mark", "Mark");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao1+"");
+			solicitacaoBusiness.aceitarSolicitacao("Mark", idSolicitacao2+"");
+			
+			//luana avalia a carona como segura e tranquila
+			solicitacaoBusiness.reviewCarona("luana", idCarona, MensagensErro.SEGURA_TRANQUILA);
+
+			//Teles avalia a carona como nao funcionou
+			solicitacaoBusiness.reviewCarona("Teles", idCarona, MensagensErro.NAO_FUNCIONOU);
+			
+			//Mark cadastra outra carona e define a carona como preferencial
+			idCarona2 = caronaBusiness.cadastrarCarona("Mark", "Campina Grande", "Araruna", "31/05/2015", "16:00", 2);
+			caronaBusiness.definirCaronaPreferencial(idCarona2);
+		} catch (Exception e) {
+			fail();
+		}
+
+		//Procurar quantos os usuarios marcaram a carona como segura e tranquila
+		//apenas Luana marcou a carona como segura e tranquila
+		try {
+			assertEquals(1, caronaBusiness.getUsuariosPreferenciaisCarona(idCarona2).size());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//Teles tenta solicita vaga na carona2, mas nao é permitido pois a carona esta como preferencial
+		//e ele não avaliou a carona como segura e tranquila
+		try {							
+			solicitacaoBusiness.solicitarVaga("Teles", idCarona2);
+		} catch (ProjetoCaronaException projetoCaronaErro) {
+			assertEquals(MensagensErro.USUARIO_NAO_PREFERENCIAL, projetoCaronaErro.getMessage());
+		} catch (Exception e) {
+			fail();
+		}	
+		
+		//Luana tenta solicita vaga na carona2
+		try {							
+			solicitacaoBusiness.solicitarVaga("luana", idCarona2);
+		} catch (Exception e) {
+			fail();
+		}	
+		
+	}
 
 }

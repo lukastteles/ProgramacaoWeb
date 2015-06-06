@@ -148,9 +148,9 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 		}
 		
 		if(pontoDeEncontro != null){
-			return false;
-		}else{				
 			return true;
+		}else{				
+			return false;
 		}
 	}
 	

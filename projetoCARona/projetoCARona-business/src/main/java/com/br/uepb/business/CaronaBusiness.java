@@ -19,7 +19,7 @@ import com.br.uepb.validator.ValidarCampos;
 import com.uepb.email.EmailPadrao;
 
 /**
- * Classe para as regras de negócio referentes à carona
+ * Classe para as regras de negocio referentes a carona
  * @author Luana Janaina / Lukas Teles
  * @version 0.1
  * @since 20/04/2015
@@ -30,16 +30,16 @@ public class CaronaBusiness {
 	final static Logger logger = Logger.getLogger(CaronaBusiness.class);
 	
 	/**
-	 * Método para localizar todas as caronas informadas de uma determinada origem para um destino
+	 * Metodo para localizar todas as caronas informadas de uma determinada origem para um destino
 	 * Observações:
-	 * - Se o parâmetro origem não for informado, irá localizar todas as caronas pertencentes ao destino informado
-	 * - Se o parâmetro destino não for informado, irá localizar todas as caronas pertencentes a origem informada
-	 * - Se não for informado nem origem nem destino da carona, irá localizar todas as caronas, sem exceção
-	 * @param idSessao Id da sessão atual
+	 * - Se o parametro origem ira for informado, ira localizar todas as caronas pertencentes ao destino informado
+	 * - Se o parametro destino ira for informado, ira localizar todas as caronas pertencentes a origem informada
+	 * - Se ira for informado nem origem nem destino da carona, ira localizar todas as caronas, sem excecao
+	 * @param idSessao Id da sessao atual
 	 * @param origem Local de origem da carona
 	 * @param destino Local de destino da carona
 	 * @return Lista das caronas localizadas
-	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida
+	 * @throws Exception Lança exceção se qualquer parametro informado for null ou vazio ou se a sessao for invalida
 	 */
 	public List<CaronaDomain> localizarCarona(String idSessao, String origem, String destino) throws Exception{
 		logger.debug("localizando carona para origem: "+origem+" e destino: "+destino);
@@ -76,17 +76,17 @@ public class CaronaBusiness {
 	}
 	
 	/**
-	 * Método para localizar todas as caronas informadas de uma determinada origem para um destino
+	 * Metodo para localizar todas as caronas informadas de uma determinada origem para um destino
 	 * Observações:
-	 * - Se o parâmetro origem não for informado, irá localizar todas as caronas pertencentes ao destino informado
-	 * - Se o parâmetro destino não for informado, irá localizar todas as caronas pertencentes a origem informada
-	 * - Se não for informado nem origem nem destino da carona, irá localizar todas as caronas, sem exceção
+	 * - Se o parametro origem ira for informado, ira localizar todas as caronas pertencentes ao destino informado
+	 * - Se o parametro destino ira for informado, ira localizar todas as caronas pertencentes a origem informada
+	 * - Se ira for informado nem origem nem destino da carona, ira localizar todas as caronas, sem excecao
 	 * @param idSessao Id da sessão atual
 	 * @param cidade Cidade onde acontecera a carona municipal
 	 * @param origem Local de origem da carona
 	 * @param destino Local de destino da carona
 	 * @return Lista das caronas localizadas
-	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida
+	 * @throws Exception Lança excecao se qualquer parametro informado for null ou vazio ou se a sessao for invalida
 	 */
 	public List<CaronaDomain> localizarCaronaMunicipal(String idSessao, String cidade, String origem, String destino) throws Exception{
 		logger.debug("localizando carona para origem: "+origem+" e destino: "+destino);
@@ -116,15 +116,15 @@ public class CaronaBusiness {
 		return caronas;
 	}
 	/**
-	 * Método para cadatrar a carona que um usuário está oferecendo
+	 * Metodo para cadatrar a carona que um usuario esta oferecendo
 	 * @param idSessao Id da sessão atual
 	 * @param origem Local de origem da carona
 	 * @param destino Local de destino da carona
-	 * @param data Data de saída da carona
+	 * @param data Data de saida da carona
 	 * @param hora Hora de partida da carona
-	 * @param vagas Quantidade de vagas disponíveis na carona
+	 * @param vagas Quantidade de vagas disponiveis na carona
 	 * @return Id da carona dacastrada
-	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida
+	 * @throws Exception Lança excecao se qualquer parametro informado for null ou vazio ou se a sessao for invalida
 	 */
 	public String cadastrarCarona(String idSessao, String origem, String destino, String data, String hora, int vagas) throws Exception{		
 		logger.debug("cadastrando carona");
@@ -150,16 +150,16 @@ public class CaronaBusiness {
 	}
 	
 	/**
-	 * Método para cadatrar a carona na mesma cidade
+	 * Metodo para cadatrar a carona na mesma cidade
 	 * @param idSessao Id da sessão atual
 	 * @param origem Local de origem da carona
 	 * @param destino Local de destino da carona
-	 * @param cidade Nome da cidade onde a carona será realizada
-	 * @param data Data de saída da carona
+	 * @param cidade Nome da cidade onde a carona sera realizada
+	 * @param data Data de saida da carona
 	 * @param hora Hora de partida da carona
-	 * @param vagas Quantidade de vagas disponíveis na carona
+	 * @param vagas Quantidade de vagas disponiveis na carona
 	 * @return Id da carona cadastrada
-	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida 
+	 * @throws Exception Lança exceção se qualquer parametro informado for null ou vazio ou se a sessao for invalida 
 	 */
 	public String cadastrarCaronaMunicipal(String idSessao, String origem, String destino, String cidade, String data, String hora, int vagas) throws Exception{
 		logger.debug("cadastrando carona");
@@ -180,7 +180,7 @@ public class CaronaBusiness {
 	}
 	
 	/**
-	 * Método para cadatrar uma carona relampago
+	 * Metodo para cadatrar uma carona relampago
 	 * @param idSessao Id da sessão atual
 	 * @param origem Local de origem da carona
 	 * @param destino Local de destino da carona 
@@ -189,7 +189,7 @@ public class CaronaBusiness {
 	 * @param minimoCaroneiros Quantidade minima de caroneiros
 	 * @param hora Hora de partida da carona
 	 * @return Id da carona cadastrada
-	 * @throws Exception Lança exceção se qualquer parâmetro informado for null ou vazio ou se a sessao for inválida 
+	 * @throws Exception Lança exceção se qualquer parametro informado for null ou vazio ou se a sessao for invalida 
 	 */
 	public String cadastrarCaronaRelampago(String idSessao, String origem, String destino, String dataIda, String dataVolta, int minimoCaroneiros, String hora) throws Exception{
 		logger.debug("cadastrando carona");
@@ -210,11 +210,11 @@ public class CaronaBusiness {
 	}
 	
 	/**
-	 * Método para retornar os dados da carona
+	 * Metodo para retornar os dados da carona
 	 * @param idCarona Id da carona
 	 * @param atributo Tipo de dado da carona a ser retornado 
 	 * @return Dado da carona
-	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou se a carona e/ou atributo for inexistente
+	 * @throws Exception Lança exceção se qualquer parametro informado for null, vazio ou se a carona e/ou atributo for inexistente
 	 */
 	public String getAtributoCarona(String idCarona, String atributo) throws Exception{
 		logger.debug("buscando atributo da carona");
@@ -262,11 +262,11 @@ public class CaronaBusiness {
 	}
 	
 	/**
-	 * Método para retornar os dados da carona relampago
+	 * Metodo para retornar os dados da carona relampago
 	 * @param idCarona Id da carona
 	 * @param atributo Tipo de dado da carona a ser retornado 
 	 * @return Dado da carona
-	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou se a carona e/ou atributo for inexistente
+	 * @throws Exception Lança exceção se qualquer parametro informado for null, vazio ou se a carona e/ou atributo for inexistente
 	 */
 	public String getAtributoCaronaRelampago(String idCarona, String atributo) throws Exception{
 		logger.debug("buscando atributo da carona");
@@ -315,7 +315,7 @@ public class CaronaBusiness {
 	 * Metodo para obter os caroneiros pertencentes a carona
 	 * @param idCarona Informa se a carona foi expirada ou nao
 	 * @return Dado da carona
-	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou se a carona e/ou atributo for inexistente
+	 * @throws Exception Lança exceção se qualquer parametro informado for null, vazio ou se a carona e/ou atributo for inexistente
 	 */
 	public String[] getUsuariosByCarona(String idCarona) throws Exception{
 	
@@ -330,7 +330,7 @@ public class CaronaBusiness {
 	}
 	
 	/**
-	 * Método para retornar o trajeto(origem - destino) que a carona irá fazer
+	 * Metodo para retornar o trajeto(origem - destino) que a carona ira fazer
 	 * @param idCarona Id da carona
 	 * @return Trajeto da carona
 	 * @throws Exception Lança exceção se o id da carona for null, vazio ou inexistente
@@ -360,7 +360,7 @@ public class CaronaBusiness {
 	}
 	
 	/**
-	 * Método para retornar uma carona
+	 * Metodo para retornar uma carona
 	 * @param idCarona Id da carona
 	 * @return Retorna a carona cadastrada
 	 * @throws Exception Lança exceção se o id da carona for null, vazio ou inexistente 
@@ -391,7 +391,7 @@ public class CaronaBusiness {
 	}
 	
 	/**
-	 * Método para retornar a carona de um determinado usuário com base no índice da lista de caronas cadastradas 
+	 * Metodo para retornar a carona de um determinado usuário com base no índice da lista de caronas cadastradas 
 	 * @param idSessao Id da sessão atual
 	 * @param indexCarona Indice da lista de caronas
 	 * @return Retorna a carona cadastrada
@@ -406,7 +406,7 @@ public class CaronaBusiness {
 	
 	
 	/**
-	 * Método para retornar o id de uma carona do Usuario pelo index 
+	 * Metodo para retornar o id de uma carona do Usuario pelo index 
 	 * @param indexCarona Index da carona na lista de caronas
 	 * @return Id da carona
 	 * @throws Exception Lança exceção se o index informado for igual a zero ou maior que a quantidade de indices da lista
@@ -425,7 +425,7 @@ public class CaronaBusiness {
 	/**
 	 * Define a carona como preferencial por 24h para todos os caroneiros que deram uma review positiva ao dono da carona
 	 * @param idCarona Id da carona
-	 * @throws Exception Lanca excecao se idCarona for vazio, a carona não existir ou problema com a consulta no banco de dados
+	 * @throws Exception Lanca excecao se idCarona for vazio, a carona ira existir ou problema com a consulta no banco de dados
 	 */
 	public void definirCaronaPreferencial(String idCarona) throws Exception {
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
@@ -435,10 +435,10 @@ public class CaronaBusiness {
 	}
 	
 	/**
-	 * Método para verivicar se uma carona é preferencial
+	 * Metodo para verivicar se uma carona é preferencial
 	 * @param idCarona Id da carona
-	 * @return Retorna valor booleano indicando se é ou não preferencial
-	 * @throws Exception Exception Lanca excecao se idCarona for vazio, a carona não existir ou problema com a consulta no banco de dados
+	 * @return Retorna valor booleano indicando se é ou ira preferencial
+	 * @throws Exception Exception Lanca excecao se idCarona for vazio, a carona ira existir ou problema com a consulta no banco de dados
 	 */
 	public boolean isCaronaPreferencial(String idCarona) throws Exception {
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);

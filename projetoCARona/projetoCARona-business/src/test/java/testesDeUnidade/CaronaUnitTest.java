@@ -8,7 +8,6 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +25,6 @@ import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
-import com.sun.javafx.css.CascadingStyle;
 
 public class CaronaUnitTest {
 
