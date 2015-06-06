@@ -7,6 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.br.uepb.business.UsuarioBusiness;
+import com.br.uepb.constants.MensagensErro;
+import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.InteresseEmCaronaDAOImpl;
+import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
+import com.br.uepb.dao.impl.SessaoDAOImpl;
+import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -26,7 +32,12 @@ public class UsuarioUnitTest {
 		usuarioBusiness = new UsuarioBusiness();
 		
 		//limpa os dados antes de iniciar
+		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
+		PontoDeEncontroDAOImpl.getInstance().apagaPontosEncontro();
+		CaronaDAOImpl.getInstance().apagaCaronas();		
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
+		SessaoDAOImpl.getInstance().apagaSessoes();
+		InteresseEmCaronaDAOImpl.getInstance().apagaInteresses();
 		
 		//define parametros default
 		login = "mark";
@@ -38,9 +49,7 @@ public class UsuarioUnitTest {
 	
 	@Test
 	public void testeCadastraUsuario(){
-		//
 		//cadastra um usuario
-		//
 		try {
 			usuarioBusiness.criarUsuario(login, senha, nome, endereco, email);
 		} catch (ProjetoCaronaException e) {
@@ -48,10 +57,8 @@ public class UsuarioUnitTest {
 		} catch (Exception e) {
 			fail();
 		}
-		
-		//
+
 		//Asserts Corretos
-		//
 		try {
 			Assert.assertEquals("mark", usuarioBusiness.getAtributoUsuario(login, "login"));
 			Assert.assertEquals("m@rk", usuarioBusiness.getAtributoUsuario(login, "senha"));
@@ -64,6 +71,32 @@ public class UsuarioUnitTest {
 			fail();
 		}
 		
+		//Tentar pegar um atributo de um usuario inexistente
+		try {
+			usuarioBusiness.getAtributoUsuario("luan", "email");
+		} catch (ProjetoCaronaException e) {
+			Assert.assertEquals(MensagensErro.USUARIO_INEXISTENTE, e.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//tentar criar usuario que já existe
+		try {
+			usuarioBusiness.criarUsuario(login, senha, nome, endereco, "email@email.com");
+		} catch (ProjetoCaronaException e) {
+			Assert.assertEquals(MensagensErro.USUARIO_JA_EXISTE, e.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
+		
+		//tentar criar usuario com email que já existe
+		try {
+			usuarioBusiness.criarUsuario("luana", "luana", "Luana", "rua", email);
+		} catch (ProjetoCaronaException e) {
+			Assert.assertEquals(MensagensErro.EMAIL_JA_EXISTE, e.getMessage());
+		} catch (Exception e) {
+			fail();
+		}
 	}
 	
 	@Test
@@ -88,7 +121,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario("", senha, nome, endereco, email);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Login inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.LOGIN_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -97,7 +130,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(null, senha, nome, endereco, email);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Login inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.LOGIN_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -107,7 +140,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(login, "", nome, endereco, email);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Senha inválida", e.getMessage());
+			Assert.assertEquals(MensagensErro.SENHA_INVALIDA, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -116,7 +149,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(login, null, nome, endereco, email);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Senha inválida", e.getMessage());
+			Assert.assertEquals(MensagensErro.SENHA_INVALIDA, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -126,7 +159,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(login, senha, "", endereco, email);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Nome inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.NOME_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -135,7 +168,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(login, senha, null, endereco, email);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Nome inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.NOME_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -145,7 +178,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(login, senha, nome, "", email);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Endereco inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.ENDERECO_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -154,7 +187,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(login, senha, nome, null, email);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Endereco inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.ENDERECO_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -164,7 +197,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(login, senha, nome, endereco, "");
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Email inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.EMAIL_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -173,7 +206,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.criarUsuario(login, senha, nome, endereco, null);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Email inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.EMAIL_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -182,7 +215,7 @@ public class UsuarioUnitTest {
 		try {
 			usuarioBusiness.criarUsuario(login, "senha", "teste", "endereco", "email@email.com");
 		} catch (ProjetoCaronaException e) {
-			Assert.assertEquals("Já existe um usuário com este login", e.getMessage());
+			Assert.assertEquals(MensagensErro.USUARIO_JA_EXISTE, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -191,7 +224,7 @@ public class UsuarioUnitTest {
 		try {
 			usuarioBusiness.criarUsuario("login", "senha", "teste", "endereco", email);
 		} catch (ProjetoCaronaException e) {
-			Assert.assertEquals("Já existe um usuário com este email", e.getMessage());
+			Assert.assertEquals(MensagensErro.EMAIL_JA_EXISTE, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -205,7 +238,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.getAtributoUsuario(login, "Hakuna Matata");
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Atributo inexistente", e.getMessage());
+			Assert.assertEquals(MensagensErro.ATRIBUTO_INEXISTENTE, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -214,7 +247,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.getAtributoUsuario(login, "");
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Atributo inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.ATRIBUTO_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -223,7 +256,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.getAtributoUsuario(login, null);
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Atributo inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.ATRIBUTO_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -233,7 +266,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.getAtributoUsuario("", "nome");
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Login inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.LOGIN_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -242,7 +275,7 @@ public class UsuarioUnitTest {
 			usuarioBusiness.getAtributoUsuario(null, "nome");
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Login inválido", e.getMessage());
+			Assert.assertEquals(MensagensErro.LOGIN_INVALIDO, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
@@ -251,10 +284,10 @@ public class UsuarioUnitTest {
 			usuarioBusiness.getAtributoUsuario("123", "nome");
 			fail();
 		}catch(ProjetoCaronaException e){
-			Assert.assertEquals("Usuário inexistente", e.getMessage());
+			Assert.assertEquals(MensagensErro.USUARIO_INEXISTENTE, e.getMessage());
 		}catch (Exception e) {
 			fail();
 		}
 	}
-
+	
 }

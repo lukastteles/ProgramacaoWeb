@@ -3,14 +3,10 @@ package com.br.uepb.dao.impl;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.SessaoDAO;
-import com.br.uepb.dao.hibernateUtil.HibernateUtil;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;

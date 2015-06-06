@@ -1,6 +1,5 @@
 package com.br.uepb.dao;
 
-import com.br.uepb.domain.PerfilDomain;
 import com.br.uepb.domain.UsuarioDomain;
 
 /**
@@ -27,15 +26,7 @@ public interface UsuarioDAO {
 	 * @throws Exception Lança exceção se já existir usuário com mesmo id ou email
 	 */
 	public void addUsuario(UsuarioDomain usuario) throws Exception;
-	
-	/**
-	 * Metodo para retornar o perfil do usuario
-	 * @param login Id do usuario
-	 * @return Perfil do usuario
-	 * @throws Exception Lança excecao se o id informado for invalido
-	 */
-	public PerfilDomain getPerfil(String login) throws Exception;
-	
+		
 	/**
 	 * Apaga todos os usuários da lista
 	 */

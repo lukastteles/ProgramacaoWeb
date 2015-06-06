@@ -383,9 +383,8 @@ public class CaronaBusiness {
 	};
 	
 	public String setCaronaRelampagoExpired(String idCarona) throws Exception{
-		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
-		
-		//verificaCaronaExpirada(idCarona);
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);		
+		//verificaCaronaExpirada(idCarona);		
 		
 		carona.setCaronaRelampagoExpirada(true);		
 		//atualiza a carona 
@@ -498,22 +497,27 @@ public class CaronaBusiness {
 		
 		return usuariosPreferenciais;
 	}
-	
-	//Verifica se uma carona relâmpago falta menos de 48h para a carona acontecer e tem o numero de vagas minímas preenchidas
+
+	/**
+	 * Metodo para verificar se alguma carona foi expirada
+	 * @param idCarona Id da carona
+	 * @return True se a carona estiver expirada ou false cao contrario
+	 * @throws Exception Lanca excecao o id da carona for invalido
+	 */
 	private boolean verificaCaronaExpirada(String idCarona) throws Exception{		
 		List<SolicitacaoVagaDomain> listaSolicitacoes;
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		EmailPadrao email = new EmailPadrao();
 		ValidarCampos validar = new ValidarCampos();
-				
+						
 		if ( (carona.getVagas() > 0) && (!validar.isDataIniValida(carona.getData())) ) {
 			//Lista todos os caroneiros
 			listaSolicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(carona.getID());
 				
-			String destinatarios= "";
+			String destinatarios= ""; 
 			for (SolicitacaoVagaDomain solicitacao : listaSolicitacoes) {
-				destinatarios = destinatarios + UsuarioDAOImpl.getInstance().getPerfil(solicitacao.getIdUsuario()).getEmail() +", ";				
+				destinatarios = destinatarios + UsuarioDAOImpl.getInstance().getUsuario(solicitacao.getIdUsuario()).getPerfil().getEmail() +",";				
 			}
 
 			//tratamento para retirar a última ", "
@@ -524,9 +528,9 @@ public class CaronaBusiness {
 			//Este metodo ira enviar um email para todos os caroneiros
 			email.enviarEmail("CARona - AVISO", MensagensErro.CARONA_REJEITADA, destinatarios);
 			
-			return false;
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 }

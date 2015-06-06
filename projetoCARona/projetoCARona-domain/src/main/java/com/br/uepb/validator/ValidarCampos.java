@@ -153,5 +153,20 @@ public class ValidarCampos {
 		}
 		
 	}
-		
+	
+	
+	public boolean verificaCaracteres(String valor){
+
+		String patternTexto = valor;
+		patternTexto = patternTexto.replaceAll("[-?!().]", "");
+
+		if (patternTexto.equals(valor)) {
+			return true; 
+		}
+		else {
+			return false;
+		}
+	}
+
+
 }

@@ -313,11 +313,7 @@ public class CaronaDomain {
 	public void setData(String data) throws Exception {
 		//validacao da Data
 		ValidarCampos validar = new ValidarCampos();
-		validar.validarData(data);
-		
-		/*if (getTipoCarona().equals("R")){
-			validar.validarDataSistema(data);
-		}*/
+		validar.validarData(data);		
 		
 		this.data = data;
 	}

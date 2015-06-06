@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -28,7 +27,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	private Session session;
 	private Transaction transaction;
 	private Criteria criteria;
-	private SQLQuery query;
 	
 	//Lista de usuários
 	ArrayList<UsuarioDomain> listaUsuarios = new ArrayList<UsuarioDomain>();
@@ -59,7 +57,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			session.close();
 			
 		}catch(Exception e){
-			System.out.println(e.getMessage());
 			throw e;
 		}
 		
@@ -90,7 +87,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			transaction.commit();
 			session.close();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
 			throw e;
 		}
 	}
@@ -104,7 +100,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			usuario = (UsuarioDomain) criteria.uniqueResult();
 			session.close();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
 			throw e;
 		}
 		
@@ -123,7 +118,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			perfil = (PerfilDomain) criteria.uniqueResult();
 			session.close();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
 			throw e;
 		}
 		
@@ -131,35 +125,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public PerfilDomain getPerfil(String login) throws Exception {
-		if ( (login == null) || (login.trim().equals("")) ){
-			logger.debug("getUsuario() Exceção: "+MensagensErro.LOGIN_INVALIDO);
-			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
-		}
-		
-		PerfilDomain perfilUsuario;
-		try{
-			session = sessionFactory.openSession();
-			query = session.createSQLQuery( "select p.* from projetocarona.perfil as p"+
-											"left join usuarios u on u.idPerfil = p.idPerfil"+
-											"where u.login = :login");
-			query.setString("login", login);
-			perfilUsuario = (PerfilDomain) query.uniqueResult();
-			session.close();			
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-			throw e;
-		}
-		
-		if(perfilUsuario != null){
-			return perfilUsuario;
-		}else{
-			logger.debug("getPerfil() Exceção: "+MensagensErro.USUARIO_INEXISTENTE);
-			throw new ProjetoCaronaException(MensagensErro.USUARIO_INEXISTENTE);
-		}
 	}
 	
 	@Override

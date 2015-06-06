@@ -35,7 +35,7 @@ public class EmailPadrao {
 	public Boolean enviarEmail(String assunto, String textoEmail, String destinatarios){
 		final String remetente = "contato.projetocarona@gmail.com";
 		final String senha = "pr0j3t0c4r0n4";
-		final String destinatario = "luannajnsousa@gmail.com, lukasteleslima@gmail.com";
+		final String destinatario = "luannajnsousa@gmail.com,lukasteleslima@gmail.com";		
 		
 		Properties props = new Properties();
         /** Parâmetros de conexão com servidor Gmail */

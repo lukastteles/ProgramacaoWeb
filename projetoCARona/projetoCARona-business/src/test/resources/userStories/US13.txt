@@ -12,7 +12,7 @@ sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #o método cadastrar carona relâmpago retorna id
 sessaoMark=abrirSessao login="mark" senha="m@rk"
-carona1ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" dataIda="06/06/2015" dataVolta="07/06/2015" hora="16:00" minimoCaroneiros=3 
+carona1ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" dataIda="23/06/2013" dataVolta="26/06/2013" hora="16:00" minimoCaroneiros=3 
 expect "Campina Grande" getAtributoCaronaRelampago idCarona=${carona1ID} atributo="origem"
 expect "João Pessoa" getAtributoCaronaRelampago idCarona=${carona1ID} atributo="destino"
 expect "Campina Grande - João Pessoa" getTrajeto idCarona=${carona1ID}

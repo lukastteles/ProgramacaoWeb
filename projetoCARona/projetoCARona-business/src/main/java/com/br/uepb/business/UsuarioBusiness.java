@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.br.uepb.constants.MensagensErro;
+import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
@@ -52,7 +53,7 @@ public class UsuarioBusiness {
 	 * @return Dado do usuário
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou inesistente
 	 */
-	public String getAtributoUsuario(String login, String atributo) throws Exception{		
+	public String getAtributoUsuario(String login, String atributo) throws Exception{
 		logger.debug("buscando atributo do usuário");
 		if((atributo == null) || (atributo.trim().equals(""))){
 			logger.debug("getAtributoUsuario() Exceção: "+MensagensErro.ATRIBUTO_INVALIDO);

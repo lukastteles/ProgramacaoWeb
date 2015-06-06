@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
@@ -124,6 +123,13 @@ public class InteresseEmCaronaDomain {
 			logger.debug("setOrigem() Exceção: "+MensagensErro.ORIGEM_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.ORIGEM_INVALIDA);
 		}
+		
+		ValidarCampos validar = new ValidarCampos();
+		if (validar.verificaCaracteres(origem) == false){
+			logger.debug("setOrigem() Exceção: "+MensagensErro.ORIGEM_INVALIDA);
+			throw new ProjetoCaronaException(MensagensErro.ORIGEM_INVALIDA);
+		}
+		
 		this.origem = origem;
 	}
 
@@ -145,6 +151,13 @@ public class InteresseEmCaronaDomain {
 			logger.debug("setDestino() Exceção: "+MensagensErro.DESTINO_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
 		}
+		
+		ValidarCampos validar = new ValidarCampos();
+		if (validar.verificaCaracteres(destino) == false){
+			logger.debug("setDestino() Exceção: "+MensagensErro.DESTINO_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.DESTINO_INVALIDO);
+		}
+
 		this.destino = destino;
 	}
 
