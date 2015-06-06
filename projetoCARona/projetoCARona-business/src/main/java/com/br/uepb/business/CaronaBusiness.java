@@ -313,15 +313,13 @@ public class CaronaBusiness {
 	
 	/**
 	 * Metodo para obter os caroneiros pertencentes a carona
-	 * @param idExpired Informa se a carona foi expirada ou nao
-	 * @param atributo Tipo de dado da carona a ser retornado
+	 * @param idCarona Informa se a carona foi expirada ou nao
 	 * @return Dado da carona
 	 * @throws Exception Lança exceção se qualquer parâmetro informado for null, vazio ou se a carona e/ou atributo for inexistente
 	 */
-	public String[] getUsuariosByCarona(String idExpired) throws Exception{
-		CaronaDAOImpl.getInstance().getCarona(idExpired);
+	public String[] getUsuariosByCarona(String idCarona) throws Exception{
 	
-		List<SolicitacaoVagaDomain> solicitacoesVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(idExpired);
+		List<SolicitacaoVagaDomain> solicitacoesVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(idCarona);
 		String[] solicitacoes = new String[solicitacoesVaga.size()];
 		int count = 0;
 		for (SolicitacaoVagaDomain solicitacaoVaga : solicitacoesVaga) {		
@@ -429,7 +427,7 @@ public class CaronaBusiness {
 	 * @param idCarona Id da carona
 	 * @throws Exception Lanca excecao se idCarona for vazio, a carona não existir ou problema com a consulta no banco de dados
 	 */
-	public void definirdefinirCaronaPreferencial(String idCarona) throws Exception {
+	public void definirCaronaPreferencial(String idCarona) throws Exception {
 		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		carona.setPreferencial(true);
 		CaronaDAOImpl.getInstance().atualizaCarona(carona);

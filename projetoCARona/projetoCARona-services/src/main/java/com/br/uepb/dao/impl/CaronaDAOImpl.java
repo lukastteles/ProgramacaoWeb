@@ -267,23 +267,6 @@ public class CaronaDAOImpl implements CaronaDAO{
 		return null;
 	}
 	
-	@Override
-	public List<CaronaDomain> getCaronasRelampago(String login) throws Exception {
-		List<CaronaDomain> caronas;
-		try{
-			session = sessionFactory.openSession();
-			criteria = session.createCriteria(CaronaDomain.class);
-			criteria.add(Restrictions.eq("tipoCarona", "R"));
-			criteria.add(Restrictions.eq("idSessao", "login"));
-			caronas = (ArrayList<CaronaDomain>) criteria.list();
-			session.close();
-			return caronas;
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-			throw e;
-		}
-	}
-	
 	
 	@Override
 	public void apagaCaronas(){

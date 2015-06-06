@@ -210,7 +210,7 @@ public class FacadeTestBusiness {
 	}
 	
 	public void definirCaronaPreferencial(String idCarona) throws Exception{
-		caronaBusiness.definirdefinirCaronaPreferencial(idCarona);
+		caronaBusiness.definirCaronaPreferencial(idCarona);
 	}
 	
 	public boolean isCaronaPreferencial(String idCarona) throws Exception{

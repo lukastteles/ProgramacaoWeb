@@ -95,14 +95,6 @@ public interface CaronaDAO {
 	 * @throws Exception
 	 */
 	public CaronaDomain getCaronaByInteresse(InteresseEmCaronaDomain interesseEmCaronas) throws Exception;
-
-	/**
-	 * Retorna todas as caronas relampagos do usuario informado
-	 * @param login Login do usuario
-	 * @return Lista de caronas relampago
-	 * @throws Exception
-	 */
-	public List<CaronaDomain> getCaronasRelampago(String login) throws Exception;
 	
 	/**
 	 * Apaga todas as caronas da lista

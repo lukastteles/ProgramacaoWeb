@@ -8,6 +8,8 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +24,7 @@ import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 import com.sun.javafx.css.CascadingStyle;
 
@@ -90,7 +93,79 @@ public class CaronaUnitTest {
 			
 		} catch (Exception e) {
 			fail();
-		}	
+		}
+		
+		try{
+			caronaBusiness.cadastrarCarona("", origem, destino, data, hora, vagas);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.SESSAO_INVALIDA, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.cadastrarCarona(null, origem, destino, data, hora, vagas);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.SESSAO_INVALIDA, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.cadastrarCarona(idSessao, "", destino, data, hora, vagas);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.ORIGEM_INVALIDA, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.cadastrarCarona(idSessao, null, destino, data, hora, vagas);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.ORIGEM_INVALIDA, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.cadastrarCarona(idSessao, origem, "", data, hora, vagas);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.DESTINO_INVALIDO, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.cadastrarCarona(idSessao, origem, null, data, hora, vagas);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.DESTINO_INVALIDO, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.cadastrarCaronaMunicipal(idSessao, origem, destino, "", data, hora, vagas);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.CIDADE_INEXISTENTE, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.cadastrarCaronaMunicipal(idSessao, origem, destino, null, data, hora, vagas);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.CIDADE_INEXISTENTE, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.cadastrarCaronaRelampago(idSessao, origem, destino, "09/12/2015", "01/01/2016", 0, hora);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.MINIMO_CARONEIROS_INVALIDO, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
 		
 	}
 	
@@ -570,6 +645,13 @@ public class CaronaUnitTest {
 			fail();
 		}
 		
+		try{
+			String[] usuarios = {};
+			assertEquals(usuarios.length, caronaBusiness.getUsuariosByCarona(idCarona).length);
+		}catch(Exception e){
+			fail();
+		}
+		
 	}
 	
 	@Test
@@ -638,13 +720,95 @@ public class CaronaUnitTest {
 			fail();
 		}
 		
+	}
+	
+	@Test
+	public void testeCaronaRelampago(){
 		//carona relâmpago
+		String idcarona2, idcarona3;
 		try{
-			caronaBusiness.cadastrarCaronaRelampago(idSessao, "São Paulo", "Rio", "06/06/15", "09/06/15", 3, "09:00");
+			idCarona = caronaBusiness.cadastrarCaronaRelampago(idSessao, "São Paulo", "Rio", "06/06/15", "09/06/15", 3, "09:00");
+			assertEquals("São Paulo", caronaBusiness.getAtributoCaronaRelampago(idCarona, "origem"));
+			assertEquals("Rio", caronaBusiness.getAtributoCaronaRelampago(idCarona, "destino"));
+			assertEquals("06/06/15", caronaBusiness.getAtributoCaronaRelampago(idCarona, "dataIda"));
+			assertEquals("09/06/15", caronaBusiness.getAtributoCaronaRelampago(idCarona, "dataVolta"));
+			assertEquals("3", caronaBusiness.getAtributoCaronaRelampago(idCarona, "minimoCaroneiros"));
+			assertEquals("false", caronaBusiness.getAtributoCaronaRelampago(idCarona, "expired"));
 		}catch(Exception e){
-			
+			fail();
+		}
+		//excecoes getAtributoCarona()
+		try{
+			caronaBusiness.getAtributoCaronaRelampago(idCarona, "");
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.ATRIBUTO_INVALIDO, e.getMessage());
+		}catch (Exception e) {
+			fail();
 		}
 		
+		try{
+			caronaBusiness.getAtributoCaronaRelampago(idCarona, null);
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.ATRIBUTO_INVALIDO, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+	
+		try{
+			caronaBusiness.getAtributoCaronaRelampago("", "origem");
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.IDENTIFICADOR_INVALIDO, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+				
+		try{
+			caronaBusiness.getAtributoCaronaRelampago(null, "origem");
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.IDENTIFICADOR_INVALIDO, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.getAtributoCaronaRelampago("HakunaMatata", "origem");
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.ITEM_INEXISTENTE, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.getAtributoCaronaRelampago(idCarona, "HakunaMatata");
+		}catch(ProjetoCaronaException e){
+			assertEquals(MensagensErro.ATRIBUTO_INEXISTENTE, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			assertEquals(3, caronaBusiness.getMinimoCaroneiros(idCarona));
+		}catch(Exception e){
+			fail();
+		}
+		
+		try{
+			idcarona2 = caronaBusiness.cadastrarCaronaRelampago(idSessao, "Aqui", "La", ""+DateTime.now().toString("dd/MM/yyyy"), "01/01/2016", 5, "00:00");
+			assertEquals(idcarona2, caronaBusiness.setCaronaRelampagoExpired(idcarona2));
+		}catch(Exception e){
+			fail();
+		}
+		
+		try{
+			List<UsuarioDomain> listaUsuarios = new ArrayList<UsuarioDomain>();
+			idcarona3 = caronaBusiness.cadastrarCaronaRelampago(idSessao, "Outro", "Mais um", "09/12/2015", "01/01/2016", 5, "00:00");
+			assertEquals(false, caronaBusiness.isCaronaPreferencial(idcarona3));
+			caronaBusiness.definirCaronaPreferencial(idcarona3);
+			assertEquals(true, caronaBusiness.isCaronaPreferencial(idcarona3));
+			assertEquals(listaUsuarios.size(), caronaBusiness.getUsuariosPreferenciaisCarona(idcarona3).size());
+		}catch(Exception e){
+			fail();
+		}
 	}
 	
 	public void comparaListas(List<CaronaDomain> lista, List<CaronaDomain> listaComp){ 
