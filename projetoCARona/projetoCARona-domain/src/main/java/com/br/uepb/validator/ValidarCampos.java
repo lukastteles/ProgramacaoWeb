@@ -28,7 +28,7 @@ public class ValidarCampos {
 	 * @param data Data a ser validada
 	 * @throws Exception Lança excecao de a data informada for null, vazia ou não estivier no padrão dd/MM/yyyy
 	 */
-	public void validarData(String data) throws Exception {
+	public void validarData(String data) throws ProjetoCaronaException {
 		if ( (data == null) || (data.trim().equals("")) ){
 			logger.debug("validarData() Exceção: "+MensagensErro.DATA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.DATA_INVALIDA);
@@ -111,7 +111,7 @@ public class ValidarCampos {
 	 * @param hora Hora a ser validade
 	 * @throws Exception Lança exceção de a hora informada for null, vazia ou não estivier no padrão HH:mm 
 	 */
-	public void validarHora(String hora) throws Exception {
+	public void validarHora(String hora) throws ProjetoCaronaException {
 		if ( (hora == null) || (hora.trim().equals("")) ){
 			logger.debug("validarHora() Exceção: "+MensagensErro.HORA_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.HORA_INVALIDA);

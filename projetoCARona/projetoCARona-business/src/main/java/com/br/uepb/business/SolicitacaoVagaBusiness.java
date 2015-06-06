@@ -368,9 +368,12 @@ public class SolicitacaoVagaBusiness {
 	 * se o review informado for invalido
 	 */
 	public void reviewVagaEmCarona(String idSessao, String idCarona, String loginCaroneiro, String review) throws Exception{
+		logger.debug("realizando review na vaga");
 		//Verificar se os parametros sao validos
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);		
+		logger.debug("buscando caorna");
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
+		logger.debug("carona encontrada");
 		if (!carona.getIdSessao().equals(idSessao)) {
 			logger.debug("rejeitarSolicitacao() Exceção: "+MensagensErro.SOLICITACAO_INVALIDA);
 			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INVALIDA);				
@@ -389,7 +392,7 @@ public class SolicitacaoVagaBusiness {
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idCarona, loginCaroneiro);
 		solicitacaoVaga.setReviewVaga(review);
 		SolicitacaoVagaDAOImpl.getInstance().atualizaSolicitacaoVaga(solicitacaoVaga);
-		
+		logger.debug("review realizado");
 	}
 	
 	/**
@@ -403,9 +406,12 @@ public class SolicitacaoVagaBusiness {
 	 * se o review informado for invalido
 	 */
 	public void reviewCarona(String idSessao, String idCarona, String review) throws Exception{
+		logger.debug("realizando review na carona");
 		//Verificar se os parametros sao validos
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
-		CaronaDAOImpl.getInstance().getCarona(idCarona);				
+		logger.debug("buscando carona");
+		CaronaDAOImpl.getInstance().getCarona(idCarona);
+		logger.debug("carona encontrada");
 		
 		//verificar se usuario pertence a esta carona
 		if (SolicitacaoVagaDAOImpl.getInstance().participouCarona(idCarona, idSessao) == false) {
@@ -419,6 +425,7 @@ public class SolicitacaoVagaBusiness {
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idCarona, idSessao);
 		solicitacaoVaga.setReviewCarona(review);
 		SolicitacaoVagaDAOImpl.getInstance().atualizaSolicitacaoVaga(solicitacaoVaga);
+		logger.debug("review realizado");
 	}
 
 }

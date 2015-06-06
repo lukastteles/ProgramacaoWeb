@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -15,10 +16,14 @@ import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
+import com.br.uepb.dao.impl.InteresseEmCaronaDAOImpl;
+import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
+import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
+import com.sun.javafx.css.CascadingStyle;
 
 public class CaronaUnitTest {
 
@@ -42,9 +47,12 @@ public class CaronaUnitTest {
 		caronaBusiness = new CaronaBusiness();		
 		
 		//limpa os dados antes de iniciar
-		CaronaDAOImpl.getInstance().apagaCaronas();
+		SolicitacaoVagaDAOImpl.getInstance().apagaSolicitacoes();
+		PontoDeEncontroDAOImpl.getInstance().apagaPontosEncontro();
+		CaronaDAOImpl.getInstance().apagaCaronas();		
 		UsuarioDAOImpl.getInstance().apagaUsuarios();
 		SessaoDAOImpl.getInstance().apagaSessoes();
+		InteresseEmCaronaDAOImpl.getInstance().apagaInteresses();
 		
 		//define parâmetros default
 		idSessao = "Mark";
@@ -467,7 +475,8 @@ public class CaronaUnitTest {
 			listTodascaronas.add(caronaBusiness.getCarona(caronaID4));
 			listTodascaronas.add(caronaBusiness.getCarona(caronaID5));
 			listTodascaronas.add(caronaBusiness.getCarona(caronaID6));
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "", "")); 		
+			//Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "", ""));
+			comparaListas(listTodascaronas, caronaBusiness.localizarCarona("Mark", "", ""));
 		} catch (Exception e) {	
 			fail();
 		}
@@ -478,7 +487,8 @@ public class CaronaUnitTest {
 			listTodascaronas.add(caronaBusiness.getCarona(idCarona));
 			listTodascaronas.add(caronaBusiness.getCarona(idCarona2));
 			listTodascaronas.add(caronaBusiness.getCarona(idCarona3));
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina Grande", "")); 	
+			//Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina Grande", ""));
+			comparaListas(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina Grande", ""));
 		} catch (Exception e) {	
 			fail();
 		}
@@ -488,7 +498,8 @@ public class CaronaUnitTest {
 			ArrayList<CaronaDomain> listTodascaronas = new ArrayList<CaronaDomain>();
 			listTodascaronas.add(caronaBusiness.getCarona(idCarona2));
 			listTodascaronas.add(caronaBusiness.getCarona(caronaID4));
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "", "Araruna")); 							
+			//Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "", "Araruna"));
+			comparaListas(listTodascaronas, caronaBusiness.localizarCarona("Mark", "", "Araruna"));
 		} catch (Exception e) {	
 			fail();
 		}
@@ -498,7 +509,8 @@ public class CaronaUnitTest {
 			ArrayList<CaronaDomain> listTodascaronas = new ArrayList<CaronaDomain>();
 			listTodascaronas.add(caronaBusiness.getCarona(idCarona));
 			listTodascaronas.add(caronaBusiness.getCarona(idCarona3));
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina Grande", "Joao Pessoa")); 							
+			//Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina Grande", "Joao Pessoa"));
+			comparaListas(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina Grande", "Joao Pessoa"));
 		} catch (Exception e) {	
 			fail();
 		}
@@ -506,7 +518,8 @@ public class CaronaUnitTest {
 		//informar origem nao existente
 		try {
 			ArrayList<CaronaDomain> listTodascaronas = new ArrayList<CaronaDomain>();
-			Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina", "Joao Pessoa")); 							
+			//Assert.assertEquals(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina", "Joao Pessoa"));
+			comparaListas(listTodascaronas, caronaBusiness.localizarCarona("Mark", "Campina", "Joao Pessoa"));
 		} catch (Exception e) {	
 			fail();
 		}
@@ -557,6 +570,113 @@ public class CaronaUnitTest {
 			fail();
 		}
 		
+	}
+	
+	@Test
+	public void testeCaronaMunicipal(){
+		//cadastra carona municipal
+		String idCarona2 = "";
+		String idCarona3 = "";
+		String idCarona4 = "";
+		try{
+			idCarona = caronaBusiness.cadastrarCaronaMunicipal(idSessao, "Açude Velho", "Partage", "Campina Grande", "05/06/15", "18:00", 2);
+			idCarona2 = caronaBusiness.cadastrarCaronaMunicipal(idSessao, "Açude Velho", "Partage", "Campina Grande", "06/06/15", "19:00", 3);
+			idCarona3 = caronaBusiness.cadastrarCaronaMunicipal(idSessao, "Parque do povo", "Hiper Bompreço", "Campina Grande", "05/06/15", "18:00", 2);
+			idCarona4 = caronaBusiness.cadastrarCarona(idSessao, "Campina Grande", "João Pessoa", "05/06/15", "16:00", 2);
+			
+		}catch(Exception e){
+			fail();
+		}
+		
+		//get atributo carona
+		try {
+			assertEquals("true", caronaBusiness.getAtributoCarona(idCarona, "ehMunicipal"));
+			assertEquals("false", caronaBusiness.getAtributoCarona(idCarona4, "ehMunicipal"));
+		}catch (Exception e) {
+			fail();
+		}
+		
+		//localizarCaronaMunicipal
+		try{
+			List<CaronaDomain> listaCaronaMunicipais = new ArrayList<CaronaDomain>();
+			listaCaronaMunicipais.add(caronaBusiness.getCarona(idCarona));
+			listaCaronaMunicipais.add(caronaBusiness.getCarona(idCarona2));
+			comparaListas(listaCaronaMunicipais, caronaBusiness.localizarCaronaMunicipal(idSessao, "Campina Grande", "Açude Velho", "Partage"));
+			
+			listaCaronaMunicipais.add(caronaBusiness.getCarona(idCarona3));
+			comparaListas(listaCaronaMunicipais, caronaBusiness.localizarCaronaMunicipal(idSessao, "Campina Grande", "", ""));
+		}catch(Exception e){
+			fail();
+		}
+		
+		//
+		//excecoes
+		//
+		
+		//localizar carona municipal
+		try{
+			caronaBusiness.localizarCaronaMunicipal(idSessao, "Campina Grande", "!", "Partage");
+		}catch (ProjetoCaronaException e){
+			assertEquals(MensagensErro.ORIGEM_INVALIDA, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.localizarCaronaMunicipal(idSessao, "Campina Grande", "Açude Velho", "!");
+		}catch (ProjetoCaronaException e){
+			assertEquals(MensagensErro.DESTINO_INVALIDO, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		try{
+			caronaBusiness.localizarCaronaMunicipal(idSessao, "Camalaú", "", "Partage");
+		}catch (ProjetoCaronaException e){
+			assertEquals(MensagensErro.CIDADE_INEXISTENTE, e.getMessage());
+		}catch (Exception e) {
+			fail();
+		}
+		
+		//carona relâmpago
+		try{
+			caronaBusiness.cadastrarCaronaRelampago(idSessao, "São Paulo", "Rio", "06/06/15", "09/06/15", 3, "09:00");
+		}catch(Exception e){
+			
+		}
+		
+	}
+	
+	public void comparaListas(List<CaronaDomain> lista, List<CaronaDomain> listaComp){ 
+		if(lista.size() == listaComp.size()){
+			int length = lista.size();
+			CaronaDomain carona;
+			for (int i = 0; i < length; i++) {
+				carona = null;
+				for (CaronaDomain caronaDomain : listaComp) {
+					if(lista.get(i).getID().equals(caronaDomain.getID())){
+						carona = caronaDomain;
+					}
+				}
+				if(carona == null){
+					fail();
+				}
+				assertEquals(lista.get(i).getID(), carona.getID());
+				assertEquals(lista.get(i).getOrigem(), carona.getOrigem());
+				assertEquals(lista.get(i).getDestino(), carona.getDestino());
+				assertEquals(lista.get(i).getCidade(), carona.getCidade());
+				assertEquals(lista.get(i).getHora(), carona.getHora());
+				assertEquals(lista.get(i).getData(), carona.getData());
+				assertEquals(lista.get(i).getDataVolta(), carona.getDataVolta());
+				assertEquals(lista.get(i).getVagas(), carona.getVagas());
+				assertEquals(lista.get(i).getMinimoCaroneiros(), carona.getMinimoCaroneiros());
+				assertEquals(lista.get(i).isCaronaRelampagoExpirada(), carona.isCaronaRelampagoExpirada());
+				assertEquals(lista.get(i).isPreferencial(), carona.isPreferencial());
+				assertEquals(lista.get(i).getTipoCarona(), carona.getTipoCarona());
+			}
+		}else{
+			fail();
+		}
 	}
 	
 }
