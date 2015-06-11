@@ -34,7 +34,7 @@ public class HomeController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
-		modelAndView.addObject("UserDomain", new UserDomain());
+		modelAndView.addObject("usuarioDomain", new UserDomain());
 		modelAndView.addObject("userName", "Noca Connected");
 		
 		request.getSession().setAttribute("lstUsers", new ArrayList<UserDomain>());
