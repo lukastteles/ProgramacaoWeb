@@ -45,7 +45,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/home/home.html", method = RequestMethod.POST)
-	public ModelAndView addNewUser(@ModelAttribute("UserDomain") @Valid UserDomain UserDomain, BindingResult bindingResult, HttpServletRequest request) {
+	public ModelAndView addNewUser(@ModelAttribute("usuarioDomain") @Valid UserDomain UserDomain, BindingResult bindingResult, HttpServletRequest request) {
 		
 		LOG.debug("Iniciada a execucao do metodo: addNewUser");
 
@@ -54,7 +54,7 @@ public class HomeController {
 		
 		if(bindingResult.hasErrors()){
 			UserDomain.setLstUsers((List<UserDomain>) request.getSession().getAttribute("lstUsers"));
-			modelAndView.addObject("UserDomain", UserDomain);
+			modelAndView.addObject("usuarioDomain", UserDomain);
 			modelAndView.addObject("userName", "Noca Connected");
 			return modelAndView;
 		}
@@ -68,7 +68,7 @@ public class HomeController {
 		
 		request.getSession().setAttribute("lstUsers", ud.getLstUsers());
 		
-		modelAndView.addObject("UserDomain", ud);
+		modelAndView.addObject("usuarioDomain", ud);
 		modelAndView.addObject("userName", "Noca Connected");
 		
 		LOG.debug("Finalizada a execucao do metodo: addNewUser");
@@ -123,7 +123,7 @@ public class HomeController {
 		
 		request.getSession().setAttribute("lstUsers", lstUsers);
 		modelAndView.setViewName("home");
-		modelAndView.addObject("UserDomain", ud);
+		modelAndView.addObject("usuarioDomain", ud);
 		return modelAndView;
 	}
 }

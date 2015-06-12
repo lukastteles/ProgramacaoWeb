@@ -46,6 +46,7 @@
  body{
  	font-family:'open_sanssemibold';
  	font-size: 12px !important;
+ 	
  }
 
 .titulo{
@@ -564,3 +565,110 @@
  @media (min-width: 1200px) { 
 
  }
+ 
+ /*	################################################################
+	BOOTSTRAP CUSTOM
+	################################################################# */
+	
+/* HEADER */
+.navbar {
+	min-height: 70px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.navbar-brand {
+	font-family: 'Raleway', sans-serif;
+	font-weight: 900;
+}
+
+.navbar-header .navbar-brand {
+	color: white;
+}
+
+.navbar-default .navbar-nav > li > a {
+	color: white;
+	font-weight: 700;
+	font-size: 12px;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+	color: ##2C3E50;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color: #00b3fe;
+	background-color: transparent;
+}
+
+.navbar-default {
+	background-color: #1ABC9C;
+	border-color: transparent;
+}
+
+/* BODY */
+
+/* Services Wrap */
+#service {
+	margin-top: 90px;
+	margin-bottom: 10px;
+	background-color: white;
+	min-height: 350px;
+	padding-top: 90px;
+	padding-bottom: 0px;
+	text-align: center;
+}
+
+#service i {
+	color: #00b3fe;
+	font-size: 60px;
+	padding: 15px;
+}
+
+
+
+/* FOOTER */
+#footerwrap {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	background: #2C3E50;
+}
+
+#footerwrap p {
+	color: #bfc9d3;
+}
+
+#footerwrap h4 {
+	color: white;
+}
+
+#footerwrap i {
+	font-size: 30px;
+	color: #bfc9d3;
+	padding-right: 25px;
+}
+
+#footerwrap i:hover {
+	color: #00b3fe
+}
+ 
+/* hline-w */
+.hline {
+	border-bottom: 2px solid #384452;
+}
+
+.hline-w {
+	border-bottom: 2px solid #ffffff;
+	margin-bottom: 25px;
+}
+
+/* LOGOS E IMAGENS */
+ .fa{
+	display:inline-block;
+	font-family:FontAwesome;
+	font-style:normal;
+	font-weight:normal;
+	line-height:1;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale
+}

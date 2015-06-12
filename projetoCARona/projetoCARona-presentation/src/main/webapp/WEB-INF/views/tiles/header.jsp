@@ -1,15 +1,15 @@
-<div class="container">
-        
-        <div class="title-tim">
-          <h1>UEPB App</h1>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+    	<div class="navbar-header">
+    		<img src="../images/CARona_LogoMiniBranco.png" class="img-responsive">
         </div>
+        <div class="navbar-collapse collapse navbar-right">
+          	<ul class="nav navbar-nav">
+            	<li><a href="#"><h4>Cadastrar</h4></a></li>            	
+            	<li><a href="#"><h4>Login</h4></a></li>
+          	</ul>
+        </div><!--/.nav-collapse -->
+	</div>
+</div>
     
-       <div class="box-title">
-
-        <div class="row">
-         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-          <h4>Usuario logado: ${userName}</h4>
-        </div>
-      </div>
-
-    </div>
+    

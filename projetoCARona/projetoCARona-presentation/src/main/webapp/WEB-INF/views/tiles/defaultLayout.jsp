@@ -13,10 +13,10 @@
 </head>
 <body>
 	<tiles:insertAttribute name="header" />
-     		<section>
+	<section>
 		<tiles:insertAttribute name="body" />
 	</section>
-     		<footer>
+    <footer>
 		<tiles:insertAttribute name="footer" />
 	</footer>
 </body>

@@ -1,5 +1,6 @@
   <!-- Bootstrap -->
-  <link href="../styles/bootstrap.min.css" rel="stylesheet">
+  <link href="../styles/bootstrap.css" rel="stylesheet"> 
+  <!--  <link href="../styles/bootstrap.min.css" rel="stylesheet">  -->
   <!-- CSS Customizado -->
   <link href="../styles/bootstrap-custom.css" rel="stylesheet">
   <!-- CSS Datepicker -->
@@ -17,7 +18,8 @@
 
 <!-- JS Customizado -->
 <script src="../js/bootstrap-custom.js"></script>
-<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap.js"></script> 
+<!-- <script src="../js/bootstrap.min.js"></script>  -->
 <!-- JS Datapicker -->
 <script src="../js/bootstrap-datetimepicker.min.js"></script>
 

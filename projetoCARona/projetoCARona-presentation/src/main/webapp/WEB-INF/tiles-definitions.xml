@@ -7,7 +7,7 @@
 
 	<definition name="base.layout" template="/WEB-INF/views/tiles/defaultLayout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp" />
-		<put-attribute name="footer" value="/WEB-INF/views/tiles/credits.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp" />
 	</definition>
 	
 	<definition name="home" extends="base.layout">
