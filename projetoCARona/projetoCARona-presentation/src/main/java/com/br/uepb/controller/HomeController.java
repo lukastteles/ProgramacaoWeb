@@ -11,8 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -160,23 +158,28 @@ public class HomeController {
 		LOG.debug("Iniciada a execucao do metodo: login POST");
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("home");  
+		modelAndView.setViewName("login");
+		
 		if(bindingResult.hasErrors()){
-			modelAndView.setViewName("login");
 			modelAndView.addObject("sessaoDomain", sessaoDomain);
 			return modelAndView;
 		}
 		
 		SessaoDomain sessao = null;
-		try {
+		try{
 			sessao = new SessaoDomain(sessaoDomain.getLogin(), sessaoDomain.getSenha());
-		} catch (Exception e){
-			e.printStackTrace();
+			sessaoBusiness.abrirSessao(sessao.getLogin(), sessao.getSenha());
+		}catch(Exception e){
+			modelAndView.addObject("sessaoDomain", sessaoDomain);
+			return modelAndView;
 		}
-		sessaoBusiness.abrirSessao(sessao.getLogin(), sessao.getSenha());
+		
+		modelAndView.setViewName("home");
 		modelAndView.addObject("sessaoDomain", sessao);
 		
-		LOG.debug("Finalizada a execucao do metodo: addNewUser");
+		
+		
+		LOG.debug("Finalizada a execucao do metodo: login POST");
 		
 		return modelAndView;
 	}

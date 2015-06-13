@@ -25,9 +25,9 @@ public class SessaoDomain {
 	private String login;
 	
 	/** Senha da sessão	 */
-	@NotNull(message="O Login não pode ser nulo")
+	@NotNull(message="A Senha não pode ser nula")
 	@Size(min=6, message="A senha deve ter no mínimo 6 caracteres")
-	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{6,}$")
+	//@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{6,}$")
 	private String senha;
 	
 	public SessaoDomain() {}
@@ -62,7 +62,7 @@ public class SessaoDomain {
 	public void setLogin(String login) throws Exception{
 		if ( (login == null) || (login.trim().equals("")) ) {
 			logger.debug("setLogin() Excceção: "+MensagensErro.LOGIN_INVALIDO);
-			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
+			//throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		this.login = login;
 	}
@@ -84,7 +84,7 @@ public class SessaoDomain {
 	public void setSenha(String senha) throws Exception {
 		if ( (senha == null) || (senha.trim().equals("")) ) {
 			logger.debug("setSenha() Excceção: "+MensagensErro.LOGIN_INVALIDO);
-			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
+			//throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);
 		}
 		
 		this.senha = senha;

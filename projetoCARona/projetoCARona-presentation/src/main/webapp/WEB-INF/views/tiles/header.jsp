@@ -11,13 +11,13 @@
     		</a><a class="brand" href="home.html"><img src="../images/CARona_LogoMiniBranco.png" class="img-responsive"></a>      		
       		<div class="nav-collapse">
         		<ul class="nav pull-right">          
-          			<li class="dropdown">
-          				<a href="../login.html" class="dropdown-toggle" data-toggle="dropdown">
+          			<li>
+          				<a href="">
           					<i class="icon-edit"></i>&nbsp;&nbsp;Cadastre-se
           				</a>            			
           			</li>
-          			<li class="dropdown">
-          				<a href="../login.html" class="dropdown-toggle" data-toggle="dropdown">
+          			<li>
+          				<a href="login.html">
           					<i class="icon-user"></i>&nbsp;&nbsp;Login
           				</a>            			
           			</li>
