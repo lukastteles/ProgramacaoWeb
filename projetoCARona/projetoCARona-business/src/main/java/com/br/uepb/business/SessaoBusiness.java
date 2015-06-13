@@ -1,6 +1,7 @@
 package com.br.uepb.business;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.domain.SessaoDomain;
@@ -11,6 +12,7 @@ import com.br.uepb.domain.SessaoDomain;
  * @version 0.1
  * @since 20/04/2015
  */
+@Component
 public class SessaoBusiness {
 
 	final static Logger logger = Logger.getLogger(SessaoBusiness.class);

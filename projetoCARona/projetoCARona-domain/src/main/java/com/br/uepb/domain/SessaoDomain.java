@@ -30,6 +30,8 @@ public class SessaoDomain {
 	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{6,}$")
 	private String senha;
 	
+	public SessaoDomain() {}
+	
 	/**
 	 * Método construtor da classe SessaoDomain
 	 * @param login Login da sessão
@@ -40,6 +42,8 @@ public class SessaoDomain {
 		setLogin(login);
 		setSenha(senha);
 	}
+	
+	
 		
 	/**
 	 * Método para retornar o login da sessão
@@ -55,7 +59,7 @@ public class SessaoDomain {
 	 * @param login Login do usuário
 	 * @throws Exception Lança exceção se o login informado for null ou vazio
 	 */
-	private void setLogin(String login) throws Exception{
+	public void setLogin(String login) throws Exception{
 		if ( (login == null) || (login.trim().equals("")) ) {
 			logger.debug("setLogin() Excceção: "+MensagensErro.LOGIN_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);

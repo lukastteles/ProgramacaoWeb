@@ -11,12 +11,16 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.br.uepb.business.HomeBusiness;
+import com.br.uepb.business.SessaoBusiness;
+import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UserDomain;
 
 @Controller
@@ -26,6 +30,9 @@ public class HomeController {
 
 	@Autowired
 	private HomeBusiness homeBusiness;
+	
+	@Autowired
+	private SessaoBusiness sessaoBusiness;
 
 	@RequestMapping(value = "/home/home.html", method = RequestMethod.GET)
 	public ModelAndView showWelcomeHtml(HttpServletRequest request) {
@@ -34,6 +41,7 @@ public class HomeController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
+		
 		modelAndView.addObject("usuarioDomain", new UserDomain());
 		modelAndView.addObject("userName", "Noca Connected");
 		
@@ -126,4 +134,51 @@ public class HomeController {
 		modelAndView.addObject("usuarioDomain", ud);
 		return modelAndView;
 	}
+	
+	@RequestMapping(value = "/home/login.html", method = RequestMethod.GET)
+	public ModelAndView showLogin(HttpServletRequest request) {
+		
+		LOG.debug("Iniciada a execucao do metodo: showWelcomeHtml");
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("login");
+		try {
+			modelAndView.addObject("sessaoDomain", new SessaoDomain());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		LOG.debug("Finalizada a execucao do metodo: showWelcomeHtml");
+		
+		return modelAndView;
+	}
+	
+
+	@RequestMapping(value = "/home/login.html", method = RequestMethod.POST)
+	public ModelAndView login(@ModelAttribute("sessaoDomain") @Valid SessaoDomain sessaoDomain, BindingResult bindingResult, HttpServletRequest request) throws Exception {
+		
+		LOG.debug("Iniciada a execucao do metodo: login POST");
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("home");  
+		if(bindingResult.hasErrors()){
+			modelAndView.setViewName("login");
+			modelAndView.addObject("sessaoDomain", sessaoDomain);
+			return modelAndView;
+		}
+		
+		SessaoDomain sessao = null;
+		try {
+			sessao = new SessaoDomain(sessaoDomain.getLogin(), sessaoDomain.getSenha());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		sessaoBusiness.abrirSessao(sessao.getLogin(), sessao.getSenha());
+		modelAndView.addObject("sessaoDomain", sessao);
+		
+		LOG.debug("Finalizada a execucao do metodo: addNewUser");
+		
+		return modelAndView;
+	}
+	
 }
