@@ -2,9 +2,15 @@
 <%@ include file="/WEB-INF/views/includeTags.jsp"%>
 <html>
 <body>
+	<br></br>
+	<br></br>
+	<br></br>
+	<br></br>
+	
 	<!-- *****************************************************************************************************************
 	 		SERVIÇOS
 	 	 ***************************************************************************************************************** -->
+<!-- 
 	 <div id="service">
 	 	<div class="container">
  			<div class="row centered">
@@ -27,7 +33,8 @@
  					<p><a href="#" class="btn btn-theme">More Info</a></p>
  				</div>		 				
 	 		</div>
-	 	</div><!-- container -->
-	 </div><!-- service -->
+	 	</div>
+	 </div>
+	  -->
 </body>
 </html>

@@ -1,6 +1,9 @@
   <!-- Bootstrap -->
   <!-- <link href="../styles/bootstrap.css" rel="stylesheet"> --> 
   <link href="../styles/bootstrap.min.css" rel="stylesheet">
+  <link href="../styles/bootstrap-responsive.min.css" rel="stylesheet">
+  <link href="../styles/font-awesome.css" rel="stylesheet">
+  
    <!-- CSS Input -->
    <link href="../styles/style.css" rel="stylesheet"> 
 
@@ -24,6 +27,7 @@
 <!-- JS Customizado -->
 <script src="../js/bootstrap-custom.js"></script>
 <script src="../js/bootstrap.js"></script> 
+
 <!-- <script src="../js/bootstrap.min.js"></script>  -->
 <!-- JS Datapicker -->
 <script src="../js/bootstrap-datetimepicker.min.js"></script>
