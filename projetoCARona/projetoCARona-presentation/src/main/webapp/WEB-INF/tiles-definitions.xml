@@ -18,4 +18,9 @@
 		<put-attribute name="body" value="/WEB-INF/login.jsp" />
 	</definition>
 
+	<definition name="cadastroUsuario" extends="base.layout">
+		<put-attribute name="body" value="/WEB-INF/views/home/cadastroUsuario.jsp" />
+	</definition>
+	
+	
 </tiles-definitions>

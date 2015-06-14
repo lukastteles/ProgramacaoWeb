@@ -12,7 +12,7 @@
       		<div class="nav-collapse">
         		<ul class="nav pull-right">          
           			<li>
-          				<a href="">
+          				<a href="cadastroUsuario.html">
           					<i class="icon-edit"></i>&nbsp;&nbsp;Cadastre-se
           				</a>            			
           			</li>

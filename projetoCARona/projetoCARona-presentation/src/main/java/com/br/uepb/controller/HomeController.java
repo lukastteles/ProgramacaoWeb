@@ -183,5 +183,17 @@ public class HomeController {
 		
 		return modelAndView;
 	}
-	
+
+	@RequestMapping(value = "/home/cadastroUsuario.html", method = RequestMethod.GET)
+    public ModelAndView showCadastroUsuario(HttpServletRequest request){
+		LOG.debug("Iniciada a execucao do metodo: showCadastroUsuario");
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("cadastroUsuario");
+		
+		LOG.debug("Finalizada a execucao do metodo: showCadastroUsuario");
+		
+		return modelAndView;
+
+    }
 }
