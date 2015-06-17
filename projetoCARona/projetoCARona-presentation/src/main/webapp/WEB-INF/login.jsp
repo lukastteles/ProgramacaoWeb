@@ -4,10 +4,7 @@
 	<div class="col-md-6 col-md-offset-3">
 		<div class="jumbotron">
 			
-				<form:form modelAttribute="sessaoDomain" method="post">
-					<c:if test="login != null">
-						<form:errors path="*" cssClass="error" title="ERRO" />
-					</c:if>
+				<form:form modelAttribute="sessaoDomain" method="post">					
 					<div>
 						<form:input path="login" type="text" class="form-control" placeholder="Login" />
 						<form:errors path="login" cssClass="error" />	

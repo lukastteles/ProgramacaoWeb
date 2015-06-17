@@ -10,6 +10,11 @@
 		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp" />
 	</definition>
 	
+	<definition name="usuario.layout" template="/WEB-INF/views/tiles/usuarioLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/usuarioHeader.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/usuarioFooter.jsp" />
+	</definition>
+	
 	<definition name="home" extends="base.layout">
 		<put-attribute name="body" value="/WEB-INF/views/home/home.jsp" />
 	</definition>
@@ -22,5 +27,8 @@
 		<put-attribute name="body" value="/WEB-INF/views/home/cadastroUsuario.jsp" />
 	</definition>
 	
+	<definition name="homeUsuario" extends="usuario.layout">
+		<put-attribute name="body" value="/WEB-INF/views/home/homeUsuario.jsp" />
+	</definition>
 	
 </tiles-definitions>

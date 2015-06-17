@@ -1,15 +1,12 @@
-  <!-- Bootstrap -->
-  <!-- <link href="../styles/bootstrap.css" rel="stylesheet"> --> 
+  <!-- Bootstrap --> 
   <link href="../styles/bootstrap.min.css" rel="stylesheet">
-  <link href="../styles/bootstrap-responsive.min.css" rel="stylesheet">
-  <link href="../styles/font-awesome.css" rel="stylesheet">
-  
-   <!-- CSS Input -->
-   <link href="../styles/style.css" rel="stylesheet"> 
 
-  
+  <!-- Flat-ui -->
+  <link href="../styles/flat-ui.css" rel="stylesheet">
+
   <!-- CSS Customizado -->
-  <link href="../styles/bootstrap-custom.css" rel="stylesheet">
+  <link href="../styles/bootstrap-custom.css" rel="stylesheet">  
+  
   <!-- CSS Datepicker -->
   <link href="../styles/bootstrap-datetimepicker.min.css" rel="stylesheet">
  
@@ -26,7 +23,8 @@
 
 <!-- JS Customizado -->
 <script src="../js/bootstrap-custom.js"></script>
-<script src="../js/bootstrap.js"></script> 
+<script src="../js/bootstrap.js"></script>  
+<script src="../js/flat-ui.min.js"></script>
 
 <!-- <script src="../js/bootstrap.min.js"></script>  -->
 <!-- JS Datapicker -->

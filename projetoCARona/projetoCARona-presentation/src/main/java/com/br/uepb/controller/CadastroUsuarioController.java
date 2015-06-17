@@ -42,16 +42,11 @@ public class CadastroUsuarioController {
 		return modelAndView;
     }
 	
+	//TODO falta criar um metodo para capturar os erros  
 	@RequestMapping(value = "/home/cadastroUsuario.html", method = RequestMethod.POST)
 	public ModelAndView addNovoUsuario(@ModelAttribute("usuarioVieModel") @Valid CadastroUsuarioViewModels usuarioVieModel, BindingResult bindingResult, HttpServletRequest request) throws Exception {
 		
 		LOG.debug("Iniciada a execucao do metodo: addNovoUsuario POST");
-
-
-		System.out.println("login: "+usuarioVieModel.getLogin());
-		System.out.println("senha: "+usuarioVieModel.getSenha());
-		System.out.println("nome: "+usuarioVieModel.getEndereco());
-		
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("cadastroUsuario");
@@ -64,8 +59,7 @@ public class CadastroUsuarioController {
 		try {
 			usuarioBusiness.criarUsuario(usuarioVieModel.getLogin(), usuarioVieModel.getSenha(), usuarioVieModel.getNome(), usuarioVieModel.getEndereco(), usuarioVieModel.getEmail());			
 		} catch (Exception e) {
-			LOG.debug("Problemas ao tentar criar um novo usuario no metodo: addNovoUsuario POST - Erro: "+e.getMessage());
-			
+			LOG.debug("Problemas ao tentar criar um novo usuario no metodo: addNovoUsuario POST - Erro: "+e.getMessage());			
 			return modelAndView;
 		}
 

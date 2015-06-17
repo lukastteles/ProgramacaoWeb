@@ -9,9 +9,11 @@
           <a style="padding-top: 20px;" class="logoCustom" href="home.html"><img src="../images/CARona_LogoMiniBranco.png"></a>
         </div>        
         <div class="navbar-collapse collapse">          
-          <ul class="nav navbar-nav navbar-right">          
-            <li><a href="cadastroUsuario.html">Cadastre-se</a></li>
-            <li><a href="login.html">Login</a></li>            
+          <ul class="nav navbar-nav navbar-right">
+          	<h4>Nome usuario</h4>            
+            <li><a href="perfil.html">Perfil</a></li>
+            <li><a href="configuracoes.html">Configurações</a></li>
+            <li><a href="sair.html">Sair</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
