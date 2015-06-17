@@ -176,11 +176,11 @@ public class HomeController {
 			return modelAndView;
 		}
 		
-		modelAndView.setViewName("homeUsuario");
-		modelAndView.addObject("sessaoDomain", sessao);
+		//modelAndView.setViewName("homeUsuario");
+		//modelAndView.addObject("sessaoDomain", sessao);
 		
 		LOG.debug("Finalizada a execucao do metodo: login POST");
 		
-		return modelAndView;
+		return new ModelAndView("redirect:/home/homeUsuario.html");
 	}
 }

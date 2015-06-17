@@ -6,7 +6,7 @@
 	<div class="navbar navbar-lg navbar-inverse navbar-fixed-top" role="navigation">
     	<div class="container">
         	<div class="navbar-header">
-          		<a href="home.html"><h4 class="demo-section-title logoCustom">CARona</h4></a> 
+          		<a href="homeUsuario.html"><h4 class="demo-section-title logoCustom">CARona</h4></a> 
         	</div>        
         
         	<div class="navbar-collapse collapse">          
