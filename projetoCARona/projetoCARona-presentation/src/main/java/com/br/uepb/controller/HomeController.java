@@ -171,6 +171,7 @@ public class HomeController {
 		try{
 			sessao = new SessaoDomain(sessaoDomain.getLogin(), sessaoDomain.getSenha());
 			sessaoBusiness.abrirSessao(sessao.getLogin(), sessao.getSenha());
+			request.getSession().setAttribute("sessao", sessao);
 		}catch(Exception e){
 			modelAndView.addObject("sessaoDomain", sessaoDomain);
 			return modelAndView;

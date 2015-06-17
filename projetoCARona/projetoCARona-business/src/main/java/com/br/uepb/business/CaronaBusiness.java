@@ -132,7 +132,7 @@ public class CaronaBusiness {
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		//adiciona a caronas na lista de caronas
-		String carona = ""+ CaronaDAOImpl.getInstance().idCarona;
+		String carona = ""+ CaronaDAOImpl.getInstance().getIdCarona();
 		logger.debug("criando carona");
 		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, data, hora, vagas);
 		logger.debug("carona criada");
@@ -145,7 +145,7 @@ public class CaronaBusiness {
 		//usuario.addCarona(caronaDomain.getID());
 		//logger.debug("carona adicionada no historico do usuario");
 		
-		CaronaDAOImpl.getInstance().idCarona++;
+		//CaronaDAOImpl.getInstance().idCarona++;
 		return caronaDomain.getID();
 	}
 	
@@ -167,7 +167,7 @@ public class CaronaBusiness {
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		//adiciona a caronas na lista de caronas
-		String carona = ""+ CaronaDAOImpl.getInstance().idCarona;
+		String carona = ""+ CaronaDAOImpl.getInstance().getIdCarona();
 		logger.debug("criando carona municipal");
 		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, cidade, data, hora, vagas);
 		logger.debug("carona criada");
@@ -175,7 +175,7 @@ public class CaronaBusiness {
 		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
 		logger.debug("carona adicionada na lista");
 		
-		CaronaDAOImpl.getInstance().idCarona++;
+		//CaronaDAOImpl.getInstance().idCarona++;
 		return caronaDomain.getID();
 	}
 	
@@ -197,7 +197,7 @@ public class CaronaBusiness {
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		
 		//adiciona a caronas na lista de caronas
-		String carona = ""+ CaronaDAOImpl.getInstance().idCarona;
+		String carona = ""+ CaronaDAOImpl.getInstance().getIdCarona();
 		logger.debug("criando carona relampago");
 		CaronaDomain caronaDomain = new CaronaDomain(idSessao, carona, origem, destino, dataIda, dataVolta, minimoCaroneiros, hora);
 		logger.debug("carona criada");
@@ -205,7 +205,7 @@ public class CaronaBusiness {
 		CaronaDAOImpl.getInstance().addCarona(caronaDomain);
 		logger.debug("carona adicionada na lista");
 		
-		CaronaDAOImpl.getInstance().idCarona++;
+		//CaronaDAOImpl.getInstance().idCarona++;
 		return caronaDomain.getID();
 	}
 	

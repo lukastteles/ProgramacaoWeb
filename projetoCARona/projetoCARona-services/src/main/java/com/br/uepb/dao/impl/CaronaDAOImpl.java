@@ -28,7 +28,7 @@ public class CaronaDAOImpl implements CaronaDAO{
 	private Criteria criteria;
 	
 	//Variáveis temporárias para controlar o Id, que serão retiradas quando houver BD
-	public int idCarona = 1;
+	//private int idCarona = 1;
 	public int idPontoEncontro = 1;
 	
 	final static Logger logger = Logger.getLogger(CaronaDAOImpl.class);
@@ -51,6 +51,28 @@ public class CaronaDAOImpl implements CaronaDAO{
 	//Construtor de CaronaDAOImpl
 	private CaronaDAOImpl(){ }
 
+	public int getIdCarona() throws Exception{
+		int idCarona;
+		String obj;
+		try{
+		session = sessionFactory.openSession();	
+		transaction = session.beginTransaction();
+		obj =  (String)session.createQuery("Select Max(id) from CaronaDomain").uniqueResult();
+		transaction.commit();
+		session.close();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}
+		
+		if(obj == null){
+			idCarona = 1;
+		}else{
+			idCarona = Integer.parseInt(obj);
+			idCarona++;
+		}
+		return idCarona;
+	}
 	
 	@Override
 	public void addCarona(CaronaDomain carona) throws Exception {

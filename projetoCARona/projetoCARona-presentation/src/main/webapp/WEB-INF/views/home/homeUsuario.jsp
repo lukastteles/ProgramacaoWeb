@@ -12,8 +12,11 @@
 							<div class="col-xs-4">
 		          				<div class="demo-download">
 		            				<img src="../images/icons/svg/retina.svg"/>
+		            				<a class="demo-download-text" href="cadastroCarona.html">Cadastrar novas caronas</a>
+		            				
 		            			</div>
-					          	<p class="demo-download-text">Cadastrar novas caronas</p>
+					          	
+					          	
 		        			</div>
 		        			<div class="col-xs-4">
 		          				<div class="demo-download">

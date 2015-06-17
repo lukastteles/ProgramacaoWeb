@@ -78,7 +78,7 @@ public class CaronaController {
 		}
 		
 		LOG.debug("Finalizada a execucao do metodo: cadastroCarona POST");
-		return new ModelAndView("redirect:/home/home.html");
+		return new ModelAndView("redirect:/home/homeUsuario.html");
 	}
 	
 }

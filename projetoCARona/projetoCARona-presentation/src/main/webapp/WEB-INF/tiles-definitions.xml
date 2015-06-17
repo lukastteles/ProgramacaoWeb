@@ -31,4 +31,8 @@
 		<put-attribute name="body" value="/WEB-INF/views/home/homeUsuario.jsp" />
 	</definition>
 	
+	<definition name="cadastroCarona" extends="usuario.layout">
+		<put-attribute name="body" value="/WEB-INF/views/carona/cadastroCarona.jsp" />
+	</definition>
+	
 </tiles-definitions>

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
+import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.viewModels.CadastroUsuarioViewModels;
 
 @Controller
@@ -34,7 +35,6 @@ public class CadastroUsuarioController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("cadastroUsuario");
-		
 		modelAndView.addObject("usuarioVieModel", new CadastroUsuarioViewModels());
 		
 		LOG.debug("Finalizada a execucao do metodo: showCadastroUsuario");
@@ -50,9 +50,9 @@ public class CadastroUsuarioController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("cadastroUsuario");
-
-		if(bindingResult.hasErrors()){
-			modelAndView.addObject("usuarioVieModel", usuarioVieModel);			
+		modelAndView.addObject("usuarioVieModel", usuarioVieModel);
+		
+		if(bindingResult.hasErrors()){			
 			return modelAndView;
 		}
 		
@@ -61,14 +61,15 @@ public class CadastroUsuarioController {
 		} catch (Exception e) {
 			LOG.debug("Problemas ao tentar criar um novo usuario no metodo: addNovoUsuario POST - Erro: "+e.getMessage());			
 			return modelAndView;
-		}
-
-
-		modelAndView.addObject("usuarioVieModel", new CadastroUsuarioViewModels());			
+		}			
+		//adiciona sessao
+		SessaoDomain sessao = new SessaoDomain(usuarioVieModel.getLogin(), usuarioVieModel.getSenha());
+		request.getSession().setAttribute("sessao", sessao);
+		
 		
 		LOG.debug("Finalizada a execucao do metodo: addNovoUsuario POST");
 		
-		return modelAndView;
+		return new ModelAndView("redirect:/home/homeUsuario.html");
 	}
 
 }

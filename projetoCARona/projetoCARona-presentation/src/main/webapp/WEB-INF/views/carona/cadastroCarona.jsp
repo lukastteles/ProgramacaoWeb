@@ -84,15 +84,15 @@
 						<form:input path="vagas" type="text" class="form-control" placeholder="Vagas"/>
 						<form:errors path="vagas" cssClass="error" />
 					</div>
-					<div id="divCidade">
+					<div id="divCidade" style="visibility:hidden">
 						<form:input path="cidade" type="text" class="form-control" placeholder="Cidade"/>
 						<form:errors path="cidade" cssClass="error" />
 					</div>
-					<div id="divDataVolta">
+					<div id="divDataVolta"  style="visibility:hidden">
 						<form:input path="dataVolta" type="text" class="form-control" placeholder="Data Volta"/>
 						<form:errors path="dataVolta" cssClass="error" />
 					</div>
-					<div id="divMinCaroneiros">
+					<div id="divMinCaroneiros"  style="visibility:hidden">
 						<form:input path="minimoCaroneiros" type="text" class="form-control" placeholder="Minimo de Caroneiros"/>
 						<form:errors path="minimoCaroneiros" cssClass="error" />
 					</div>

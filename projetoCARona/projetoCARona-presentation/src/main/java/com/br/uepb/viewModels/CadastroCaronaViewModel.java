@@ -10,7 +10,7 @@ public class CadastroCaronaViewModel {
 	private String dataVolta;
 	private int vagas;
 	private int minimoCaroneiros;
-	private String tipoCarona;
+	private String tipoCarona = "C";
 	
 	public CadastroCaronaViewModel() { }
 	
