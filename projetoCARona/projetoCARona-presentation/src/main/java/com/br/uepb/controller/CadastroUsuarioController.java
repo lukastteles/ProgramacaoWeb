@@ -63,7 +63,9 @@ public class CadastroUsuarioController {
 			return modelAndView;
 		}
 
-		modelAndView.setViewName("home");
+
+		modelAndView.addObject("usuarioVieModel", new CadastroUsuarioViewModels());			
+		
 		LOG.debug("Finalizada a execucao do metodo: addNovoUsuario POST");
 		
 		return modelAndView;

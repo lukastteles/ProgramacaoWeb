@@ -2,10 +2,57 @@
 <%@ include file="/WEB-INF/views/includeTags.jsp"%>
 <html>
 <body>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
+	<div id="service">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5">
+					<div class="row logoCustom">
+						<a style="padding-top: 20px;" class="" href="home.html"><img src="../images/CARona_LogoMiniAzul.png"></a>
+					</div>
+					<div class="row">
+	        			<div class="col-xs-5">
+	          				<p></p>
+	          				<a href="cadastroUsuario.html" class="btn btn-block btn-lg btn-inverse">Cadastre-se</a>		          				
+	        			</div>
+						<div class="col-xs-5">
+	          				<p></p>
+	          				<a href="login.html" class="btn btn-block btn-lg btn-inverse">Login</a>		          				
+	        			</div>
+					</div>			
+				</div>
+				<div class="col-md-7">
+					<div class="row">
+	            		<p>CARona é um sistema que consiste em uma rede social na web para compartilhamento de caronas.</p>
+	            	</div>
+	            	
+					<div class="row">
+						<h3 class="tile-title">Você pode:</h3><p></p>
+						<div class="col-xs-4">
+	          				<div class="demo-download">
+	            				<img src="../images/icons/svg/retina.svg"/>
+	            			</div>
+				          	<p class="demo-download-text">Cadastrar novas caronas</p>
+	        			</div>
+	        			<div class="col-xs-4">
+	          				<div class="demo-download">
+	            				<img src="../images/icons/svg/clipboard.svg"/>
+	            			</div>
+				          	<p class="demo-download-text">Procurar caronas</p>
+	        			</div>
+	        			<div class="col-xs-4">
+	          				<div class="demo-download">
+	            				<img src="../images/icons/svg/chat.svg"/>
+	            			</div>
+				          	<p class="demo-download-text">Adicionar amigos</p>
+	        			</div>
+	        		</div>
+	        		<div class="col-md-3 col-md-offset-8">
+	          			<a href="#" class="btn btn-block btn-lg btn-info">Mais inf.</a>
+	        		</div>
+	    		</div>
+	    	</div>
+	    </div>
+	</div>
 	
 	<!-- *****************************************************************************************************************
 	 		SERVIÇOS

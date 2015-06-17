@@ -3,10 +3,14 @@
 	 ***************************************************************************************************************** -->
 
 <!-- fixed navbar top -->
-	<nav class="navbar navbar-lg navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="navbar navbar-lg navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">        
-          <a style="padding-top: 20px;" class="logoCustom" href="home.html"><img src="../images/CARona_LogoMiniBranco.png"></a>
+          <!-- <a style="padding-top: 20px;" class="logoCustom" href="home.html"><img src="../images/CARona_LogoMiniBranco.png"></a>        
+            -->
+          <a href="home.html">
+          	<h4 class="demo-section-title logoCustom">CARona</h4>
+          </a> 
         </div>        
         <div class="navbar-collapse collapse">          
           <ul class="nav navbar-nav navbar-right">          
@@ -17,7 +21,4 @@
       </div>
     </div>
 
-<script type="text/javascript">
-	
-</script>
   

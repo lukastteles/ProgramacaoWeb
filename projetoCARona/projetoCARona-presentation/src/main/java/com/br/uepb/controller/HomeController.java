@@ -40,8 +40,10 @@ public class HomeController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
 		
-		modelAndView.addObject("usuarioDomain", new UserDomain());
-		modelAndView.addObject("userName", "Noca Connected");
+		//modelAndView.addObject("usuarioDomain", new UserDomain());
+		//modelAndView.addObject("userName", "Noca Connected");
+		
+		request.removeAttribute("sessao");
 		
 		request.getSession().setAttribute("lstUsers", new ArrayList<UserDomain>());
 		
@@ -174,10 +176,8 @@ public class HomeController {
 			return modelAndView;
 		}
 		
-		modelAndView.setViewName("home");
+		modelAndView.setViewName("homeUsuario");
 		modelAndView.addObject("sessaoDomain", sessao);
-		
-		
 		
 		LOG.debug("Finalizada a execucao do metodo: login POST");
 		

@@ -1,104 +1,28 @@
-/*------------------------------------------------------------------
-  Bootstrap-custom.css | CSS Customizado 
-  Bootstrap based Admin Template by EGrappler.com
-------------------------------------------------------------------*/
+/*! bootstrap-custom.css | CSS Customizado */
 
-/* 1 - GLOBAL */
+/**
+ * Usar este CSS para customizar o Framework Bootstrap
+ */
 
-body {
-	background: white;
-	font: 13px/1.7em 'Open Sans';
-}
-    
-p { 
-	font: 13px/1.7em 'Open Sans'; 	
-}
-   
-
-/* 2 - NAVBAR */
-.navbar .container {
-	position: relative;	
+/* Services Wrap */
+#service {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: white;
+	padding-top: 90px;
+	padding-bottom: 10px;
+	/*text-align: center;*/
+	min-height: 550px;
 }
 
-.navbar-inner {
-	padding: 7px 0;
-	background: #00ba8b !important;
-	font-family:sans-serif;
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
-	border-radius: 0;
+#service i {
+	color: #00b3fe;
+	font-size: 60px;
+	padding: 15px;
 }
 
-.navbar-fixed-top {
-	position: static;	
-}
-
-.navbar .nav>li>a { 
-	color:#fff !important;
-}
-
-.navbar .brand {
-	font-weight: 600;
-	position: relative;
-	top: 2px;
-}
-
-/* EXTRA */
-
-.extra {
-	border-top: 1px solid #585858;
-	border-bottom: 1px solid #000;
-}
-
-.extra-inner {
-	padding: 20px 0;
-	font: 13px/1.7em 'Open Sans';
-	color: #BBB;	
-	background: #1A1A1A;
-}
-
-.extra a {
-	color: #666;
-}
-
-
-.extra ul {
-	padding: 0;
-	margin: 0;
-}
-
-.extra li:hover {	
-	text-decoration: underline;
-	color: #666;
-}
-
-.extra li {
-	margin-bottom: .5em;	
-	font-family:sans-serif;
-	list-style: none;
-}
-
-
-/* 6 - FOOTER */
-.footer {
-	margin-top: 0;	
-	border-top: 1px solid #292929;
-}
-
-.footer-inner {
-	padding: 10px 0;	
-	font-size: 14px;
-	background: #111;
-	color: white;
-	margin-bottom: .5em;	
-	font-family:sans-serif;
-}
-
-.footer a {
-	color: white;
-}
-
-.footer a:hover {
-	color: #FFF;
-	text-decoration: none;
+.logoCustom{	
+	margin-top: 20px;
+	margin-bottom: 20px;	
+  	color: #fff;
 }
