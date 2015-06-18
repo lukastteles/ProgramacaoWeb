@@ -15,6 +15,7 @@
 		<put-attribute name="footer" value="/WEB-INF/views/tiles/usuarioFooter.jsp" />
 	</definition>
 	
+	<!-- View da pagina inicial do sistema -->
 	<definition name="home" extends="base.layout">
 		<put-attribute name="body" value="/WEB-INF/views/home/home.jsp" />
 	</definition>
@@ -27,12 +28,17 @@
 		<put-attribute name="body" value="/WEB-INF/views/home/cadastroUsuario.jsp" />
 	</definition>
 	
+	<!-- Views das paginas do usuario -->
 	<definition name="homeUsuario" extends="usuario.layout">
 		<put-attribute name="body" value="/WEB-INF/views/home/homeUsuario.jsp" />
 	</definition>
 	
 	<definition name="cadastroCarona" extends="usuario.layout">
 		<put-attribute name="body" value="/WEB-INF/views/carona/cadastroCarona.jsp" />
+	</definition>
+	
+	<definition name="pesquisaCarona" extends="usuario.layout">
+		<put-attribute name="body" value="/WEB-INF/views/carona/pesquisaCarona.jsp" />
 	</definition>
 	
 </tiles-definitions>

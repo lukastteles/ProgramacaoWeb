@@ -11,18 +11,19 @@
   						<div class="panel-body">
 							<div class="col-xs-4">
 		          				<div class="demo-download">
-		            				<img src="../images/icons/svg/retina.svg"/>
-		            				<a class="demo-download-text" href="cadastroCarona.html">Cadastrar novas caronas</a>
-		            				
+		            				<a class="demo-download-text" href="cadastroCarona.html">
+		            					<img src="../images/icons/svg/retina.svg"/>
+		            					<p class="demo-download-text">Cadastrar novas caronas</p>
+		            				</a>
 		            			</div>
-					          	
-					          	
 		        			</div>
 		        			<div class="col-xs-4">
 		          				<div class="demo-download">
-		            				<img src="../images/icons/svg/clipboard.svg"/>
+		          					<a class="demo-download-text" href="pesquisaCarona.html">
+		            					<img src="../images/icons/svg/clipboard.svg"/>
+					          			<p class="demo-download-text">Localizar caronas</p>
+					          		</a>
 		            			</div>
-					          	<p class="demo-download-text">Procurar caronas</p>
 		        			</div>
 		        			<div class="col-xs-4">
 		          				<div class="demo-download">

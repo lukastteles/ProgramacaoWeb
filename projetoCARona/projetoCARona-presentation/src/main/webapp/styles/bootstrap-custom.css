@@ -6,23 +6,27 @@
 
 /* Services Wrap */
 #service {
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	background-color: white;
-	padding-top: 90px;
+	padding-top: 10px;
 	padding-bottom: 10px;
 	/*text-align: center;*/
-	min-height: 550px;
+	min-height: 470px;
 }
 
 #service i {
 	color: #00b3fe;
 	font-size: 60px;
-	padding: 15px;
+	padding: 10px;
 }
 
 .logoCustom{	
 	margin-top: 20px;
 	margin-bottom: 20px;	
   	color: #fff;
+}
+
+.tamanhoDefault{
+	min-height: 380px;
 }

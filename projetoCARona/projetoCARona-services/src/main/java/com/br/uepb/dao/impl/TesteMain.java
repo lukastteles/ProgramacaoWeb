@@ -20,7 +20,7 @@ public class TesteMain {
 			usuario = UsuarioDAOImpl.getInstance().getUsuario("Luana");			
 			System.out.println(usuario.getLogin());
 			
-			String idCarona = ""+ CaronaDAOImpl.getInstance().idCarona;
+			String idCarona = ""+ CaronaDAOImpl.getInstance().getIdCarona();
 			CaronaDomain carona = new CaronaDomain("Luana", idCarona, "L", "D", "01/01/2015", "13:00", 3);
 			CaronaDAOImpl.getInstance().addCarona(carona);
 			
