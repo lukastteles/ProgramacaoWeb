@@ -3,7 +3,7 @@
 	 ***************************************************************************************************************** -->
 
 <!-- fixed navbar top -->
-	<div class="navbar navbar-lg navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="navbar navbar-lg navbar-inverse navbar-static-top" role="navigation">
     	<div class="container">
         	<div class="navbar-header">
           		<a href="homeUsuario.html"><h4 class="demo-section-title logoCustom">CARona</h4></a> 
