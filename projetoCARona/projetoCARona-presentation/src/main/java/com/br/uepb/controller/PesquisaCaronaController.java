@@ -18,9 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.br.uepb.business.CaronaBusiness;
 import com.br.uepb.business.SessaoBusiness;
+import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.viewModels.CadastroCaronaViewModel;
+import com.br.uepb.viewModels.PesquisaCaronaViewModels;
 
 @Controller
 public class PesquisaCaronaController {
@@ -43,7 +45,7 @@ public class PesquisaCaronaController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("pesquisaCarona");
 		modelAndView.addObject("caronaDomainViewModel", new CadastroCaronaViewModel());
-		modelAndView.addObject("listaCaronas", new ArrayList<CaronaDomain>());
+		modelAndView.addObject("listaCaronas", new ArrayList<PesquisaCaronaViewModels>());
 		modelAndView.addObject("totalCaronas", 0);
 		modelAndView.addObject("filtoConsulta", "");
 		
@@ -78,8 +80,37 @@ public class PesquisaCaronaController {
 			else {
 				listaCaronas = caronaBusiness.localizarCaronaMunicipal(sessao.getLogin(), caronaDomainViewModel.getCidade() ,caronaDomainViewModel.getOrigem(), caronaDomainViewModel.getDestino());				
 			}			
-			modelAndView.addObject("listaCaronas", listaCaronas);
-			modelAndView.addObject("totalCaronas", listaCaronas.size());
+			
+			ArrayList<PesquisaCaronaViewModels> pesquisaCaronas = new ArrayList<PesquisaCaronaViewModels>();
+			for (CaronaDomain caronaDomain : listaCaronas) {
+				PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
+				modeloCarona.setOrigem(caronaDomain.getOrigem());
+				modeloCarona.setDestino(caronaDomain.getDestino());
+				modeloCarona.setHora(caronaDomain.getHora());
+				modeloCarona.setData(caronaDomain.getData());
+				modeloCarona.setDataVolta(caronaDomain.getDataVolta());
+				modeloCarona.setVagas(caronaDomain.getVagas());
+				modeloCarona.setIdSessao(caronaDomain.getIdSessao());
+				modeloCarona.setCidade(caronaDomain.getCidade());
+				
+				//Tratamento para o tipo da carona
+				if (caronaDomain.getTipoCarona().equals("M")){
+					modeloCarona.setTipoCarona("Municipal");
+				}
+				else if (caronaDomain.getTipoCarona().equals("R")){
+					modeloCarona.setTipoCarona("Relâmpago");
+				}
+				else {
+					modeloCarona.setTipoCarona("Interurbana");
+				}
+				
+				String nomeMotorista = UsuarioDAOImpl.getInstance().getUsuario(caronaDomain.getIdSessao()).getPerfil().getNome();
+				modeloCarona.setNomeMotorista(nomeMotorista);
+				
+				pesquisaCaronas.add(modeloCarona);
+			}
+			modelAndView.addObject("listaCaronas", pesquisaCaronas);
+			modelAndView.addObject("totalCaronas", pesquisaCaronas.size());
 			
 			//tratamento do filtro
 			String filtro = "";

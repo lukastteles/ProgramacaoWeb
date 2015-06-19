@@ -27,6 +27,7 @@
 		</div> <!-- col-md-3 -->
 		
 		<div class="col-md-9">
+			<!--  
 			<div class="panel panel-default">
 				<ul class="list-group">
 				    <li class="list-group-item">
@@ -43,12 +44,46 @@
 					    			<h3 class="tile-title">Origem: ${carona.origem} - Destino  ${carona.destino}</h3>					    	
 						    	</div>
 						    </div>
-					    </li> <!-- list-group-item -->
-				    </c:forEach> <!-- foreach -->
-				</ul> <!-- List group -->
-	  				  			
-	  		</div> <!-- panel panel-default -->
-		</div> <!-- col-md-9 --> 
-		
+					    </li> 
+				    </c:forEach> 
+				</ul> 
+	  		</div> 
+	  		  -->
+	  		<div class="col-md-12">  				 				  	
+	  			<ul class="list-group">
+				    <li class="list-group-item">
+				    	<span class="badge">${totalCaronas}</span>
+				    	Caronas Encontradas ${filtoConsulta}
+				    </li>
+				</ul>
+				<c:forEach items="${listaCaronas}" var="carona">
+					<ul class="list-group">
+					   	<a href="#" class="list-group-item list-group-pesquisa">
+			  				<div class="row">
+			  					<div class="col-md-8">
+			  						<span class="glyphicon glyphicon-map-marker"></span> De ${carona.origem} - ${carona.destino}  (${carona.tipoCarona})<hr>
+			  						<span class="fui-user"></span> <b>Motorista:</b> ${carona.nomeMotorista} <br>
+			  						<span class="glyphicon glyphicon-globe"></span> <b>Cidade:</b> ${carona.cidade}<br>	
+			  					</div> 
+			  					<div class="col-md-4">
+			  						<span class="badge">${carona.vagas}</span> Vagas Disponíveis<hr>
+			  						<span class="fui-calendar"></span> <b>Saída:</b> ${carona.data} <br> 
+			  						<span class="fui-calendar"></span> <b>Volta:</b> ${carona.dataVolta} <br> 			  						
+			  						<!-- 
+			  						<a class="demo-download-text" href="#">
+			  							<span class="fui-search"></span> Detalhar Carona
+			  						</a><br>	
+			  						<a class="demo-download-text" href="#">
+			  							<span class="fui-plus-circle"></span> Solicitar vaga
+			  						</a>
+			  						 -->				
+			  					</div>
+			  				</div>
+					   	</a>
+					</ul>  					
+				</c:forEach>  						  			
+	  		</div>
+	  		
+		</div> <!-- col-md-9 --> 	
 	</div><!-- container -->
 </div><!-- service -->
