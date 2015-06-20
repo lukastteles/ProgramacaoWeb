@@ -58,32 +58,46 @@
 				</ul>
 				<c:forEach items="${listaCaronas}" var="carona">
 					<ul class="list-group">
-					   	<a href="#" class="list-group-item list-group-pesquisa">
-			  				<div class="row">
-			  					<div class="col-md-8">
+					   	<li href="#" class="list-group-item list-group-pesquisa">
+			  				<div class="row">			  				
+                				<div class="col-md-8">
 			  						<span class="glyphicon glyphicon-map-marker"></span> De ${carona.origem} - ${carona.destino}  (${carona.tipoCarona})<hr>
-			  						<span class="fui-user"></span> <b>Motorista:</b> ${carona.nomeMotorista} <br>
-			  						<span class="glyphicon glyphicon-globe"></span> <b>Cidade:</b> ${carona.cidade}<br>	
+			  						<span class="fui-user"></span> <b>Motorista:</b> ${carona.nomeMotorista} <br>			  															
+									<c:if test="${not empty carona.cidade}">
+    									<span class="glyphicon glyphicon-globe"></span> <b>Cidade:</b> ${carona.cidade}<br>
+									</c:if>		
 			  					</div> 
 			  					<div class="col-md-4">
 			  						<span class="badge">${carona.vagas}</span> Vagas Disponíveis<hr>
-			  						<span class="fui-calendar"></span> <b>Saída:</b> ${carona.data} <br> 
-			  						<span class="fui-calendar"></span> <b>Volta:</b> ${carona.dataVolta} <br> 			  						
-			  						<!-- 
-			  						<a class="demo-download-text" href="#">
-			  							<span class="fui-search"></span> Detalhar Carona
-			  						</a><br>	
-			  						<a class="demo-download-text" href="#">
-			  							<span class="fui-plus-circle"></span> Solicitar vaga
-			  						</a>
-			  						 -->				
+			  						<span class="fui-calendar"></span> <b>Saída:</b> ${carona.data} <br>
+			  						<c:if test="${not empty carona.dataVolta}">
+			  							<span class="fui-calendar"></span> <b>Volta:</b> ${carona.dataVolta} <br>
+									</c:if>				
 			  					</div>
 			  				</div>
-					   	</a>
+			  				<div class="row">
+				  				<div class="col-md-12">
+				  					<hr>
+				  					<div class="col-md-4">
+				  						<a href="#"><span class="fui-search"></span> <b>Detalhar Carona</a>
+				  					</div>
+				  					<div class="col-md-3">
+				  						<c:if test="${carona.solicitouVaga == false}">
+			  								<a href="solicitarVagaCarona.html?id=${carona.idCarona}"><span class="fui-plus-circle"></span> <b>Solicitar Vaga</b></a>
+										</c:if>
+										<c:if test="${carona.solicitouVaga == true}">
+			  								<a href="solicitarVagaCarona.html?id=${carona.idCarona}"><span class="glyphicon glyphicon-minus-sign"></span> <b>Desistir Vaga</b></a>
+										</c:if>					  							
+				  					</div>
+				  					<div class="col-md-5">
+			  						<a href="sugerirPonto.html"><span class="glyphicon glyphicon-map-marker"></span> <b>Sugerir Ponto de Encontro</b></a>
+				  					</div>
+								</div>
+							</div>
+					   	</li>
 					</ul>  					
 				</c:forEach>  						  			
 	  		</div>
-	  		
 		</div> <!-- col-md-9 --> 	
 	</div><!-- container -->
 </div><!-- service -->

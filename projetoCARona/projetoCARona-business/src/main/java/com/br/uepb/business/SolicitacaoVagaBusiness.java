@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
@@ -24,6 +25,7 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  * @version 0.1
  * @since 20/04/2015
  */
+@Component
 public class SolicitacaoVagaBusiness {
 
 	final static Logger logger = Logger.getLogger(SolicitacaoVagaBusiness.class);
