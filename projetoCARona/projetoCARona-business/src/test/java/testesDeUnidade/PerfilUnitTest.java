@@ -3,6 +3,8 @@ package testesDeUnidade;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,7 @@ import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
+import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class PerfilUnitTest {
@@ -361,8 +364,8 @@ public class PerfilUnitTest {
 		int vagasEmCaronas = 2;//total de caronas solicitadas
 		
 		try {
-			String[] historicoVagas = perfilBusiness.getHistoricoDeVagasEmCaronas(login);
-			assertEquals(vagasEmCaronas, historicoVagas.length);
+			List<CaronaDomain> historicoVagas = perfilBusiness.getHistoricoDeVagasEmCaronas(login);
+			assertEquals(vagasEmCaronas, historicoVagas.size());
 		} catch (ProjetoCaronaException e) {
 			fail();
 		} catch (Exception e) {

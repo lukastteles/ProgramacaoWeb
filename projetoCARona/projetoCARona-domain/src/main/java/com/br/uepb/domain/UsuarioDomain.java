@@ -121,6 +121,10 @@ public class UsuarioDomain {
 	public PerfilDomain getPerfil() {
 		return perfil;
 	}
+	
+	public void setPerfil(PerfilDomain perfil){
+		this.perfil = perfil;
+	}
 
 	/**
 	 * Método que informa todos os parâmetros nome, endereço e email do Perfil

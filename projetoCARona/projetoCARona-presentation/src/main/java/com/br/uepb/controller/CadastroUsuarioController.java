@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.domain.SessaoDomain;
+import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.viewModels.CadastroUsuarioViewModels;
 
 @Controller
@@ -35,7 +36,7 @@ public class CadastroUsuarioController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("cadastroUsuario");
-		modelAndView.addObject("usuarioVieModel", new CadastroUsuarioViewModels());
+		modelAndView.addObject("usuarioDomain", new UsuarioDomain());
 		
 		LOG.debug("Finalizada a execucao do metodo: showCadastroUsuario");
 		
@@ -44,26 +45,26 @@ public class CadastroUsuarioController {
 	
 	//TODO falta criar um metodo para capturar os erros  
 	@RequestMapping(value = "/home/cadastroUsuario.html", method = RequestMethod.POST)
-	public ModelAndView addNovoUsuario(@ModelAttribute("usuarioVieModel") @Valid CadastroUsuarioViewModels usuarioVieModel, BindingResult bindingResult, HttpServletRequest request) throws Exception {
+	public ModelAndView addNovoUsuario(@ModelAttribute("usuarioDomain") @Valid UsuarioDomain usuarioDomain, BindingResult bindingResult, HttpServletRequest request) throws Exception {
 		
 		LOG.debug("Iniciada a execucao do metodo: addNovoUsuario POST");
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("cadastroUsuario");
-		modelAndView.addObject("usuarioVieModel", usuarioVieModel);
 		
 		if(bindingResult.hasErrors()){			
+			modelAndView.addObject("usuarioDomain", usuarioDomain);
 			return modelAndView;
 		}
 		
 		try {
-			usuarioBusiness.criarUsuario(usuarioVieModel.getLogin(), usuarioVieModel.getSenha(), usuarioVieModel.getNome(), usuarioVieModel.getEndereco(), usuarioVieModel.getEmail());			
+			usuarioBusiness.criarUsuario(usuarioDomain.getLogin(), usuarioDomain.getSenha(), usuarioDomain.getPerfil().getNome(), usuarioDomain.getPerfil().getEndereco(), usuarioDomain.getPerfil().getEmail());			
 		} catch (Exception e) {
 			LOG.debug("Problemas ao tentar criar um novo usuario no metodo: addNovoUsuario POST - Erro: "+e.getMessage());			
 			return modelAndView;
 		}			
 		//adiciona sessao
-		SessaoDomain sessao = new SessaoDomain(usuarioVieModel.getLogin(), usuarioVieModel.getSenha());
+		SessaoDomain sessao = new SessaoDomain(usuarioDomain.getLogin(), usuarioDomain.getSenha());
 		request.getSession().setAttribute("sessao", sessao);
 		
 		

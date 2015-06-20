@@ -1,8 +1,10 @@
 package com.br.uepb.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
@@ -22,6 +24,7 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  * @version 0.1
  * @since 20/04/2015
  */
+@Component
 public class PerfilBusiness {
 	
 	final static Logger logger = Logger.getLogger(PerfilBusiness.class);
@@ -102,16 +105,16 @@ public class PerfilBusiness {
 	 * @return Histórico de vagas nas caronas do usuário
 	 * @throws Exception Lança exceção se o login for null, vazio ou inexistente
 	 */
-	public String[] getHistoricoDeVagasEmCaronas(String login) throws Exception{
+	public List<CaronaDomain> getHistoricoDeVagasEmCaronas(String login) throws Exception{
 		logger.debug("buscando histórico de vagas em caronas do usuário");
 		//return UsuarioDAOImpl.getInstance().getUsuario(login).getPerfil().getHistoricoDeVagasEmCaronas();
 		
-		List<SolicitacaoVagaDomain> historicoDeVagasEmCaronas =  SolicitacaoVagaDAOImpl.getInstance().getHistoricoDeVagasEmCaronas(login);
-		String[] historico = new String[historicoDeVagasEmCaronas.size()];
-		for (int i=0; i<historico.length; i++) {
-			historico[i] = historicoDeVagasEmCaronas.get(i).getIdCarona();
+		List<SolicitacaoVagaDomain> solicitacaoDeVagasEmCaronas =  SolicitacaoVagaDAOImpl.getInstance().getHistoricoDeVagasEmCaronas(login);
+		List<CaronaDomain> historicoDeVagasEmCaronas = new ArrayList<CaronaDomain>();
+		for (SolicitacaoVagaDomain solicitacao : solicitacaoDeVagasEmCaronas) {
+			historicoDeVagasEmCaronas.add(CaronaDAOImpl.getInstance().getCarona(solicitacao.getIdCarona()));
 		}
-		return historico;
+		return historicoDeVagasEmCaronas;
 	}
 	
 	/**

@@ -341,6 +341,7 @@ public class FacadeTestBusiness {
 		
 	//Metodos de controle da classe Perfil
 	public String getAtributoPerfil(String login, String atributo) throws Exception{
+		List<CaronaDomain> caronas;
 		if(atributo.equals("nome")){
 			return perfilBusiness.getNome(login);
 		}else if(atributo.equals("endereco")){
@@ -348,14 +349,19 @@ public class FacadeTestBusiness {
 		}else if(atributo.equals("email")){
 			return perfilBusiness.getEmail(login);
 		}else if(atributo.equals("historico de caronas")){
-			List<CaronaDomain> caronas = perfilBusiness.getHistoricoDeCaronas(login);
+			caronas = perfilBusiness.getHistoricoDeCaronas(login);
 			String[] historico = new String[caronas.size()];
 			for (int i=0; i<historico.length; i++) {
 				historico[i] = caronas.get(i).getID();
 			}
 			return trataLista(historico);
 		}else if(atributo.equals("historico de vagas em caronas")){
-			return trataLista(perfilBusiness.getHistoricoDeVagasEmCaronas(login));
+			caronas = perfilBusiness.getHistoricoDeVagasEmCaronas(login);
+			String[] historico = new String[caronas.size()];
+			for (int i=0; i<historico.length; i++) {
+				historico[i] = caronas.get(i).getID();
+			}
+			return trataLista(historico);
 		}else if(atributo.equals("caronas seguras e tranquilas")){
 			return ""+perfilBusiness.getCaronasSegurasETranquilas(login).size();
 		}else if(atributo.equals("caronas que não funcionaram")){

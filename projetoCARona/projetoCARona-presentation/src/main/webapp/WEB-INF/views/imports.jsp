@@ -27,7 +27,7 @@
 <script src="../js/flat-ui.min.js"></script>
 <script src="../js/application.js"></script>
 
-<!-- <script src="../js/bootstrap.min.js"></script>  -->
+<script src="../js/bootstrap.min.js"></script>
 <!-- JS Datapicker -->
 <script src="../js/bootstrap-datetimepicker.min.js"></script>
 
