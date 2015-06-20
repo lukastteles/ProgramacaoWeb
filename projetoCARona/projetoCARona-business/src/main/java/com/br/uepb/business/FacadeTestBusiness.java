@@ -48,13 +48,13 @@ public class FacadeTestBusiness {
 			
 		caronas = caronaBusiness.localizarCarona(idSessao, origem, destino);
 		
+		/*
 		//resolvido ^^
 		if(caronas.size() == 3){
 			if(caronas.get(0).getID().equals("10") && caronas.get(1).getID().equals("8") && caronas.get(2).getID().equals("9")){
 				return "{8,9,10}";
 			}
-		}
-		
+		}*/
 		
 		String caronasList = "{";
 		for (CaronaDomain caronaDomain : caronas) {

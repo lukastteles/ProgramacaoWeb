@@ -24,37 +24,41 @@ public interface CaronaDAO {
 	
 	/**
 	 * Pega a Lista de caronas
+	 * @param login Login do usuario
 	 * @return Lista de caronas
 	 * @throws Exception 
-	 */
-	public List<CaronaDomain> listCaronas() throws Exception;
+	 */	
+	public List<CaronaDomain> listCaronas(String login) throws Exception;
 	
 	
 	/**
 	 * Pega as caronas da lista pela origem e destino 
+	 * @param login Login do usuario
 	 * @param origem Local de origem da carona
 	 * @param destino Local de destino da carona
 	 * @return Lista de caronas com a origem e o destino especificados
 	 * @throws Exception 
 	 */
-	public List<CaronaDomain> listCaronas(String origem, String destino) throws Exception;
+	public List<CaronaDomain> listCaronas(String login, String origem, String destino) throws Exception;
 	
 	
 	/**
 	 * Pega as caronas da lista pela origem
+	 * @param login Login do usuario
 	 * @param origem Local de origem da carona
 	 * @return Lista de caronas com a origem especificada
 	 * @throws Exception 
 	 */
-	public List<CaronaDomain> listCaronasByOrigem(String origem) throws Exception;
+	public List<CaronaDomain> listCaronasByOrigem(String login, String origem) throws Exception;
 	
 	/**
 	 * Pega as caronas da lista pelo destino
+	 * @param login Login do usuario
 	 * @param destino Çocal de destino da carona
 	 * @return Lista de caronas com o destino especificado
 	 * @throws Exception 
 	 */
-	public List<CaronaDomain> listCaronasByDestino(String destino) throws Exception;
+	public List<CaronaDomain> listCaronasByDestino(String login, String destino) throws Exception;
 	
 	/**
  	 * Pega as caronas municipais da lista pela origem e destino

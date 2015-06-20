@@ -58,18 +58,18 @@ public class CaronaBusiness {
 		}
 				
 		if ( (origem.trim().equals("")) && (destino.trim().equals("")) ) {
-			caronas = CaronaDAOImpl.getInstance().listCaronas();
+			caronas = CaronaDAOImpl.getInstance().listCaronas(idSessao);
 		}
 		else if (origem.trim().equals(""))  {
-			caronas = CaronaDAOImpl.getInstance().listCaronasByDestino(destino);
+			caronas = CaronaDAOImpl.getInstance().listCaronasByDestino(idSessao, destino);
 			
 		}
 		else if (destino.trim().equals("")){
-			caronas = CaronaDAOImpl.getInstance().listCaronasByOrigem(origem);
+			caronas = CaronaDAOImpl.getInstance().listCaronasByOrigem(idSessao, origem);
 			
 		}
 		else {
-			caronas = CaronaDAOImpl.getInstance().listCaronas(origem, destino);
+			caronas = CaronaDAOImpl.getInstance().listCaronas(idSessao, origem, destino);
 		}
 		logger.debug("retornando caronas encontradas");
 		return caronas;

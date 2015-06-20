@@ -8,7 +8,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 
@@ -89,13 +88,13 @@ public class CaronaDAOImpl implements CaronaDAO{
 	}
 	
 	@Override
-	public List<CaronaDomain> listCaronas() throws Exception {
+	public List<CaronaDomain> listCaronas(String login) throws Exception {
 		List<CaronaDomain> caronas;		
 		try{
-			session = sessionFactory.openSession();
-			criteria = session.createCriteria(CaronaDomain.class);
-			criteria.addOrder(Order.asc("id"));
-			caronas = (ArrayList<CaronaDomain>) criteria.list();
+			session = sessionFactory.openSession();	
+			transaction = session.beginTransaction();
+			caronas = session.createQuery(" from CaronaDomain order by id ").list();
+			transaction.commit();
 			session.close();
 			return caronas;
 		}catch(Exception e){
@@ -105,16 +104,16 @@ public class CaronaDAOImpl implements CaronaDAO{
 	}
 
 	@Override
-	public List<CaronaDomain> listCaronas(String origem, String destino) throws Exception {
-		ArrayList<CaronaDomain> caronas;
-		
+	public List<CaronaDomain> listCaronas(String login, String origem, String destino) throws Exception {
+		List<CaronaDomain> caronas;
 		try{
-			session = sessionFactory.openSession();
-			criteria = session.createCriteria(CaronaDomain.class);
-			criteria.add(Restrictions.eq("origem", origem));
-			criteria.add(Restrictions.eq("destino", destino));
-			criteria.addOrder(Order.asc("id"));
-			caronas = (ArrayList<CaronaDomain>)criteria.list();		  
+			session = sessionFactory.openSession();	
+			transaction = session.beginTransaction();
+			caronas = session.createQuery(" from CaronaDomain "+
+										  " where origem = \'"+origem+"\' "+
+										  " and destino = \'"+destino+"\' "+
+										  " order by id").list();
+			transaction.commit();		  
 			session.close();
 			return caronas;
 		}catch(Exception e){
@@ -124,15 +123,16 @@ public class CaronaDAOImpl implements CaronaDAO{
 	}
 	
 	@Override
-	public List<CaronaDomain> listCaronasByOrigem(String origem) throws Exception {
-		ArrayList<CaronaDomain> caronas;
+	public List<CaronaDomain> listCaronasByOrigem(String login, String origem) throws Exception {
+		List<CaronaDomain> caronas;
 		
 		try{
-			session = sessionFactory.openSession();
-			criteria = session.createCriteria(CaronaDomain.class);
-			criteria.add(Restrictions.eq("origem", origem));
-			criteria.addOrder(Order.asc("id"));
-			caronas = (ArrayList<CaronaDomain>)criteria.list();
+			session = sessionFactory.openSession();	
+			transaction = session.beginTransaction();
+			caronas = session.createQuery(" from CaronaDomain "+
+										  " where origem = \'"+origem+"\' "+
+										  " order by id").list();
+			transaction.commit();
 			session.close();
 			return caronas;
 		}catch(Exception e){
@@ -142,15 +142,16 @@ public class CaronaDAOImpl implements CaronaDAO{
 	}
 
 	@Override
-	public List<CaronaDomain> listCaronasByDestino(String destino) throws Exception {
-		ArrayList<CaronaDomain> caronas;
+	public List<CaronaDomain> listCaronasByDestino(String login, String destino) throws Exception {
+		List<CaronaDomain> caronas;
 
 		try{
-			session = sessionFactory.openSession();
-			criteria = session.createCriteria(CaronaDomain.class);
-			criteria.add(Restrictions.eq("destino", destino));
-			criteria.addOrder(Property.forName("id").asc());
-			caronas = (ArrayList<CaronaDomain>)criteria.list();
+			session = sessionFactory.openSession();	
+			transaction = session.beginTransaction();
+			caronas = session.createQuery(" from CaronaDomain "+
+										  " where destino = \'"+destino+"\' "+
+										  " order by id").list();
+			transaction.commit();
 			session.close();
 			return caronas;
 		}catch(Exception e){
@@ -161,34 +162,36 @@ public class CaronaDAOImpl implements CaronaDAO{
 
 	@Override
 	public List<CaronaDomain> listCaronasMunicipais(String cidade, String origem, String destino) throws Exception {
-		ArrayList<CaronaDomain> caronas;
-		
+		List<CaronaDomain> caronas;
 		try{
-			session = sessionFactory.openSession();
-			criteria = session.createCriteria(CaronaDomain.class);
-			criteria.add(Restrictions.eq("cidade", cidade));
-			criteria.add(Restrictions.eq("origem", origem));
-			criteria.add(Restrictions.eq("destino", destino));
-			criteria.addOrder(Property.forName("id").asc());			 
-			caronas = (ArrayList<CaronaDomain>)criteria.list();		  
+			session = sessionFactory.openSession();	
+			transaction = session.beginTransaction();
+			caronas = session.createQuery(" from CaronaDomain "+
+										  " where origem = \'"+origem+"\' "+
+										  " and destino = \'"+destino+"\' "+
+										  " and cidade = \'"+cidade+"\' "+
+										  " order by id").list();
+			transaction.commit();		  
 			session.close();
 			return caronas;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			throw e;
-		}		
+		}			
+				
 	}
 	
 	@Override
 	public List<CaronaDomain> listCaronasMunicipais(String cidade) throws Exception {
-		ArrayList<CaronaDomain> caronas;
+		List<CaronaDomain> caronas;
 		
 		try{
-			session = sessionFactory.openSession();
-			criteria = session.createCriteria(CaronaDomain.class);
-			criteria.add(Restrictions.eq("cidade", cidade));
-			criteria.addOrder(Property.forName("id").asc());			 
-			caronas = (ArrayList<CaronaDomain>)criteria.list();		  
+			session = sessionFactory.openSession();	
+			transaction = session.beginTransaction();
+			caronas = session.createQuery(" from CaronaDomain "+
+										  " where cidade = \'"+cidade+"\' "+
+										  " order by id").list();
+			transaction.commit();		  
 			session.close();
 			return caronas;
 		}catch(Exception e){
