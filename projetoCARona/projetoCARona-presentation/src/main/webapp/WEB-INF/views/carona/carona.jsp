@@ -25,7 +25,7 @@
 				  					
 				  					<div class="col-md-3">
 				  						<c:if test="${carona.solicitouVaga == false}">
-			  								<a  href="carona.html?id=${carona.idCarona} vaga=s" ><span class="fui-plus-circle"></span> <b>Solicitar Vaga</b></a>
+			  								<a  href="carona.html?id=${carona.idCarona}&vaga=s" ><span class="fui-plus-circle"></span> <b>Solicitar Vaga</b></a>
 										</c:if>
 										<c:if test="${carona.solicitouVaga == true}">
 			  								<a href="solicitarVagaCarona.html?id=${carona.idCarona}"><span class="glyphicon glyphicon-minus-sign"></span> <b>Desistir Vaga</b></a>

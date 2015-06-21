@@ -23,6 +23,7 @@ import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.viewModels.CadastroCaronaViewModel;
+import com.br.uepb.viewModels.InterresseEmCaronasViewModel;
 import com.br.uepb.viewModels.PesquisaCaronaViewModels;
 
 @Controller
@@ -143,6 +144,24 @@ public class HomeUsuarioController {
 			
 			pesquisa.add(modeloCarona);
 		}
+	}
+	
+	@RequestMapping(value = "/home/interresseCarona.html", method = RequestMethod.GET)
+	public ModelAndView interresseCarona(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: getUsuarioHome GET");
+
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("interresseCarona");
+		modelAndView.addObject("interresse", new InterresseEmCaronasViewModel());
+		
+		LOG.debug("Finalizada a execucao do metodo: getUsuarioHome GET");
+		
+		return modelAndView;
 	}
 		
 }
