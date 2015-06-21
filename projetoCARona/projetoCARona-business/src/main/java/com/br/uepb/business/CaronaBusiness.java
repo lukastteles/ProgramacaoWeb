@@ -30,6 +30,44 @@ public class CaronaBusiness {
 	final static Logger logger = Logger.getLogger(CaronaBusiness.class);
 	
 	/**
+	 * Pesquisa de caronas feitas por um usuario. Nao contem suas proprias caronas
+	 * @param idSessao Id da sessao atual
+	 * @param origem Local de origem da carona
+	 * @param destino Local de destino da carona
+	 * @return Lista das caronas localizadas
+	 * @throws Exception Lança exceção se qualquer parametro informado for null ou vazio ou se a sessao for invalida
+	 */
+	public List<CaronaDomain> pesquisaDeCaronas(String idSessao, String origem, String destino) throws Exception{
+		List<CaronaDomain> caronas = localizarCarona(idSessao, origem, destino);
+		for (CaronaDomain caronaDomain : caronas) {
+			if(caronaDomain.getIdSessao().equals(idSessao)){
+				caronas.remove(caronaDomain);
+			}
+		}
+		return caronas;
+	}
+	
+	/**
+	 * Pesquisa de caronas municipais feitas por um usuario. Nao contem suas proprias caronas
+	 * @param idSessao Id da sessão atual
+	 * @param cidade Cidade onde acontecera a carona municipal
+	 * @param origem Local de origem da carona
+	 * @param destino Local de destino da carona
+	 * @return Lista das caronas localizadas
+	 * @throws Exception Lança excecao se qualquer parametro informado for null ou vazio ou se a sessao for invalida
+	 */
+	public List<CaronaDomain> pesquisaDeCaronasMunicipais(String idSessao, String cidade, String origem, String destino) throws Exception{
+		List<CaronaDomain> caronas = localizarCaronaMunicipal(idSessao, cidade, origem, destino);
+		for (CaronaDomain caronaDomain : caronas) {
+			if(caronaDomain.getIdSessao().equals(idSessao)){
+				caronas.remove(caronaDomain);
+			}
+		}
+		return caronas;
+	}
+	
+	
+	/**
 	 * Metodo para localizar todas as caronas informadas de uma determinada origem para um destino
 	 * Observações:
 	 * - Se o parametro origem ira for informado, ira localizar todas as caronas pertencentes ao destino informado

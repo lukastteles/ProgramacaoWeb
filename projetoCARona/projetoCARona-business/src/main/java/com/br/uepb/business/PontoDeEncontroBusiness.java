@@ -35,8 +35,7 @@ public class PontoDeEncontroBusiness {
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
-		String idSugestao = ""+ CaronaDAOImpl.getInstance().idPontoEncontro;
-		CaronaDAOImpl.getInstance().idPontoEncontro++;
+		String idSugestao = ""+ CaronaDAOImpl.getInstance().getIdPontoEncontro();
 		logger.debug("criando ponto de encontro "+pontoDeEncontro);
 		PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idCarona, idSugestao, pontoDeEncontro);
 		logger.debug("ponto "+pontoDeEncontro+" criado");
@@ -59,8 +58,7 @@ public class PontoDeEncontroBusiness {
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
-		String idSugestao = ""+CaronaDAOImpl.getInstance().idPontoEncontro;
-		CaronaDAOImpl.getInstance().idPontoEncontro++;
+		String idSugestao = ""+CaronaDAOImpl.getInstance().getIdPontoEncontro();
 		
 		logger.debug("criando e adicionando pontos de encontro");
 		for (int i = 0; i < pontos.length; i++) {

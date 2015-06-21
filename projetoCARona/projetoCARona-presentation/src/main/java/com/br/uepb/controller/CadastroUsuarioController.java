@@ -36,7 +36,12 @@ public class CadastroUsuarioController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("cadastroUsuario");
-		modelAndView.addObject("usuarioDomain", new UsuarioDomain());
+		try{
+			modelAndView.addObject("usuarioDomain", new UsuarioDomain());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		
 		LOG.debug("Finalizada a execucao do metodo: showCadastroUsuario");
 		
@@ -65,6 +70,7 @@ public class CadastroUsuarioController {
 		}			
 		//adiciona sessao
 		SessaoDomain sessao = new SessaoDomain(usuarioDomain.getLogin(), usuarioDomain.getSenha());
+		sessaoBusiness.abrirSessao(sessao.getLogin(), sessao.getSenha());
 		request.getSession().setAttribute("sessao", sessao);
 		
 		

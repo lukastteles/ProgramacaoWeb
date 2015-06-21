@@ -45,4 +45,8 @@
 		<put-attribute name="body" value="/WEB-INF/views/carona/pesquisaCarona.jsp" />
 	</definition>
 	
+	<definition name="carona" extends="usuario.layout">
+		<put-attribute name="body" value="/WEB-INF/views/carona/carona.jsp" />
+	</definition>
+	
 </tiles-definitions>

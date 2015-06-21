@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.apache.log4j.Logger;
 
@@ -28,9 +30,9 @@ public class UsuarioDomain {
 	final static Logger logger = Logger.getLogger(UsuarioDomain.class);
 	
 	/** Login do usuário */
-	/*
+	
 	@NotNull(message = "Login inválido")
-	@Size(min=2, max=30, message="Login inválido") */	
+	//@Size(min=2, max=30, message="Login inválido")	
 	@Id
 	@Column(nullable=false)
 	private String login;
@@ -82,9 +84,9 @@ public class UsuarioDomain {
 	/**
 	 * Método para inserir o Login do usuário
 	 * @param login Login do usuário
-	 * @throws Lança exceção caso o login informado esteja vazio ou null
+	 * @throws Exception Lança exceção caso o login informado esteja vazio ou null
 	 */	
-	private void setLogin(String login) throws Exception{
+	public void setLogin(String login) throws Exception{
 		if ( (login == null) || (login.trim().equals("")) ){
 			logger.debug("setLogin() Exceção: "+MensagensErro.LOGIN_INVALIDO);
 			throw new ProjetoCaronaException(MensagensErro.LOGIN_INVALIDO);

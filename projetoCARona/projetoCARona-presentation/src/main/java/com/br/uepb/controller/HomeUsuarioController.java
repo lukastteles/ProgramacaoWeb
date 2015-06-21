@@ -41,9 +41,13 @@ public class HomeUsuarioController {
 		
 		LOG.debug("Iniciada a execucao do metodo: getUsuarioHome GET");
 
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("homeUsuario");
-		//modelAndView.addObject("carona", new CadastroCaronaViewModel());
 		
 		LOG.debug("Finalizada a execucao do metodo: getUsuarioHome GET");
 		
@@ -55,10 +59,13 @@ public class HomeUsuarioController {
 		
 		LOG.debug("Iniciada a execucao do metodo: getPerfil GET");
 
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("perfil");
-		
-		SessaoDomain sessao = (SessaoDomain)request.getSession().getAttribute("sessao");
 		
 		String nome = null, endereco = null, email = null;
 		int quantCaronasSegurasETranquilas = 0, quantCaronasQueNaoFuncionaram = 0, quantCaronasQueParticipei = 0, quantCaronasQueFaltei = 0;

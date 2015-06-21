@@ -147,11 +147,10 @@ public class SolicitacaoVagaBusiness {
 		else {
 			logger.debug("criando solicitando de vaga");
 			//Cria a solicitacao da vaga e adiciona na carona 
-			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(SolicitacaoVagaDAOImpl.getInstance().idSolicitacao+"", idSessao, idCarona);
+			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(SolicitacaoVagaDAOImpl.getInstance().getIdSolicitacao()+"", idSessao, idCarona);
 			logger.debug("solicitação de vaga criada");
 			SolicitacaoVagaDAOImpl.getInstance().addSolicitacaoVaga(solicitacaoVaga);
 			logger.debug("solicitação de vaga adicionada na carona");
-			SolicitacaoVagaDAOImpl.getInstance().idSolicitacao++;
 			int id = Integer.parseInt(solicitacaoVaga.getId());			
 			return id;
 		}		
@@ -223,17 +222,15 @@ public class SolicitacaoVagaBusiness {
 				pontoEncontro = PontoDeEncontroDAOImpl.getInstance().getPontoEncontroByNome(idCarona, ponto);
 			} else {
 				//Se o pontoEncontro não existir cria uma nova sugestao
-				String idSugestao = ""+ CaronaDAOImpl.getInstance().idPontoEncontro;
-				CaronaDAOImpl.getInstance().idPontoEncontro++;
+				String idSugestao = ""+ CaronaDAOImpl.getInstance().getIdPontoEncontro();
 				pontoEncontro = new PontoDeEncontroDomain(idCarona, idSugestao, ponto);
 				PontoDeEncontroDAOImpl.getInstance().addPontoDeEncontro(pontoEncontro);
 				logger.debug("ponto "+ponto+" criado");
 			}
 			
-			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(SolicitacaoVagaDAOImpl.getInstance().idSolicitacao+"", idSessao, idCarona, pontoEncontro);
+			SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain(SolicitacaoVagaDAOImpl.getInstance().getIdSolicitacao()+"", idSessao, idCarona, pontoEncontro);
 			SolicitacaoVagaDAOImpl.getInstance().addSolicitacaoVaga(solicitacaoVaga);			
 			logger.debug("solicitacao de vaga realizada");
-			SolicitacaoVagaDAOImpl.getInstance().idSolicitacao++;
 			int id = Integer.parseInt(solicitacaoVaga.getId());			
 			return id;
 		}

@@ -29,7 +29,6 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	private Criteria criteria;
 	private Disjunction disjunction;
 	
-	public int idSolicitacao = 1;
 	
 	private static SolicitacaoVagaDAOImpl solocitacaoVagaDAOImpl;
 	
@@ -40,6 +39,29 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		}else{
 			return solocitacaoVagaDAOImpl;
 		}
+	}
+	
+	public int getIdSolicitacao() throws Exception{
+		int idSolicitacao;
+		String obj;
+		try{
+		session = sessionFactory.openSession();	
+		transaction = session.beginTransaction();
+		obj =  (String)session.createQuery("Select Max(id) from SolicitacaoVagaDomain").uniqueResult();
+		transaction.commit();
+		session.close();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}
+		
+		if(obj == null){
+			idSolicitacao = 1;
+		}else{
+			idSolicitacao = Integer.parseInt(obj);
+			idSolicitacao++;
+		}
+		return idSolicitacao;
 	}
 	
 	@Override

@@ -79,14 +79,14 @@
 				  				<div class="col-md-12">
 				  					<hr>
 				  					<div class="col-md-4">
-				  						<a href="#"><span class="fui-search"></span> <b>Detalhar Carona</a>
+				  						<a href="carona.html?id=${carona.idCarona}"><span class="fui-search"></span> <b>Detalhar Carona</a>
 				  					</div>
 				  					<div class="col-md-3">
 				  						<c:if test="${carona.solicitouVaga == false}">
-			  								<a href="solicitarVagaCarona.html?id=${carona.idCarona}"><span class="fui-plus-circle"></span> <b>Solicitar Vaga</b></a>
+			  								<a  href="pesquisaCarona.html?id=${carona.idCarona}" ><span class="fui-plus-circle"></span> <b>Solicitar Vaga</b></a>
 										</c:if>
 										<c:if test="${carona.solicitouVaga == true}">
-			  								<a href="solicitarVagaCarona.html?id=${carona.idCarona}"><span class="glyphicon glyphicon-minus-sign"></span> <b>Desistir Vaga</b></a>
+			  								<a href="pesquisaCarona.html?id=${carona.idCarona}"><span class="glyphicon glyphicon-minus-sign"></span> <b>Desistir Vaga</b></a>
 										</c:if>					  							
 				  					</div>
 				  					<div class="col-md-5">

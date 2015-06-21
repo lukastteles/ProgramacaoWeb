@@ -13,10 +13,11 @@
 		<div class="col-md-7">
 			<div class="login-form">				
 				<form:form modelAttribute="usuarioDomain" method="post">					
+					
 					<div class="form-group">
-		    			<form:input path="login" type="text" class="form-control" placeholder="Login" />
-						<form:errors path="login" cssClass="error" />					
-		  			</div>
+						<form:input path="login" type="text" class="form-control" placeholder="Login"/>
+						<form:errors path="login" cssClass="error" />
+					</div>
 	
 		  			<div class="form-group">
 						<form:input path="senha" type="password" class="form-control" placeholder="Senha"/>					

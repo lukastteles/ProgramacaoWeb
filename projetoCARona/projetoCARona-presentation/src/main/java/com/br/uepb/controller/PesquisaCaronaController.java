@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,10 +85,10 @@ public class PesquisaCaronaController {
 		
 			List<CaronaDomain> listaCaronas;
 			if ((caronaDomainViewModel.getCidade() == null) || (caronaDomainViewModel.getCidade().isEmpty())) {
-				listaCaronas = caronaBusiness.localizarCarona(sessao.getLogin(), caronaDomainViewModel.getOrigem(), caronaDomainViewModel.getDestino());				
+				listaCaronas = caronaBusiness.pesquisaDeCaronas(sessao.getLogin(), caronaDomainViewModel.getOrigem(), caronaDomainViewModel.getDestino());				
 			}
 			else {
-				listaCaronas = caronaBusiness.localizarCaronaMunicipal(sessao.getLogin(), caronaDomainViewModel.getCidade() ,caronaDomainViewModel.getOrigem(), caronaDomainViewModel.getDestino());				
+				listaCaronas = caronaBusiness.pesquisaDeCaronasMunicipais(sessao.getLogin(), caronaDomainViewModel.getCidade() ,caronaDomainViewModel.getOrigem(), caronaDomainViewModel.getDestino());				
 			}			
 			
 			ArrayList<PesquisaCaronaViewModels> pesquisaCaronas = new ArrayList<PesquisaCaronaViewModels>();
@@ -171,11 +173,18 @@ public class PesquisaCaronaController {
 	}
 	
 	@RequestMapping(value = "/home/solicitarVagaCarona.html", method = RequestMethod.GET)
-	public ModelAndView solicitarVagaCarona(HttpServletRequest request) {
-		LOG.debug("Iniciada a execucao do metodo: solicitarVagaCarona POST");
+	public String solicitarVagaCarona(HttpServletRequest request){
+		LOG.debug("Iniciada a execucao do metodo: solicitarVagaCarona ");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		String referrer = null;
+		try {
+			referrer = new URI(request.getHeader("referer")).getPath();
+		} catch (URIException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if (sessao == null) {
-			return new ModelAndView("redirect:/home/login.html");
+			return "redirect:/home/login.html";
 		}
 		
 		String idCarona = (String) request.getParameter("id");
@@ -183,10 +192,11 @@ public class PesquisaCaronaController {
 			solicitaVagaBusiness.solicitarVaga(sessao.getLogin(), idCarona);
 		} catch (Exception e) {
 			LOG.debug("Problemas ao tentar solicitar uma vaga na carona no metodo: solicitarVagaCarona GET - Erro: "+e.getMessage());		
-			return new ModelAndView("redirect:/home/pesquisaCarona.html");
+			return referrer;
 		}
 		
 		LOG.debug("Finalizada a execucao do metodo: solicitarVagaCarona POST");		
-		return new ModelAndView("redirect:/home/pesquisaCarona.html");
+		return referrer;
+		
 	}
 }
