@@ -27,9 +27,11 @@
 		        			</div>
 		        			<div class="col-xs-4">
 		          				<div class="demo-download">
-		            				<img src="../images/icons/svg/chat.svg"/>
+		          					<a class="demo-download-text" href="interessesCarona.html">
+		            					<img src="../images/icons/svg/chat.svg"/>
+		            					<p class="demo-download-text">Interresses em Caronas</p>
+		            				</a>
 		            			</div>
-					          	<p class="demo-download-text">Adicionar amigos</p>
 		        			</div>
   						</div>
 					</div>

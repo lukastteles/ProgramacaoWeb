@@ -10,7 +10,7 @@
 		            	</div>
   					</div>
   					<div class="panel-body">
-		<form:form modelAttribute="interresse" class="form-inline" method="post">
+		<form:form modelAttribute="interesse" class="form-inline" method="post">
 			<div class="form-group">
 				<form:input path="origem" type="text" class="form-control" placeholder="Origem"/>
 				<form:errors path="origem" cssClass="error" />
@@ -19,11 +19,6 @@
 			<div class="form-group">
 				<form:input path="destino" type="text" class="form-control" placeholder="Destino"/>
 				<form:errors path="destino" cssClass="error" />
-			</div>
-			<br/><br/>
-			<div class="form-group">
-				<form:input path="origem" type="text" class="form-control" placeholder="Origem"/>
-				<form:errors path="origem" cssClass="error" />
 			</div>
 			<br/><br/>
 			<div class="form-group">
@@ -41,6 +36,7 @@
 				<form:errors path="horaFim" cssClass="error" />
 			</div>
 			<br/><br/>
+			<input type="submit" value="Casdastrar" class="btn btn-primary"  >
 		</form:form>
 		</div>
 		</div>

@@ -49,8 +49,12 @@
 		<put-attribute name="body" value="/WEB-INF/views/carona/carona.jsp" />
 	</definition>
 	
-	<definition name="interresseCarona" extends="usuario.layout">
-		<put-attribute name="body" value="/WEB-INF/views/carona/interresseCarona.jsp" />
+	<definition name="cadastroInteresse" extends="usuario.layout">
+		<put-attribute name="body" value="/WEB-INF/views/carona/interesseCarona.jsp" />
+	</definition>
+	
+	<definition name="interessesCarona" extends="usuario.layout">
+		<put-attribute name="body" value="/WEB-INF/views/carona/listaInteresses.jsp" />
 	</definition>
 	
 </tiles-definitions>

@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler.referenceInsertExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,10 +24,11 @@ import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.InteresseEmCaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.viewModels.CadastroCaronaViewModel;
-import com.br.uepb.viewModels.InterresseEmCaronasViewModel;
+import com.br.uepb.viewModels.InteresseEmCaronasViewModel;
 import com.br.uepb.viewModels.PesquisaCaronaViewModels;
 
 @Controller
@@ -36,6 +41,8 @@ public class HomeUsuarioController {
 	private SessaoBusiness sessaoBusiness;
 	@Autowired
 	private PerfilBusiness perfilBusiness;
+	@Autowired
+	private CaronaBusiness caronaBusiness;
 	
 	@RequestMapping(value = "/home/homeUsuario.html", method = RequestMethod.GET)
 	public ModelAndView getUsuarioHome(HttpServletRequest request) {
@@ -146,9 +153,9 @@ public class HomeUsuarioController {
 		}
 	}
 	
-	@RequestMapping(value = "/home/interresseCarona.html", method = RequestMethod.GET)
-	public ModelAndView interresseCarona(HttpServletRequest request) {
-		LOG.debug("Iniciada a execucao do metodo: getUsuarioHome GET");
+	@RequestMapping(value = "/home/cadastroInteresse.html", method = RequestMethod.GET)
+	public ModelAndView interesseCarona(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: interesseCarona GET");
 
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
 		if (sessao == null) {
@@ -156,12 +163,75 @@ public class HomeUsuarioController {
 		}
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("interresseCarona");
-		modelAndView.addObject("interresse", new InterresseEmCaronasViewModel());
+		modelAndView.setViewName("cadastroInteresse");
+		modelAndView.addObject("interesse", new InteresseEmCaronasViewModel());
 		
-		LOG.debug("Finalizada a execucao do metodo: getUsuarioHome GET");
+		LOG.debug("Finalizada a execucao do metodo: interesseCarona GET");
 		
 		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/home/cadastroInteresse.html", method = RequestMethod.POST)
+	public ModelAndView cadastroInteresse(@ModelAttribute("interesse") @Valid InteresseEmCaronasViewModel interesse, BindingResult bindingResult, HttpServletRequest request) throws Exception {
+		
+		LOG.debug("Iniciada a execucao do metodo: cadastroInteresse POST");		
+		
+		ModelAndView modelAndView = new ModelAndView();
+		if(bindingResult.hasErrors()){
+			modelAndView.setViewName("interesseCarona");
+			modelAndView.addObject("interesse", interesse);
+			return modelAndView;
+		}
+		
+		SessaoDomain sessao = null;
+		try{
+			sessao = (SessaoDomain)request.getSession().getAttribute("sessao");
+			perfilBusiness.cadastraInteresse(sessao.getLogin(), interesse.getOrigem(), interesse.getDestino(), interesse.getData(), interesse.getHoraInicio(), interesse.getHoraFim());
+		}catch(Exception e){
+			modelAndView.setViewName("interesseCarona");
+			modelAndView.addObject("interesse", interesse);
+			return modelAndView;
+		}
+		LOG.debug("Finalizada a execucao do metodo: cadastroInteresse POST");
+		return new ModelAndView("redirect:/home/interessesCarona.html");
+	}
+	
+	@RequestMapping(value = "/home/interessesCarona.html", method = RequestMethod.GET)
+	public ModelAndView listaInteressesCarona(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: listaInteressesCarona GET");
+		
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("interessesCarona");
+		
+		List<InteresseEmCaronaDomain> interesses;
+		try {
+			interesses = perfilBusiness.getInteresses(sessao.getLogin());
+		} catch (Exception e) {
+			return new ModelAndView("redirect:/home/homeUsuario.html");
+		}
+		
+		modelAndView.addObject("listaInteresses", interesses);
+		modelAndView.addObject("totalInteresses", interesses.size());
+		LOG.debug("Finalizada a execucao do metodo: listaInteressesCarona GET");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/home/apagaInteresse.html", method = RequestMethod.GET)
+	public ModelAndView apagaInteressesCarona(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: apagaInteressesCarona GET");
+		String id = (String) request.getParameter("id");
+		try {
+			perfilBusiness.apagaInteresseEmCarona(id);
+		} catch (Exception e) {
+			return new ModelAndView("redirect:/home/interessesCarona.html");
+		}
+		LOG.debug("Finalizada a execucao do metodo: apagaInteressesCarona GET");
+		return new ModelAndView("redirect:/home/interessesCarona.html");
 	}
 		
 }

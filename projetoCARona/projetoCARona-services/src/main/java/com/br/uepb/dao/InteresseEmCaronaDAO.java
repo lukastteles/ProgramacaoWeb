@@ -28,10 +28,18 @@ public interface InteresseEmCaronaDAO {
 	 * @throws Exception Lanca excecao se o login for invalido ou se houver problema com o banco
 	 */
 	List<InteresseEmCaronaDomain> getInteresseEmCaronas(String idSessao) throws Exception;
+	
+	/**
+	 * Apaga um objeto Interesse em carona do usuario
+	 * @param idInteresse id do objeto Interesse em caorna
+	 * @throws Exception Lanca excecao se o id for invalido ou se houver problema com o banco
+	 */
+	void apagaInteresse(String idInteresse) throws Exception;
 
 	/**
 	 * Apaga todos os  Interesses em carona da lista
 	 */
 	void apagaInteresses();
+
 
 }

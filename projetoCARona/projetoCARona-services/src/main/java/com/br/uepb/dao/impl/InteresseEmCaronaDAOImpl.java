@@ -15,6 +15,7 @@ import com.br.uepb.dao.InteresseEmCaronaDAO;
 import com.br.uepb.dao.hibernateUtil.HibernateUtil;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.InteresseEmCaronaDomain;
+import com.br.uepb.domain.SolicitacaoVagaDomain;
 
 public class InteresseEmCaronaDAOImpl implements InteresseEmCaronaDAO{
 
@@ -61,6 +62,32 @@ public class InteresseEmCaronaDAOImpl implements InteresseEmCaronaDAO{
 			criteria = session.createCriteria(InteresseEmCaronaDomain.class);
 			criteria.add(Restrictions.eq("idSessao", idSessao));			 
 			interesseEmCaronas = (ArrayList<InteresseEmCaronaDomain>) criteria.list();		  
+			session.close();
+			return interesseEmCaronas;
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+	
+	@Override
+	public void apagaInteresse(String idInteresse) throws Exception{
+		InteresseEmCaronaDomain interesse = getInteresse(idInteresse);
+		session = sessionFactory.openSession();	
+		transaction = session.beginTransaction();
+		session.delete(interesse);
+		transaction.commit();
+		session.close();
+	}
+	
+	private InteresseEmCaronaDomain getInteresse(String idInteresse) throws Exception{
+		InteresseEmCaronaDomain interesseEmCaronas;
+		int id = Integer.parseInt(idInteresse);
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(InteresseEmCaronaDomain.class);
+			criteria.add(Restrictions.eq("id", id));			 
+			interesseEmCaronas = (InteresseEmCaronaDomain) criteria.uniqueResult();		  
 			session.close();
 			return interesseEmCaronas;
 		}catch(Exception e){

@@ -185,6 +185,26 @@ public class PerfilBusiness {
 	}
 	
 	/**
+	 * Pega os Interresses em caronas de um usuario
+	 * @param idSessao Id do usuario
+	 * @return Interresses do usuario
+	 * @throws Exception Lança exceção se o id for invalido
+	 */
+	public List<InteresseEmCaronaDomain> getInteresses(String idSessao) throws Exception{
+		List<InteresseEmCaronaDomain> interesses = InteresseEmCaronaDAOImpl.getInstance().getInteresseEmCaronas(idSessao);
+		return interesses;
+	}
+	
+	/**
+	 * Apaga o interesse em carona
+	 * @param idInteresse id do Interesse em carona 
+	 * @throws Exception Lança exceção se o id for invalido
+	 */
+	public void apagaInteresseEmCarona(String idInteresse) throws Exception{
+		InteresseEmCaronaDAOImpl.getInstance().apagaInteresse(idInteresse);
+	}
+	
+	/**
 	 * Verifica se há alguma mensagem referente ao interesse em caronas
 	 * @param idSessao Id do Usuario
 	 * @return Mensagem informando sobre caronas de interesse

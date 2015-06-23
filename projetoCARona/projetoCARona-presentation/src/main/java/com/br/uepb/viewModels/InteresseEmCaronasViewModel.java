@@ -1,6 +1,6 @@
 package com.br.uepb.viewModels;
 
-public class InterresseEmCaronasViewModel {
+public class InteresseEmCaronasViewModel {
 
 	private String origem;
 	private String destino;
