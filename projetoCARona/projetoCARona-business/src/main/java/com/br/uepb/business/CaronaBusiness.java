@@ -39,12 +39,13 @@ public class CaronaBusiness {
 	 */
 	public List<CaronaDomain> pesquisaDeCaronas(String idSessao, String origem, String destino) throws Exception{
 		List<CaronaDomain> caronas = localizarCarona(idSessao, origem, destino);
+		List<CaronaDomain> pesquisaCaronas = new ArrayList<CaronaDomain>();
 		for (CaronaDomain caronaDomain : caronas) {
-			if(caronaDomain.getIdSessao().equals(idSessao)){
-				caronas.remove(caronaDomain);
+			if(!caronaDomain.getIdSessao().equals(idSessao)){
+				pesquisaCaronas.add(caronaDomain);
 			}
 		}
-		return caronas;
+		return pesquisaCaronas;
 	}
 	
 	/**
@@ -58,12 +59,13 @@ public class CaronaBusiness {
 	 */
 	public List<CaronaDomain> pesquisaDeCaronasMunicipais(String idSessao, String cidade, String origem, String destino) throws Exception{
 		List<CaronaDomain> caronas = localizarCaronaMunicipal(idSessao, cidade, origem, destino);
+		List<CaronaDomain> pesquisaCaronas = new ArrayList<CaronaDomain>();
 		for (CaronaDomain caronaDomain : caronas) {
-			if(caronaDomain.getIdSessao().equals(idSessao)){
-				caronas.remove(caronaDomain);
+			if(!caronaDomain.getIdSessao().equals(idSessao)){
+				pesquisaCaronas.add(caronaDomain);
 			}
 		}
-		return caronas;
+		return pesquisaCaronas;
 	}
 	
 	
