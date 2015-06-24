@@ -2,6 +2,10 @@ package testesDeUnidade;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+
+import java.util.List;
+import java.util.ArrayList;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -18,6 +22,7 @@ import com.br.uepb.dao.impl.PontoDeEncontroDAOImpl;
 import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
+import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
 public class PontoDeEncontroUnitTest {
@@ -346,9 +351,8 @@ public class PontoDeEncontroUnitTest {
 
 		//lista pontos sugeridos
 		try {
-			String[] pontos = {"Acude Velho", "Hiper Bompreço", "Parque da Criança", "Colegio 11 de Outubro"};
-			String[] pontosSugeridos = pontoEncontroBusiness.getPontosSugeridos("Mark", idCarona);
-			Assert.assertEquals(pontos.length,  pontosSugeridos.length);
+			List<PontoDeEncontroDomain> pontosSugeridos = pontoEncontroBusiness.getPontosSugeridos("Mark", idCarona);
+			Assert.assertEquals(4,  pontosSugeridos.size());
 		} catch (Exception e) {
 			fail();
 		}

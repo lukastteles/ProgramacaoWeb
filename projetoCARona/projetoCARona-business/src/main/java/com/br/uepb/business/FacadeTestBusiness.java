@@ -10,6 +10,7 @@ import com.br.uepb.dao.impl.SessaoDAOImpl;
 import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
+import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.domain.UsuarioDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
@@ -251,14 +252,20 @@ public class FacadeTestBusiness {
 	}
 		
 	public String getPontosSugeridos(String idSessao, String idCarona) throws Exception{
-		String[] pontos = pontoDeEncontroBusiness.getPontosSugeridos(idSessao, idCarona);
+		List<PontoDeEncontroDomain> todosOsPontos = pontoDeEncontroBusiness.getPontosSugeridos(idSessao, idCarona);
+		String[] todos = new String[todosOsPontos.size()];
+		int count = 0;
+		for (PontoDeEncontroDomain ponto : todosOsPontos) {
+			todos[count] = ponto.getPontoDeEncontro();
+			count++;
+		}
 		String ponto = "[";
-		if(pontos.length > 1){
-			for(int i = 0; i < pontos.length-1; i++){
-				ponto+=pontos[i]+";";
+		if(todos.length > 1){
+			for(int i = 0; i < todos.length-1; i++){
+				ponto+=todos[i]+";";
 			}
 		}
-		ponto+=pontos[pontos.length-1]+"]";
+		ponto+=todos[todos.length-1]+"]";
 		return ponto;
 	}
 		

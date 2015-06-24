@@ -13,6 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.PontoDeEncontroDAO;
 import com.br.uepb.dao.hibernateUtil.HibernateUtil;
+import com.br.uepb.domain.InteresseEmCaronaDomain;
 import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -172,6 +173,15 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 
 		session.close();
 		
+	}
+	
+	@Override
+	public void apagaPonto(PontoDeEncontroDomain ponto){
+		session = sessionFactory.openSession();	
+		transaction = session.beginTransaction();
+		session.delete(ponto);
+		transaction.commit();
+		session.close();
 	}
 	
 	@Override

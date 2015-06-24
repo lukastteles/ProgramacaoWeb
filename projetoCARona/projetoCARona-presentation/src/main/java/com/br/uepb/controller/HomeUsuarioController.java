@@ -56,6 +56,7 @@ public class HomeUsuarioController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("homeUsuario");
+        modelAndView.addObject("nomeUsuario", sessao.getLogin());
 		
 		LOG.debug("Finalizada a execucao do metodo: getUsuarioHome GET");
 		
@@ -126,6 +127,7 @@ public class HomeUsuarioController {
 	private void carregaListasCarona(List<CaronaDomain> lista, List<PesquisaCaronaViewModels> pesquisa) throws Exception {
 		for (CaronaDomain caronaDomain : lista) {
 			PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
+			modeloCarona.setIdCarona(caronaDomain.getID());
 			modeloCarona.setOrigem(caronaDomain.getOrigem());
 			modeloCarona.setDestino(caronaDomain.getDestino());
 			modeloCarona.setHora(caronaDomain.getHora());

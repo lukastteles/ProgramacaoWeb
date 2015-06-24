@@ -3,6 +3,7 @@ package com.br.uepb.business;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.impl.CaronaDAOImpl;
@@ -17,6 +18,7 @@ import com.br.uepb.exceptions.ProjetoCaronaException;
  * @version 0.1
  * @since 20/04/2015
  */
+@Component
 public class PontoDeEncontroBusiness {
 
 	final static Logger logger = Logger.getLogger(PontoDeEncontroBusiness.class);
@@ -100,6 +102,54 @@ public class PontoDeEncontroBusiness {
 	}
 	
 	/**
+	 * Faz que que um ponto aceito passe a ser não acito
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @param idSugestao Id da sugestão
+	 * @param ponto Ponto de encontro que será aceito para a carona
+	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a sugestão não pertencer a carona
+	 */
+	public void desitirPontoEncontro(String idSessao, String idCarona, String idSugestao, String ponto) throws Exception{
+		logger.debug("deixando de aceitar um ponto de encontro");
+		//Metodos apenas para ver se a sessao e carona entao invalidas
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		CaronaDAOImpl.getInstance().getCarona(idCarona);
+		
+		List<PontoDeEncontroDomain> pontosSugestao = PontoDeEncontroDAOImpl.getInstance().getPontosSugestao(idCarona, idSugestao);
+		logger.debug("buscando ponto");
+		for (PontoDeEncontroDomain pontoSugestao : pontosSugestao) {
+			if(pontoSugestao.getPontoDeEncontro().equals(ponto)){
+				pontoSugestao.setFoiAceita(false);
+				PontoDeEncontroDAOImpl.getInstance().atualizaPonto(pontoSugestao);
+				ponto = "naoAceito";
+			}
+		}
+		if(!ponto.equals("naoAceito")){
+			logger.debug("responderSugestaoPontoEncontro() Exceção: "+MensagensErro.PONTO_INVALIDO);
+			throw new ProjetoCaronaException(MensagensErro.PONTO_INVALIDO);
+		}
+		logger.debug("ponto não aceito");
+	}
+	
+	/**
+	 * Recusa o ponto sugegido e apaga-o
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @param idSugestao Id da sugestão
+	 * @param ponto Ponto de encontro que será aceito para a carona
+	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a sugestão não pertencer a carona
+	 */
+	public void recusarPontoEncontro(String idSessao, String idCarona,String idSugestao, String ponto) throws Exception {
+		logger.debug("recusando um ponto de encontro");
+		//Metodos apenas para ver se a sessao e carona entao invalidas
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		CaronaDAOImpl.getInstance().getCarona(idCarona);
+		PontoDeEncontroDomain pontosSugestao = PontoDeEncontroDAOImpl.getInstance().getPontoEncontroByNome(idCarona, ponto);
+		PontoDeEncontroDAOImpl.getInstance().apagaPonto(pontosSugestao);
+		logger.debug("ponto recusado");
+	}
+	
+	/**
 	 * Método para aceitar uma lista de pontos de encontro sugeridos para a carona.
 	 * É possível aceitar apenas alguns pontos da mesma sugestão e sugerir novos 
 	 * @param idSessao Id da sessão
@@ -144,21 +194,16 @@ public class PontoDeEncontroBusiness {
 	 * @return Lista de todos os pontos de encontro sugeridos para a carona informada
 	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a carona não pertencer ao usuario informado
 	 */
-	public String[] getPontosSugeridos(String idSessao, String idCarona) throws Exception{
+	public List<PontoDeEncontroDomain> getPontosSugeridos(String idSessao, String idCarona) throws Exception{
 		logger.debug("buscando todos os pontros sugeridos para uma carona");		
 		//Metodos apenas para ver se a sessao e carona entao invalidas		
 		SessaoDAOImpl.getInstance().getSessao(idSessao);
 		CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
 		List<PontoDeEncontroDomain> todosOsPontos = PontoDeEncontroDAOImpl.getInstance().listPontos(idCarona);
-		String[] todos = new String[todosOsPontos.size()];
-		int count = 0;
-		for (PontoDeEncontroDomain ponto : todosOsPontos) {
-			todos[count] = ponto.getPontoDeEncontro();
-			count++;
-		}
+		
 		logger.debug("pontos encontrados");
-		return todos;
+		return todosOsPontos;
 	}
 	
 	/**
