@@ -118,6 +118,23 @@ public class SolicitacaoVagaBusiness {
 	}
 	
 	/**
+	 * Método para retornar uma lista a solicitacao de vaga (pendentes e confirmadas) de um usuario para a carona
+	 * @param idSessao Id da sessão
+	 * @param idCarona Id da carona
+	 * @return Lista de solicitações de vaga pendentes
+	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
+	 */
+	public SolicitacaoVagaDomain getSolicitacaoUsuario(String idSessao, String idCarona) throws Exception{
+		logger.debug("buscando solicitacao do usuario");
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		CaronaDAOImpl.getInstance().getCarona(idCarona);
+		
+		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoUsuario(idSessao, idCarona);
+		logger.debug("solicitacao do usuario encontrada");
+		return solicitacaoVaga; 		
+	}
+	
+	/**
 	 * Método para solicitar uma vaga na carona informada
 	 * @param idSessao Id da sessão
 	 * @param idCarona Id da carona
@@ -163,7 +180,7 @@ public class SolicitacaoVagaBusiness {
 	 * @return Retorna true se o usuario tiver classificado a carona como "segura e tranquila" ou false caso contrario
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se o usuario nao pertencer a carona
 	 */
-	private boolean isPreferencial(String login, CaronaDomain carona) throws Exception{
+	public boolean isPreferencial(String login, CaronaDomain carona) throws Exception{
 		//pega todas as caronas
 		List<CaronaDomain> caronas = CaronaDAOImpl.getInstance().getHistoricoDeCaronas(carona.getIdSessao());
 		

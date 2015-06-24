@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.br.uepb.business.CaronaBusiness;
 import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.SolicitacaoVagaBusiness;
-import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
@@ -32,7 +29,7 @@ import com.br.uepb.viewModels.PesquisaCaronaViewModels;
 @Controller
 public class PesquisaCaronaController {
 	
-	private static final Log LOG = LogFactory.getLog(CaronaController.class);
+	private static final Log LOG = LogFactory.getLog(PesquisaCaronaController.class);
 	
 	@Autowired
 	private SessaoBusiness sessaoBusiness;
@@ -80,6 +77,9 @@ public class PesquisaCaronaController {
 			return modelAndView;
 		}
 		
+
+		modelAndView.addObject("totalCaronas", 0);
+		
 		try{
 			SessaoDomain sessao = (SessaoDomain)request.getSession().getAttribute("sessao");
 		
@@ -93,56 +93,50 @@ public class PesquisaCaronaController {
 			
 			ArrayList<PesquisaCaronaViewModels> pesquisaCaronas = new ArrayList<PesquisaCaronaViewModels>();
 			for (CaronaDomain caronaDomain : listaCaronas) {
-				if (caronaDomain.getVagas() > 0) {
-					PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
-					modeloCarona.setIdCarona(caronaDomain.getID());
-					modeloCarona.setOrigem(caronaDomain.getOrigem());
-					modeloCarona.setDestino(caronaDomain.getDestino());
-					modeloCarona.setHora(caronaDomain.getHora());
-					modeloCarona.setData(caronaDomain.getData());
-					modeloCarona.setDataVolta(caronaDomain.getDataVolta());
-					modeloCarona.setVagas(caronaDomain.getVagas());
-					modeloCarona.setIdSessao(caronaDomain.getIdSessao());
-					modeloCarona.setCidade(caronaDomain.getCidade());
+				//Se a carona tiver pelo menos 1 vaga  
+				 
+				if  (caronaDomain.getVagas() > 0) {
+					Boolean caronaPreferencial = caronaBusiness.isCaronaPreferencial(caronaDomain.getID());
+					Boolean usuarioPreferencial = solicitaVagaBusiness.isPreferencial(sessao.getLogin(), caronaDomain);
 					
-					//Tratamento para o tipo da carona
-					if (caronaDomain.getTipoCarona().equals("M")){
-						modeloCarona.setTipoCarona("Municipal");
-					}
-					else if (caronaDomain.getTipoCarona().equals("R")){
-						modeloCarona.setTipoCarona("Relâmpago");
-					}
-					else {
-						modeloCarona.setTipoCarona("Interurbana");
-					}
-					
-					String nomeMotorista = UsuarioDAOImpl.getInstance().getUsuario(caronaDomain.getIdSessao()).getPerfil().getNome();
-					modeloCarona.setNomeMotorista(nomeMotorista);
-					
-					//Caronas confirmadas
-					ArrayList<SolicitacaoVagaDomain> solicitacoesConfirmadas =  SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(caronaDomain.getID());
-					//Caronas pendentes
-					ArrayList<SolicitacaoVagaDomain> solicitacoesPendentes =  SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesPendentes(caronaDomain.getID());
-					
-					Boolean usuarioSolicitou = false;
-					for (SolicitacaoVagaDomain solicitacaoP : solicitacoesPendentes) {
-						if (caronaDomain.getIdSessao() == solicitacaoP.getIdUsuario()) {
+					if  (caronaPreferencial == usuarioPreferencial) {
+						PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
+						modeloCarona.setIdCarona(caronaDomain.getID());
+						modeloCarona.setOrigem(caronaDomain.getOrigem());
+						modeloCarona.setDestino(caronaDomain.getDestino());
+						modeloCarona.setHora(caronaDomain.getHora());
+						modeloCarona.setData(caronaDomain.getData());
+						modeloCarona.setDataVolta(caronaDomain.getDataVolta());
+						modeloCarona.setVagas(caronaDomain.getVagas());
+						modeloCarona.setIdSessao(caronaDomain.getIdSessao());
+						modeloCarona.setCidade(caronaDomain.getCidade());
+						
+						//Tratamento para o tipo da carona
+						if (caronaDomain.getTipoCarona().equals("M")){
+							modeloCarona.setTipoCarona("Municipal");
+						}
+						else if (caronaDomain.getTipoCarona().equals("R")){
+							modeloCarona.setTipoCarona("Relâmpago");
+						}
+						else {
+							modeloCarona.setTipoCarona("Interurbana");
+						}
+						
+						String nomeMotorista = UsuarioDAOImpl.getInstance().getUsuario(caronaDomain.getIdSessao()).getPerfil().getNome();
+						modeloCarona.setNomeMotorista(nomeMotorista);
+	
+						//Verifica se a solicitacao está na lista de caronas pendentes
+						String idSolicitacao="";
+						Boolean usuarioSolicitou = false;
+						SolicitacaoVagaDomain solicitacaoVaga =  solicitaVagaBusiness.getSolicitacaoUsuario(sessao.getLogin(), caronaDomain.getID());
+						if (solicitacaoVaga != null){
 							usuarioSolicitou = true;
-							break;
+							idSolicitacao = solicitacaoVaga.getId();
 						}
+						modeloCarona.setIdSolicitacao(idSolicitacao);
+						modeloCarona.setSolicitouVaga(usuarioSolicitou);
+						pesquisaCaronas.add(modeloCarona);
 					}
-					
-					if (usuarioSolicitou == false) {
-						for (SolicitacaoVagaDomain solicitacaoC : solicitacoesConfirmadas) {
-							if (caronaDomain.getIdSessao() == solicitacaoC.getIdUsuario()) {
-								usuarioSolicitou = true;
-								break;
-							}
-						}
-					}
-					
-					modeloCarona.setSolicitouVaga(usuarioSolicitou);
-					pesquisaCaronas.add(modeloCarona);
 				}
 			}
 			modelAndView.addObject("listaCaronas", pesquisaCaronas);
@@ -176,13 +170,6 @@ public class PesquisaCaronaController {
 	public String solicitarVagaCarona(HttpServletRequest request){
 		LOG.debug("Iniciada a execucao do metodo: solicitarVagaCarona ");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
-		String referrer = null;
-		try {
-			referrer = new URI(request.getHeader("referer")).getPath();
-		} catch (URIException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		if (sessao == null) {
 			return "redirect:/home/login.html";
 		}
@@ -192,11 +179,33 @@ public class PesquisaCaronaController {
 			solicitaVagaBusiness.solicitarVaga(sessao.getLogin(), idCarona);
 		} catch (Exception e) {
 			LOG.debug("Problemas ao tentar solicitar uma vaga na carona no metodo: solicitarVagaCarona GET - Erro: "+e.getMessage());		
-			return referrer;
+			return "redirect:/home/pesquisaCarona.html";
 		}
 		
 		LOG.debug("Finalizada a execucao do metodo: solicitarVagaCarona POST");		
-		return referrer;
+		return "redirect:/home/pesquisaCarona.html";
+		
+	}
+	
+	@RequestMapping(value = "/home/desistirVagaCarona.html", method = RequestMethod.GET)
+	public String desistirVagaCarona(HttpServletRequest request){
+		LOG.debug("Iniciada a execucao do metodo: desistirVagaCarona ");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return "redirect:/home/login.html";
+		}
+		
+		String idCarona = (String) request.getParameter("id");
+		String idSolicitacao = (String) request.getParameter("idSolicitacao");
+		try {
+			solicitaVagaBusiness.desistirRequisicao(sessao.getLogin(), idCarona, idSolicitacao);
+		} catch (Exception e) {
+			LOG.debug("Problemas ao tentar desistir de uma vaga na carona no metodo: desistirVagaCarona GET - Erro: "+e.getMessage());		
+			return "redirect:/home/pesquisaCarona.html";
+		}
+		
+		LOG.debug("Finalizada a execucao do metodo: desistirVagaCarona POST");		
+		return "redirect:/home/pesquisaCarona.html";
 		
 	}
 }

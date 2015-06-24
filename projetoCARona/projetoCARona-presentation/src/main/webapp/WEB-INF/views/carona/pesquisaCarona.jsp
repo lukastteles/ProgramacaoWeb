@@ -27,28 +27,6 @@
 		</div> <!-- col-md-3 -->
 		
 		<div class="col-md-9">
-			<!--  
-			<div class="panel panel-default">
-				<ul class="list-group">
-				    <li class="list-group-item">
-				    	<span class="badge">${totalCaronas}</span>
-				    	Caronas Encontradas ${filtoConsulta}
-				    </li>
-				    <c:forEach items="${listaCaronas}" var="carona">
-					    <li class="list-group-item">
-					    	<div class="row">
-						    	<div class="col-md-1">
-	          						<span class="fui-tag"></span>
-						    	</div>
-						    	<div class="col-md-11">
-					    			<h3 class="tile-title">Origem: ${carona.origem} - Destino  ${carona.destino}</h3>					    	
-						    	</div>
-						    </div>
-					    </li> 
-				    </c:forEach> 
-				</ul> 
-	  		</div> 
-	  		  -->
 	  		<div class="col-md-12">  				 				  	
 	  			<ul class="list-group">
 				    <li class="list-group-item">
@@ -61,7 +39,7 @@
 					   	<li href="#" class="list-group-item list-group-pesquisa">
 			  				<div class="row">			  				
                 				<div class="col-md-8">
-			  						<span class="glyphicon glyphicon-map-marker"></span> De ${carona.origem} - ${carona.destino}  (${carona.tipoCarona})<hr>
+			  						<span class="glyphicon glyphicon-map-marker"></span> De ${carona.origem} - para ${carona.destino}  (${carona.tipoCarona})<hr>
 			  						<span class="fui-user"></span> <b>Motorista:</b> ${carona.nomeMotorista} <br>			  															
 									<c:if test="${not empty carona.cidade}">
     									<span class="glyphicon glyphicon-globe"></span> <b>Cidade:</b> ${carona.cidade}<br>
@@ -79,18 +57,15 @@
 				  				<div class="col-md-12">
 				  					<hr>
 				  					<div class="col-md-4">
-				  						<a href="carona.html?id=${carona.idCarona}"><span class="fui-search"></span> <b>Detalhar Carona</a>
+				  						<a href="carona.html?id=${carona.idCarona}"><span class="fui-search"></span> <b>Detalhar Carona</b></a>
 				  					</div>
 				  					<div class="col-md-3">
 				  						<c:if test="${carona.solicitouVaga == false}">
-			  								<a  href="pesquisaCarona.html?id=${carona.idCarona}" ><span class="fui-plus-circle"></span> <b>Solicitar Vaga</b></a>
+			  								<a  href="solicitarVagaCarona.html?id=${carona.idCarona}" ><span class="fui-plus-circle"></span> <b>Solicitar Vaga</b></a>
 										</c:if>
 										<c:if test="${carona.solicitouVaga == true}">
-			  								<a href="pesquisaCarona.html?id=${carona.idCarona}"><span class="glyphicon glyphicon-minus-sign"></span> <b>Desistir Vaga</b></a>
+			  								<a href="desistirVagaCarona.html?id=${carona.idCarona}&idSolicitacao=${carona.idSolicitacao}"><span class="glyphicon glyphicon-minus-sign"></span> <b>Desistir Vaga</b></a>
 										</c:if>					  							
-				  					</div>
-				  					<div class="col-md-5">
-			  						<a href="sugerirPonto.html"><span class="glyphicon glyphicon-map-marker"></span> <b>Sugerir Ponto de Encontro</b></a>
 				  					</div>
 								</div>
 							</div>

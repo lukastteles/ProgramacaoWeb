@@ -149,6 +149,23 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	}
 	
 	@Override
+	public SolicitacaoVagaDomain getSolicitacaoUsuario(String login, String idCarona) throws Exception{
+		SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain();
+		
+		try{
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
+			criteria.add(Restrictions.eq("idCarona", idCarona));
+			criteria.add(Restrictions.eq("idUsuario", login));
+			solicitacaoVaga = (SolicitacaoVagaDomain)criteria.uniqueResult();
+			session.close();
+			return solicitacaoVaga;
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	@Override
 	public void atualizaSolicitacaoVaga(SolicitacaoVagaDomain solicitacaoVaga){
 		try 
 		{

@@ -57,6 +57,14 @@ public interface SolicitacaoVagaDAO {
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idCarona) throws Exception;
 	
 	/**
+	 * Pega a solicitaco do usuario para a carona informada
+	 * @param idCarona Id da carona
+	 * @return Soliciracao do usuario para a vaga
+	 * @throws Exception
+	 */
+	public SolicitacaoVagaDomain getSolicitacaoUsuario(String login, String idCarona) throws Exception;
+	
+	/**
 	 * Atualiza algum atributo que tenha sido modificado para uma solicitacao de vaga desde que o Id exista
 	 * @param solicitacaoVaga Solicitacao a ser atualizada
 	 */

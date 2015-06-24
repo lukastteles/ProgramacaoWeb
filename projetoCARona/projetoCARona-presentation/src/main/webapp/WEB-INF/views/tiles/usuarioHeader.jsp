@@ -7,14 +7,61 @@
     	<div class="container">
         	<div class="navbar-header">
           		<a href="homeUsuario.html"><h4 class="demo-section-title logoCustom">CARona</h4></a> 
-        	</div>        
-        
+        	</div>
+        	
         	<div class="navbar-collapse collapse">          
           		<ul class="nav navbar-nav navbar-right">            
-            		<li><a href="perfil.html">Perfil</a></li>
-            		<li><a href="configuracoes.html">Configurações</a></li>
-            		<li><a href="home.html">Sair</a></li>
-          		</ul>
+            		<li><a href="homeUsuario.html"><span class="glyphicon glyphicon-home"></span></a></li>
+            		<!-- <li><a href="configuracoes.html"><span class="glyphicon glyphicon-cog"></span></a></li>  -->
+            		
+            		<li class="dropdown">
+	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                  		<span class="glyphicon glyphicon-bell"></span>&nbsp;
+	                  		<span class="badge">3</span>	
+	                  	</a>
+	                  	<ul class="dropdown-menu">
+	                  		<li><a>
+			  					<div class="row">
+			  						<div class="col-md-12">
+			  							<span class="glyphicon glyphicon-map-marker"></span> Fulano solicitou carona de X pra Y			  						
+				  					</div>
+				  				</div>
+	    	                </a></li>
+	                    	<li class="divider"></li>
+	        	            <li><a>
+			  					<div class="row">
+			  						<div class="col-md-12">
+			  							<span class="glyphicon glyphicon-user"></span> Fulano solicitou sua amizade			  						
+				  					</div>
+				  				</div>
+	    	                </a></li>
+	                    	<li class="divider"></li>
+	        	            <li><a>
+			  					<div class="row">
+			  						<div class="col-md-12">
+			  							<span class="glyphicon glyphicon-info-sign"></span> Nova carona cadastrada de origem para destino			  						
+			  						</div>
+				  				</div>
+		                    </a></li>
+	    	        	</ul>
+	        	    </li>
+	            	    
+            		<li class="dropdown">
+	                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                  	<span class="glyphicon glyphicon-user"></span>&nbsp;${nomeUsuario}<b class="caret"></b>
+	                  </a>
+	                  
+	                  <ul class="dropdown-menu">
+	                    <li><a href="perfil.html">
+	                    	<span class="glyphicon glyphicon-user"></span>&nbsp;Perfil
+	                    </a></li>
+	                    <li class="divider"></li>
+	                    <li><a href="home.html">
+	                    	<span class="glyphicon glyphicon-user"></span>&nbsp;Sair
+	                    </a></li>
+	                  </ul>
+	                </li>
+	             </ul>            		
         	</div><!--/.nav-collapse -->
       	</div>
     </div>
