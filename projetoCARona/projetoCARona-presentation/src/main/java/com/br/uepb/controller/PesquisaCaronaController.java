@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,16 +52,22 @@ public class PesquisaCaronaController {
 		if (sessao == null) {
 			return new ModelAndView("redirect:/home/login.html");
 		}
+		CadastroCaronaViewModel caronaDomainViewModel = new CadastroCaronaViewModel();
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("pesquisaCarona");
-		modelAndView.addObject("caronaDomainViewModel", new CadastroCaronaViewModel());
+		modelAndView.addObject("caronaDomainViewModel", caronaDomainViewModel);
 		modelAndView.addObject("listaCaronas", new ArrayList<PesquisaCaronaViewModels>());
 		modelAndView.addObject("totalCaronas", 0);
 		modelAndView.addObject("filtoConsulta", "");
 		
-		LOG.debug("Finalizada a execucao do metodo: pesquisaCarona GET");
+		if (!pesquisaCaronas(caronaDomainViewModel, sessao, modelAndView)) {
+			modelAndView.addObject("caronaDomainViewModel", caronaDomainViewModel);
+			LOG.debug("Problemas ao tentar listar as caronas no metodo: pesquisaCarona GET");		
+			return modelAndView;
+		}
 		
+		LOG.debug("Finalizada a execucao do metodo: pesquisaCarona GET");		
 		return modelAndView;
 	}
 	
@@ -80,84 +87,10 @@ public class PesquisaCaronaController {
 
 		modelAndView.addObject("totalCaronas", 0);
 		
-		try{
-			SessaoDomain sessao = (SessaoDomain)request.getSession().getAttribute("sessao");
-		
-			List<CaronaDomain> listaCaronas;
-			if ((caronaDomainViewModel.getCidade() == null) || (caronaDomainViewModel.getCidade().isEmpty())) {
-				listaCaronas = caronaBusiness.pesquisaDeCaronas(sessao.getLogin(), caronaDomainViewModel.getOrigem(), caronaDomainViewModel.getDestino());				
-			}
-			else {
-				listaCaronas = caronaBusiness.pesquisaDeCaronasMunicipais(sessao.getLogin(), caronaDomainViewModel.getCidade() ,caronaDomainViewModel.getOrigem(), caronaDomainViewModel.getDestino());				
-			}			
-			
-			ArrayList<PesquisaCaronaViewModels> pesquisaCaronas = new ArrayList<PesquisaCaronaViewModels>();
-			for (CaronaDomain caronaDomain : listaCaronas) {
-				//Se a carona tiver pelo menos 1 vaga  
-				 
-				if  (caronaDomain.getVagas() > 0) {
-					Boolean caronaPreferencial = caronaBusiness.isCaronaPreferencial(caronaDomain.getID());
-					Boolean usuarioPreferencial = solicitaVagaBusiness.isPreferencial(sessao.getLogin(), caronaDomain);
-					
-					if  (caronaPreferencial == usuarioPreferencial) {
-						PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
-						modeloCarona.setIdCarona(caronaDomain.getID());
-						modeloCarona.setOrigem(caronaDomain.getOrigem());
-						modeloCarona.setDestino(caronaDomain.getDestino());
-						modeloCarona.setHora(caronaDomain.getHora());
-						modeloCarona.setData(caronaDomain.getData());
-						modeloCarona.setDataVolta(caronaDomain.getDataVolta());
-						modeloCarona.setVagas(caronaDomain.getVagas());
-						modeloCarona.setIdSessao(caronaDomain.getIdSessao());
-						modeloCarona.setCidade(caronaDomain.getCidade());
-						
-						//Tratamento para o tipo da carona
-						if (caronaDomain.getTipoCarona().equals("M")){
-							modeloCarona.setTipoCarona("Municipal");
-						}
-						else if (caronaDomain.getTipoCarona().equals("R")){
-							modeloCarona.setTipoCarona("Relâmpago");
-						}
-						else {
-							modeloCarona.setTipoCarona("Interurbana");
-						}
-						
-						String nomeMotorista = UsuarioDAOImpl.getInstance().getUsuario(caronaDomain.getIdSessao()).getPerfil().getNome();
-						modeloCarona.setNomeMotorista(nomeMotorista);
-	
-						//Verifica se a solicitacao está na lista de caronas pendentes
-						String idSolicitacao="";
-						Boolean usuarioSolicitou = false;
-						SolicitacaoVagaDomain solicitacaoVaga =  solicitaVagaBusiness.getSolicitacaoUsuario(sessao.getLogin(), caronaDomain.getID());
-						if (solicitacaoVaga != null){
-							usuarioSolicitou = true;
-							idSolicitacao = solicitacaoVaga.getId();
-						}
-						modeloCarona.setIdSolicitacao(idSolicitacao);
-						modeloCarona.setSolicitouVaga(usuarioSolicitou);
-						pesquisaCaronas.add(modeloCarona);
-					}
-				}
-			}
-			modelAndView.addObject("listaCaronas", pesquisaCaronas);
-			modelAndView.addObject("totalCaronas", pesquisaCaronas.size());
-			
-			//tratamento do filtro
-			String filtro = "";
-			if ((caronaDomainViewModel.getOrigem() != null) && (!caronaDomainViewModel.getOrigem().isEmpty())) {
-				filtro += " - Origem: "+caronaDomainViewModel.getOrigem();
-			}
-			if ((caronaDomainViewModel.getDestino() != null) && (!caronaDomainViewModel.getDestino().isEmpty())) {
-				filtro += " - Destino: "+caronaDomainViewModel.getDestino();
-			}
-			if ((caronaDomainViewModel.getCidade() != null) && (!caronaDomainViewModel.getCidade().isEmpty())) {
-				filtro += " - Cidade: "+caronaDomainViewModel.getCidade();
-			}
-			
-			modelAndView.addObject("filtoConsulta", filtro);
-		}catch(Exception e){
+		SessaoDomain sessao = (SessaoDomain)request.getSession().getAttribute("sessao");
+		if (!pesquisaCaronas(caronaDomainViewModel, sessao, modelAndView)) {
 			modelAndView.addObject("caronaDomain", caronaDomainViewModel);
-			LOG.debug("Problemas ao tentar listar as caronas no metodo: listarCaronas POST - Erro: "+e.getMessage());		
+			LOG.debug("Problemas ao tentar listar as caronas no metodo: listarCaronas POST");		
 			return modelAndView;
 		}
 		
@@ -205,7 +138,89 @@ public class PesquisaCaronaController {
 		}
 		
 		LOG.debug("Finalizada a execucao do metodo: desistirVagaCarona POST");		
+		
+		
 		return "redirect:/home/pesquisaCarona.html";
 		
+	}
+	
+	private Boolean pesquisaCaronas(CadastroCaronaViewModel caronaDomainViewModel, SessaoDomain sessao, ModelAndView modelAndView) {
+		try{
+			//SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+			List<CaronaDomain> listaCaronas;
+			if ((caronaDomainViewModel.getCidade() == null) || (caronaDomainViewModel.getCidade().isEmpty())) {
+				listaCaronas = caronaBusiness.pesquisaDeCaronas(sessao.getLogin(), caronaDomainViewModel.getOrigem(), caronaDomainViewModel.getDestino());				
+			}
+			else {
+				listaCaronas = caronaBusiness.pesquisaDeCaronasMunicipais(sessao.getLogin(), caronaDomainViewModel.getCidade() ,caronaDomainViewModel.getOrigem(), caronaDomainViewModel.getDestino());				
+			}			
+			
+			ArrayList<PesquisaCaronaViewModels> pesquisaCaronas = new ArrayList<PesquisaCaronaViewModels>();
+			for (CaronaDomain caronaDomain : listaCaronas) {
+				//Se a carona tiver pelo menos 1 vaga
+				if  (caronaDomain.getVagas() > 0) {
+					PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
+					modeloCarona.setIdCarona(caronaDomain.getID());
+					modeloCarona.setOrigem(caronaDomain.getOrigem());
+					modeloCarona.setDestino(caronaDomain.getDestino());
+					modeloCarona.setHora(caronaDomain.getHora());
+					modeloCarona.setData(caronaDomain.getData());
+					modeloCarona.setDataVolta(caronaDomain.getDataVolta());
+					modeloCarona.setVagas(caronaDomain.getVagas());
+					modeloCarona.setIdSessao(caronaDomain.getIdSessao());
+					modeloCarona.setCidade(caronaDomain.getCidade());
+						
+					//Tratamento para o tipo da carona
+					if (caronaDomain.getTipoCarona().equals("M")){
+						modeloCarona.setTipoCarona("Municipal");
+					}
+					else if (caronaDomain.getTipoCarona().equals("R")){
+						modeloCarona.setTipoCarona("Relâmpago");
+					}
+					else {
+						modeloCarona.setTipoCarona("Interurbana");
+					}
+						
+					String nomeMotorista = UsuarioDAOImpl.getInstance().getUsuario(caronaDomain.getIdSessao()).getPerfil().getNome();
+					modeloCarona.setNomeMotorista(nomeMotorista);
+	
+					//Verifica se a solicitacao está na lista de caronas pendentes
+					String idSolicitacao="";
+					Boolean usuarioSolicitou = false;
+					SolicitacaoVagaDomain solicitacaoVaga =  solicitaVagaBusiness.getSolicitacaoUsuario(sessao.getLogin(), caronaDomain.getID());
+					if (solicitacaoVaga != null){
+						usuarioSolicitou = true;
+						idSolicitacao = solicitacaoVaga.getId();
+					}
+					
+					modeloCarona.setIdSolicitacao(idSolicitacao);
+					modeloCarona.setSolicitouVaga(usuarioSolicitou);
+					pesquisaCaronas.add(modeloCarona);
+				}
+			}
+			
+			modelAndView.addObject("listaCaronas", pesquisaCaronas);
+			modelAndView.addObject("totalCaronas", pesquisaCaronas.size());
+			
+			//tratamento do filtro
+			String filtro = "";
+			if ((caronaDomainViewModel.getOrigem() != null) && (!caronaDomainViewModel.getOrigem().isEmpty())) {
+				filtro += " - Origem: "+caronaDomainViewModel.getOrigem();
+			}
+			if ((caronaDomainViewModel.getDestino() != null) && (!caronaDomainViewModel.getDestino().isEmpty())) {
+				filtro += " - Destino: "+caronaDomainViewModel.getDestino();
+			}
+			if ((caronaDomainViewModel.getCidade() != null) && (!caronaDomainViewModel.getCidade().isEmpty())) {
+				filtro += " - Cidade: "+caronaDomainViewModel.getCidade();
+			}
+			
+			modelAndView.addObject("filtoConsulta", filtro);
+		}catch(Exception e){
+			modelAndView.addObject("caronaDomain", caronaDomainViewModel);
+			LOG.debug("Problemas ao tentar listar as caronas - Erro: "+e.getMessage());		
+			return false;
+		}
+		
+		return true;
 	}
 }

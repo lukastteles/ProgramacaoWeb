@@ -12,6 +12,7 @@
 	
 	<definition name="usuario.layout" template="/WEB-INF/views/tiles/usuarioLayout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/tiles/usuarioHeader.jsp" />
+		<put-attribute name="menuLateral" value="/WEB-INF/views/tiles/usuarioMenu.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/tiles/usuarioFooter.jsp" />
 	</definition>
 	

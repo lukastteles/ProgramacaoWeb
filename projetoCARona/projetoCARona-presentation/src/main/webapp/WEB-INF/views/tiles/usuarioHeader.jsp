@@ -5,6 +5,7 @@
 <!-- fixed navbar top -->
 	<div class="navbar navbar-lg navbar-inverse navbar-static-top" role="navigation">
     	<div class="container">
+		<div class="col-md-12">
         	<div class="navbar-header">
           		<a href="homeUsuario.html"><h4 class="demo-section-title logoCustom">CARona</h4></a> 
         	</div>
@@ -63,5 +64,6 @@
 	                </li>
 	             </ul>            		
         	</div><!--/.nav-collapse -->
+        	</div>
       	</div>
     </div>

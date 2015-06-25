@@ -13,13 +13,25 @@
 </head>
 <body>
 	<header>
-		<tiles:insertAttribute name="header" />
+		<div style="width: 100%">
+			<tiles:insertAttribute name="header" />
+		</div>
 	</header>
 	<section>
-		<tiles:insertAttribute name="body" />
+		<div class="row" style="width: 100%;">
+			<div class="col-md-2">
+				<tiles:insertAttribute name="menuLateral" />
+			</div>
+			<div class="col-md-10">
+				<tiles:insertAttribute name="body" />
+			</div>
+		</div>
 	</section>
+	
     <footer>
+		<div style="width: 100%">
 		<tiles:insertAttribute name="footer" />
+		</div>
 	</footer>
 </body>
 </html>

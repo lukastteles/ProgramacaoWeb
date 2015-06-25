@@ -2,14 +2,14 @@ package com.br.uepb.viewModels;
 
 public class CadastroCaronaViewModel {
 
-	private String origem;
-	private String destino;
-	private String cidade;
-	private String hora;
-	private String data;
-	private String dataVolta;
-	private int vagas;
-	private int minimoCaroneiros;
+	private String origem = "";
+	private String destino = "";
+	private String cidade = "";
+	private String hora = "";
+	private String data = "";
+	private String dataVolta = "";
+	private int vagas = 0;
+	private int minimoCaroneiros = 0;
 	private String tipoCarona = "C";
 	
 	public CadastroCaronaViewModel() { }

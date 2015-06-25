@@ -3994,10 +3994,9 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 .tile {
   position: relative;
   padding: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
-  background-color: #eff0f2;
-  border-radius: 6px;
+  background-color: #eff0f2; 
   }
 .tile .tile-hot-ribbon {
   position: absolute;

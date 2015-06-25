@@ -38,11 +38,19 @@ public class CaronaBusiness {
 	 * @throws Exception Lança exceção se qualquer parametro informado for null ou vazio ou se a sessao for invalida
 	 */
 	public List<CaronaDomain> pesquisaDeCaronas(String idSessao, String origem, String destino) throws Exception{
+		SolicitacaoVagaBusiness solicitacaoVagaBusiness = new SolicitacaoVagaBusiness();
+		Boolean caronaPreferencial = false;
+		Boolean usuarioPreferencial = false;
+		
 		List<CaronaDomain> caronas = localizarCarona(idSessao, origem, destino);
 		List<CaronaDomain> pesquisaCaronas = new ArrayList<CaronaDomain>();
 		for (CaronaDomain caronaDomain : caronas) {
 			if(!caronaDomain.getIdSessao().equals(idSessao)){
-				pesquisaCaronas.add(caronaDomain);
+				caronaPreferencial = caronaDomain.isPreferencial();
+				usuarioPreferencial = solicitacaoVagaBusiness.isPreferencial(idSessao, caronaDomain); 
+				if (caronaPreferencial == usuarioPreferencial) {
+					pesquisaCaronas.add(caronaDomain);
+				}
 			}
 		}
 		return pesquisaCaronas;
@@ -58,11 +66,19 @@ public class CaronaBusiness {
 	 * @throws Exception Lança excecao se qualquer parametro informado for null ou vazio ou se a sessao for invalida
 	 */
 	public List<CaronaDomain> pesquisaDeCaronasMunicipais(String idSessao, String cidade, String origem, String destino) throws Exception{
+		SolicitacaoVagaBusiness solicitacaoVagaBusiness = new SolicitacaoVagaBusiness();
+		Boolean caronaPreferencial = false;
+		Boolean usuarioPreferencial = false;
+		
 		List<CaronaDomain> caronas = localizarCaronaMunicipal(idSessao, cidade, origem, destino);
 		List<CaronaDomain> pesquisaCaronas = new ArrayList<CaronaDomain>();
 		for (CaronaDomain caronaDomain : caronas) {
 			if(!caronaDomain.getIdSessao().equals(idSessao)){
-				pesquisaCaronas.add(caronaDomain);
+				caronaPreferencial = caronaDomain.isPreferencial();
+				usuarioPreferencial = solicitacaoVagaBusiness.isPreferencial(idSessao, caronaDomain); 
+				if (caronaPreferencial == usuarioPreferencial) {
+					pesquisaCaronas.add(caronaDomain);
+				}
 			}
 		}
 		return pesquisaCaronas;
