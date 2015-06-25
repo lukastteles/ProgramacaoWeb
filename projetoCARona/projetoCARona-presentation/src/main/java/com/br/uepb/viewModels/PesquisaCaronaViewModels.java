@@ -15,6 +15,7 @@ public class PesquisaCaronaViewModels {
 	private String cidade;
 	private String idSolicitacao;
 	private Boolean solicitouVaga;
+	private Boolean vagaAceita;
 	
 	public String getIdCarona() {
 		return idCarona;
@@ -95,5 +96,11 @@ public class PesquisaCaronaViewModels {
 	public void setSolicitouVaga(Boolean solicitouVaga) {
 		this.solicitouVaga = solicitouVaga;
 	}
-		
+	public Boolean getVagaAceita() {
+		return vagaAceita;
+	}
+	public void setVagaAceita(Boolean vagaAceita) {
+		this.vagaAceita = vagaAceita;
+	}
+
 }

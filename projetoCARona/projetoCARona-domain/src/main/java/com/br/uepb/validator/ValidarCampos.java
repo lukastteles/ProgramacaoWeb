@@ -39,10 +39,10 @@ public class ValidarCampos {
 	}
 		
 	/**
-	 * Metodo para verificar se a data inicial esta maior que a data final
+	 * Metodo para verificar se a data inicial esta menor que a data final
 	 * @param dataIni Data inicial
 	 * @param dataFim Data final
-	 * @throws ProjetoCaronaException Lança excecao de a dataIni for menor que a dataFim
+	 * @throws ProjetoCaronaException Lança excecao de a dataIni for maior que a dataFim
 	 */
 	public void verificarDatas(String dataIni, String dataFim) throws ProjetoCaronaException{
 		try {

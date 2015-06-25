@@ -80,14 +80,7 @@ public class SolicitacaoVagaBusiness {
 	 */
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesConfirmadas(String idSessao, String idCarona) throws Exception{
 		logger.debug("buscando solicitacões comfirmadas");
-		SessaoDomain sessao = SessaoDAOImpl.getInstance().getSessao(idSessao);
-		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(idCarona);
 		
-		//Metodo para garantir que o usuario informado na sessao é o dono da carona
-		if (!carona.getIdSessao().equals(sessao.getLogin())) {
-			logger.debug("getSolicitacoesConfirmadas() Exceção: "+MensagensErro.CARONA_NAO_IDENTIFICADA);
-			throw new ProjetoCaronaException(MensagensErro.CARONA_NAO_IDENTIFICADA);
-		}
 		
 		ArrayList<SolicitacaoVagaDomain> solicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(idCarona);
 		logger.debug("solicitacões comfirmadas encontradas");

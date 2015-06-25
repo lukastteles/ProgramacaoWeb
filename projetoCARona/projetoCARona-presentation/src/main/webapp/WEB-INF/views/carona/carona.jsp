@@ -1,8 +1,8 @@
 <%@ include file="/WEB-INF/views/includeTags.jsp"%>
 <div id="service">
 	<div class="container">
-		<div class="col-md-7"><!--###DETALHES CARONA###-->
-		<div class="panel panel-default">
+		<div class="col-md-7">
+		<div class="panel panel-default"><!--###DETALHES CARONA###-->
 	  				<div class="panel-heading">
 	  					<div class="row">
 	  						<div class="col-md-4">
@@ -42,8 +42,39 @@
 								</div>
 						</div>			
 			        </div>
-			    </div>
-			</div><!--###DETALHES CARONA###-->
+			    </div><!--###DETALHES CARONA###-->
+			    <c:if test="${carona.vagaAceita == true }">
+			    	<div class="panel panel-default"><!-- ###VAGAS### -->
+	  				<div class="panel-heading">
+	  					<div class="row">
+	  						<div class="col-md-12">
+	  							Pessoas na carona
+	  						</div>
+			           	</div>
+	  				</div>
+	  				<div class="panel-body">
+	  					<c:if test="${numSolicitacoes == 0}">
+	  						Ainda não há mais pessoas nessa carona
+	  					</c:if>
+	  					<c:if test="${numSolicitacoes != 0}">
+						<c:forEach items="${listaSolicitacoes}" var="solicitacao">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="profile-userpic">
+									<img src="../images/user1.png" class="img-responsive" alt="">
+								</div>
+							</div>
+							<div class="col-md-5">
+								<b>${solicitacao.idUsuario}</b>
+							</div>
+						</div>
+						<hr>
+						</c:forEach>
+						</c:if>		
+			        </div>
+			    </div><!-- ###VAGAS### -->
+			    </c:if>
+			</div>
 			
 			<div class="col-md-5"><!-- ###PONTOS### -->
 				<div class="panel panel-default"><!--###MEUS AMIGOS###-->

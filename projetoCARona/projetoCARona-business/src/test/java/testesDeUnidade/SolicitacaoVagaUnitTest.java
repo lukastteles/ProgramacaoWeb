@@ -751,32 +751,7 @@ public class SolicitacaoVagaUnitTest {
 			fail();
 		}	
 	
-		//sessao inexistente
-		try {
-			solicitacaoBusiness.getSolicitacoesConfirmadas("sessao", idCarona);
-		} catch (ProjetoCaronaException projetoCaronaErro) {
-					assertEquals(MensagensErro.SESSAO_INEXISTENTE, projetoCaronaErro.getMessage());
-		} catch (Exception e) {
-			fail();
-		}
-				
-		//sessao vazia
-		try {
-			solicitacaoBusiness.getSolicitacoesConfirmadas("", idCarona);
-		} catch (ProjetoCaronaException projetoCaronaErro) {
-			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
-		} catch (Exception e) {
-			fail();
-		}
-				
-		//sessao null
-		try {
-			solicitacaoBusiness.getSolicitacoesConfirmadas(null, idCarona);
-		} catch (ProjetoCaronaException projetoCaronaErro) {
-			assertEquals(MensagensErro.SESSAO_INVALIDA, projetoCaronaErro.getMessage());
-		} catch (Exception e) {
-			fail();
-		}
+		
 			
 	}
 	

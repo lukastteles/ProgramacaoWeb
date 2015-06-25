@@ -111,6 +111,13 @@ public class SolicitacaoVagaDomain {
 	public String getIdUsuario() {
 		return idUsuario;
 	}
+	/**
+	 * Metodo pra mudar o id do usuario que solicitou vaga na carona
+	 * @param idUsuario Id do usuário que solicitou a vaga na carona
+	 */
+	public void setIdUsuario(String idUsuario) {
+		this.idUsuario = idUsuario;
+	}
 	
 	/**
 	 * Método para retornar o id da carona
@@ -152,6 +159,7 @@ public class SolicitacaoVagaDomain {
 	public String getReviewCarona() {
 		return reviewCarona;
 	}
+	
 
 	/**
 	 * Metodo para adicionar avaliacao da carona feita pelo caroneiro
