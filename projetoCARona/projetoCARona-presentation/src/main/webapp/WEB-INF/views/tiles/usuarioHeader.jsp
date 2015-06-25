@@ -16,11 +16,29 @@
             		<!-- <li><a href="configuracoes.html"><span class="glyphicon glyphicon-cog"></span></a></li>  -->
             		
             		<li class="dropdown">
-	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                	<a href="pesquisaSolicitacoes.html" class="dropdown-toggle" data-toggle="dropdown">
 	                  		<span class="glyphicon glyphicon-bell"></span>&nbsp;
 	                  		<span class="badge">3</span>	
 	                  	</a>
+	                  	
+	                  	
 	                  	<ul class="dropdown-menu">
+	                  		<!-- 
+	                  		<c:if test="${totalSolicitacoes > 0}">
+    							<li>Sem solicitacoes</li>
+    						</c:if>
+    						 -->
+	                  		<c:forEach items="${listaSolicitacoes}" var="solicitacao">
+	                  			<li><a>
+				  					<div class="row">
+				  						<div class="col-md-12">
+				  							<span class="glyphicon glyphicon-map-marker"></span> ${solicitacao.idUsuario} solicitou vaga na sua carona			  						
+					  					</div>
+					  				</div>
+		    	                </a></li>
+	                    		<li class="divider"></li>
+		                	</c:forEach>
+	                  		
 	                  		<li><a>
 			  					<div class="row">
 			  						<div class="col-md-12">
@@ -44,13 +62,20 @@
 			  						</div>
 				  				</div>
 		                    </a></li>
+		                         
 	    	        	</ul>
+	    	        	
 	        	    </li>
-	            	    
             		<li class="dropdown">
-	                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-	                  	<span class="glyphicon glyphicon-user"></span>&nbsp;${nomeUsuario}<b class="caret"></b>
-	                  </a>
+	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                 		<div class="col-md-5">
+	                 			<div class="profile-userpic">
+									<img src="../images/user1.png" class="img-responsive" alt="">
+								</div>
+	                 		</div>
+	                 		&nbsp;${nomeUsuario}
+	                  	</a>
+	                    
 	                  
 	                  <ul class="dropdown-menu">
 	                    <li><a href="perfil.html">

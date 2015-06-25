@@ -57,6 +57,14 @@ public interface SolicitacaoVagaDAO {
 	public ArrayList<SolicitacaoVagaDomain> getSolicitacoesPendentes(String idCarona) throws Exception;
 	
 	/**
+	 * Pega todas as solicitacoes que o usuario ainda não confirmou
+	 * @param login Id do usuario
+	 * @return Lista de solicitações de vaga para o usuario
+	 * @throws Exception
+	 */
+	public List<SolicitacaoVagaDomain> getSolicitacoesPendentesPorUsuario(String login) throws Exception;
+	
+	/**
 	 * Pega a solicitaco do usuario para a carona informada
 	 * @param idCarona Id da carona
 	 * @return Soliciracao do usuario para a vaga

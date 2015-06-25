@@ -149,6 +149,33 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	}
 	
 	@Override
+	public List<SolicitacaoVagaDomain> getSolicitacoesPendentesPorUsuario(String login) throws Exception{
+		List<SolicitacaoVagaDomain> solicitacoes;
+		
+		try{
+			/*
+			session = sessionFactory.openSession();
+			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
+			criteria.add(Restrictions.eq("idUsuario", login));
+			criteria.add(Restrictions.eq("foiAceita", false));
+			solicitacoesCarona = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
+			session.close(); 
+			*/
+			
+			session = sessionFactory.openSession();	
+			transaction = session.beginTransaction();
+			solicitacoes = session.createQuery(" from SolicitacaoVagaDomain " +
+					  						   " where foiAceita = 'false' " +
+											   " order by id desc").list();
+			transaction.commit();
+			session.close();
+			return solicitacoes;
+		}catch(Exception e){
+			throw e;
+		}		
+	}
+	
+	@Override
 	public SolicitacaoVagaDomain getSolicitacaoUsuario(String login, String idCarona) throws Exception{
 		SolicitacaoVagaDomain solicitacaoVaga = new SolicitacaoVagaDomain();
 		

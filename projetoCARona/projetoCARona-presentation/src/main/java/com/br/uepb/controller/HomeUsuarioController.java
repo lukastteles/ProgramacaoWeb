@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.app.event.ReferenceInsertionEventHandler.referenceInsertExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,16 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.br.uepb.business.CaronaBusiness;
-import com.br.uepb.business.HomeBusiness;
 import com.br.uepb.business.PerfilBusiness;
 import com.br.uepb.business.SessaoBusiness;
+import com.br.uepb.business.SolicitacaoVagaBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.InteresseEmCaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
-import com.br.uepb.domain.UsuarioDomain;
-import com.br.uepb.viewModels.CadastroCaronaViewModel;
+import com.br.uepb.domain.SolicitacaoVagaDomain;
 import com.br.uepb.viewModels.InteresseEmCaronasViewModel;
 import com.br.uepb.viewModels.PesquisaCaronaViewModels;
 
@@ -43,6 +41,8 @@ public class HomeUsuarioController {
 	private PerfilBusiness perfilBusiness;
 	@Autowired
 	private CaronaBusiness caronaBusiness;
+	@Autowired
+	private SolicitacaoVagaBusiness solicitacaoBusiness;
 	
 	@RequestMapping(value = "/home/homeUsuario.html", method = RequestMethod.GET)
 	public ModelAndView getUsuarioHome(HttpServletRequest request) {
@@ -57,7 +57,26 @@ public class HomeUsuarioController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("homeUsuario");
         modelAndView.addObject("nomeUsuario", sessao.getLogin());
-		
+        
+
+        /* Lista todas as caronas*/
+		modelAndView.addObject("listaCaronas", new ArrayList<PesquisaCaronaViewModels>());
+        if (!pesquisaCaronas(sessao, modelAndView)) {
+        	modelAndView.addObject("listaCaronas", new ArrayList<PesquisaCaronaViewModels>());
+			LOG.debug("Problemas ao tentar listar as caronas no metodo: getUsuarioHome GET");		
+			return modelAndView;
+		}
+        
+        /* Lista todas as solicitacoes */
+        try {
+			List<SolicitacaoVagaDomain> listaSolicitacoes = solicitacaoBusiness.getSolicitacoesPorUsuario(sessao.getLogin());
+			modelAndView.addObject("listaSolicitacoes", listaSolicitacoes);
+			modelAndView.addObject("totalSolicitacoes", listaSolicitacoes.size());
+		} catch (Exception e) {
+			LOG.debug("Problemas ao tentar listar as solicitacoes do usuario no metodo: getUsuarioHome GET - Erro: "+e.getMessage());		
+			return modelAndView;
+		}
+        
 		LOG.debug("Finalizada a execucao do metodo: getUsuarioHome GET");
 		
 		return modelAndView;
@@ -235,5 +254,50 @@ public class HomeUsuarioController {
 		LOG.debug("Finalizada a execucao do metodo: apagaInteressesCarona GET");
 		return new ModelAndView("redirect:/home/interessesCarona.html");
 	}
+	
+	
+	private Boolean pesquisaCaronas(SessaoDomain sessao, ModelAndView modelAndView) {
+		try{
+			//SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+			List<CaronaDomain> listaCaronas = caronaBusiness.localizarCarona(sessao.getLogin(), "", "");				
+			
+			ArrayList<PesquisaCaronaViewModels> pesquisaCaronas = new ArrayList<PesquisaCaronaViewModels>();
+			for (CaronaDomain caronaDomain : listaCaronas) {
+				PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
+				modeloCarona.setIdCarona(caronaDomain.getID());
+				modeloCarona.setOrigem(caronaDomain.getOrigem());
+				modeloCarona.setDestino(caronaDomain.getDestino());
+				modeloCarona.setHora(caronaDomain.getHora());
+				modeloCarona.setData(caronaDomain.getData());
+				modeloCarona.setDataVolta(caronaDomain.getDataVolta());
+				modeloCarona.setVagas(caronaDomain.getVagas());
+				modeloCarona.setIdSessao(caronaDomain.getIdSessao());
+				modeloCarona.setCidade(caronaDomain.getCidade());
+						
+				//Tratamento para o tipo da carona
+				if (caronaDomain.getTipoCarona().equals("M")){
+					modeloCarona.setTipoCarona("Municipal");
+				}
+				else if (caronaDomain.getTipoCarona().equals("R")){
+					modeloCarona.setTipoCarona("Relâmpago");
+				}
+				else {
+					modeloCarona.setTipoCarona("Interurbana");
+				}
+						
+				String nomeMotorista = UsuarioDAOImpl.getInstance().getUsuario(caronaDomain.getIdSessao()).getPerfil().getNome();
+				modeloCarona.setNomeMotorista(nomeMotorista);
+				pesquisaCaronas.add(modeloCarona);
+				
+			}
+			
+			modelAndView.addObject("listaCaronas", pesquisaCaronas);
+
+		}catch(Exception e){
+			LOG.debug("Problemas ao tentar listar as caronas - Erro: "+e.getMessage());		
+			return false;
+		}
 		
+		return true;
+	}
 }

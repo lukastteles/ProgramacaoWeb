@@ -118,10 +118,10 @@ public class SolicitacaoVagaBusiness {
 	}
 	
 	/**
-	 * Método para retornar uma lista a solicitacao de vaga (pendentes e confirmadas) de um usuario para a carona
-	 * @param idSessao Id da sessão
+	 * Metodo para retornar uma lista de solicitacao de vaga (pendentes e confirmadas) de um usuario para a carona
+	 * @param idSessao Id da sessao
 	 * @param idCarona Id da carona
-	 * @return Lista de solicitações de vaga pendentes
+	 * @return Lista de solicitacoes de vaga pendentes
 	 * @throws Exception Lança exceção se qualquer atributo informado for null, vazio ou se a carona não pertencer ao usuário da sessão informada
 	 */
 	public SolicitacaoVagaDomain getSolicitacaoUsuario(String idSessao, String idCarona) throws Exception{
@@ -132,6 +132,21 @@ public class SolicitacaoVagaBusiness {
 		SolicitacaoVagaDomain solicitacaoVaga = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoUsuario(idSessao, idCarona);
 		logger.debug("solicitacao do usuario encontrada");
 		return solicitacaoVaga; 		
+	}
+	
+	/**
+	 * Metodo para retornar uma lista solicitacoes para um usuario (dono da carona)
+	 * @param idSessao Id da sessao
+	 * @return Lista das solicitacoes do usuario
+	 * @throws Exception
+	 */
+	public List<SolicitacaoVagaDomain> getSolicitacoesPorUsuario(String idSessao) throws Exception{
+		logger.debug("buscando solicitacao do usuario");
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		
+		List<SolicitacaoVagaDomain> solicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesPendentesPorUsuario(idSessao);
+		logger.debug("solicitacoes do usuario encontradas");
+		return solicitacoes;
 	}
 	
 	/**
