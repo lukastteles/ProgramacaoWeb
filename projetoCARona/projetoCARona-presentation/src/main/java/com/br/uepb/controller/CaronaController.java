@@ -214,6 +214,51 @@ public class CaronaController {
 		return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
 	}
 	
+	@RequestMapping(value = "/home/aceitarSolicitacao.html", method = RequestMethod.GET)
+	public ModelAndView aceitarSolicitacao(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: aceitarSolicitacao GET");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		String idCarona = (String) request.getParameter("id");
+		String idSolicitacao = (String) request.getParameter("idSolicitacao");
+		try{
+			solicitaVagaBusiness.aceitarSolicitacao(sessao.getLogin(), idSolicitacao);
+		}catch(Exception e){
+			return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+		}
+		LOG.debug("Finalizada a execucao do metodo: aceitarSolicitacao GET");
+		return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+	}
+	
+	@RequestMapping(value = "/home/desfazerSolicitacao.html", method = RequestMethod.GET)
+	public ModelAndView desfazerSolicitacao(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: desfazerSolicitacao GET");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		String idCarona = (String) request.getParameter("id");
+		String idSolicitacao = (String) request.getParameter("idSolicitacao");
+		try{
+			solicitaVagaBusiness.desfazerSolicitacaoAceita(sessao.getLogin(), idSolicitacao);
+		}catch(Exception e){
+			return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+		}
+		LOG.debug("Finalizada a execucao do metodo: desfazerSolicitacao GET");
+		return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+	}
+	
+	@RequestMapping(value = "/home/recusarSolicitacao.html", method = RequestMethod.GET)
+	public ModelAndView recusarSolicitacao(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: recusarSolicitacao GET");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		String idCarona = (String) request.getParameter("id");
+		String idSolicitacao = (String) request.getParameter("idSolicitacao");
+		try{
+			solicitaVagaBusiness.rejeitarSolicitacao(sessao.getLogin(), idSolicitacao);
+		}catch(Exception e){
+			return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+		}
+		LOG.debug("Finalizada a execucao do metodo: recusarSolicitacao GET");
+		return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+	}
+	
 	private PesquisaCaronaViewModels getViewModel(CaronaDomain caronaDomain, SessaoDomain sessao) throws Exception{
 		PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
 		modeloCarona.setIdCarona(caronaDomain.getID());

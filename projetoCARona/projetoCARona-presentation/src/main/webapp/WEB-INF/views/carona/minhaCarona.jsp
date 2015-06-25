@@ -57,8 +57,8 @@
 										<div class="col-md-12">
 											<dl class="palette">
 												<span class="label label-success">Aceito</span>&nbsp;&nbsp;
-												<a href="desistirSolicitacao.html?id=${carona.idCarona}&idSolicitacao=${solicitacao.id}">
-												<u>Desistir</u>
+												<a href="desfazerSolicitacao.html?id=${carona.idCarona}&idSolicitacao=${solicitacao.id}">
+												<u>Desfazer</u>
 												</a>
 											</dl>
 										</div>
@@ -66,7 +66,7 @@
 								</c:if>
 								<c:if test="${solicitacao.foiAceita == false}">
 									<dl class="palette">
-									<a href="acitarSolicitacao.html?id=${carona.idCarona}&idSolicitacao=${solicitacao.id}">
+									<a href="aceitarSolicitacao.html?id=${carona.idCarona}&idSolicitacao=${solicitacao.id}">
 										<u>Aceitar</u>
 									</a>
 									&nbsp;&nbsp;
@@ -112,7 +112,7 @@
 										<div class="col-md-12">
 											<dl class="palette">
 												<span class="label label-success">Aceito</span>&nbsp;&nbsp;
-												<a href="desistirPonto.html?id=${carona.idCarona}&ponto=${ponto.pontoDeEncontro}&idPonto=${ponto.id}">
+												<a href="desistirPonto.html?id=${carona.idCarona}&ponto=${ponto.pontoDeEncontro}&idPonto=${ponto.idSugestao}">
 												<u>Desistir</u>
 												</a>
 											</dl>
@@ -121,7 +121,7 @@
 								</c:if>
 								<c:if test="${ponto.foiAceita == false}">
 									<dl class="palette">
-									<a href="acitarPonto.html?id=${carona.idCarona}&ponto=${ponto.pontoDeEncontro}&idPonto=${ponto.id}">
+									<a href="acitarPonto.html?id=${carona.idCarona}&ponto=${ponto.pontoDeEncontro}&idPonto=${ponto.idSugestao}">
 									
 										<u>Aceitar</u>
 									

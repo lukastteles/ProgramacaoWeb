@@ -59,14 +59,7 @@
 				  					<div class="col-md-4">
 				  						<a href="carona.html?id=${carona.idCarona}"><span class="fui-search"></span> <b>Detalhar Carona</b></a>
 				  					</div>
-				  					<div class="col-md-3">
-				  						<c:if test="${carona.solicitouVaga == false}">
-			  								<a  href="solicitarVagaCarona.html?id=${carona.idCarona}" ><span class="fui-plus-circle"></span> <b>Solicitar Vaga</b></a>
-										</c:if>
-										<c:if test="${carona.solicitouVaga == true}">
-			  								<a href="desistirVagaCarona.html?id=${carona.idCarona}&idSolicitacao=${carona.idSolicitacao}"><span class="glyphicon glyphicon-minus-sign"></span> <b>Desistir Vaga</b></a>
-										</c:if>					  							
-				  					</div>
+				  					
 								</div>
 							</div>
 					   	</li>

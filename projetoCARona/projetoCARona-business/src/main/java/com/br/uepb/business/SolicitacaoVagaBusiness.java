@@ -327,6 +327,40 @@ public class SolicitacaoVagaBusiness {
 	}
 	
 	/**
+	 * Desfazendo uma solicitaçao aceita
+	 * @param idSessao Login do motorias da carona solicitada
+	 * @param idSolicitacao Id da Solicitacao
+	 * @throws Exception 
+	 */
+	public void desfazerSolicitacaoAceita(String idSessao, String idSolicitacao) throws Exception {
+		logger.debug("rejeitando uma solicitação de vaga");
+		SessaoDAOImpl.getInstance().getSessao(idSessao);		
+
+		/* Garantir que o id do usuario que criou a carona é igual ao id da sessao
+		  Se a solicitacao nao pertencer ao usuario retorna solicitacao invalida */
+		SolicitacaoVagaDomain solicitacao = SolicitacaoVagaDAOImpl.getInstance().getSolicitacaoVaga(idSolicitacao);
+		CaronaDomain carona = CaronaDAOImpl.getInstance().getCarona(solicitacao.getIdCarona()); 
+		if (!carona.getIdSessao().equals(idSessao)) {
+			logger.debug("rejeitarSolicitacao() Exceção: "+MensagensErro.SOLICITACAO_INVALIDA);
+			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INVALIDA);				
+		}
+		
+		if (solicitacao.getFoiAceita() ){
+			solicitacao.setFoiAceita(false);
+			SolicitacaoVagaDAOImpl.getInstance().atualizaSolicitacaoVaga(solicitacao);//atualiza solicitacao
+			
+			carona.aumentaVagas();
+			CaronaDAOImpl.getInstance().atualizaCarona(carona);//atualiza carona
+			
+			logger.debug("solicitação aceita");
+		}
+		else {	
+			logger.debug("aceitarSolicitacao() Exceção: "+MensagensErro.SOLICITACAO_INEXISTENTE);
+			throw new ProjetoCaronaException(MensagensErro.SOLICITACAO_INEXISTENTE);			
+		}
+	}
+	
+	/**
 	 * Método para informar a desistencia da solicitação de vaga na carona
 	 * @param idSessao Id da sessão
 	 * @param idCarona Id da carona
