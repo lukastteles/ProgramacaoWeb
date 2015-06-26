@@ -11,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +23,7 @@ import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
+import com.br.uepb.funcoesController.FuncoesComuns;
 import com.br.uepb.viewModels.CadastroCaronaViewModel;
 import com.br.uepb.viewModels.PesquisaCaronaViewModels;
 
@@ -40,6 +40,9 @@ public class PesquisaCaronaController {
 	
 	@Autowired
 	private SolicitacaoVagaBusiness solicitaVagaBusiness;
+	
+	@Autowired
+	private FuncoesComuns funcoesComuns;
 	
 	private ArrayList<CaronaDomain> listaCaronas;
 	
@@ -66,6 +69,11 @@ public class PesquisaCaronaController {
 			LOG.debug("Problemas ao tentar listar as caronas no metodo: pesquisaCarona GET");		
 			return modelAndView;
 		}
+		
+		if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: pesquisaCarona GET ");		
+			return modelAndView;
+        }
 		
 		LOG.debug("Finalizada a execucao do metodo: pesquisaCarona GET");		
 		return modelAndView;

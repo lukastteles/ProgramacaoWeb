@@ -19,15 +19,25 @@
 											<img src="../images/user1.png" class="img-responsive" alt="">
 										</div>
 										<div class="user-detail">
-											<h5>${carona.nomeMotorista}</h5>
-		                               		<span class="glyphicon glyphicon-calendar"></span>
-		                               		<b class="label-corVerde handle">Data da carona: </b> ${carona.data}<br>
-		                               		<span class="glyphicon glyphicon-map-marker"></span>
-		                               		<b class="label-corVerde">Origem: </b> ${carona.origem}
-		                                   	<b class="label-corVerde"> | Destino: </b> ${carona.destino}<br>
-		                                   	<c:if test="${not empty carona.cidade}">
-	    											<span class="glyphicon glyphicon-globe"></span><b class="label-corVerde"> Cidade: </b> ${carona.cidade}
-											</c:if>
+											<div class="col-md-8">
+												<span class="glyphicon glyphicon-user"></span>
+												<b class="label-corVerde handle">Motorista: </b> ${carona.nomeMotorista}<br>
+			                               		<span class="glyphicon glyphicon-calendar"></span>
+			                               		<b class="label-corVerde handle">Data de saída: </b> ${carona.data}
+			                               		<c:if test="${not empty carona.dataVolta}">
+				        	               			<b class="label-corVerde handle"> | Data da volta: </b> ${carona.dataVolta}
+				                          		</c:if> <br>
+			                               		<span class="glyphicon glyphicon-map-marker"></span>
+			                               		<b class="label-corVerde">Origem: </b> ${carona.origem}
+			                                   	<b class="label-corVerde"> | Destino: </b> ${carona.destino}<br>
+			                                   	<c:if test="${not empty carona.cidade}">
+		    											<span class="glyphicon glyphicon-globe"></span><b class="label-corVerde"> Cidade: </b> ${carona.cidade}
+												</c:if>
+											</div>
+											<div class="col-md-4">
+												<b>Carona ${carona.tipoCarona}</b><br>
+												<span class="background-corVerde badge">${carona.vagas}</span> Vagas Disponíveis
+											</div>
 										</div>
 									</div>		
 								</div>

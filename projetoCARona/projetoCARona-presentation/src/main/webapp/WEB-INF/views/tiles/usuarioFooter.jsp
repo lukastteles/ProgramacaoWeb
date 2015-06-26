@@ -13,7 +13,7 @@
         		<div class="col-md-offset-8">
           			<div class="footer-banner">
             			Desenvolvido por:
-            			Luana Janaina Lukas Teles
+            			Luana Janaina | Lukas Teles
             			</ul>
             		</div>
           		</div> <!-- /col-xs-5 -->

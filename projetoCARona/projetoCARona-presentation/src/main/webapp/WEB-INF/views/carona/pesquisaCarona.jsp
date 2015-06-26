@@ -28,47 +28,43 @@
 	           	</div>
 			</c:if>
 			
-            <c:forEach items="${listaCaronas}" var="carona">				
-            	<div class="qa-message-list" id="wallmessages">
-            		<div class="message-item">		
-						<div class="message-inner">
-							<div class="message-head clearfix">
-								<div class="avatar pull-left">
-									<img src="../images/user1.png" class="img-responsive" alt="">
-								</div>
-								
-								<div class="user-detail">
-									<div class="col-md-8">
-										<span class="glyphicon glyphicon-user"></span>
-			                           	<b class="label-corVerde handle">Motorista: </b> ${carona.nomeMotorista}<br>
-			                           	<span class="glyphicon glyphicon-calendar"></span>
-			                           	<b class="label-corVerde handle">Data da saida: </b> ${carona.data}
-			  							<c:if test="${not empty carona.dataVolta}">
-			        	               		<b class="label-corVerde handle"> | Data da volta: </b> ${carona.dataVolta}
-			                          	</c:if>
-			                            <br>
-			                            <span class="glyphicon glyphicon-map-marker"></span>
-			                            <b class="label-corVerde">Origem: </b> ${carona.origem}
-			                            <b class="label-corVerde"> | Destino: </b> ${carona.destino}<br>
-			                            <c:if test="${not empty carona.cidade}">
-		    								<span class="glyphicon glyphicon-globe"></span><b class="label-corVerde"> Cidade: </b> ${carona.cidade}
-										</c:if>
-										<div class="">
-											<br>
-											<hr-2>
-				  							<a href="carona.html?id=${carona.idCarona}"><span class="fui-search"></span> <b>Detalhar Carona</b></a>
-				  						</div>
+            <c:forEach items="${listaCaronas}" var="carona">	
+            	<a class="label-corAzul message-inner" href="carona.html?id=${carona.idCarona}">			
+	            	<div class="qa-message-list" id="wallmessages">
+	            		<div class="message-item">		
+							<div class="message-inner">
+								<div class="message-head clearfix">
+									<div class="avatar pull-left">
+										<img src="../images/user1.png" class="img-responsive" alt="">
 									</div>
-									<div class="col-md-4">
-										<b>Carona ${carona.tipoCarona}</b><br>
-										<span class="background-corVerde badge">${carona.vagas}</span> Vagas Disponíveis
+									
+									<div class="user-detail">
+										<div class="col-md-8">
+											<span class="glyphicon glyphicon-user"></span>
+				                           	<b class="label-corVerde handle">Motorista: </b> ${carona.nomeMotorista}<br>
+				                           	<span class="glyphicon glyphicon-calendar"></span>
+				                           	<b class="label-corVerde handle">Data da saida: </b> ${carona.data}
+				  							<c:if test="${not empty carona.dataVolta}">
+				        	               		<b class="label-corVerde handle"> | Data da volta: </b> ${carona.dataVolta}
+				                          	</c:if>
+				                            <br>
+				                            <span class="glyphicon glyphicon-map-marker"></span>
+				                            <b class="label-corVerde">Origem: </b> ${carona.origem}
+				                            <b class="label-corVerde"> | Destino: </b> ${carona.destino}<br>
+				                            <c:if test="${not empty carona.cidade}">
+			    								<span class="glyphicon glyphicon-globe"></span><b class="label-corVerde"> Cidade: </b> ${carona.cidade}
+											</c:if>
+										</div>
+										<div class="col-md-4">
+											<b>Carona ${carona.tipoCarona}</b><br>
+											<span class="background-corVerde badge">${carona.vagas}</span> Vagas Disponíveis
+										</div>
 									</div>
 								</div>
-								
 							</div>
 						</div>
-					</div>
-            	</div>
+	            	</div>
+	            </a>
             </c:forEach>
   		
   		</div>

@@ -18,17 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.br.uepb.business.CaronaBusiness;
 import com.br.uepb.business.PerfilBusiness;
-import com.br.uepb.business.PontoDeEncontroBusiness;
 import com.br.uepb.business.SessaoBusiness;
-import com.br.uepb.business.SolicitacaoVagaBusiness;
 import com.br.uepb.business.UsuarioBusiness;
-import com.br.uepb.dao.impl.CaronaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.InteresseEmCaronaDomain;
-import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.domain.SessaoDomain;
-import com.br.uepb.domain.SolicitacaoVagaDomain;
+import com.br.uepb.funcoesController.FuncoesComuns;
 import com.br.uepb.viewModels.InteresseEmCaronasViewModel;
 import com.br.uepb.viewModels.PesquisaCaronaViewModels;
 
@@ -45,9 +41,7 @@ public class HomeUsuarioController {
 	@Autowired
 	private CaronaBusiness caronaBusiness;
 	@Autowired
-	private SolicitacaoVagaBusiness solicitacaoBusiness;
-	@Autowired
-	private PontoDeEncontroBusiness pontoEncontroBusiness;
+	private FuncoesComuns funcoesComuns;
 	
 	@RequestMapping(value = "/home/homeUsuario.html", method = RequestMethod.GET)
 	public ModelAndView getUsuarioHome(HttpServletRequest request) {
@@ -61,9 +55,7 @@ public class HomeUsuarioController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("homeUsuario");
-        modelAndView.addObject("nomeUsuario", sessao.getLogin());
-        
-
+		
         /* Lista todas as caronas*/
 		modelAndView.addObject("listaCaronas", new ArrayList<PesquisaCaronaViewModels>());
         if (!pesquisaCaronas(sessao, modelAndView)) {
@@ -72,36 +64,10 @@ public class HomeUsuarioController {
 			return modelAndView;
 		}
         
-        /* Lista todas as solicitacoes */
-        List<SolicitacaoVagaDomain> listaSolicitacoes = new ArrayList<SolicitacaoVagaDomain>();
-        List<PontoDeEncontroDomain> listaSugestoes = new ArrayList<PontoDeEncontroDomain>();
-        List<CaronaDomain> listaInteresses = new ArrayList<CaronaDomain>();
-        int totalNotificacoes = 0;
-        try {
-			listaSolicitacoes = solicitacaoBusiness.getSolicitacoesPorUsuario(sessao.getLogin());
-			listaSugestoes = pontoEncontroBusiness.getTodosPontosSugeridos(sessao.getLogin());
-			listaInteresses = CaronaDAOImpl.getInstance().getCaronasByInteresses(sessao.getLogin());
-			
-			modelAndView.addObject("listaSolicitacoes", listaSolicitacoes);
-			modelAndView.addObject("listaSugestoes", listaSugestoes);
-			modelAndView.addObject("listaInteresses", listaInteresses);
-			
-			if (listaSolicitacoes != null ) {
-				totalNotificacoes += listaSolicitacoes.size();
-			}
-			if (listaSugestoes != null) {
-				totalNotificacoes += listaSugestoes.size();
-			}
-			if (listaInteresses != null) {
-				totalNotificacoes += listaInteresses.size();
-			}
-	        modelAndView.addObject("totalNotificacoes", totalNotificacoes);
-	        
-		} catch (Exception e) {
-			LOG.debug("Problemas ao tentar listar as solicitacoes do usuario no metodo: getUsuarioHome GET - Erro: "+e.getMessage());		
+        if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: getUsuarioHome GET ");		
 			return modelAndView;
-		}
-        
+        }
         
 		LOG.debug("Finalizada a execucao do metodo: getUsuarioHome GET");
 		
