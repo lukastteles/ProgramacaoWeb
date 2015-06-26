@@ -81,7 +81,7 @@ public class CaronaUnitTest {
 			CaronaDomain carona1 = caronaBusiness.getCarona(idCarona);			
 			
 			//verifica se armazenou os valores realmente corretos
-			Assert.assertEquals(idCarona, carona1.getID());
+			Assert.assertEquals(idCarona, carona1.getId());
 			Assert.assertEquals(idSessao, carona1.getIdSessao());
 			Assert.assertEquals(origem, carona1.getOrigem());
 			Assert.assertEquals(destino, carona1.getDestino());
@@ -816,14 +816,14 @@ public class CaronaUnitTest {
 			for (int i = 0; i < length; i++) {
 				carona = null;
 				for (CaronaDomain caronaDomain : listaComp) {
-					if(lista.get(i).getID().equals(caronaDomain.getID())){
+					if(lista.get(i).getId().equals(caronaDomain.getId())){
 						carona = caronaDomain;
 					}
 				}
 				if(carona == null){
 					fail();
 				}
-				assertEquals(lista.get(i).getID(), carona.getID());
+				assertEquals(lista.get(i).getId(), carona.getId());
 				assertEquals(lista.get(i).getOrigem(), carona.getOrigem());
 				assertEquals(lista.get(i).getDestino(), carona.getDestino());
 				assertEquals(lista.get(i).getCidade(), carona.getCidade());

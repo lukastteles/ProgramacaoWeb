@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/views/includeTags.jsp"%>
+
 <!-- *****************************************************************************************************************
 	 HEADER
 	 ***************************************************************************************************************** -->
@@ -52,17 +53,16 @@
 	                    		<li class="divider"></li>
 							</c:if>		
 							
-							
-	                    	<c:forEach items="${listaInteresses}" var="interesse">
+							<c:forEach items="${listaInteresses}" var="interesse">
 	                  			<li><a href="carona.html?id=${interesse.id}">
 				  					<div class="row">
 				  						<div class="col-md-12">
-				  							<span class="glyphicon glyphicon-info-sign"></span> Nova carona cadastrada de ${interesse.origem} - ${interesse.destino} - ${interesse.data}, ${interesse.hora} 			  						
+				  							<span class="glyphicon glyphicon-info-sign"></span> Nova carona cadastrada de ${interesse.origem} - ${interesse.destino} - ${interesse.data}, ${interesse.hora}			  						
 					  					</div>
 					  				</div>
 		    	                </a></li>
 		                	</c:forEach>
-	                  		
+							
 	                  		<!-- Pontos de Encontro Pendentes -->
 	                  		<!-- 
 	        	            <li><a>

@@ -2,6 +2,7 @@ package com.br.uepb.viewModels;
 
 public class CadastroCaronaViewModel {
 
+	private String id = "";
 	private String origem = "";
 	private String destino = "";
 	private String cidade = "";
@@ -13,6 +14,14 @@ public class CadastroCaronaViewModel {
 	private String tipoCarona = "C";
 	
 	public CadastroCaronaViewModel() { }
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 	
 	public String getOrigem() {
 		return origem;
@@ -67,8 +76,5 @@ public class CadastroCaronaViewModel {
 	}
 	public void setTipoCarona(String tipoCarona) {
 		this.tipoCarona = tipoCarona;
-	}
-	
-	
-	
+	}	
 }

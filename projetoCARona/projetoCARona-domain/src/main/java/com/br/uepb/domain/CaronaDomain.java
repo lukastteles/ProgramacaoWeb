@@ -104,7 +104,7 @@ public class CaronaDomain {
 	 */
 	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String data, String hora, int vagas) throws Exception { 
 		setTipoCarona("C");
-		setID(idCarona);
+		setId(idCarona);
 		setIdSessao(idSessao);
 		setOrigem(origem);
 		setDestino(destino);
@@ -127,7 +127,7 @@ public class CaronaDomain {
 	 */
 	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String cidade, String data, String hora, int vagas) throws Exception { 
 		setTipoCarona("M");
-		setID(idCarona);
+		setId(idCarona);
 		setIdSessao(idSessao);
 		setOrigem(origem);
 		setDestino(destino);
@@ -152,7 +152,7 @@ public class CaronaDomain {
 	 */
 	public CaronaDomain(String idSessao, String idCarona, String origem, String destino, String dataIda, String dataVolta, int minimoCaroneiros, String hora) throws Exception { 
 		setTipoCarona("R");
-		setID(idCarona);
+		setId(idCarona);
 		setIdSessao(idSessao);
 		setOrigem(origem);
 		setDestino(destino);
@@ -196,7 +196,7 @@ public class CaronaDomain {
 	 * Método para retornar o id da carona
 	 * @return Id da Carona
 	 */
-	public String getID() {
+	public String getId() {
 		return id;
 	}
 	
@@ -205,7 +205,7 @@ public class CaronaDomain {
 	 * @param id Id da carona
 	 * @throws Exception Lança exceção se o id da carona informado for null ou vazio
 	 */
-	public void setID(String id) throws Exception {
+	public void setId(String id) throws Exception {
 		if ( (id == null) || (id.trim().equals("")) ){
 			logger.debug("setId() Exceção: "+MensagensErro.IDENTIFICADOR_NAO_INFORMADO);
 			throw new ProjetoCaronaException(MensagensErro.IDENTIFICADOR_NAO_INFORMADO);

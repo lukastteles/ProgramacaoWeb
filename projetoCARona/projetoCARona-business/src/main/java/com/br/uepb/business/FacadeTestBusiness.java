@@ -59,7 +59,7 @@ public class FacadeTestBusiness {
 		
 		String caronasList = "{";
 		for (CaronaDomain caronaDomain : caronas) {
-			caronasList += caronaDomain.getID()+ ",";				
+			caronasList += caronaDomain.getId()+ ",";				
 		}
 		//tratamento para retirar a última ", "
 		if (caronasList.length() > 1) {
@@ -77,7 +77,7 @@ public class FacadeTestBusiness {
 		caronas = caronaBusiness.localizarCaronaMunicipal(idSessao, cidade, "", "");
 		String caronasList = "{";
 		for (CaronaDomain caronaDomain : caronas) {
-			caronasList += caronaDomain.getID()+ ",";				
+			caronasList += caronaDomain.getId()+ ",";				
 		}
 		//tratamento para retirar a última ", "
 		if (caronasList.length() > 1) {
@@ -94,7 +94,7 @@ public class FacadeTestBusiness {
 		caronas = caronaBusiness.localizarCaronaMunicipal(idSessao, cidade, origem, destino);
 		String caronasList = "{";
 		for (CaronaDomain caronaDomain : caronas) {
-			caronasList += caronaDomain.getID()+ ",";				
+			caronasList += caronaDomain.getId()+ ",";				
 		}
 		//tratamento para retirar a última ", "
 		if (caronasList.length() > 1) {
@@ -180,7 +180,7 @@ public class FacadeTestBusiness {
 	
 	public String getCaronaUsuario(String idSessao, int indexCarona) throws Exception{
 		CaronaDomain carona = caronaBusiness.getCaronaUsuario(idSessao, indexCarona);		
-		return carona.getID();
+		return carona.getId();
 	}
 		
 	public String getTodasCaronasUsuario(String idSessao) throws Exception{
@@ -189,7 +189,7 @@ public class FacadeTestBusiness {
 		String caronasList = "{";
 		
 		for (CaronaDomain caronaDomain : caronas) {
-			caronasList += caronaDomain.getID()+ ",";				
+			caronasList += caronaDomain.getId()+ ",";				
 		}
 		
 		//tratamento para retirar a última ", "
@@ -359,14 +359,14 @@ public class FacadeTestBusiness {
 			caronas = perfilBusiness.getHistoricoDeCaronas(login);
 			String[] historico = new String[caronas.size()];
 			for (int i=0; i<historico.length; i++) {
-				historico[i] = caronas.get(i).getID();
+				historico[i] = caronas.get(i).getId();
 			}
 			return trataLista(historico);
 		}else if(atributo.equals("historico de vagas em caronas")){
 			caronas = perfilBusiness.getHistoricoDeVagasEmCaronas(login);
 			String[] historico = new String[caronas.size()];
 			for (int i=0; i<historico.length; i++) {
-				historico[i] = caronas.get(i).getID();
+				historico[i] = caronas.get(i).getId();
 			}
 			return trataLista(historico);
 		}else if(atributo.equals("caronas seguras e tranquilas")){

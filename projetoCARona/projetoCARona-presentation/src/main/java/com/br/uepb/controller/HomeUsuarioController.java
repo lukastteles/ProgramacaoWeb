@@ -165,7 +165,7 @@ public class HomeUsuarioController {
 	private void carregaListasCarona(List<CaronaDomain> lista, List<PesquisaCaronaViewModels> pesquisa) throws Exception {
 		for (CaronaDomain caronaDomain : lista) {
 			PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
-			modeloCarona.setIdCarona(caronaDomain.getID());
+			modeloCarona.setIdCarona(caronaDomain.getId());
 			modeloCarona.setOrigem(caronaDomain.getOrigem());
 			modeloCarona.setDestino(caronaDomain.getDestino());
 			modeloCarona.setHora(caronaDomain.getHora());
@@ -283,7 +283,7 @@ public class HomeUsuarioController {
 			ArrayList<PesquisaCaronaViewModels> pesquisaCaronas = new ArrayList<PesquisaCaronaViewModels>();
 			for (CaronaDomain caronaDomain : listaCaronas) {
 				PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
-				modeloCarona.setIdCarona(caronaDomain.getID());
+				modeloCarona.setIdCarona(caronaDomain.getId());
 				modeloCarona.setOrigem(caronaDomain.getOrigem());
 				modeloCarona.setDestino(caronaDomain.getDestino());
 				modeloCarona.setHora(caronaDomain.getHora());

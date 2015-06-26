@@ -202,7 +202,7 @@ public class CaronaBusiness {
 		//logger.debug("carona adicionada no historico do usuario");
 		
 		//CaronaDAOImpl.getInstance().idCarona++;
-		return caronaDomain.getID();
+		return caronaDomain.getId();
 	}
 	
 	/**
@@ -232,7 +232,7 @@ public class CaronaBusiness {
 		logger.debug("carona adicionada na lista");
 		
 		//CaronaDAOImpl.getInstance().idCarona++;
-		return caronaDomain.getID();
+		return caronaDomain.getId();
 	}
 	
 	/**
@@ -262,7 +262,7 @@ public class CaronaBusiness {
 		logger.debug("carona adicionada na lista");
 		
 		//CaronaDAOImpl.getInstance().idCarona++;
-		return caronaDomain.getID();
+		return caronaDomain.getId();
 	}
 	
 	/**
@@ -443,7 +443,7 @@ public class CaronaBusiness {
 		carona.setCaronaRelampagoExpirada(true);		
 		//atualiza a carona 
 		CaronaDAOImpl.getInstance().atualizaCarona(carona);
-		return carona.getID();
+		return carona.getId();
 	}
 	
 	/**
@@ -475,7 +475,7 @@ public class CaronaBusiness {
 			throw new ProjetoCaronaException(MensagensErro.INDICE_INVALIDO);
 		}
 		
-		return caronas.get(indexCarona-1).getID();
+		return caronas.get(indexCarona-1).getId();
 	}
 	
 	/**
@@ -532,14 +532,14 @@ public class CaronaBusiness {
 		
 		//remove a carona preferencial da lista de caronas
 		for (int i = 0; i < caronas.size(); i++) {
-			if(caronas.get(i).getID().equals(carona.getID())){
+			if(caronas.get(i).getId().equals(carona.getId())){
 				caronas.remove(i);
 			}
 		}
 		
 		//verifica os que avaliaram bem as outras caronas
 		for (CaronaDomain caronaDomain : caronas) {
-			List<SolicitacaoVagaDomain> vagasCarona = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(caronaDomain.getID());
+			List<SolicitacaoVagaDomain> vagasCarona = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(caronaDomain.getId());
 			for (SolicitacaoVagaDomain vaga : vagasCarona) {
 				if(vaga.getReviewCarona() != null){
 					if(vaga.getReviewCarona().equals("segura e tranquila")){
@@ -567,7 +567,7 @@ public class CaronaBusiness {
 						
 		if ( (carona.getVagas() > 0) && (!validar.isDataIniValida(carona.getData())) ) {
 			//Lista todos os caroneiros
-			listaSolicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(carona.getID());
+			listaSolicitacoes = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(carona.getId());
 				
 			String destinatarios= ""; 
 			for (SolicitacaoVagaDomain solicitacao : listaSolicitacoes) {

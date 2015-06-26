@@ -160,7 +160,7 @@ public class PesquisaCaronaController {
 				//Se a carona tiver pelo menos 1 vaga
 				if  (caronaDomain.getVagas() > 0) {
 					PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
-					modeloCarona.setIdCarona(caronaDomain.getID());
+					modeloCarona.setIdCarona(caronaDomain.getId());
 					modeloCarona.setOrigem(caronaDomain.getOrigem());
 					modeloCarona.setDestino(caronaDomain.getDestino());
 					modeloCarona.setHora(caronaDomain.getHora());
@@ -187,7 +187,7 @@ public class PesquisaCaronaController {
 					//Verifica se a solicitacao está na lista de caronas pendentes
 					String idSolicitacao="";
 					Boolean usuarioSolicitou = false;
-					SolicitacaoVagaDomain solicitacaoVaga =  solicitaVagaBusiness.getSolicitacaoUsuario(sessao.getLogin(), caronaDomain.getID());
+					SolicitacaoVagaDomain solicitacaoVaga =  solicitaVagaBusiness.getSolicitacaoUsuario(sessao.getLogin(), caronaDomain.getId());
 					if (solicitacaoVaga != null){
 						usuarioSolicitou = true;
 						idSolicitacao = solicitacaoVaga.getId();

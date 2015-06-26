@@ -194,14 +194,14 @@ public class SolicitacaoVagaBusiness {
 		
 		//remove a carona preferencial da lista de caronas
 		for (int i = 0; i < caronas.size(); i++) {
-			if(caronas.get(i).getID().equals(carona.getID())){
+			if(caronas.get(i).getId().equals(carona.getId())){
 				caronas.remove(i);
 			}
 		}
 		
 		//verifica os que avaliaram bem as outras caronas
 		for (CaronaDomain caronaDomain : caronas) {
-			List<SolicitacaoVagaDomain> vagasCarona = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(caronaDomain.getID());
+			List<SolicitacaoVagaDomain> vagasCarona = SolicitacaoVagaDAOImpl.getInstance().getSolicitacoesConfirmadas(caronaDomain.getId());
 			for (SolicitacaoVagaDomain vaga : vagasCarona) {
 				if(vaga.getReviewCarona() != null){
 					if(vaga.getReviewCarona().equals("segura e tranquila") && vaga.getIdUsuario().equals(login)){

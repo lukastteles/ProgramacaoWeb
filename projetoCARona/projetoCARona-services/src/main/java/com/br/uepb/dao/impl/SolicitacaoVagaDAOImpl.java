@@ -156,7 +156,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 		if (caronas.size() > 0) {
 			String filtro = "";
 			for (CaronaDomain caronaDomain : caronas) {
-				filtro += "'"+caronaDomain.getID() +"',";
+				filtro += "'"+caronaDomain.getId() +"',";
 			}
 			//tratamento para retirar a última ", "
 			if (filtro.length() > 1) {
@@ -301,7 +301,7 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 			//usando a disjunction para fazer um 'ou' entre vários elementos
 			disjunction = Restrictions.disjunction();
 			for (CaronaDomain carona : caronas) {
-				disjunction.add(Restrictions.eq("idCarona", carona.getID()));
+				disjunction.add(Restrictions.eq("idCarona", carona.getId()));
 			}
 			criteria.add(disjunction);
 			  

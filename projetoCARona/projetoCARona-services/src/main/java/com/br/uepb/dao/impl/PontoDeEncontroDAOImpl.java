@@ -102,7 +102,7 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 		if (caronas.size() > 0) {
 			String filtro = "";
 			for (CaronaDomain caronaDomain : caronas) {
-				filtro += "'"+caronaDomain.getID() +"',";
+				filtro += "'"+caronaDomain.getId() +"',";
 			}
 			//tratamento para retirar a última ", "
 			if (filtro.length() > 1) {
