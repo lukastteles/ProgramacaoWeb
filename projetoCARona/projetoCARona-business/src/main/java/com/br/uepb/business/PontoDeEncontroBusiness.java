@@ -39,7 +39,7 @@ public class PontoDeEncontroBusiness {
 		
 		String idSugestao = ""+ CaronaDAOImpl.getInstance().getIdPontoEncontro();
 		logger.debug("criando ponto de encontro "+pontoDeEncontro);
-		PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idCarona, idSugestao, pontoDeEncontro);
+		PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idSessao, idCarona, idSugestao, pontoDeEncontro);
 		logger.debug("ponto "+pontoDeEncontro+" criado");
 		PontoDeEncontroDAOImpl.getInstance().addPontoDeEncontro(ponto);
 		logger.debug("ponto "+pontoDeEncontro+" sugerido");
@@ -64,7 +64,7 @@ public class PontoDeEncontroBusiness {
 		
 		logger.debug("criando e adicionando pontos de encontro");
 		for (int i = 0; i < pontos.length; i++) {
-			PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idCarona, idSugestao, pontos[i]);
+			PontoDeEncontroDomain ponto = new PontoDeEncontroDomain(idSessao, idCarona, idSugestao, pontos[i]);
 			PontoDeEncontroDAOImpl.getInstance().addPontoDeEncontro(ponto);
 		}
 		logger.debug("pontos de encontro adicionados");
@@ -188,8 +188,8 @@ public class PontoDeEncontroBusiness {
 	}
 	
 	/**
-	 * Método para retornar todos os pontos de encontro sugeridos para a carona 
-	 * @param idSessao Id da sessão
+	 * Metodo para retornar todos os pontos de encontro sugeridos para a carona 
+	 * @param idSessao Id da sessso
 	 * @param idCarona Id da carona
 	 * @return Lista de todos os pontos de encontro sugeridos para a carona informada
 	 * @throws Exception Lança exceção se qualquer parâmetro for null, inválido ou inexistente ou se a carona não pertencer ao usuario informado
@@ -205,6 +205,24 @@ public class PontoDeEncontroBusiness {
 		logger.debug("pontos encontrados");
 		return todosOsPontos;
 	}
+	
+	/**
+	 * Metodo para retornar todos os pontos de encontro sugeridos para as caronas que o usuario cadastrou
+	 * @param idSessao Id da sessao
+	 * @return Lista de todos os pontos de encontro sugeridos para o usuario que cadastrou a carona
+	 * @throws Exception Lança exceção se o login for null, inválido ou inexistente
+	 */
+	public List<PontoDeEncontroDomain> getTodosPontosSugeridos(String idSessao) throws Exception{
+		logger.debug("buscando todos os pontros sugeridos para uma carona");		
+		//Metodos apenas para ver se a sessao e carona entao invalidas		
+		SessaoDAOImpl.getInstance().getSessao(idSessao);
+		
+		List<PontoDeEncontroDomain> todosOsPontos = PontoDeEncontroDAOImpl.getInstance().listPontosSugeridos(idSessao);
+		
+		logger.debug("pontos encontrados");
+		return todosOsPontos;
+	}
+	
 	
 	/**
 	 * Método para todos os pontos de encontro aceitos para a carona

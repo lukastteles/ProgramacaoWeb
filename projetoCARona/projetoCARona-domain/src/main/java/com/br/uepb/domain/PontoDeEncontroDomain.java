@@ -29,7 +29,7 @@ public class PontoDeEncontroDomain {
 	@GeneratedValue
 	private int id;
 	
-	/** Id da sugestão */ //TODO: Deve ser gerado automaticamente
+	/** Id da sugestão */
 	private String idSugestao;
 		
 	/** Id da carona */ 
@@ -42,13 +42,17 @@ public class PontoDeEncontroDomain {
 	/** Variável para verificar se o ponto de encontro foi aceito */
 	private boolean foiAceita = false;
 	
+	private String idUsuario;
+	
 	/**
 	 * Método construtor de PontoDeEncontroDomain
+	 * @param logij Id do usuario que sugeriu o ponto de Encontro
 	 * @param idSugestao Id da Sugestão do(s) Ponto(s) de encontro
 	 * @param pontoDeEncontro Nome do Ponto de Encontro
 	 * @throws Exception Lança exceção se o ponto de encontro informado for null ou vazio
 	 */
-	public PontoDeEncontroDomain(String idCarona, String idSugestao, String pontoDeEncontro) throws Exception {
+	public PontoDeEncontroDomain(String login, String idCarona, String idSugestao, String pontoDeEncontro) throws Exception {
+		setIdUsuario(login);
 		setIdCarona(idCarona);
 		setIdSugestao(idSugestao);
 		setPontoDeEncontro(pontoDeEncontro);
@@ -132,5 +136,17 @@ public class PontoDeEncontroDomain {
 	 */
 	public void setFoiAceita(boolean foiAceita) {
 		this.foiAceita = foiAceita;
+	}
+
+	public String getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(String idUsuario) throws ProjetoCaronaException {
+		if ( (idUsuario == null) || (idUsuario.trim().equals("")) ){
+			logger.debug("setIdSessao() Exceção: "+MensagensErro.SESSAO_INVALIDA);
+			throw new ProjetoCaronaException(MensagensErro.SESSAO_INVALIDA);
+		}
+		this.idUsuario = idUsuario;
 	}	
 }

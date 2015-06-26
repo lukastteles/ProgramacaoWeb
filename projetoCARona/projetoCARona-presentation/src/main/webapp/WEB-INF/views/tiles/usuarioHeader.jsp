@@ -1,3 +1,4 @@
+<%@ include file="/WEB-INF/views/includeTags.jsp"%>
 <!-- *****************************************************************************************************************
 	 HEADER
 	 ***************************************************************************************************************** -->
@@ -9,8 +10,7 @@
         	<div class="navbar-header">
           		<a href="homeUsuario.html"><h4 class="demo-section-title logoCustom">CARona</h4></a> 
         	</div>
-        	
-        	<div class="navbar-collapse collapse">          
+        	<div class="navbar-collapse collapse">    
           		<ul class="nav navbar-nav navbar-right">            
             		<li><a href="homeUsuario.html"><span class="glyphicon glyphicon-home"></span></a></li>
             		<!-- <li><a href="configuracoes.html"><span class="glyphicon glyphicon-cog"></span></a></li>  -->
@@ -18,35 +18,53 @@
             		<li class="dropdown">
 	                	<a href="pesquisaSolicitacoes.html" class="dropdown-toggle" data-toggle="dropdown">
 	                  		<span class="glyphicon glyphicon-bell"></span>&nbsp;
-	                  		<span class="badge">3</span>	
+	                  		<span class="badge">${totalNotificacoes}</span>	
 	                  	</a>
 	                  	
 	                  	
-	                  	<ul class="dropdown-menu">
-	                  		<!-- 
-	                  		<c:if test="${totalSolicitacoes > 0}">
-    							<li>Sem solicitacoes</li>
-    						</c:if>
-    						 -->
+	                  	<ul class="dropdown-menu">    						
+							<!-- Solicitacoes Pendentes -->
 	                  		<c:forEach items="${listaSolicitacoes}" var="solicitacao">
-	                  			<li><a>
+	                  			<li><a href="carona.html?id=${solicitacao.idCarona}">
 				  					<div class="row">
 				  						<div class="col-md-12">
 				  							<span class="glyphicon glyphicon-map-marker"></span> ${solicitacao.idUsuario} solicitou vaga na sua carona			  						
 					  					</div>
 					  				</div>
 		    	                </a></li>
+		                	</c:forEach>
+	                    	
+	                    	<c:if test="${not empty listaSolicitacoes}">
 	                    		<li class="divider"></li>
+							</c:if>	
+							
+							<c:forEach items="${listaSugestoes}" var="sugestao">
+	                  			<li><a href="carona.html?id=${sugestao.idCarona}">
+				  					<div class="row">
+				  						<div class="col-md-12">
+				  							<span class="glyphicon glyphicon-map-marker"></span> ${sugestao.idUsuario} sugeriu um ponto de encontro para sua carona			  						
+					  					</div>
+					  				</div>
+		    	                </a></li>
+		                	</c:forEach>
+	                    	
+	                    	<c:if test="${not empty listaSugestoes}">
+	                    		<li class="divider"></li>
+							</c:if>		
+							
+							
+	                    	<c:forEach items="${listaInteresses}" var="interesse">
+	                  			<li><a href="carona.html?id=${interesse.id}">
+				  					<div class="row">
+				  						<div class="col-md-12">
+				  							<span class="glyphicon glyphicon-info-sign"></span> Nova carona cadastrada de ${interesse.origem} - ${interesse.destino} - ${interesse.data}, ${interesse.hora} 			  						
+					  					</div>
+					  				</div>
+		    	                </a></li>
 		                	</c:forEach>
 	                  		
-	                  		<li><a>
-			  					<div class="row">
-			  						<div class="col-md-12">
-			  							<span class="glyphicon glyphicon-map-marker"></span> Fulano solicitou carona de X pra Y			  						
-				  					</div>
-				  				</div>
-	    	                </a></li>
-	                    	<li class="divider"></li>
+	                  		<!-- Pontos de Encontro Pendentes -->
+	                  		<!-- 
 	        	            <li><a>
 			  					<div class="row">
 			  						<div class="col-md-12">
@@ -62,7 +80,7 @@
 			  						</div>
 				  				</div>
 		                    </a></li>
-		                         
+		                     -->
 	    	        	</ul>
 	    	        	
 	        	    </li>

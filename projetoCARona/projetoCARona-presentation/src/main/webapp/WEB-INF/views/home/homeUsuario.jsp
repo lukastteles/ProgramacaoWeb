@@ -8,30 +8,32 @@
 				<div class="row tile">
                 	<h4 class="col-md-offset-1 panel-title"> Caronas Recentes </h4>	
             	</div>
-            		
+            	
     			<c:forEach items="${listaCaronas}" var="carona">
-					<div class="qa-message-list" id="wallmessages">
-						<div class="message-item">
-							<div class="message-inner">
-								<div class="message-head clearfix">
-									<div class="avatar pull-left">
-										<img src="../images/user1.png" class="img-responsive" alt="">
-									</div>
-									<div class="user-detail">
-										<h5>${carona.nomeMotorista}</h5>
-	                               		<span class="glyphicon glyphicon-calendar"></span>
-	                               		<b class="label-corVerde handle">Data da carona: </b> ${carona.data}<br>
-	                               		<span class="glyphicon glyphicon-map-marker"></span>
-	                               		<b class="label-corVerde">Origem: </b> ${carona.origem}
-	                                   	<b class="label-corVerde"> | Destino: </b> ${carona.destino}<br>
-	                                   	<c:if test="${not empty carona.cidade}">
-    										<span class="glyphicon glyphicon-globe"></span><b class="label-corVerde"> Cidade: </b> ${carona.cidade}
-										</c:if>
-									</div>
-								</div>		
+    				<a class="label-corAzul message-inner" href="carona.html?id=${carona.idCarona}">
+						<div class="qa-message-list" id="wallmessages">
+							<div class="message-item">		
+								<div class="message-inner">
+									<div class="message-head clearfix">
+										<div class="avatar pull-left">
+											<img src="../images/user1.png" class="img-responsive" alt="">
+										</div>
+										<div class="user-detail">
+											<h5>${carona.nomeMotorista}</h5>
+		                               		<span class="glyphicon glyphicon-calendar"></span>
+		                               		<b class="label-corVerde handle">Data da carona: </b> ${carona.data}<br>
+		                               		<span class="glyphicon glyphicon-map-marker"></span>
+		                               		<b class="label-corVerde">Origem: </b> ${carona.origem}
+		                                   	<b class="label-corVerde"> | Destino: </b> ${carona.destino}<br>
+		                                   	<c:if test="${not empty carona.cidade}">
+	    											<span class="glyphicon glyphicon-globe"></span><b class="label-corVerde"> Cidade: </b> ${carona.cidade}
+											</c:if>
+										</div>
+									</div>		
+								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 				</c:forEach>
 				
   			</div>
@@ -111,18 +113,6 @@
                                 		</div>
                             		</div> 
                         		</div>
-                        		<!--
-                        		<div class="row">
-                        			<div class="col-md-12">
-                        			<div class="comment-text">
-                                		<span class="glyphicon glyphicon-calendar"></span>
-                                		<b class="label-corVerde">Data da carona: </b> 12/05/2015, 19:00<br>
-                                		<span class="glyphicon glyphicon-map-marker"></span>
-                                		<b class="label-corVerde">Origem: </b> Campina grande
-                                    	<b class="label-corVerde"> | Destino: </b> Joao Pessoa
-                                    </div>
-                                    </div>
-                        		</div>  -->
                     		</li>
                     	</ul>
                 		<a href="#" class="btn btn-primary btn-sm btn-block" role="button">Ver todas as notificacoes</a>

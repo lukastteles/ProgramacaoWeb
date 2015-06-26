@@ -13,7 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import com.br.uepb.constants.MensagensErro;
 import com.br.uepb.dao.PontoDeEncontroDAO;
 import com.br.uepb.dao.hibernateUtil.HibernateUtil;
-import com.br.uepb.domain.InteresseEmCaronaDomain;
+import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.exceptions.ProjetoCaronaException;
 
@@ -90,6 +90,39 @@ public class PontoDeEncontroDAOImpl implements PontoDeEncontroDAO{
 			System.out.println(e.getMessage());
 			throw e;
 		}
+	}
+	
+	
+	@Override
+	public List<PontoDeEncontroDomain> listPontosSugeridos(String login) throws Exception{
+		
+		List<PontoDeEncontroDomain> pontos = null;
+		
+		ArrayList<CaronaDomain> caronas = (ArrayList<CaronaDomain>) CaronaDAOImpl.getInstance().getHistoricoDeCaronas(login);
+		if (caronas.size() > 0) {
+			String filtro = "";
+			for (CaronaDomain caronaDomain : caronas) {
+				filtro += "'"+caronaDomain.getID() +"',";
+			}
+			//tratamento para retirar a última ", "
+			if (filtro.length() > 1) {
+				filtro = filtro.substring (0, filtro.length() - 1);
+			}
+			
+			try{
+				session = sessionFactory.openSession();	
+				transaction = session.beginTransaction();
+				pontos = session.createQuery(" from PontoDeEncontroDomain " +
+						  						   " where idCarona in ("+filtro+") " +
+						  						   " and foiAceita = 'false' " +
+												   " order by id desc").list();
+				transaction.commit();
+				session.close();
+			}catch(Exception e){
+				throw e;
+			}
+		}
+		return pontos;
 	}
 	
 	@Override

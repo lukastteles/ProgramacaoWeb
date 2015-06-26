@@ -40,6 +40,9 @@
 .label-corVerde{
 	color: #1ABC9C;
 }
+.label-corAzul{
+	color: #2C3E50;
+}
 
 /*custom Admin LTE*/
 /***
@@ -167,6 +170,8 @@
 	margin-left: 40px;
 	position: relative;
 }
+
+
 .message-item .message-inner {
 	background: #fff;
 	border: 1px solid #ddd;
@@ -174,6 +179,7 @@
 	padding: 10px;
 	position: relative;
 }
+
 .message-item .message-inner:before {
 	border-right: 10px solid #ddd;
 	border-style: solid;

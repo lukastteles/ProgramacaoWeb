@@ -312,6 +312,80 @@ public class CaronaDAOImpl implements CaronaDAO{
 		return null;
 	}
 	
+	@Override
+	public List<CaronaDomain> getCaronasByInteresses(String idSessao) throws Exception {
+		List<CaronaDomain> listaCaronas = new ArrayList<CaronaDomain>();
+		
+		List<InteresseEmCaronaDomain> listaInteresses = InteresseEmCaronaDAOImpl.getInstance().getInteresseEmCaronas(idSessao);
+		
+		try{
+			if (listaInteresses.size() > 0) {
+				String sql="";
+			
+				session = sessionFactory.openSession();	
+				transaction = session.beginTransaction();
+				
+				sql = " from CaronaDomain where idSessao != \'"+idSessao+"\' and (";
+				
+				Boolean primeira = true;
+				Boolean proximo = false;
+				
+				for (InteresseEmCaronaDomain interesse : listaInteresses) {
+					
+					if (primeira) {
+						sql += " ( ";
+						primeira = false;
+					}
+					else {
+						sql += " or ( ";
+					}
+					
+					if ( (interesse.getData() != null) && (!interesse.getData().isEmpty())) {
+						sql += " data = \'"+interesse.getData()+"\' ";
+						proximo = true;
+					}
+					
+					if ( (interesse.getOrigem() != null) && (!interesse.getOrigem().isEmpty())) {
+						if (proximo){
+							sql += " and ";
+						}
+						sql += " origem = \'"+interesse.getOrigem()+"\' ";
+						proximo = true;
+					}
+					
+					if ( (interesse.getDestino() != null) && (!interesse.getDestino().isEmpty())) {
+						if (proximo){
+							sql += " and ";
+						}
+						sql += " destino = \'"+interesse.getDestino()+"\' ";
+					}
+	
+					sql += " ) ";
+					proximo = false;
+					/* problema como fazer o between se a hora está como string
+					if  ( (interesse.getHoraInicio() != null) && (!interesse.getHoraInicio().isEmpty()) &&
+							(interesse.getHoraFim() != null) && (!interesse.getHoraFim().isEmpty()) ) {
+						sql += " and hora between \'"+interesse.getHoraInicio()+"\' and \'"+interesse.getHoraFim()+"\'";
+					} */
+
+				}
+			
+				sql += " ) ";
+				
+				listaCaronas = session.createQuery(sql).list();
+				
+				transaction.commit();		  
+				session.close();
+			}
+			
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}
+		
+		return listaCaronas;
+	}
+	
 	
 	@Override
 	public void apagaCaronas(){

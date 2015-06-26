@@ -101,6 +101,14 @@ public interface CaronaDAO {
 	public CaronaDomain getCaronaByInteresse(InteresseEmCaronaDomain interesseEmCaronas) throws Exception;
 	
 	/**
+	 * Retorna a lista de todas as caronas encontradas com base na lista de interesses do usuario cadastrada
+	 * @param idSessao Id do usuario
+	 * @return Lista de Caronas
+	 * @throws Exception
+	 */
+	public List<CaronaDomain> getCaronasByInteresses(String idSessao) throws Exception;
+	
+	/**
 	 * Apaga todas as caronas da lista
 	 */
 	public void apagaCaronas();

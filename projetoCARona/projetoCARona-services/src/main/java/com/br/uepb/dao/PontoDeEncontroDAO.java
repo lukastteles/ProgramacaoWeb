@@ -25,13 +25,20 @@ public interface PontoDeEncontroDAO {
 	
 	
 	/**
-	 * Método para retornar todos os pontos de encontro (aceitos ou não) da carona
+	 * Metodo para retornar todos os pontos de encontro (aceitos ou não) da carona
 	 * @param idCarona Id da carona que o ponto pertence
 	 * @return Lista de todos os pontos de encontro da carona
 	 * @throws Exception Lança exceção se hover problema com a conexão com o banco
 	 */
 	public List<PontoDeEncontroDomain> listPontos(String idCarona) throws Exception;
 	
+	/**
+	 * Metodo para retornar todos os pontos de encontro (aceitos ou não) sugeridos para um usuario
+	 * @param login Id do usuario
+	 * @return Lista de todos os pontos de encontro sugeridos para as caronas do usuario
+	 * @throws Exception Lança exceção se hover problema com a conexão com o banco
+	 */
+	public List<PontoDeEncontroDomain> listPontosSugeridos(String login) throws Exception;
 	
 	/**
 	 * Método para retornar um ponto de encontro da carona

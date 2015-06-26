@@ -248,7 +248,7 @@ public class SolicitacaoVagaBusiness {
 			} else {
 				//Se o pontoEncontro não existir cria uma nova sugestao
 				String idSugestao = ""+ CaronaDAOImpl.getInstance().getIdPontoEncontro();
-				pontoEncontro = new PontoDeEncontroDomain(idCarona, idSugestao, ponto);
+				pontoEncontro = new PontoDeEncontroDomain(idSessao, idCarona, idSugestao, ponto);
 				PontoDeEncontroDAOImpl.getInstance().addPontoDeEncontro(pontoEncontro);
 				logger.debug("ponto "+ponto+" criado");
 			}

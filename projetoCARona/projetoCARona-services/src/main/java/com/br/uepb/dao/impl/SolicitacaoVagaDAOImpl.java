@@ -150,29 +150,34 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	
 	@Override
 	public List<SolicitacaoVagaDomain> getSolicitacoesPendentesPorUsuario(String login) throws Exception{
-		List<SolicitacaoVagaDomain> solicitacoes;
+		List<SolicitacaoVagaDomain> solicitacoes = null;
 		
-		try{
-			/*
-			session = sessionFactory.openSession();
-			criteria = session.createCriteria(SolicitacaoVagaDomain.class);
-			criteria.add(Restrictions.eq("idUsuario", login));
-			criteria.add(Restrictions.eq("foiAceita", false));
-			solicitacoesCarona = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
-			session.close(); 
-			*/
+		ArrayList<CaronaDomain> caronas = (ArrayList<CaronaDomain>) CaronaDAOImpl.getInstance().getHistoricoDeCaronas(login);
+		if (caronas.size() > 0) {
+			String filtro = "";
+			for (CaronaDomain caronaDomain : caronas) {
+				filtro += "'"+caronaDomain.getID() +"',";
+			}
+			//tratamento para retirar a última ", "
+			if (filtro.length() > 1) {
+				filtro = filtro.substring (0, filtro.length() - 1);
+			}
 			
-			session = sessionFactory.openSession();	
-			transaction = session.beginTransaction();
-			solicitacoes = session.createQuery(" from SolicitacaoVagaDomain " +
-					  						   " where foiAceita = 'false' " +
-											   " order by id desc").list();
-			transaction.commit();
-			session.close();
-			return solicitacoes;
-		}catch(Exception e){
-			throw e;
-		}		
+			try{
+				session = sessionFactory.openSession();	
+				transaction = session.beginTransaction();
+				solicitacoes = session.createQuery(" from SolicitacaoVagaDomain " +
+						  						   " where idCarona in ("+filtro+") " +
+						  						   " and foiAceita = 'false' " +
+												   " order by id desc").list();
+				transaction.commit();
+				session.close();
+			}catch(Exception e){
+				throw e;
+			}
+		}
+		
+		return solicitacoes;				
 	}
 	
 	@Override
