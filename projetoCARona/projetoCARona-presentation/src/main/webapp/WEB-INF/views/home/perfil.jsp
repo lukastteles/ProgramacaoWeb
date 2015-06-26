@@ -101,7 +101,7 @@
 	  				</div>
 	  				<div class="panel-body">
 						Você ainda não tem amigos =(     
-						<a  href="aaa.html" >Conheça outras pessoas!</a>			
+						<a  href="#" >Conheça outras pessoas!</a>			
 			        </div>
 			    </div>
 			</div> <!-- ###fim 2a linha### -->    	
@@ -177,6 +177,7 @@
   							</c:when>
   							<c:otherwise>
 							<c:forEach items="${listaCaronasParticipei}" var="carona">	
+			  				<a href="carona.html?id=${carona.idCarona}">
 			  				<dl class="palette palette-turquoise">
 			  				<div class="row">
 			  					<div class="col-md-12">
@@ -199,6 +200,7 @@
 			  					
 			  				</div>
 							</dl>
+							</a>
 							<p></p>	
 						</c:forEach>
 						</c:otherwise>

@@ -98,12 +98,14 @@ public class HomeUsuarioController {
 			nome = usuarioBusiness.getAtributoUsuario(sessao.getLogin(), "nome");
 			endereco = usuarioBusiness.getAtributoUsuario(sessao.getLogin(), "endereco");
 			email = usuarioBusiness.getAtributoUsuario(sessao.getLogin(), "email");
-			//TODO: implementar funcoes que pega essas quantidades
-			//quantCaronasSegurasETranquilas = ;
-			//quantCaronasQueNaoFuncionaram = ;
-			//quantCaronasQueParticipei = ;
-			//quantCaronasQueFaltei = ;
-			
+			quantCaronasSegurasETranquilas = perfilBusiness.getCaronasSegurasETranquilas(sessao.getLogin()).size();
+			quantCaronasQueNaoFuncionaram = perfilBusiness.getCaronasQueNaoFuncionaram(sessao.getLogin()).size();
+			quantCaronasQueParticipei = perfilBusiness.getPresencasEmVagasDeCaronas(sessao.getLogin()).size();
+			quantCaronasQueFaltei = perfilBusiness.getFaltasEmVagasDeCaronas(sessao.getLogin()).size();
+			modelAndView.addObject("quantCaronasSegurasETranquilas", quantCaronasSegurasETranquilas);
+			modelAndView.addObject("quantCaronasQueNaoFuncionaram", quantCaronasQueNaoFuncionaram);
+			modelAndView.addObject("quantCaronasQueParticipei", quantCaronasQueParticipei);
+			modelAndView.addObject("quantCaronasQueFaltei", quantCaronasQueFaltei);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

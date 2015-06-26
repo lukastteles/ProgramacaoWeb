@@ -186,11 +186,13 @@
 						<hr>
 						</c:forEach>
 						</c:if>
+						<c:if test="${avalia == false }">
 						<form:form modelAttribute="ponto" class="form-inline" method="POST">
 							<form:input path="idCarona" value="${carona.idCarona}" type="text" class="form-control" style="visibility:hidden" />
 							<form:input path="ponto"  type="text" class="form-control" placeholder="Sugerir ponto de encontro"/>
 							<form:button type="submit" class="btn btn-primary">Sugerir</form:button>
 						</form:form>			
+						</c:if>
 			        </div>
 			    </div>
 			</div>
