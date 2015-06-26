@@ -31,7 +31,7 @@
 			  							
 			        </div>
 			    </div><!--###DETALHES CARONA###-->
-			    
+			     <c:if test="${avalia == false }">
 			    <div class="panel panel-default"><!-- ###SOLICITACOES### -->
 	  				<div class="panel-heading">
 	  					<div class="row">
@@ -82,8 +82,67 @@
 						</c:if>		
 			        </div>
 			    </div><!-- ###SOLICITACOES### -->
-			    
-			    
+			    </c:if>
+			     <c:if test="${avalia == true }">
+			     	<div class="panel panel-default"><!-- ###AVALIA_VAGAS### -->
+	  				<div class="panel-heading">
+	  					<div class="row">
+	  						<div class="col-md-12">
+	  							Avaliação das pessoas na carona
+	  						</div>
+			           	</div>
+	  				</div>
+	  				<div class="panel-body">
+	  					<c:if test="${numSolicitacoes == 0}">
+	  						ninguem participou dessa carona =(
+	  					</c:if>
+	  					<c:if test="${numSolicitacoes != 0}">
+						<c:forEach items="${listaSolicitacoes}" var="solicitacao">
+						<div class="row">
+							<div class="col-md-1">
+								<div class="profile-userpic">
+									<img src="../images/user1.png" class="img-responsive" alt="">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<b>${solicitacao.idUsuario}</b>
+							</div>
+								<c:if test="${solicitacao.reviewVaga == null }">
+								<a href="faltou.html?id=${carona.idCarona}&idCaroneiro=${solicitacao.idUsuario}">								
+									<div class="col-md-3">
+										<span class="badge">faltou</span>
+										<span data-toggle="tooltip" data-placement="left" title="faltou" class="glyphicon glyphicon-thumbs-down"></span>
+									</div>
+								</a>
+								<div class="col-md-1" style="border-left:1px solid #112;height:25px"></div>
+								<a href="participou.html?id=${carona.idCarona}&idCaroneiro=${solicitacao.idUsuario}">
+									<div class="col-md-3">
+          								<span data-toggle="tooltip" data-placement="left" title="participou" class="glyphicon glyphicon-thumbs-up"></span>
+          								<span class="badge">participou</span>
+									</div>
+								</a>
+								</c:if>
+								<c:if test="${solicitacao.reviewVaga != null }">
+									<c:if test="${solicitacao.reviewVaga == 'faltou' }">
+										<div class="col-md-5">
+										<p>faltou</p>
+										<a><span data-toggle="tooltip" data-placement="left" title="faltou" class="glyphicon glyphicon-thumbs-down"></span></a>
+										</div>
+									</c:if>
+									<c:if test="${solicitacao.reviewVaga == 'não faltou' }">
+										<div class="col-md-5">
+										<p>não faltou</p>
+										<a><span data-toggle="tooltip" data-placement="left" title="não faltou" class="glyphicon glyphicon-thumbs-down"></span></a>
+										</div>
+									</c:if>
+								</c:if>
+						</div>
+						<hr>
+						</c:forEach>
+						</c:if>		
+			        </div>
+			    </div><!-- ###AVALIA_VAGAS### -->
+			     </c:if>
 			</div>
 			
 			<div class="col-md-5"><!-- ###PONTOS### -->

@@ -31,6 +31,7 @@
 			  				<div class="row">
 				  				<div class="col-md-12">
 				  					<hr>
+				  					<c:if test="${avalia == false }">
 				  					<div class="col-md-6">
 				  						<c:if test="${carona.solicitouVaga == false}">
 			  								<a  href="solicitarVagaCarona.html?id=${carona.idCarona}" ><span class="fui-plus-circle"></span> <b>Solicitar Vaga</b></a>
@@ -39,10 +40,12 @@
 			  								<a href="desistirVagaCarona.html?id=${carona.idCarona}&idSolicitacao=${carona.idSolicitacao}"><span class="glyphicon glyphicon-minus-sign"></span> <b>Desistir Vaga</b></a>
 										</c:if>					  							
 				  					</div>
+				  					</c:if>
 								</div>
 						</div>			
 			        </div>
 			    </div><!--###DETALHES CARONA###-->
+			    <c:if test="${avalia == false }">
 			    <c:if test="${carona.vagaAceita == true }">
 			    	<div class="panel panel-default"><!-- ###VAGAS### -->
 	  				<div class="panel-heading">
@@ -74,6 +77,77 @@
 			        </div>
 			    </div><!-- ###VAGAS### -->
 			    </c:if>
+			    </c:if>
+			    <c:if test="${avalia == true }">
+			    <c:if test="${carona.vagaAceita == true }">
+			    	<div class="panel panel-default"><!-- ###AVALIACAO### -->
+	  				<div class="panel-heading">
+	  					<div class="row">
+	  						<div class="col-md-12">
+	  							Avalie a carona!
+	  						</div>
+			           	</div>
+	  				</div>
+	  				<div class="panel-body">
+	  					<div class="row">
+	  								<a href="naoFuncionou.html?id=${carona.idCarona}">								
+									<div class="col-md-3">
+										<span class="badge">não funcionou</span>
+										<span data-toggle="tooltip" data-placement="left" title="não funcionou" class="glyphicon glyphicon-thumbs-down"></span>
+									</div>
+									</a>
+									<div class="col-md-1" style="border-left:1px solid #112;height:25px"></div>
+									<a href="seguraETraquila.html?id=${carona.idCarona}">
+									<div class="col-md-4">
+          								<span data-toggle="tooltip" data-placement="left" title="segura e tranquila" class="glyphicon glyphicon-thumbs-up"></span>
+          								<span class="badge">segura e tranquila</span>
+									</div>
+									</a>	
+								</div>		
+			        </div>
+			    </div><!-- ###AVALIACAO### -->
+			    </c:if>
+			    </c:if>
+			    
+			    <c:if test="${minhaAvaliacao == 'segura e tranquila' }">
+			    	<div class="panel panel-default"><!-- ###AVALIACAO### -->
+	  				<div class="panel-heading">
+	  					<div class="row">
+	  						<div class="col-md-12">
+	  							Sua avaliação
+	  						</div>
+			           	</div>
+	  				</div>
+	  				<div class="panel-body">
+	  					<div class="row">
+							<div class="col-md-4">
+   								<a><span data-toggle="tooltip" data-placement="left" title="segura e tranquila" class="glyphicon glyphicon-thumbs-up"></span></a>
+     							<p>segura e tranquila</p>
+							</div>
+						</div>		
+			        </div>
+			    </div><!-- ###AVALIACAO### -->
+			    </c:if>
+			    <c:if test="${minhaAvaliacao == 'não funcionou' }">
+			    	<div class="panel panel-default"><!-- ###AVALIACAO### -->
+	  				<div class="panel-heading">
+	  					<div class="row">
+	  						<div class="col-md-12">
+	  							Sua avaliação
+	  						</div>
+			           	</div>
+	  				</div>
+	  				<div class="panel-body">
+	  					<div class="row">
+							<div class="col-md-4">
+   								<a><span data-toggle="tooltip" data-placement="left" title="segura e tranquila" class="glyphicon glyphicon-thumbs-down"></span></a>
+     							<p>Não funcionou</p>
+							</div>
+						</div>		
+			        </div>
+			    </div><!-- ###AVALIACAO### -->
+			    </c:if>
+			    
 			</div>
 			
 			<div class="col-md-5"><!-- ###PONTOS### -->

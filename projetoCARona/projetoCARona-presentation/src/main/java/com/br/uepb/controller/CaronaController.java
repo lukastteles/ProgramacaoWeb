@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -115,6 +116,7 @@ public class CaronaController {
 		List<SolicitacaoVagaDomain> solicitacoes = null;
 		List<SolicitacaoVagaDomain> solicitacoesPendentes = null;
 		ValidarCampos valida = new ValidarCampos();
+		SolicitacaoVagaDomain minhaSolicitacao = null;
 		try {
 			carona = caronaBusiness.getCarona(idCarona);
 			modeloCarona = getViewModel(carona, sessao);
@@ -135,6 +137,7 @@ public class CaronaController {
 					for (SolicitacaoVagaDomain solicitacao : solicitacoes) {
 						if(solicitacao.getIdUsuario().equals(sessao.getLogin())){
 							solicitacao.setIdUsuario("Você");
+							minhaSolicitacao = solicitacao;
 						}
 					}
 					
@@ -147,6 +150,23 @@ public class CaronaController {
 			e.printStackTrace();
 		}
 		
+		try{
+			ValidarCampos validaData = new ValidarCampos();
+			valida.verificarDatas(DateTime.now().toString("dd/MM/yyyy"), carona.getData());
+			modelAndView.addObject("avalia", false);
+		}catch(Exception e){
+			if(carona.getIdSessao().equals(sessao.getLogin())){
+				modelAndView.addObject("avalia", true);
+			}else{
+				if(modeloCarona.getVagaAceita()){
+					if(minhaSolicitacao.getReviewCarona() != null){
+						modelAndView.addObject("minhaAvaliacao", minhaSolicitacao.getReviewCarona());
+					}else{
+						modelAndView.addObject("avalia", true);
+					}
+				}
+			}
+		}
 		
 		modelAndView.addObject("carona", modeloCarona);
 		modelAndView.addObject("listaPontos", pontos);
@@ -270,6 +290,64 @@ public class CaronaController {
 			return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
 		}
 		LOG.debug("Finalizada a execucao do metodo: recusarSolicitacao GET");
+		return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+	}
+	
+	@RequestMapping(value = "/home/naoFuncionou.html", method = RequestMethod.GET)
+	public ModelAndView naoFuncionou(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: naoFuncionou GET");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		String idCarona = (String) request.getParameter("id");
+		try{
+			solicitaVagaBusiness.reviewCarona(sessao.getLogin(), idCarona, "não funcionou");
+		}catch(Exception e){
+			return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+		}
+		LOG.debug("Finalizada a execucao do metodo: naoFuncionou GET");
+		return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+	}
+	
+	@RequestMapping(value = "/home/seguraETraquila.html", method = RequestMethod.GET)
+	public ModelAndView seguraETraquila(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: seguraETraquila GET");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		String idCarona = (String) request.getParameter("id");
+		try{
+			solicitaVagaBusiness.reviewCarona(sessao.getLogin(), idCarona, "segura e tranquila");
+		}catch(Exception e){
+			return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+		}
+		LOG.debug("Finalizada a execucao do metodo: seguraETraquila GET");
+		return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+	}
+	
+	@RequestMapping(value = "/home/faltou.html", method = RequestMethod.GET)
+	public ModelAndView faltou(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: faltou GET");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		String idCarona = (String) request.getParameter("id");
+		String loginCaroneiro = (String) request.getParameter("idCaroneiro");
+		try{
+			solicitaVagaBusiness.reviewVagaEmCarona(sessao.getLogin(), idCarona, loginCaroneiro, "faltou");
+		}catch(Exception e){
+			return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+		}
+		LOG.debug("Finalizada a execucao do metodo: faltou GET");
+		return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+	}
+	
+	@RequestMapping(value = "/home/participou.html", method = RequestMethod.GET)
+	public ModelAndView participou(HttpServletRequest request) {
+		LOG.debug("Iniciada a execucao do metodo: participou GET");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		String idCarona = (String) request.getParameter("id");
+		String loginCaroneiro = (String) request.getParameter("idCaroneiro");
+		try{
+			solicitaVagaBusiness.reviewVagaEmCarona(sessao.getLogin(), idCarona, loginCaroneiro, "não faltou");
+		}catch(Exception e){
+			return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
+		}
+		LOG.debug("Finalizada a execucao do metodo: participou GET");
 		return new ModelAndView("redirect:/home/carona.html?id="+idCarona);
 	}
 	
