@@ -47,28 +47,71 @@
             		</div>
             		<div class="panel-body">
                 		<ul class="list-group">
-                    		<li class="list-group-item">
-                        		<div class="row">
-                        			<div class="col-md-3">
-                            			<a href="#">
-											<div class="profile-userpic">
-												 <img src="../images/user1.png" class="img-responsive" alt="">
+                		
+                			<!-- Solicitacoes Pendentes -->
+		                	<c:forEach items="${listaSolicitacoes}" var="solicitacao">
+	                    		<li class="list-group-item">
+	                            	<a href="carona.html?id=${solicitacao.idCarona}">
+	                        		<div class="row">
+	                        				<div class="col-md-3">
+												<div class="profile-userpic">
+													 <img src="../images/user1.png" class="img-responsive" alt="">
+												</div>
 											</div>
-										</a>
-									</div>
-                            		<div class="col-md-9">
-                                		<div class="comment-text">
-                                			<b class="label-corVerde">Fulano de Tal</b><br>
-                                			<b>Solicitou uma vaga na sua carona</b><br>
-                                    		<!-- 
-                                    		<b class="label-corVerde">Origem: </b> Campina grande<br>
-                                    		<b class="label-corVerde">Destino: </b> Joao Pessoa<br>
-                                    		<b class="label-corVerde">Data: </b> 13/04/2015 | <b class="label-corVerde">Hora: </b> 16:00
-                                    		 -->	
-                                		</div>
-                            		</div>
-                        		</div>
-                    		</li>
+	                            			<div class="col-md-9">
+	                                			<div class="comment-text">
+	                                				<b class="label-corVerde">${solicitacao.idUsuario}</b><br>
+	                                				<b>Solicitou uma vaga na sua carona</b><br>
+	                                			</div>
+	                            			</div>
+	                        			</div>
+	                        		</a>
+	                    		</li>
+                    		</c:forEach>
+                    		
+		                	<c:forEach items="${listaSugestoes}" var="sugestao">
+			                	<li class="list-group-item">
+			                		<a href="carona.html?id=${sugestao.idCarona}">
+		                        		<div class="row">
+		                        			<div class="col-md-3">
+		                            			<a>
+													<div class="profile-userpic">
+														 <img src="../images/user1.png" class="img-responsive" alt="">
+													</div>
+												</a>
+											</div>
+		                            		<div class="col-md-9">
+		                                		<div class="comment-text">
+		                                			<b class="label-corVerde">${sugestao.idUsuario}</b><br>
+		                                			<b>Sugeriu um Ponto de Encontro </b>
+		                                		</div>
+		                            		</div> 
+		                        		</div>
+	                        		</a>
+	                    		</li>
+		                	</c:forEach>
+		                	
+		                	<c:forEach items="${listaInteresses}" var="interesse">
+			                	<li class="list-group-item">
+			                		<a href="carona.html?id=${interesse.id}">
+		                        		<div class="row">
+		                        			<div class="col-md-3">
+												<div class="profile-userpic">
+													 <img src="../images/user1.png" class="img-responsive" alt="">
+												</div>
+											</div>
+		                            		<div class="col-md-9">
+		                                		<div class="comment-text">
+		                                			<b class="label-corVerde">${interesse.idSessao}</b><br>
+		                                			<b>Cadastrou uma nova carona</b><br>
+		                                			<b>De ${interesse.origem} - ${interesse.destino} - ${interesse.data}, ${interesse.hora}</b>
+		                                		</div>
+		                            		</div> 
+		                        		</div>
+	                        		</a>
+	                    		</li>
+		                	</c:forEach>
+		                	<!-- SOLICITACAO DE AMIZADE 
                     		<li class="list-group-item">
                         		<div class="row">
                         			<div class="col-md-3">
@@ -93,27 +136,9 @@
                                 		</div>
                             		</div>
                         		</div>
-                    		</li>
-                    		<li class="list-group-item">
-                        		<div class="row">
-                        			<div class="col-md-3">
-                            			<a href="#">
-											<div class="profile-userpic">
-												 <img src="../images/user1.png" class="img-responsive" alt="">
-											</div>
-										</a>
-									</div>
-                            		<div class="col-md-9">
-                                		<div class="comment-text">
-                                			<b class="label-corVerde">Fulano de Tal</b><br>
-                                			<b>Sugeriu um Ponto de Encontro </b><br>
-                                			<!-- 
-                                    		<b class="label-corVerde">Ponto: </b> Acude Velho<br>
-                                    		 -->
-                                		</div>
-                            		</div> 
-                        		</div>
-                    		</li>
+                    		</li> 
+                    		 -->
+                    		
                     	</ul>
                 		<a href="#" class="btn btn-primary btn-sm btn-block" role="button">Ver todas as notificacoes</a>
             		</div>

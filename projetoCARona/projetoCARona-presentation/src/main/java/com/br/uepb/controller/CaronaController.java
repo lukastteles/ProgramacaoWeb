@@ -1,6 +1,5 @@
 package com.br.uepb.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +7,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,13 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.br.uepb.business.CaronaBusiness;
 import com.br.uepb.business.PontoDeEncontroBusiness;
 import com.br.uepb.business.SolicitacaoVagaBusiness;
-import com.br.uepb.dao.impl.SolicitacaoVagaDAOImpl;
 import com.br.uepb.dao.impl.UsuarioDAOImpl;
 import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
-import com.br.uepb.domain.UserDomain;
 import com.br.uepb.validator.ValidarCampos;
 import com.br.uepb.viewModels.CadastroCaronaViewModel;
 import com.br.uepb.viewModels.CadastroPontoDeEncontroViewModel;
@@ -122,19 +118,19 @@ public class CaronaController {
 		try {
 			carona = caronaBusiness.getCarona(idCarona);
 			modeloCarona = getViewModel(carona, sessao);
-			pontos = pontoDeEncontroBusiness.getPontosSugeridos(sessao.getLogin(), carona.getID());
+			pontos = pontoDeEncontroBusiness.getPontosSugeridos(sessao.getLogin(), carona.getId());
 			
 			//verifica se a carona é do usuario que solicitou
 			if(carona.getIdSessao().equals(sessao.getLogin())){
-				solicitacoes = solicitaVagaBusiness.getSolicitacoesConfirmadas(carona.getIdSessao(), carona.getID());
-				solicitacoesPendentes = solicitaVagaBusiness.getSolicitacoesPendentes(carona.getIdSessao(), carona.getID());
+				solicitacoes = solicitaVagaBusiness.getSolicitacoesConfirmadas(carona.getIdSessao(), carona.getId());
+				solicitacoesPendentes = solicitaVagaBusiness.getSolicitacoesPendentes(carona.getIdSessao(), carona.getId());
 				solicitacoes.addAll(solicitacoesPendentes);
 				modelAndView.addObject("listaSolicitacoes", solicitacoes);
 				modelAndView.addObject("numSolicitacoes", solicitacoes.size());
 				modelAndView.setViewName("minhaCarona");
 			}else{
 				if(modeloCarona.getVagaAceita()){
-					solicitacoes = solicitaVagaBusiness.getSolicitacoesConfirmadas(carona.getIdSessao(), carona.getID());
+					solicitacoes = solicitaVagaBusiness.getSolicitacoesConfirmadas(carona.getIdSessao(), carona.getId());
 					
 					for (SolicitacaoVagaDomain solicitacao : solicitacoes) {
 						if(solicitacao.getIdUsuario().equals(sessao.getLogin())){
@@ -279,7 +275,7 @@ public class CaronaController {
 	
 	private PesquisaCaronaViewModels getViewModel(CaronaDomain caronaDomain, SessaoDomain sessao) throws Exception{
 		PesquisaCaronaViewModels modeloCarona = new PesquisaCaronaViewModels();
-		modeloCarona.setIdCarona(caronaDomain.getID());
+		modeloCarona.setIdCarona(caronaDomain.getId());
 		modeloCarona.setOrigem(caronaDomain.getOrigem());
 		modeloCarona.setDestino(caronaDomain.getDestino());
 		modeloCarona.setHora(caronaDomain.getHora());
@@ -307,7 +303,7 @@ public class CaronaController {
 		String idSolicitacao="";
 		Boolean usuarioSolicitou = false;
 		Boolean foiAceita = false;
-		SolicitacaoVagaDomain solicitacaoVaga =  solicitaVagaBusiness.getSolicitacaoUsuario(sessao.getLogin(), caronaDomain.getID());
+		SolicitacaoVagaDomain solicitacaoVaga =  solicitaVagaBusiness.getSolicitacaoUsuario(sessao.getLogin(), caronaDomain.getId());
 		if (solicitacaoVaga != null){
 			usuarioSolicitou = true;
 			foiAceita = solicitacaoVaga.getFoiAceita();

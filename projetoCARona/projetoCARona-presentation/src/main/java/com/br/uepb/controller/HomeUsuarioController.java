@@ -76,6 +76,7 @@ public class HomeUsuarioController {
         List<SolicitacaoVagaDomain> listaSolicitacoes = new ArrayList<SolicitacaoVagaDomain>();
         List<PontoDeEncontroDomain> listaSugestoes = new ArrayList<PontoDeEncontroDomain>();
         List<CaronaDomain> listaInteresses = new ArrayList<CaronaDomain>();
+        int totalNotificacoes = 0;
         try {
 			listaSolicitacoes = solicitacaoBusiness.getSolicitacoesPorUsuario(sessao.getLogin());
 			listaSugestoes = pontoEncontroBusiness.getTodosPontosSugeridos(sessao.getLogin());
@@ -85,9 +86,15 @@ public class HomeUsuarioController {
 			modelAndView.addObject("listaSugestoes", listaSugestoes);
 			modelAndView.addObject("listaInteresses", listaInteresses);
 			
-
-	        int totalNotificacoes = listaSolicitacoes.size() + listaSugestoes.size() + listaInteresses.size();
-	        
+			if (listaSolicitacoes != null ) {
+				totalNotificacoes += listaSolicitacoes.size();
+			}
+			if (listaSugestoes != null) {
+				totalNotificacoes += listaSugestoes.size();
+			}
+			if (listaInteresses != null) {
+				totalNotificacoes += listaInteresses.size();
+			}
 	        modelAndView.addObject("totalNotificacoes", totalNotificacoes);
 	        
 		} catch (Exception e) {
