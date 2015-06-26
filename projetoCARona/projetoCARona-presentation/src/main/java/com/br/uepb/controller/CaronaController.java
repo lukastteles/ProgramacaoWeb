@@ -182,6 +182,11 @@ public class CaronaController {
 		modelAndView.addObject("numPontos", pontos.size());
 		modelAndView.addObject("ponto", new CadastroPontoDeEncontroViewModel());
 		
+		if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: cadastrarCarona GET ");		
+			return modelAndView;
+        }
+		
 		LOG.debug("Finalizada a execucao do metodo: cadastrarCarona GET");
 		
 		return modelAndView;
@@ -443,5 +448,48 @@ public class CaronaController {
 		return modeloCarona;
 	}
 	
+	@RequestMapping(value = "/home/solicitarVagaCarona.html", method = RequestMethod.GET)
+	public String solicitarVagaCarona(HttpServletRequest request){
+		LOG.debug("Iniciada a execucao do metodo: solicitarVagaCarona ");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return "redirect:/home/login.html";
+		}
+		
+		String idCarona = (String) request.getParameter("id");
+		try {
+			solicitaVagaBusiness.solicitarVaga(sessao.getLogin(), idCarona);
+		} catch (Exception e) {
+			LOG.debug("Problemas ao tentar solicitar uma vaga na carona no metodo: solicitarVagaCarona GET - Erro: "+e.getMessage());		
+			return "redirect:/home/carona.html?id="+idCarona;
+		}
+		
+		LOG.debug("Finalizada a execucao do metodo: solicitarVagaCarona POST");		
+		return "redirect:/home/carona.html?id="+idCarona;
+		
+	}
 	
+	@RequestMapping(value = "/home/desistirVagaCarona.html", method = RequestMethod.GET)
+	public String desistirVagaCarona(HttpServletRequest request){
+		LOG.debug("Iniciada a execucao do metodo: desistirVagaCarona ");
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return "redirect:/home/login.html";
+		}
+		
+		String idCarona = (String) request.getParameter("id");
+		String idSolicitacao = (String) request.getParameter("idSolicitacao");
+		try {
+			solicitaVagaBusiness.desistirRequisicao(sessao.getLogin(), idCarona, idSolicitacao);
+		} catch (Exception e) {
+			LOG.debug("Problemas ao tentar desistir de uma vaga na carona no metodo: desistirVagaCarona GET - Erro: "+e.getMessage());		
+			return "redirect:/home/carona.html?id="+idCarona;
+		}
+		
+		LOG.debug("Finalizada a execucao do metodo: desistirVagaCarona POST");		
+		
+		
+		return "redirect:/home/carona.html?id="+idCarona;
+		
+	}
 }

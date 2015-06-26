@@ -150,7 +150,6 @@
                     		 -->
                     		
                     	</ul>
-                		<a href="#" class="btn btn-primary btn-sm btn-block" role="button">Ver todas as notificacoes</a>
             		</div>
         		</div>	
   				
