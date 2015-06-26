@@ -24,6 +24,7 @@ import com.br.uepb.domain.CaronaDomain;
 import com.br.uepb.domain.PontoDeEncontroDomain;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.SolicitacaoVagaDomain;
+import com.br.uepb.funcoesController.FuncoesComuns;
 import com.br.uepb.validator.ValidarCampos;
 import com.br.uepb.viewModels.CadastroCaronaViewModel;
 import com.br.uepb.viewModels.CadastroPontoDeEncontroViewModel;
@@ -42,6 +43,9 @@ public class CaronaController {
 	@Autowired
 	private PontoDeEncontroBusiness pontoDeEncontroBusiness;
 	
+	@Autowired
+	private FuncoesComuns funcoesComuns;
+	
 	@RequestMapping(value = "/home/cadastroCarona.html", method = RequestMethod.GET)
 	public ModelAndView cadastrarCarona(HttpServletRequest request) {
 		
@@ -55,6 +59,11 @@ public class CaronaController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("cadastroCarona");
 		modelAndView.addObject("carona", new CadastroCaronaViewModel());
+		
+		if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: cadastrarCarona GET ");		
+			return modelAndView;
+        }
 		
 		LOG.debug("Finalizada a execucao do metodo: cadastrarCarona GET");
 		
@@ -204,6 +213,10 @@ public class CaronaController {
 	public ModelAndView acitarPonto(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: acitarPonto GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		String ponto = (String) request.getParameter("ponto");
 		String idPonto = (String) request.getParameter("idPonto");
@@ -220,6 +233,10 @@ public class CaronaController {
 	public ModelAndView desistirPonto(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: desistirPonto GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		String ponto = (String) request.getParameter("ponto");
 		String idPonto = (String) request.getParameter("idPonto");
@@ -236,6 +253,10 @@ public class CaronaController {
 	public ModelAndView recusarPonto(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: recusarPonto GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		String ponto = (String) request.getParameter("ponto");
 		String idPonto = (String) request.getParameter("idPonto");
@@ -252,6 +273,10 @@ public class CaronaController {
 	public ModelAndView aceitarSolicitacao(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: aceitarSolicitacao GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		String idSolicitacao = (String) request.getParameter("idSolicitacao");
 		try{
@@ -267,6 +292,10 @@ public class CaronaController {
 	public ModelAndView desfazerSolicitacao(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: desfazerSolicitacao GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		String idSolicitacao = (String) request.getParameter("idSolicitacao");
 		try{
@@ -282,6 +311,10 @@ public class CaronaController {
 	public ModelAndView recusarSolicitacao(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: recusarSolicitacao GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		String idSolicitacao = (String) request.getParameter("idSolicitacao");
 		try{
@@ -297,6 +330,10 @@ public class CaronaController {
 	public ModelAndView naoFuncionou(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: naoFuncionou GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		try{
 			solicitaVagaBusiness.reviewCarona(sessao.getLogin(), idCarona, "não funcionou");
@@ -311,6 +348,10 @@ public class CaronaController {
 	public ModelAndView seguraETraquila(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: seguraETraquila GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		try{
 			solicitaVagaBusiness.reviewCarona(sessao.getLogin(), idCarona, "segura e tranquila");
@@ -325,6 +366,10 @@ public class CaronaController {
 	public ModelAndView faltou(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: faltou GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		String loginCaroneiro = (String) request.getParameter("idCaroneiro");
 		try{
@@ -340,6 +385,10 @@ public class CaronaController {
 	public ModelAndView participou(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: participou GET");
 		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String idCarona = (String) request.getParameter("id");
 		String loginCaroneiro = (String) request.getParameter("idCaroneiro");
 		try{

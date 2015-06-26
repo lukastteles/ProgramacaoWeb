@@ -17,7 +17,7 @@ import com.br.uepb.business.SessaoBusiness;
 import com.br.uepb.business.UsuarioBusiness;
 import com.br.uepb.domain.SessaoDomain;
 import com.br.uepb.domain.UsuarioDomain;
-import com.br.uepb.viewModels.CadastroUsuarioViewModels;
+import com.br.uepb.funcoesController.FuncoesComuns;
 
 @Controller
 public class CadastroUsuarioController {
@@ -30,18 +30,31 @@ public class CadastroUsuarioController {
 	@Autowired
 	private SessaoBusiness sessaoBusiness;
 	
+	@Autowired
+	private FuncoesComuns funcoesComuns;
+	
 	@RequestMapping(value = "/home/cadastroUsuario.html", method = RequestMethod.GET)
     public ModelAndView showCadastroUsuario(HttpServletRequest request){
 		LOG.debug("Iniciada a execucao do metodo: showCadastroUsuario");
 
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("cadastroUsuario");
 		try{
 			modelAndView.addObject("usuarioDomain", new UsuarioDomain());
 		}catch(Exception e){
-			e.printStackTrace();
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: showCadastroUsuario GET - ERRO: "+e.getMessage());		
+			return modelAndView;
 		}
 		
+		if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: showCadastroUsuario GET ");		
+			return modelAndView;
+        }
 		
 		LOG.debug("Finalizada a execucao do metodo: showCadastroUsuario");
 		

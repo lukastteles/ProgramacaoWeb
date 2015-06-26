@@ -87,6 +87,11 @@ public class HomeUsuarioController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("perfil");
 		
+		if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: getPerfil GET ");		
+			return modelAndView;
+        }
+		
 		String nome = null, endereco = null, email = null;
 		int quantCaronasSegurasETranquilas = 0, quantCaronasQueNaoFuncionaram = 0, quantCaronasQueParticipei = 0, quantCaronasQueFaltei = 0;
 		try {
@@ -179,6 +184,11 @@ public class HomeUsuarioController {
 		modelAndView.setViewName("cadastroInteresse");
 		modelAndView.addObject("interesse", new InteresseEmCaronasViewModel());
 		
+		if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: interesseCarona GET ");		
+			return modelAndView;
+        }
+		
 		LOG.debug("Finalizada a execucao do metodo: interesseCarona GET");
 		
 		return modelAndView;
@@ -196,15 +206,15 @@ public class HomeUsuarioController {
 			return modelAndView;
 		}
 		
-		SessaoDomain sessao = null;
 		try{
-			sessao = (SessaoDomain)request.getSession().getAttribute("sessao");
+			SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
 			perfilBusiness.cadastraInteresse(sessao.getLogin(), interesse.getOrigem(), interesse.getDestino(), interesse.getData(), interesse.getHoraInicio(), interesse.getHoraFim());
 		}catch(Exception e){
 			modelAndView.setViewName("interesseCarona");
 			modelAndView.addObject("interesse", interesse);
 			return modelAndView;
 		}
+		
 		LOG.debug("Finalizada a execucao do metodo: cadastroInteresse POST");
 		return new ModelAndView("redirect:/home/interessesCarona.html");
 	}
@@ -220,6 +230,11 @@ public class HomeUsuarioController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("interessesCarona");
+		
+		if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: listaInteressesCarona GET ");		
+			return modelAndView;
+        }
 		
 		List<InteresseEmCaronaDomain> interesses;
 		try {
@@ -237,6 +252,12 @@ public class HomeUsuarioController {
 	@RequestMapping(value = "/home/apagaInteresse.html", method = RequestMethod.GET)
 	public ModelAndView apagaInteressesCarona(HttpServletRequest request) {
 		LOG.debug("Iniciada a execucao do metodo: apagaInteressesCarona GET");
+		
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
+		
 		String id = (String) request.getParameter("id");
 		try {
 			perfilBusiness.apagaInteresseEmCarona(id);
