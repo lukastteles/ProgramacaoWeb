@@ -37,10 +37,7 @@ public class CadastroUsuarioController {
     public ModelAndView showCadastroUsuario(HttpServletRequest request){
 		LOG.debug("Iniciada a execucao do metodo: showCadastroUsuario");
 
-		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
-		if (sessao == null) {
-			return new ModelAndView("redirect:/home/login.html");
-		}
+		
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("cadastroUsuario");
@@ -51,10 +48,6 @@ public class CadastroUsuarioController {
 			return modelAndView;
 		}
 		
-		if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
-			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: showCadastroUsuario GET ");		
-			return modelAndView;
-        }
 		
 		LOG.debug("Finalizada a execucao do metodo: showCadastroUsuario");
 		
