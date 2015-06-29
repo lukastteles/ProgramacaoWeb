@@ -210,9 +210,9 @@ public class HomeUsuarioController {
 		
 		try{
 			SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
-			perfilBusiness.cadastraInteresse(sessao.getLogin(), interesse.getOrigem(), interesse.getDestino(), interesse.getData(), interesse.getHoraInicio(), interesse.getHoraFim());
+			perfilBusiness.cadastraInteresse(sessao.getLogin(), interesse.getOrigem(), interesse.getDestino(), interesse.getData(), interesse.getHora(), interesse.getHoraFim());
 		}catch(Exception e){
-			modelAndView.setViewName("interesseCarona");
+			modelAndView.setViewName("interessesCarona");
 			modelAndView.addObject("interesse", interesse);
 			return modelAndView;
 		}

@@ -57,7 +57,7 @@
 	                  			<li><a href="carona.html?id=${interesse.id}">
 				  					<div class="row">
 				  						<div class="col-md-12">
-				  							<span class="glyphicon glyphicon-info-sign"></span> Nova carona cadastrada de ${interesse.origem} - ${interesse.destino} - ${interesse.data}, ${interesse.horaInicio}			  						
+				  							<span class="glyphicon glyphicon-info-sign"></span> Nova carona cadastrada de ${interesse.origem} - ${interesse.destino} - ${interesse.data}, ${interesse.hora}			  						
 					  					</div>
 					  				</div>
 		    	                </a></li>

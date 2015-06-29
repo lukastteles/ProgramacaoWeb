@@ -5,7 +5,7 @@ public class InteresseEmCaronasViewModel {
 	private String origem;
 	private String destino;
 	private String data;
-	private String horaInicio;
+	private String hora;
 	private String horaFim;
 	public String getOrigem() {
 		return origem;
@@ -25,11 +25,11 @@ public class InteresseEmCaronasViewModel {
 	public void setData(String data) {
 		this.data = data;
 	}
-	public String getHoraInicio() {
-		return horaInicio;
+	public String getHora() {
+		return hora;
 	}
-	public void setHoraInicio(String horaInicio) {
-		this.horaInicio = horaInicio;
+	public void setHora(String hora) {
+		this.hora = hora;
 	}
 	public String getHoraFim() {
 		return horaFim;

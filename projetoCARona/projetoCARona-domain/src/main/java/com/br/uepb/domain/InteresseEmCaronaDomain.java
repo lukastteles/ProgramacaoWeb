@@ -48,7 +48,7 @@ public class InteresseEmCaronaDomain {
 	
 	/** hora inicio para a carona desejada*/
 	@Column(nullable=false)
-	private String horaInicio;
+	private String hora;
 	
 	/** hora fim para a carona desejada*/
 	@Column(nullable=false)
@@ -69,7 +69,7 @@ public class InteresseEmCaronaDomain {
 		setOrigem(origem);
 		setDestino(destino);
 		setData(data);
-		setHoraInicio(horaInicio);
+		setHora(horaInicio);
 		setHoraFim(horaFim);
 	}
 	
@@ -193,23 +193,23 @@ public class InteresseEmCaronaDomain {
 	 * Método para retornar a hora de inicio interessado
 	 * @return Hora de Inicio da carona
 	 */
-	public String getHoraInicio() {
-		return horaInicio;
+	public String getHora() {
+		return hora;
 	}
 
 	/**
 	 * Método para informar a hora de inicio da carona de interesse
-	 * @param horaInicio
+	 * @param hora
 	 * @throws Exception
 	 */
-	private void setHoraInicio(String horaInicio) throws Exception {
-		if ( (horaInicio == null) || (horaInicio.trim().equals("")) ){
-			this.horaInicio = horaInicio;
+	public void setHora(String hora) throws Exception {
+		if ( (hora == null) || (hora.trim().equals("")) ){
+			this.hora = hora;
 		}else{
 			//validacao da Data
 			ValidarCampos validar = new ValidarCampos();
-			validar.validarFormatoHora(horaInicio);
-			this.horaInicio = horaInicio;
+			validar.validarFormatoHora(hora);
+			this.hora = hora;
 		}
 	}
 

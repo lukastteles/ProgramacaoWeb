@@ -31,7 +31,7 @@
 			  					</div>
 			  					<div class="col-md-5">
 			  						<span class="fui-calendar"></span>
-			  						<small>&nbsp;Data:<b>${interesse.data}</b>&nbsp;|&nbsp;${interesse.horaInicio}&nbsp;-&nbsp;${interesse.horaFim}</small>		  						
+			  						<small>&nbsp;Data:<b>${interesse.data}</b>&nbsp;|&nbsp;${interesse.hora}&nbsp;-&nbsp;${interesse.horaFim}</small>		  						
 			  					</div>
 			  					<div class="col-md-2">
 			  							<a href="apagaInteresse.html?id=${interesse.id}"  data-toggle="tooltip" title="Apagar"><span class="fui-cross"></span></a>

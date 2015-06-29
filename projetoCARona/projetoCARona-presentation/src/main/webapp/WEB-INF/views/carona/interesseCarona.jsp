@@ -27,8 +27,8 @@
 			</div>
 			<br/><br/>
 			<div class="form-group">
-				<form:input path="horaInicio" type="text" class="form-control" placeholder="Hora de Inicio"/>
-				<form:errors path="horaInicio" cssClass="error" />
+				<form:input path="hora" type="text" class="form-control" placeholder="Hora de Inicio"/>
+				<form:errors path="hora" cssClass="error" />
 			</div>
 			<br/><br/>
 			<div class="form-group">
