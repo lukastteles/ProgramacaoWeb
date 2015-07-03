@@ -84,11 +84,11 @@
 			                		<a href="carona.html?id=${sugestao.idCarona}">
 		                        		<div class="row">
 		                        			<div class="col-md-3">
-		                            			<a>
+		                            			
 													<div class="profile-userpic">
 														 <img src="../images/user1.png" class="img-responsive" alt="">
 													</div>
-												</a>
+												
 											</div>
 		                            		<div class="col-md-9">
 		                                		<div class="comment-text">

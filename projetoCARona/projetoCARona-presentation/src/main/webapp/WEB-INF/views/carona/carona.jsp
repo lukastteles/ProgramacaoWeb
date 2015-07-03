@@ -60,7 +60,7 @@
 	  						Ainda não há mais pessoas nessa carona
 	  					</c:if>
 	  					<c:if test="${numSolicitacoes != 0}">
-						<c:forEach items="${listaSolicitacoes}" var="solicitacao">
+						<c:forEach items="${solicitacoes}" var="solicitacao">
 						<div class="row">
 							<div class="col-md-3">
 								<div class="profile-userpic">

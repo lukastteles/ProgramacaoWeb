@@ -45,7 +45,7 @@
 	  						Não há solicitações para essa carona
 	  					</c:if>
 	  					<c:if test="${numSolicitacoes != 0}">
-						<c:forEach items="${listaSolicitacoes}" var="solicitacao">
+						<c:forEach items="${solicitacoes}" var="solicitacao">
 						<div class="row">
 							<div class="col-md-5">
 								<b>${solicitacao.idUsuario}</b>
@@ -97,7 +97,7 @@
 	  						ninguem participou dessa carona =(
 	  					</c:if>
 	  					<c:if test="${numSolicitacoes != 0}">
-						<c:forEach items="${listaSolicitacoes}" var="solicitacao">
+						<c:forEach items="${solicitacoes}" var="solicitacao">
 						<div class="row">
 							<div class="col-md-1">
 								<div class="profile-userpic">

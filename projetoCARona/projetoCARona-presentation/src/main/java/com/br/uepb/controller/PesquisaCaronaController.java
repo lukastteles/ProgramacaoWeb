@@ -83,7 +83,12 @@ public class PesquisaCaronaController {
 	public ModelAndView listarCaronas(@ModelAttribute("caronaDomainViewModel") @Valid CadastroCaronaViewModel caronaDomainViewModel, BindingResult bindingResult, HttpServletRequest request) throws Exception {
 		
 		LOG.debug("Iniciada a execucao do metodo: listarCaronas POST");		
+		SessaoDomain sessao = (SessaoDomain) request.getSession().getAttribute("sessao");
+		if (sessao == null) {
+			return new ModelAndView("redirect:/home/login.html");
+		}
 		
+	
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("pesquisaCarona");
 		
@@ -95,12 +100,16 @@ public class PesquisaCaronaController {
 
 		modelAndView.addObject("totalCaronas", 0);
 		
-		SessaoDomain sessao = (SessaoDomain)request.getSession().getAttribute("sessao");
 		if (!pesquisaCaronas(caronaDomainViewModel, sessao, modelAndView)) {
 			modelAndView.addObject("caronaDomain", caronaDomainViewModel);
 			LOG.debug("Problemas ao tentar listar as caronas no metodo: listarCaronas POST");		
 			return modelAndView;
 		}
+		
+		if (!funcoesComuns.carregaDadosIniciais(modelAndView, sessao)) {
+			LOG.debug("Problemas ao tentar listar as funcoes do usuario no metodo: pesquisaCarona GET ");		
+			return modelAndView;
+        }
 		
 		LOG.debug("Finalizada a execucao do metodo: listarCaronas POST");
 		

@@ -136,7 +136,7 @@ public class CaronaController {
 				solicitacoes = solicitaVagaBusiness.getSolicitacoesConfirmadas(carona.getIdSessao(), carona.getId());
 				solicitacoesPendentes = solicitaVagaBusiness.getSolicitacoesPendentes(carona.getIdSessao(), carona.getId());
 				solicitacoes.addAll(solicitacoesPendentes);
-				modelAndView.addObject("listaSolicitacoes", solicitacoes);
+				modelAndView.addObject("solicitacoes", solicitacoes);
 				modelAndView.addObject("numSolicitacoes", solicitacoes.size());
 				modelAndView.setViewName("minhaCarona");
 			}else{
@@ -150,7 +150,7 @@ public class CaronaController {
 						}
 					}
 					
-					modelAndView.addObject("listaSolicitacoes", solicitacoes);
+					modelAndView.addObject("solicitacoes", solicitacoes);
 					modelAndView.addObject("numSolicitacoes", solicitacoes.size());
 				}
 				modelAndView.setViewName("carona");
