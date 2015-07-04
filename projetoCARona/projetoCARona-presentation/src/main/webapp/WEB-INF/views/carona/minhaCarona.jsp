@@ -132,7 +132,7 @@
 									<c:if test="${solicitacao.reviewVaga == 'não faltou' }">
 										<div class="col-md-5">
 										<p>não faltou</p>
-										<a><span data-toggle="tooltip" data-placement="left" title="não faltou" class="glyphicon glyphicon-thumbs-down"></span></a>
+										<a><span data-toggle="tooltip" data-placement="left" title="não faltou" class="glyphicon glyphicon-thumbs-up"></span></a>
 										</div>
 									</c:if>
 								</c:if>
