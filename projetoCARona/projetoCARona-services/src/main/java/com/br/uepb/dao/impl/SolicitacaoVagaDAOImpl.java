@@ -294,19 +294,21 @@ public class SolicitacaoVagaDAOImpl implements SolicitacaoVagaDAO {
 	public List<SolicitacaoVagaDomain> getSolicitacoesByReviewCarona(List<CaronaDomain> caronas, String reviewCarona) throws Exception{
 		List<SolicitacaoVagaDomain> solicitacaoVaga = new ArrayList<SolicitacaoVagaDomain>();		
 		try{
-			session = sessionFactory.openSession();
-			criteria = session.createCriteria(SolicitacaoVagaDomain.class);			
-			criteria.add(Restrictions.eq("reviewCarona", reviewCarona));	
-			
-			//usando a disjunction para fazer um 'ou' entre vários elementos
-			disjunction = Restrictions.disjunction();
-			for (CaronaDomain carona : caronas) {
-				disjunction.add(Restrictions.eq("idCarona", carona.getId()));
+			if (caronas.size() > 0) {
+				session = sessionFactory.openSession();
+				criteria = session.createCriteria(SolicitacaoVagaDomain.class);			
+				criteria.add(Restrictions.eq("reviewCarona", reviewCarona));	
+				
+				//usando a disjunction para fazer um 'ou' entre vários elementos
+				disjunction = Restrictions.disjunction();
+				for (CaronaDomain carona : caronas) {
+					disjunction.add(Restrictions.eq("idCarona", carona.getId()));
+				}
+				criteria.add(disjunction);
+				  
+				solicitacaoVaga = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
+				session.close();
 			}
-			criteria.add(disjunction);
-			  
-			solicitacaoVaga = (ArrayList<SolicitacaoVagaDomain>)criteria.list();
-			session.close();
 			return solicitacaoVaga;
 		}catch(Exception e){
 			throw e;

@@ -1,17 +1,5 @@
 <div class="col-md-12">
-		<!-- 
-		<div class="row tile">
-			<a href="perfil.html">
-				<div class="col-md-5">
-					<div class="profile-userpic">
-						 <img src="../images/user1.png" class="img-responsive" alt="">
-					</div>
-				</div>
-				<div class="col-md-7" style="text-align: left;">
-					<b class="nomeUsuario">${nomeUsuario}</b>
-				</div>
-			</a>
-		</div> -->
+		
 		<div class="row">
 			<div class="profile-usermenu">
 				<ul class="nav">
@@ -43,6 +31,7 @@
 			</div>
 		</div>	
 		<hr>
+		<!-- 
 		<div class="row">
 			<div class="profile-usermenu">
 				<ul class="nav">
@@ -62,4 +51,5 @@
 				</ul>
 			</div>
 		</div>	
+		 -->
 </div>

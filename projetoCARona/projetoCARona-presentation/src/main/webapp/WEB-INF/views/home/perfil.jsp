@@ -10,7 +10,7 @@
   								Meus dados
   							</div>
   							<div class="col-md-offset-11">
-  								<a  href="aaa.html" data-toggle="tooltip" title="Editar"><span class="fui-new"></span></a>
+  								<!-- <a  href="aaa.html" data-toggle="tooltip" title="Editar"><span class="fui-new"></span></a>  -->
 		            		</div>
 		            	</div>
   					</div>

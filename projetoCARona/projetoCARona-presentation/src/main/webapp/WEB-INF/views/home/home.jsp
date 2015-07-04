@@ -46,9 +46,11 @@
 				          	<p class="demo-download-text">Adicionar amigos</p>
 	        			</div>
 	        		</div>
+	        		<!-- 
 	        		<div class="col-md-3 col-md-offset-8">
 	          			<a href="#" class="btn btn-block btn-lg btn-info">Mais inf.</a>
 	        		</div>
+	        		 -->
 	    		</div>
 	    	</div>
 	    </div>
